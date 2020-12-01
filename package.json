@@ -1,0 +1,13 @@
+{
+  "requires": true,
+  "lockfileVersion": 1,
+  "dependencies": {
+    "bootstrap": "^4.5.3",
+    "bootstrap-multiselect": "^0.9.15",
+    "datatables.net": "^1.10.22",
+    "datatables.net-fixedcolumns-bs": "^3.3.2",
+    "datatables.net-fixedcolumns-bs4": "^3.3.2",
+    "jquery": "^3.5.1",
+    "popper.js": "^1.16.1"
+  }
+}
