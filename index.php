@@ -1,5 +1,5 @@
   <?php 
-  
+
 ob_start(); 
 include_once ('db_config.php');
 //include($_SERVER['DOCUMENT_ROOT'] . APPLICATION_PATH . "access_user_class.php");
@@ -123,5 +123,6 @@ if (isset($_GET['function']))
                 
 			
 include "footer.php"; 
+
 			
 			

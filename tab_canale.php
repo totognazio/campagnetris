@@ -1,20 +1,3 @@
-<?php
- 
-$upload_folder = 'file';
-if (!empty($_FILES)) {
-  $temp_file = $_FILES['file']['tmp_name'];
-  $target_path = dirname( __FILE__ ) .  '/' . $upload_folder . '/';
-  $target_file =  $target_path . $_FILES['file']['name'];
-     
- 
-  if( file_exists( $target_path ) ) {
-    move_uploaded_file($temp_file, $target_file);
-  } else {
-    header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
-  }
-}
- 
-?>
 <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
     <br/>
     <div class="col-md-9 col-sm-6 col-xs-12">
@@ -144,7 +127,9 @@ if (!empty($_FILES)) {
 
                     <div class="x_content">
                         <p>Drag a file to the box below for upload or click to select file.</p>                        
-                        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" class="dropzone" required="required"></form>
+                        <?php $fileid = uniqid();  ?>                      
+                        <form id="dropzone-canale" action="upload.php?fileid=<?php echo $fileid; ?>"  class="dropzone">
+                        </form>
                         <br />
                     </div>
                 </div>   
@@ -165,7 +150,7 @@ if (!empty($_FILES)) {
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="note">Data Inizio Campagna
             </label>
             <div class="col-md-6 xdisplay_inputx form-group has-feedback">
-                <input <?php if ($readonly){echo $disabled_value;}?> type="text" class="form-control has-feedback-left" id="data_inizio_campagna" placeholder="Data Inizio Campagna" aria-describedby="inputSuccess2Status3" required="required" value="<?php if(isset($id_campaign['data_inizio'])){echo date('d/m/Y', strtotime($id_campaign['note_operative']));}?>">
+                <input <?php if ($readonly){echo $disabled_value;}?> type="text" class="form-control has-feedback-left" id="data_inizio_campagna" placeholder="Data Inizio Campagna" aria-describedby="inputSuccess2Status3" required="required" value="<?php if(isset($id_campaign['data_inizio'])){echo date('d/m/Y', strtotime($id_campaign['data_inizio']));}?>">
                 <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                 <span id="inputSuccess2Status3" class="sr-only">(success)</span>
             </div>
@@ -291,8 +276,7 @@ if (!empty($_FILES)) {
                                 ?>   
                           </select>
                         
-
-                       <label>Storicizzazione Legale  <span class="required">*</span></label>
+                       <label style="margin-top:20px">Storicizzazione Legale  <span class="required">*</span></label>
                         <?php #print_r($stacks); ?>
                        
                             <select id="storicizza_ins" name="storicizza_ins" class="select2_single form-control" style="width:100%" required="required" <?php echo $disabled_value;?>>      
@@ -305,7 +289,7 @@ if (!empty($_FILES)) {
                          
           <form id="demo-form" data-parsley-validate>
             
-              <label for="message">Test SMS </label>
+              <label style="margin-top:20px" for="message">Test SMS </label>
               <textarea id="testo_sms" <?php echo $disabled_value; ?> required="required" class="form-control" name="testo_sms" onkeyup="checklength(0, 640, 'testo_sms', 'charTesto', 'numero_sms')" ><?php if($modifica){echo $id_campaign['testo_sms'];}else{echo'';}?></textarea>  
               <label style="width:100%;"><small>Numeri caratteri utilizzati</small><input type="text" name="charTesto" id="charTesto" value="" class="text" value="" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>
               <label style="width:100%;"><small>Numero SMS</small><input type="text" name="numero_sms" id="numero_sms" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>                  
@@ -320,13 +304,13 @@ if (!empty($_FILES)) {
                           </select>
                       
                         <span id="spanLabelLinkTesto" style="display:none;">
-                            <label  id="labelLinkTesto">Link<span id="req_19" class="req">*</span></label>
+                            <label style="margin-top:20px" id="labelLinkTesto">Link<span id="req_19" class="req">*</span></label>
                             <input  id="link" name="link" type="text" class="form-control col-md-7 col-xs-12" style="text-align:right" tabindex="23" maxlength="400" onkeyup="checklength(0, 255, 'link', 'charLink', ''); checklengthTotal('charLink','charTesto','numero_totale');" />
                             <label style="width:100%;"><small>Numero</small><input type="text" name="charLink" id="charLink" class="text" readonly="readonly"  size="3" value="255" placeholder="max 255"onfocus="this.blur()" /></label>   
                             <label style="width:100%;"><small>Totale (SMS+Link)</small><input type="text" name="numero_totale" id="numero_totale" value="" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>                  
                         </span>   
                           <br>
-                       <label>Tipo Monitoring  <span class="required">*</span></label>
+                       <label style="margin-top:20px">Tipo Monitoring  <span class="required">*</span></label>
                         <?php #print_r($stacks); ?>
                        
                             <select id="tipoMonitoring" name="tipoMonitoring" class="select2_single form-control" style="width:100%" required="required" <?php echo $disabled_value; ?>>      
@@ -335,7 +319,7 @@ if (!empty($_FILES)) {
                                 <option <?php if($modifica and $id_campaign['tipoMonitoring']=='2'){echo ' selected';}?> value="2">Orphan page</option>
                                 <option <?php if($modifica and $id_campaign['tipoMonitoring']=='3'){echo ' selected';}?> value="3">No monitoring</option>
                           </select>
-                       <label>Durata SMS  <span class="required">*</span></label>
+                       <label style="margin-top:20px">Durata SMS  <span class="required">*</span></label>
                           <input type="text" id="sms_duration" name="sms_duration"  class="form-control col-md-7 col-xs-12" value="<?php if($modifica){echo $id_campaign['sms_duration'];}else{echo'2';}?>" <?php echo $disabled_value; ?>>
                         <img id="info" title="Numero di giorni in cui la rete tenter&agrave; l'invio dell'sms. Range da 1 a 7 giorni." alt="Durata SMS" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
   
@@ -361,3 +345,62 @@ if (!empty($_FILES)) {
 </div>                    
 
 
+
+<script>
+$(document).ready(function() {  
+    if(<?php echo $modifica; ?>){
+        Dropzone.autoDiscover = false;
+        Dropzone.options.myDropzone = {
+            init: function() {
+                thisDropzone = this;
+            
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: "scan_uploaded.php",
+                    data: { fileid: '<?php echo $fileid; ?>'},
+                    success: function (data) {
+            
+                    $.each(data, function(key,value){
+                        
+                        var mockFile = { name: value.name, size: value.size };
+                        thisDropzone.options.thumbnail.call(thisDropzone, mockFile, "file/"+value.name);
+                        thisDropzone.options.addedfile.call(thisDropzone, mockFile);
+
+                    });
+                    
+                    }
+                });
+            }  
+        }
+    }
+
+//console.log('sono quiiii');
+
+var dropzone_canale= new Dropzone("#dropzone-canale");
+dropzone_canale.on("removedfile", function(file) {
+    console.log('removedfile on');
+
+     var filename = file.name; 
+
+     $.ajax({
+     url: "upload.php",
+     data: { filename: filename, action: 'delete', fileid: '<?php echo $fileid; ?>'},
+     type: 'POST',
+     success: function (data) {
+          if (data.NotificationType === "Error") {
+               toastr.error(data.Message);
+          } else {
+               toastr.success(data.Message);                          
+          }
+        },
+          error: function (data) {
+               toastr.error(data.Message);
+          }
+     })
+
+});
+
+});
+
+</script>

@@ -52,28 +52,83 @@
             </span>
                </div>       
             <div class="col-md-12 col-sm-6 col-xs-12">  
-                <label style="width:100%;">File Upload<span class="required">*</span>
+                <label style="width:100%;">File Upload
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">             
                     <div class="x_content">                        
-                        <form action="form_upload.html" class="dropzone" required="required"></form>
+                        <?php $fileid = uniqid();  ?>                      
+                        <form id="my-dropzone" action="upload.php?fileid=<?php echo $fileid; ?>"  class="dropzone">
+                        </form>
                         <br />
                     </div>
                 </div>   
             </div>  
               
-       
+   
         <div  class="col-md-12 col-sm-12 col-xs-12"><br></div>    
   
-
-        
-
   </div>
 
 <script>
 $(document).ready(function() {  
 
-    $('#select_control_group').select2({
+if(<?php echo $modifica; ?>){
+    Dropzone.autoDiscover = false;
+    Dropzone.options.myDropzone = {
+        init: function() {
+            thisDropzone = this;
+        
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "scan_uploaded.php",
+                data: { fileid: '<?php echo $fileid; ?>'},
+                success: function (data) {
+        
+                $.each(data, function(key,value){
+                    
+                    var mockFile = { name: value.name, size: value.size };
+                    thisDropzone.options.thumbnail.call(thisDropzone, mockFile, "file/"+value.name);
+                    thisDropzone.options.addedfile.call(thisDropzone, mockFile);
+    
+                    
+                    
+                });
+                
+                }
+            });
+        }  
+    }
+}
+//console.log('sono quiiii');
+
+var myDrop= new Dropzone("#my-dropzone");
+myDrop.on("removedfile", function(file) {
+    console.log('removedfile on');
+
+     var filename = file.name; 
+
+     $.ajax({
+     url: "upload.php",
+     data: { filename: filename, action: 'delete', fileid: '<?php echo $fileid; ?>'},
+     type: 'POST',
+     success: function (data) {
+          if (data.NotificationType === "Error") {
+               toastr.error(data.Message);
+          } else {
+               toastr.success(data.Message);                          
+          }
+        },
+          error: function (data) {
+               toastr.error(data.Message);
+          }
+     })
+
+});
+
+
+
+$('#select_control_group').select2({
           placeholder: "Select"
         });    
     

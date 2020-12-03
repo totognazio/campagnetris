@@ -1,10 +1,11 @@
 <!-- footer content -->
+
 <footer>
     <div class="pull-right">
 
         <a href="mailto:francesco.forti@windtre.it?Subject=Segnalazioni%20e%20Consigli" target="_top" title="Invia mail">
             Tool Campaign - Powered by Device Engineering </a>
-
+<?php print_r($_SESSION); ?>
     </div>
     <div class="clearfix"></div>
 </footer>
@@ -55,7 +56,8 @@
     <script src="vendors/iCheck/icheck.min.js"></script>
 <!-- Custom Theme Scripts -->
 <script src="build/js/custom.min.js"></script>
-
+<!-- Custom Util -->
+<script src="js/util.js"></script>
 
 <!-- Initialize the plugin: -->
 <script type="text/javascript">
@@ -423,7 +425,7 @@ function  campagnTable() {
             console.log(data);
             }
     });
-    }
+}
      
     // bootstrap-daterangepicker     
     moment.locale('it');
@@ -494,7 +496,8 @@ function  campagnTable() {
         select_startDate = picker.startDate.format('YYYY-MM-DD');        
         select_endDate = picker.endDate.format('YYYY-MM-DD');
         console.log('select_startDate inn' + select_startDate);
-        campagnTable('select_endDate inn' + select_endDate);
+        console.log('select_endDate inn' + select_endDate);
+        campagnTable();
     });
     $('#reportrange_right').on('cancel.daterangepicker', function(ev, picker) {
             console.log("cancel event fired");
@@ -502,11 +505,7 @@ function  campagnTable() {
     $('#options1').click(function() {
         $('#reportrange_right').data('daterangepicker').setOptions(optionSet1, cb);
     });
-  /* 
-   $('#options2').click(function() {
-        $('#reportrange_right').data('daterangepicker').setOptions(optionSet2, cb);
-    });
-    */
+  
     $('#destroy').click(function() {
         $('#reportrange_right').data('daterangepicker').remove();
     });

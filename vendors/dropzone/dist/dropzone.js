@@ -168,7 +168,7 @@ var Dropzone = function (_Emitter) {
         /**
          * The timeout for the XHR requests in milliseconds (since `v4.4.0`).
          */
-        timeout: 36000000,
+        timeout: 36000,
 
         /**
          * How many file uploads to process in parallel (See the
@@ -225,7 +225,7 @@ var Dropzone = function (_Emitter) {
          * the event `maxfilesexceeded` will be called. The dropzone element gets the
          * class `dz-max-files-reached` accordingly so you can provide visual feedback.
          */
-        maxFilesize: 10000000000,
+        maxFilesize: 10000000,
 
         /**
          * The name of the file param that gets transferred.
@@ -247,12 +247,12 @@ var Dropzone = function (_Emitter) {
         /**
          * If `null`, the ratio of the image will be used to calculate it.
          */
-        thumbnailWidth: 120,
+        thumbnailWidth: 60,
 
         /**
          * The same as `thumbnailWidth`. If both are null, images will not be resized.
          */
-        thumbnailHeight: 120,
+        thumbnailHeight: 60,
 
         /**
          * How the images should be scaled down in case both, `thumbnailWidth` and `thumbnailHeight` are provided.
@@ -304,7 +304,7 @@ var Dropzone = function (_Emitter) {
         /**
          * Can be used to limit the maximum number of files that will be handled by this Dropzone
          */
-        maxFiles: null,
+        maxFiles: 10,
 
         /**
          * An optional object to send additional headers to the server. Eg:
@@ -338,7 +338,7 @@ var Dropzone = function (_Emitter) {
          * [`accept`](https://developer.mozilla.org/en-US/docs/HTML/Element/input#attr-accept)
          * parameter on the hidden file input as well.
          */
-        acceptedFiles: ".xlsx,.xls,.xlsm",
+        acceptedFiles: ".xlsx,.xls,.xlsm,.txt",
 
         /**
          * **Deprecated!**
@@ -419,7 +419,7 @@ var Dropzone = function (_Emitter) {
         /**
          * The text used before any files are dropped.
          */
-        dictDefaultMessage: "Drop files here to upload",
+        dictDefaultMessage: "Drop files here to upload. (Only .txt, .xls, xlsx, xlsm)",
 
         /**
          * The text that replaces the default message text it the browser is not supported.

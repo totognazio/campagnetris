@@ -7,10 +7,11 @@ input:focus {
     <link href="vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- NProgress -->
 <link href="vendors/nprogress/nprogress.css" rel="stylesheet">
-<!-- Dropzone.js -->
+<!-- Dropzone.css -->
 <link href="vendors/dropzone/dist/min/dropzone.min.css" rel="stylesheet">
 <!-- Dropzone.js -->
-<script src="vendors/dropzone/dist/min/dropzone.min.js"></script>
+<script src="vendors/dropzone/dist/dropzone.js"></script>
+
 <?php
 include_once("./classes/access_user/access_user_class.php");
 include_once './classes/funzioni_admin.php';
@@ -566,10 +567,6 @@ $('#mod_invio').on('select2:select', function () {
             
     ?>
 
-    
-    
-
-
     $('#range_offerta').daterangepicker(optionSet2, cb2);  
     $('#range_offerta').on('show.daterangepicker', function() {
         console.log("show event fired");
@@ -595,6 +592,7 @@ $('#mod_invio').on('select2:select', function () {
     $('#destroy').click(function() {
         $('#range_offerta').data('daterangepicker').remove();
     });
+
 
         
       });

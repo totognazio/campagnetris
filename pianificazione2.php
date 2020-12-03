@@ -55,7 +55,7 @@ $form->head_page("Pianificazione Campagne", "Filtro");
                               <option value=""></option>
                             <?php 
                             foreach ($sprints as $key => $value) {
-                                echo '<option value="'.$key.'"> '.$value['name'].' (From '.$value['data_inizio'].' To '.$value['data_fine'].')</option>';
+                                echo '<option value="'.$key.'">'.$value['name'].'</option>';
                             }                                                  
                             ?>  
                           </select>

@@ -178,25 +178,25 @@ class campaign_class  {
     function _insert_field($nome_tabella, $nome, $campaign_stack_id = NULL, $channel_id = NULL) {
         if ($channel_id == NULL) {
             $query3 = "SELECT count(*) FROM $nome_tabella where name='$nome'";
-            $results = $this->mysqli->query($query3) or die($sql . " - " . $this->mysqli->error);
+            $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
             $row = $results->fetch_array();
         } else {
             $query3 = "SELECT count(*) FROM $nome_tabella where name='$nome' and channel_id=$channel_id";
 //echo $query3 . "<br>";
-            $results = $this->mysqli->query($query3) or die($sql . " - " . $this->mysqli->error);
+            $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
             $row = $results->fetch_array();
         }
         if ($row[0] == 0) {
             if ($campaign_stack_id != NULL) {
                 $query3 = "INSERT INTO `$nome_tabella`(`name`,campaign_stack_id) VALUES ('$nome','$campaign_stack_id')";
-                $results = $this->mysqli->query($query3) or die($sql . " - " . $this->mysqli->error);
+                $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
             } elseif ($channel_id != NULL) {
                 $query3 = "INSERT INTO `$nome_tabella`(`name`,channel_id) VALUES ('$nome','$channel_id')";
-                $results = $this->mysqli->query($query3) or die($sql . " - " . $this->mysqli->error);
+                $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
             } else {
                 if ($nome != "") {
                     $query3 = "INSERT INTO `$nome_tabella`(`name`) VALUES ('$nome')";
-                    $results = $this->mysqli->query($query3) or die($sql . " - " . $this->mysqli->error);
+                    $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
                 } else
                     return NULL;
             }
@@ -204,7 +204,7 @@ class campaign_class  {
 //echo $query3."--".$row[0]."<br>";
         $query3 = "SELECT id FROM $nome_tabella where name='$nome'";
 //echo $query3;
-        $results = $this->mysqli->query($query3) or die($sql . " - " . $this->mysqli->error);
+        $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $row = $results->fetch_array();
         return $row['id'];
     }
@@ -212,16 +212,16 @@ class campaign_class  {
     function _insert_field_login($nome_tabella, $nome, $squad_id) {
         $query3 = "SELECT count(*) FROM $nome_tabella where login='$nome'";
 //echo $query3 . "<br>";
-        $results = $this->mysqli->query($query3) or die($sql . " - " . $this->mysqli->error);
+        $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $row = $results->fetch_array();
         if ($row[0] == 0) {
             $query3 = "INSERT INTO `$nome_tabella`(`login`,squad_id) VALUES ('$nome',$squad_id)";
-            $results = $this->mysqli->query($query3) or die($sql . " - " . $this->mysqli->error);
+            $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         }
 //echo $query3."--".$row[0]."<br>";
         $query3 = "SELECT id FROM $nome_tabella where login='$nome'";
 //echo $query3;
-        $results = $this->mysqli->query($query3) or die($sql . " - " . $this->mysqli->error);
+        $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $row = $results->fetch_array();
         return $row['id'];
     }
@@ -229,17 +229,17 @@ class campaign_class  {
     function _update_login($nome_tabella, $login, $nome, $cognome, $ruolo) {
         $query3 = "SELECT id FROM `job_roles`  where name='$ruolo'"; //  login='$login'";
 //echo $query3 . "<br>";
-        $results = $this->mysqli->query($query3) or die($sql . " - " . $this->mysqli->error);
+        $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $job_role = $results->fetch_array();
         $query3 = "SELECT id FROM `users`  where login='$login'"; //  login='$login'";
 //echo $query3 . "<br>";
-        $results = $this->mysqli->query($query3) or die($sql . " - " . $this->mysqli->error);
+        $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $user = $results->fetch_array();
         if ($job_role['id'] != "") {
             $query3 = "UPDATE `cake_campagne`.`users` SET `lastname` = '" . htmlspecialchars($cognome, ENT_QUOTES)
                     . "', `firstname` = '" . htmlspecialchars($nome, ENT_QUOTES) . "',`job_role_id`=" . $job_role['id'] . " WHERE `users`.`id` = '" . $user['id'] . "';";
 //echo $query3. "<br>";
-            $results = $this->mysqli->query($query3) or die($sql . " - " . $this->mysqli->error);
+            $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         }
     }
 
@@ -1135,7 +1135,7 @@ FROM campaigns
 LEFT JOIN campaign_states ON `campaign_state_id` = campaign_states.id
     where campaigns.id=$id and elimina=1";
 //echo $query3;
-        $results = $this->mysqli->query($query3) or die($sql . " - " . $this->mysqli->error);
+        $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $row = $results->fetch_array();
         return $row[0];
     }
@@ -1144,7 +1144,7 @@ LEFT JOIN campaign_states ON `campaign_state_id` = campaign_states.id
         $query3 = "SELECT id
 FROM campaign_states where invio_email=1";
 //echo $query3;
-        $results = $this->mysqli->query($query3) or die($sql . " - " . $this->mysqli->error);
+        $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $row = $results->fetch_array();
         return $row[0];
     }
@@ -1152,7 +1152,7 @@ FROM campaign_states where invio_email=1";
     function get_state($id) {
         $query3 = "SELECT campaign_state_id FROM campaigns where id=$id";
 //echo $query3;
-        $results = $this->mysqli->query($query3) or die($sql . " - " . $this->mysqli->error);
+        $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $row = $results->fetch_array();
         return $row[0];
     }
@@ -1160,7 +1160,7 @@ FROM campaign_states where invio_email=1";
     function get_state_name($id) {
         $query3 = "SELECT name FROM campaign_states where id=$id";
 //echo $query3;
-        $results = $this->mysqli->query($query3) or die($sql . " - " . $this->mysqli->error);
+        $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $row = $results->fetch_array();
 //echo $row[0];
         return $row[0];
@@ -1169,7 +1169,7 @@ FROM campaign_states where invio_email=1";
     function get_firtname($id) {
         $query3 = "SELECT firstname FROM users where id=$id";
 //echo $query3;
-        $results = $this->mysqli->query($query3) or die($sql . " - " . $this->mysqli->error);
+        $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $row = $results->fetch_array();
         return $row[0];
     }
@@ -1177,7 +1177,7 @@ FROM campaign_states where invio_email=1";
     function get_lastname($id) {
         $query3 = "SELECT lastname FROM users where id=$id";
 //echo $query3;
-        $results = $this->mysqli->query($query3) or die($sql . " - " . $this->mysqli->error);
+        $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $row = $results->fetch_array();
         return $row[0];
     }
@@ -1643,8 +1643,8 @@ LEFT JOIN users ON `user_id` = users.id
     
     function getFilter(){
         
-        //echo 'dentro getFilter';
-        //print_r($_POST); 
+        echo 'dentro getFilter';
+        print_r($_POST); 
         if(isset($_POST)){
             $filter_view = $_POST;           
         }
