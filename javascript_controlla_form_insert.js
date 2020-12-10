@@ -1,3 +1,4 @@
+/*
 function volume_tot() {
     durata = document.getElementById("durata_campagna").value;
     for (i = 1; i <= durata; i++) {
@@ -164,7 +165,7 @@ function visualizza(tab) {
         document.getElementById("cri").className = "attiva";
         document.getElementById("car").className = "nonAttiva";
     }
-/*
+
     if (tab == "CaricamentiMassivi") {
         document.getElementById("tabCampagna").style.display = "none";
         document.getElementById("tabComunicazione").style.display = "none";
@@ -177,7 +178,7 @@ function visualizza(tab) {
         document.getElementById("cri").className = "nonAttiva";
         document.getElementById("car").className = "attiva";
     }
-    */
+    
 }
 
 function visualizza_regole(tab) {
@@ -378,6 +379,7 @@ function interattivo() {
     }
 }
 
+*/
 
 function manageCamp(id, azione){
     //alert('eccoloooo ' + id +' '+ azione);
@@ -392,6 +394,9 @@ function manageCamp(id, azione){
         } 
         if(azione==='open'){
             document.getElementById("campagnaOpen").submit(); 
+        } 
+        if(azione==='new'){
+            document.getElementById("campagnaNew").submit(); 
         } 
 
 };

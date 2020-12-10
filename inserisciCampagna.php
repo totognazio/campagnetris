@@ -490,7 +490,7 @@ if ($lista_ext2) {
              if (document.getElementById('nome_campagna').value.length > 60) {
              Errore = Errore + "- Nome campagna troppo lungo" + document.getElementById('nome_campagna').value.length + " caratteri. Utilizzare massimo 60 caratteri\n";
              }*/
-            if ((document.getElementById('nome_campagna').value.length + document.getElementById('pref_nome_campagna').value.length) > 80) {
+            if ((document.getElementById('nome_campagna').value.length + document.getElementById('pref_nome_campagna').value.length) > 40) {
                 Errore = Errore + "- Nome campagna troppo lungo" + document.getElementById('nome_campagna').value.length + " caratteri. Utilizzare massimo 20 digit per le note\n";
             }
             if (document.getElementById('stack_id').value == "0") {

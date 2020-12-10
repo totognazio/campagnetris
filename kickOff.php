@@ -355,7 +355,7 @@ $rand=  rand();
                                 <td align=\"center\"><input type=\"checkbox\" name=\"checkbox[]\" id=\"checkbox" . $contatore . "\" onclick=\"deselezionaCheckTot(295);\" value=\"" . $value['id'] . "\"/></td>
                                 <td align=\"center\">" . $contatore . "</td>
                     <td>" . $value['nome_campagna'] . "</td>
-                    <td>" . $value['gruppo_nome'] . "</td>
+                    <td>" . $value['stack_nome'] . "</td>
                     <td>" . $value['tipo_nome'] . "</td>
                     <td>" . $value['channel_nome'] . "</td>
                     <td align=\"center\">" . $value['optimization'] . "</td>

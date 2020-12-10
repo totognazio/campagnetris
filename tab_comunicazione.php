@@ -34,7 +34,7 @@
                          <option value="0"></option>       
                          <option value="0" <?php echo $value_0_selected; ?>>No</option>
                          <option value="1" <?php echo $value_1_selected; ?>>Si</option>
-                          </select>                     
+                    </select>                     
           
               
             </div>                      
@@ -63,7 +63,7 @@
                     </div>
                 </div>   
             </div>  
-              
+         
    
         <div  class="col-md-12 col-sm-12 col-xs-12"><br></div>    
   
@@ -72,7 +72,10 @@
 <script>
 $(document).ready(function() {  
 
-if(<?php echo $modifica; ?>){
+
+<?php 
+if($modifica){
+?>    
     Dropzone.autoDiscover = false;
     Dropzone.options.myDropzone = {
         init: function() {
@@ -99,7 +102,7 @@ if(<?php echo $modifica; ?>){
             });
         }  
     }
-}
+<?php } ?>
 //console.log('sono quiiii');
 
 var myDrop= new Dropzone("#my-dropzone");

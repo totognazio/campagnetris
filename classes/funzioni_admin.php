@@ -52,8 +52,13 @@ class funzioni_admin {
         echo "</select>";
     }
 
-    function stampa_select2($nome_var, $lista_field, $lista_name, $javascript = "", $style = "", $selectStato_default = "") {
-        echo "<select id=\"$nome_var\" class=\"select2_single form-control\" name=\"$nome_var\" $javascript $style >";
+    function stampa_select2($nome_var, $lista_field, $lista_name, $javascript = "", $style = "", $selectStato_default = "", $campo_nome = "") {
+        if(!empty($campo_nome)){
+            $nome_campo = $campo_nome;}
+            else {
+                $nome_campo = $nome_var;
+            }
+        echo "<select id=\"$nome_var\" class=\"select2_single form-control\" name=\"$nome_campo\" $javascript $style >";
         echo "<option value=\"\"></option>";
         $contatore = 0;
         if (count($lista_field) == count($lista_name)) {

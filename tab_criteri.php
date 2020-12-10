@@ -24,7 +24,7 @@ if ($page_protect->get_job_role() >= 2) {
                                 if ($readonly){
                                 echo $disabled_value;}
                 ?>       
-                value="1" data-parsley-mincheck="2" required class="flat" /> Attivi
+                value="1" data-parsley-mincheck="1" required class="flat" /> Attivi
                 <br />
 
                 <input type="checkbox" name="sospesi" id="sospesi" 
@@ -160,7 +160,7 @@ if ($page_protect->get_job_role() >= 2) {
             <label>Consenso:</label>
             <p style="padding: 5px;">
                 <input type="checkbox" name="cons_profilazione" id="cons_profilazione" 
-                                                       <?php
+                               <?php
                                 if ($modifica) {
                                     if ($id_campaign['cons_profilazione'] == 1){
                                     echo " checked=\"checked\" ";}
@@ -169,7 +169,7 @@ if ($page_protect->get_job_role() >= 2) {
                                 if ($readonly){
                                 echo $disabled_value;}
                                 ?>                       
-                       value="1"  data-parsley-mincheck="1" required class="flat" /> Profilazione
+                       value="1"  class="flat" /> Profilazione
                 <br />
 
                 <input type="checkbox" name="cons_commerciale" id="cons_commerciale" 

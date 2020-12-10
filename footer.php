@@ -12,7 +12,8 @@
 <!-- /footer content -->
 </div>
 </div>
-
+<!-- my JS -->
+<script src="javascript_controlla_form_insert.js"></script>
 
 <!-- Bootstrap -->
 <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -61,14 +62,16 @@
 
 <!-- Initialize the plugin: -->
 <script type="text/javascript">
-    $(document).ready(function () {
+
+
+$(document).ready(function () {
 
     var selected_stacks = $('#stacks').val();
     var selected_squads = $('#squads').val();
     var selected_states = $('#states').val();
     var selected_channels = $('#channels').val();
     var selected_typologies = $('#typologies').val();
-      
+
     $('#stacks').multiselect({
             enableClickableOptGroups: true,
             enableCollapsibleOptGroups: true,
@@ -210,6 +213,7 @@ $('#stack_ins').select2({
           // allowClear: true
         });
 $('#stack_ins').on('select2:select', function () {
+    $(this).parsley().validate();
     var selected_stacks = $('#stack_ins').val();
     console.log('stack  '+ selected_stacks);
     
@@ -376,14 +380,9 @@ $('#offer_ins').on('select2:select', function () {
     
 
 function  campagnTable() {
-    //console.log('startdate in camp '+ select_startDate);
-    //console.log('enddate in camp '+ select_endDate);
-    //var startDate = Date.parse(select_startDate);
-    //var endDate = Date.parse(select_endDate);
-    
-    //console.log('eccolosososo in '+ startDate);
-    //console.log('eccolosososo in '+ endDate);
-   
+    console.log('startdate in camp '+ select_startDate);
+    console.log('enddate in camp '+ select_endDate);
+  
     $("#content_response").fadeOut();
     $('.loader').show();
     $.ajax({
@@ -430,9 +429,14 @@ function  campagnTable() {
     // bootstrap-daterangepicker     
     moment.locale('it');
     moment().format('LL');
-    var select_startDate = moment().startOf('month').format('YYYY-MM-DD');
-    var select_endDate = moment().endOf('month').format('YYYY-MM-DD');
-        
+    // valori iniziali se session vuota
+    // var select_startDate = moment().startOf('month').format('YYYY-MM-DD');
+    // var select_endDate = moment().endOf('month').format('YYYY-MM-DD');     
+    // valori di session 
+    var select_startDate = '<?php if(isset($_SESSION['filter'])) {echo $_SESSION['filter']['startDate'];}else{echo date('Y-m-01');} ?>';
+    var select_endDate = '<?php if(isset($_SESSION['filter'])) {echo $_SESSION['filter']['endDate'];}else{echo date('Y-m-t');} ?>';
+    $('#reportrange_right span').html(moment(select_startDate,'D MMMM, YYYY') + ' - ' + moment(select_endDate,'D MMMM, YYYY'));
+
     var cb = function(start, end, label) {
         console.log(start.toISOString(), end.toISOString(), label);
         $('#reportrange_right span').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
@@ -479,9 +483,9 @@ function  campagnTable() {
             }
     };
         
-    //solo al primo
+    //solo al primo caricamento
     campagnTable();
-    $('#reportrange_right span').html(moment().startOf('month').format('D MMMM, YYYY')  + ' - ' + moment().endOf('month').format('D MMMM, YYYY') );
+    $('#reportrange_right span').html(select_startDate  + ' - ' + select_endDate );
     $('#reportrange_right').daterangepicker(optionSet1, cb);
 
     $('#reportrange_right').on('show.daterangepicker', function() {
@@ -496,15 +500,12 @@ function  campagnTable() {
         select_startDate = picker.startDate.format('YYYY-MM-DD');        
         select_endDate = picker.endDate.format('YYYY-MM-DD');
         console.log('select_startDate inn' + select_startDate);
-        console.log('select_endDate inn' + select_endDate);
         campagnTable();
     });
     $('#reportrange_right').on('cancel.daterangepicker', function(ev, picker) {
             console.log("cancel event fired");
     });
-    $('#options1').click(function() {
-        $('#reportrange_right').data('daterangepicker').setOptions(optionSet1, cb);
-    });
+
   
     $('#destroy').click(function() {
         $('#reportrange_right').data('daterangepicker').remove();
@@ -517,8 +518,6 @@ function  campagnTable() {
 
 
 </script>
-
-
 
     <!-- bootstrap-daterangepicker -->
     <script>
@@ -543,54 +542,13 @@ function  campagnTable() {
     <!-- /bootstrap-daterangepicker -->
 
 
-<!-- Parsley -->
-    <!-- Parsley -->
-    <script src="vendors/parsleyjs/dist/parsley.min.js"></script>
     <!-- Autosize -->
     <script src="vendors/autosize/dist/autosize.min.js"></script>
-    <script>
-      $(document).ready(function() {
-        window.Parsley.on('parsley:field:validate', function() {
-          validateFront();
-        });
-        $('#demo-form .btn').on('click', function() {
-          $('#demo-form').parsley().validate();
-          validateFront();
-        });
-        var validateFront = function() {
-          if (true === $('#demo-form').parsley().isValid()) {
-            $('.bs-callout-info').removeClass('hidden');
-            $('.bs-callout-warning').addClass('hidden');
-          } else {
-            $('.bs-callout-info').addClass('hidden');
-            $('.bs-callout-warning').removeClass('hidden');
-          }
-        };
-      });
 
-      $(document).ready(function() {
-        window.Parsley.on('parsley:field:validate', function() {
-          validateFront();
-        });
-        $('#demo-form2 .btn').on('click', function() {
-          $('#demo-form2').parsley().validate();
-          validateFront();
-        });
-        var validateFront = function() {
-          if (true === $('#demo-form2').parsley().isValid()) {
-            $('.bs-callout-info').removeClass('hidden');
-            $('.bs-callout-warning').addClass('hidden');
-          } else {
-            $('.bs-callout-info').addClass('hidden');
-            $('.bs-callout-warning').removeClass('hidden');
-          }
-        };
-      });
-      try {
-        hljs.initHighlightingOnLoad();
-      } catch (err) {}
-    </script>
-    <!-- /Parsley -->
+   <!-- /Parsley -->
+    <script src="node_modules/parsleyjs/dist/parsley.min.js"></script>
+    <script src="node_modules/parsleyjs/dist/i18n/it.js"></script>
+    <script src="node_modules/parsleyjs/dist/i18n/it.extra.js"></script>
 
     <!-- Autosize -->
     <script>
@@ -602,19 +560,10 @@ function  campagnTable() {
 
         <script>
       $(document).ready(function() {
-          
-         //$('#noteinfo_'+reqId).tooltip('hide').attr('data-original-title', info).tooltip('show');
-         //$('#noteinfo_'+reqId).delay(2000).tooltip('hide');  
-         //tooltip
-         //$('btn[title]').tooltip({
-         //   container: 'body'
-         // });
-          $(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-            $('[data-toggle="tooltip"]').tooltip('hide').attr('data-original-title', info).tooltip('show');
-            $('[data-toggle="tooltip"]').delay(2000).tooltip('hide');  
-          });
-          
+       
+     
+        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+         
        
         $('#data_inizio_campagna').daterangepicker({            
           singleDatePicker: true,
@@ -627,7 +576,8 @@ function  campagnTable() {
             });
 
           });
-      
+   
+          
       
     </script>
     

@@ -4,10 +4,20 @@
 include_once './classes/form_class.php';
 include_once './classes/funzioni_admin.php';
 include_once './classes/campaign_class.php';
+include_once './classes/access_user/access_user_class.php';
+
+$page_protect = new Access_user;
 
 $form = new form_class();
 $funzione = new funzioni_admin();
 $campaign = new campaign_class();
+$page_protect->access_page(); // only set this this method to protect your page
+$page_protect->get_user_info();
+$hello_name = ($page_protect->user_full_name != "") ? $page_protect->user_full_name : $page_protect->user;
+if (isset($_GET['action']) && $_GET['action'] == "log_out") {
+    $page_protect->log_out(); // the method to log off
+}
+
 $channels = $funzione->get_list_select('channels');
 $stacks = $funzione->get_list_select('campaign_stacks');
 //print_r($stacks);
@@ -17,8 +27,7 @@ $states = $funzione->get_list_select('campaign_states');
 
 $form->head_page("Gestione Campagne", "Filtro");
 //print_r($_SESSION);  
-// print_r($_POST); 
-
+include('action.php');
 ?>
                     <br>
                    

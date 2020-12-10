@@ -28,74 +28,7 @@ class campaign_class  {
         $mysqli = $this->connect_dbli();
         $this->filter_view = array();
         $this->radici_list = array('channel' => 'channels', 'stack' => 'campaign_stacks', 'state' => 'campaign_states', 'squad' => 'squads', 'type' => 'campaign_types');
-        $this->lista_parametri_campagna = array(
-            'data_inizio'
-            , 'data_fine'
-            , 'mod_invio'
-            , 'sender_id'
-            , 'testo_sms'
-            , 'link'
-            , 'sms_duration'
-            , 'escludi_sab_dom'
-            , 'durata_campagna'
-            , 'trial_campagna'
-            , 'data_trial'
-            , 'volume_trial'
-            , 'perc_scostamento'
-            , 'volume'
-            , 'pref_nome_campagna'
-            , 'nome_campagna'
-            , 'stack_id'
-            , 'type_id'
-            , 'squad_id'
-            , 'segment_id'
-            , 'user_id'
-            , 'caricamento_massivo'
-            , 'optimization'
-            , 'priority'
-            , 'data_inizio_validita_offerta'
-            , 'data_fine_validita_offerta'
-            , 'leva'
-            , 'descrizione_leva'
-            , 'campaign_state_id'
-            , 'control_group'
-            , 'perc_control_group'
-            , 'channel_id'
-            , 'attivi'
-            , 'sospesi'
-            , 'consumer'
-            , 'business'
-            , 'prepagato'
-            , 'postpagato'
-            , 'cons_profilazione'
-            , 'cons_commerciale'
-            , 'checkboxAdesso3'
-            , 'voce'
-            , 'dati'
-            , 'no_frodi'
-            , 'no_collection'
-            , 'etf'
-            , 'vip'
-            , 'dipendenti'
-            , 'trial'
-            , 'parlanti_ultimo'
-            , 'profilo_rischio_ga'
-            , 'profilo_rischio_standard'
-            , 'profilo_rischio_high_risk'
-            , 'altri_criteri'
-            , 'volumeGiornaliero1'
-            , 'volumeGiornaliero2'
-            , 'volumeGiornaliero3'
-            , 'volumeGiornaliero4'
-            , 'volumeGiornaliero5'
-            , 'volumeGiornaliero6'
-            , 'volumeGiornaliero7'
-            , 'tipoMonitoring'
-            , 'redemption'
-            , 'storicizza'
-            , 'cod_campagna'
-            , 'cod_comunicazione'
-            , 'offer_id');
+        $this->lista_parametri_campagna = array("nome_campagna", "pref_nome_campagna", "cod_comunicazione", "cod_campagna", "stack_id", "type_id", "squad_id", "user_id", "segment_id", "optimization", "priority", "data_inizio_validita_offerta", "data_fine_validita_offerta", "leva", "descrizione_leva", "campaign_state_id", "lista_preview", "lista_civetta", "control_group", "perc_control_group", "channel_id", "channel_type", "mod_invio", "sender_id", "storic", "testo_sms", "link", "sms_duration", "tipoMonitoring", "data_inizio", "volumeGiornaliero1", "volumeGiornaliero2", "volumeGiornaliero3", "volumeGiornaliero4", "volumeGiornaliero5", "volumeGiornaliero6", "volumeGiornaliero7", "data_fine", "escludi_sab_dom", "durata_campagna", "trial_campagna", "data_trial", "volume_trial", "perc_scostamento", "volume", "attivi", "sospesi", "disattivi", "consumer", "business", "microbusiness", "prepagato", "postpagato", "contratto_microbusiness", "cons_profilazione", "cons_commerciale", "cons_terze_parti", "cons_geolocalizzazione", "cons_enrichment", "cons_trasferimentidati", "voce", "dati", "fisso", "no_frodi", "altri_filtri", "etf", "vip", "dipendenti", "trial", "parlanti_ultimo", "profilo_rischio_ga", "profilo_rischio_standard", "profilo_rischio_high_risk", "altri_criteri", "data_inserimento", "redemption", "storicizza", "offer_id", "modality_id", "category_id", "tit_sott_id", "descrizione_target", "leva_offerta", "descrizione_offerta", "indicatore_dinamico", "tipo_leva", "opzione_leva", "id_taglio", "id_news", "note_operative");
         $this->lista_rules = array(
             'attivi'
             , 'sospesi'
@@ -236,7 +169,7 @@ class campaign_class  {
         $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $user = $results->fetch_array();
         if ($job_role['id'] != "") {
-            $query3 = "UPDATE `cake_campagne`.`users` SET `lastname` = '" . htmlspecialchars($cognome, ENT_QUOTES)
+            $query3 = "UPDATE `users` SET `lastname` = '" . htmlspecialchars($cognome, ENT_QUOTES)
                     . "', `firstname` = '" . htmlspecialchars($nome, ENT_QUOTES) . "',`job_role_id`=" . $job_role['id'] . " WHERE `users`.`id` = '" . $user['id'] . "';";
 //echo $query3. "<br>";
             $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
@@ -248,9 +181,6 @@ class campaign_class  {
 //echo $lista_utenti."<br>";
         $delimiter = "\n";
         $inizio = time();
-
-
-
         $fp = fopen($file, 'r');
         $contatore_fallimenti = 0;
         $contatore = 0;
@@ -520,31 +450,35 @@ class campaign_class  {
         }
     }
 
-    function calcola_data_fine($data_inizio, $durata_campagna_start, $sabato) {
-
+    function calcola_data_fine($data_inizio, $durata_campagna_start, $escludi_sab_dom) {
+        // 0  1-sab  2--dom   3-sab e dom
         $timestamp = strtotime($data_inizio);
         $list_day = array();
         $start = date('d', $timestamp);
         $mese = date('m', $timestamp);
         $anno = date('Y', $timestamp);
-        if ($sabato)
-            $durata_campagna = $durata_campagna_start + 2 + floor(($durata_campagna_start / 7));
-        else
-            $durata_campagna = $durata_campagna_start + 2 + floor(($durata_campagna_start / 7)) * 2;
+        if ($escludi_sab_dom==1)
+            $durata_campagna = $durata_campagna_start + 1 + floor(($durata_campagna_start / 7));
+        elseif($escludi_sab_dom==2)
+            $durata_campagna = $durata_campagna_start + 1 + floor(($durata_campagna_start / 7)) * 2;
+        elseif($escludi_sab_dom==3)
+            $durata_campagna = $durata_campagna_start + 2 + floor(($durata_campagna_start / 7)) * 2;   
+        elseif($escludi_sab_dom==0)
+            $durata_campagna = $durata_campagna_start;      
 
         $contatore = 1;
         for ($d = $start; $d < $start + $durata_campagna; $d++) {
 
-            if (date('D', mktime(0, 0, 0, $mese, $d, $anno)) != "Sun") {
-                if (date('D', mktime(0, 0, 0, $mese, $d, $anno)) != "Sat") {
-//echo date('D', mktime(0, 0, 0, $mese, $d, $anno)) . "<br>";
+            if ($escludi_sab_dom==3 and (date('D', mktime(0, 0, 0, $mese, $d, $anno)) != "Sun") and (date('D', mktime(0, 0, 0, $mese, $d, $anno)) != "Sat")) {
+               //echo date('D', mktime(0, 0, 0, $mese, $d, $anno)) . "<br>";
                     if ($contatore == $durata_campagna_start) {
 //echo date('Y-m-d', mktime(0, 0, 0, $mese, $d, $anno));
                         return date('Y-m-d', mktime(0, 0, 0, $mese, $d, $anno));
                     }
                     $contatore++;
-                } else {
-                    if (!$sabato) {
+                
+            }
+                elseif ($escludi_sab_dom==2 and (date('D', mktime(0, 0, 0, $mese, $d, $anno)) != "Sun") ) {
 //echo date('D', mktime(0, 0, 0, $mese, $d, $anno)) . "<br>";
 
                         if ($contatore == $durata_campagna_start) {
@@ -552,9 +486,29 @@ class campaign_class  {
                             return date('Y-m-d', mktime(0, 0, 0, $mese, $d, $anno));
                         }
                         $contatore++;
-                    }
+                    
+                } 
+                elseif ($escludi_sab_dom==1 and (date('D', mktime(0, 0, 0, $mese, $d, $anno)) != "Sat") ) {
+//echo date('D', mktime(0, 0, 0, $mese, $d, $anno)) . "<br>";
+
+                        if ($contatore == $durata_campagna_start) {
+//echo date('Y-m-d', mktime(0, 0, 0, $mese, $d, $anno));
+                            return date('Y-m-d', mktime(0, 0, 0, $mese, $d, $anno));
+                        }
+                        $contatore++;
+                    
+                } 
+                elseif ($escludi_sab_dom==0) {
+//echo date('D', mktime(0, 0, 0, $mese, $d, $anno)) . "<br>";
+
+                        if ($contatore == $durata_campagna_start) {
+//echo date('Y-m-d', mktime(0, 0, 0, $mese, $d, $anno));
+                            return date('Y-m-d', mktime(0, 0, 0, $mese, $d, $anno));
+                        }
+                        $contatore++;
+                    
                 }
-            }
+            
         }
     }
 
@@ -847,7 +801,7 @@ LEFT JOIN users ON `user_id` = users.id
     function update_kickoff($lista_id, $value_update) {
 //print_r($lista_id);
 
-        $sql = "UPDATE `cake_campagne`.`campaigns` SET `campaign_state_id` = '$value_update'";
+        $sql = "UPDATE `campaigns` SET `campaign_state_id` = '$value_update'";
         $where = " WHERE ";
         foreach ($lista_id as $key => $value) {
             $where = $where . "  `campaigns`.`id` = $value or";
@@ -875,11 +829,14 @@ LEFT JOIN users ON `user_id` = users.id
 
     function delete_campaign($id) {
         $id_campaign = $this->get_list_campaign(" where campaigns.id=" . intval($_POST['id']))->fetch_array();
+        
+        
+        
         $page_protect = new Access_user;
         $permission = $page_protect->check_permission($id_campaign['squad_id']);
 //print_r($lista_id);
         if ($permission) {
-            $sql = "DELETE FROM `cake_campagne`.`campaigns` WHERE `campaigns`.`id` = '$id'";
+            $sql = "DELETE FROM  `campaigns` WHERE `campaigns`.`id` = '$id'";
             $results = $this->mysqli->query($sql) or die($sql . " - " . $this->mysqli->error);
             return "Record eliminati: " . $this->mysqli->affected_rows . " ";
         } else {
@@ -977,12 +934,16 @@ LEFT JOIN users ON `user_id` = users.id
         }
     }
 
-    function insert($record) {
+function insert($record) {
 //print_r($lista_id);
+echo 'dentro la insert ';
+        print_r($_POST);
         //print_r($_POST);
         $lista_variabili = "";
         $lista_valori = "";
-        foreach ($this->lista_parametri_campagna as $key => $value) {
+        
+        foreach ($this->lista_parametri_campagna as $key=>$value) {
+            echo $value. "<br/>";
             $temp = explode('_', $value);
             if ($value == "data_fine") {
 
@@ -994,10 +955,11 @@ LEFT JOIN users ON `user_id` = users.id
                     } else
                         $escludi_sab_dom = 0;
                     $lista_variabili = $lista_variabili . "`" . $value . "`,";
-//echo "lllll".$data_inizio. $durata_campagna. $escludi_sab_dom.$this->calcola_data_fine($data_inizio, $durata_campagna, $escludi_sab_dom);
+echo "weee data fine ".$data_inizio.'  '. $durata_campagna.'  '. $escludi_sab_dom.'  '.$this->calcola_data_fine($data_inizio, $durata_campagna, $escludi_sab_dom);
                     $lista_valori = $lista_valori . "'" . $this->calcola_data_fine($data_inizio, $durata_campagna, $escludi_sab_dom) . "', ";
                 }
             } elseif (isset($record[$value])) {
+
                 if ($value == "pref_nome_campagna") {
                     if (substr($record[$value], -1, 1) == "_")
                         $valore_inviato = substr($record[$value], 0, -1);
@@ -1007,7 +969,7 @@ LEFT JOIN users ON `user_id` = users.id
                     $lista_valori = $lista_valori . "'" . $this->mysqli->real_escape_string(addslashes($valore_inviato)) . "',";
                 } else {
                     $valore_inviato = $record[$value];
-//echo $value . " - " . $valore_inviato . "<br/>";
+echo $value . " - " . $valore_inviato . "<br/>";
                     if (strlen($valore_inviato) > 0) {
 //echo $value . " - " . $valore_inviato . "<br/>";
                         if ($temp[0] == 'data') {
@@ -1023,20 +985,21 @@ LEFT JOIN users ON `user_id` = users.id
             }
         }
 		
-				
+	/*			
         if (!is_numeric($record['offer_id']) ) {        
             $funzioni_admin = new funzioni_admin();
             $offer_id = $funzioni_admin->get_offerId($record['stringa_ccm']);    
             $lista_variabili = $lista_variabili . " `offer_id`,";
             $lista_valori = $lista_valori . " '" . $offer_id . "',";     
         }
-		
+    */    
+
         $lista_variabili = $lista_variabili . " `data_inserimento`";
         $lista_valori = $lista_valori . " '" . date("Y-m-d  H:i:s") . "'";
 
-        $sql = "INSERT INTO `cake_campagne`.`campaigns` (" . $lista_variabili . ")VALUES (" . $lista_valori . ")";
+        $sql = "INSERT INTO `campaigns` (" . $lista_variabili . ")VALUES (" . $lista_valori . ")";
 
-        //echo "<br/>" . $sql . "<br/>";
+        echo "<br/>" . $sql . "<br/>";
         try {
             $res = $this->my_mysql_query($sql);
             $page_protect = new Access_user;
@@ -1254,7 +1217,6 @@ LEFT JOIN campaign_categories ON `campaign_categories`.id = campaigns.`category_
 LEFT JOIN campaign_titolo_sottotitolo ON `campaign_titolo_sottotitolo`.id = campaigns.`tit_sott_id`
 
 
-
         $searchSql $order ";
 //echo $sql;
         $results = $this->mysqli->query($sql) or die($sql . " - " . $this->mysqli->error);
@@ -1461,14 +1423,9 @@ LEFT JOIN users ON `user_id` = users.id
         return $list;
     }
     
-    function tablePianificazione($list) {
-
-        
-    ?>
-                                
-                   <a href="index.php?page=inserisciCampagna2" class="btn btn btn-xs btn-success"><i class="fa fa-plus-square"></i> New Campaign</a>
-                          
-                           
+    function tablePianificazione($list) {   
+    print_r($list);
+    ?>                                                    
                     <!--<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                     <table id="datatable-responsive" cellspacing="0" width="100%">
                     <table id="datatable-scroll" class="table table-bordered nowrap">
@@ -1501,7 +1458,7 @@ LEFT JOIN users ON `user_id` = users.id
     $tot_volume = $this->tot_volume();
     $tot_volume['totale'] = 0;
     
-    // print_r($list);              
+    //print_r($list);              
      foreach ($list as $key => $row) {
          
         $string .= "<tr><td>".'   
@@ -1513,14 +1470,14 @@ LEFT JOIN users ON `user_id` = users.id
                             <input type="hidden" name="id" value="'.$row['id'].'" />
                             <input type="hidden" name="azione" value="duplica" />                                                                
                         </form>
-                        <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaElimina"> 
+                        <form action="index.php?page=inserisciCampagna2" "onsubmit=\"return conferma(" . $stato_elimina . "," . $permission . ")\" method="post" id="campagnaElimina"> 
                             <input type="hidden" name="id" value="'.$row['id'].'" />
                             <input type="hidden" name="azione" value="elimina" />                                                                
                         </form>
             
-                    <button class="btn btn-sm btn-primary" type="submit" onclick="manageCamp('.$row['id'].', \'modifica\');"  data-placement="top" data-toggle="tooltip" data-original-title="Print" title="Modifica"><i class="fa fa-edit" ></i></button>
-                    <button class="btn btn-sm btn-default" type="submit" onclick="manageCamp('.$row['id'].',\'duplica\');"  data-placement="top" data-toggle="tooltip" data-original-title="Print" title="Duplica"><i class="fa fa-clone" ></i></button>
-                    <button class="btn btn-sm btn-danger" type="submit" onclick="manageCamp('.$row['id'].',\'elimina\');"  data-placement="top" data-toggle="tooltip" data-original-title="Trash" title="Elimina"><i class="fa fa-trash-o"></i></button>                    
+                    <button class="btn btn-sm btn-primary" type="submit" onclick="manageCamp('.$row['id'].', \'modifica\');"  data-placement="top" data-toggle="tooltip" data-original-title="Modifica" title="Modifica"><i class="fa fa-edit" ></i></button>
+                    <button class="btn btn-sm btn-default" type="submit" onclick="manageCamp('.$row['id'].',\'duplica\');"  data-placement="top" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone" ></i></button>
+                    <button class="btn btn-sm btn-danger" type="submit" onclick="manageCamp('.$row['id'].',\'elimina\');"  data-placement="top" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></button>                    
                 '.  "</td>";
         $string .= "<td><small>$riga</small></td>";
         $string .= "<td><small>".$row['stacks_nome']."</small></td>";
@@ -1530,7 +1487,7 @@ LEFT JOIN users ON `user_id` = users.id
                             <input type="hidden" name="id" value="'.$row['id'].'" />
                             <input type="hidden" name="azione" value="open" />                                                                
                         </form>
-                        <a href="#" onclick="manageCamp('.$row['id'].', \'open\');">'.$this->nomeCampagna($row).'</a>
+                        <a href="#" data-toggle="tooltip" title="Open" onclick="manageCamp('.$row['id'].', \'open\');">'.$this->nomeCampagna($row).'</a>
                 '
                 . "</small></td>";
         $string .= "<td><small>".$row['tipo_nome']."</small></td>";
@@ -1643,12 +1600,12 @@ LEFT JOIN users ON `user_id` = users.id
     
     function getFilter(){
         
-        echo 'dentro getFilter';
-        print_r($_POST); 
+        //echo 'dentro getFilter';
+        //print_r($_POST); 
         if(isset($_POST)){
             $filter_view = $_POST;           
         }
-        else{            
+        else{    
             $filter_view = $_SESSION['filter'];
         }
 
@@ -1696,6 +1653,34 @@ LEFT JOIN users ON `user_id` = users.id
         $_SESSION['filter'] = array("startDate"=>$startDate,"endDate"=>$endDate,"channels"=>$channels,"squads"=>$squads,"stacks"=>$stacks,"states"=>$states,"typologies"=>$typologies);
         
         return array("startDate"=>$startDate,"endDate"=>$endDate,"channels"=>$channels,"squads"=>$squads,"stacks"=>$stacks,"states"=>$states,"typologies"=>$typologies);
+   
+    }
+
+    function getStartEndDatapicker(){
+        if(isset($_SESSION['filter'])){    
+            
+            $filter_view = $_SESSION['filter'];
+        }  
+        else{
+           $_SESSION['filter']['startDate'] = date('Y-m-01'); 
+           $startDate = date('Y-m-01');
+           $_SESSION['filter']['endDate'] = date('Y-m-t');
+           $endDate = date('Y-m-t');
+           
+        }       
+            
+        if(isset($filter_view["startDate"])){
+            $startDate = $filter_view["startDate"];            
+        }else{
+                $startDate = date('Y-m-01');
+            }  
+        if(isset($filter_view["endDate"])){
+            $endDate = $filter_view["endDate"];            
+        }else{
+                $endDate = date('Y-m-t');
+            }  
+
+        return array("startDate"=>$startDate,"endDate"=>$endDate);
    
     }
     
@@ -1880,6 +1865,16 @@ function nomeCampagna($row) {
         }
         
         return $string;
+    }
+
+    function name_camp($id_campaign){      
+        $name_camp =  substr(stripslashes($id_campaign['pref_nome_campagna']), 0);
+        if (strlen(trim($id_campaign['nome_campagna'])) > 0){
+            $name_camp .="_" . substr(stripslashes($id_campaign['nome_campagna']), 0);
+        }
+
+        return $name_camp;
+
     }
 
 }

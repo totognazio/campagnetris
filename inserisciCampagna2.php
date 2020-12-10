@@ -4,7 +4,7 @@ input:focus {
 }
 </style>  
 <!-- bootstrap-daterangepicker -->
-    <link href="vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+<link href="vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- NProgress -->
 <link href="vendors/nprogress/nprogress.css" rel="stylesheet">
 <!-- Dropzone.css -->
@@ -26,12 +26,12 @@ $page_protect = new Access_user;
 $page_protect->get_user_info();
 $campaign = new campaign_class();
 
-//print_r($_POST);
-//// form tutto vuoto nel caso di add new campagna 
+/// form tutto vuoto nel caso di add new campagna 
 $messaggio = "";
 $title = "Inserimento Nuova Campagna";
+$nome_campagna = '';
 $disabled_value = "";
-$modifica = false;
+$modifica = 0;
 $action_duplica = false;
 $modifica_stato = false;
 $modifica_codici = false;
@@ -44,9 +44,9 @@ $readonly_value = "";
 $visualizza_campagna = 0;
 $back_url = "";
 if ($page_protect->check_top_user($page_protect->get_squad())) {
-    $back_url = "./index.php?page=pianificazione";
+    $back_url = "./index.php?page=pianificazione2";
 } else {
-    $back_url = "./index.php?page=gestioneCampagne";
+    $back_url = "./index.php?page=gestioneCampagne2";
 }
 
 //leffo azione dai link bottoni
@@ -57,11 +57,11 @@ if (isset($_POST['azione'])) {
     
 }
 
-
 $idCampagna = "";
 if ( isset($azione) && $azione=='modifica') {
-    $id_campaign = $campaign->get_list_campaign(" where campaigns.id=" . intval($_POST['id']))->fetch_array();
-    $title = "Modifica della Campagna";
+    $id_campaign = $campaign->get_list_campaign(" where campaigns.id=" . intval($id))->fetch_array();
+    $title = "Modifica della Campagna ";
+    $nome_campagna = $campaign->name_camp($id_campaign);
     $modifica = true;
     $squad_id = $id_campaign['squad_id'];
     if ($page_protect->get_job_role() > 2) {
@@ -92,11 +92,12 @@ if ( isset($azione) && $azione=='modifica') {
     $readonly_value = " readonly=\"readonly\" ";
     $disabled_value = " disabled=\"disabled\"  ";
     $display_none = " display:none; ";
-    $title = "Visualizzazione Campagna";
-} elseif ( isset($azione) && $azione=='duplica') {
-    //echo'<---QUI-->';
-    $title = "Duplicazione Campagna";
-    $id_campaign = $campaign->get_list_campaign(" where campaigns.id=" . intval($_POST['id']))->fetch_array();
+    $title = "Visualizzazione Campagna ";
+    $nome_campagna = $campaign->name_camp($id_campaign);
+} elseif ( isset($azione) && $azione=='duplica') {    
+    $title = "Duplicazione Campagna ";
+    $id_campaign = $campaign->get_list_campaign(" where campaigns.id=" . intval($id))->fetch_array();
+    $nome_campagna = $campaign->name_camp($id_campaign);
     // print_r($id_campaign);
     $action_duplica = true;
     $modifica = true;
@@ -143,7 +144,7 @@ $cat_sott = $funzione->get_allTable('campaign_cat_sott');
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3><?php echo $title; ?></h3>
+                <h3><?php echo $title; ?><small><?php echo $nome_campagna; ?></small></h3>
               </div>
 
               <div class="title_right">
@@ -181,10 +182,12 @@ $cat_sott = $funzione->get_allTable('campaign_cat_sott');
         
                    
                   <div class="x_content">                     
-
-<!--inizio mega Form inserimento-->                  
-<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">  
-                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+<?php print_r($_POST); ?>
+<!--inizio mega Form inserimento-->               
+<form id="form-campagna-ins" data-parsley-validate class="form-horizontal form-label-left" enctype="multipart/form-data" action="<?php echo $back_url; ?>" method="post">  
+                <input type="hidden" name="todo" value="<?php echo $_POST['azione']; ?>">
+                <input type="hidden" name="user_id" id="user_id" value="<?php echo $page_protect->id; ?>"/>   
+                <div class="" role="tabpanel" data-example-id="togglable-tabs">
                        
                       <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                         <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Campagna</a>
@@ -222,8 +225,32 @@ $cat_sott = $funzione->get_allTable('campaign_cat_sott');
                             <div class="form-group">
                               <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                                   <div class="ln_solid"></div>
-                                <button type="submit" class="btn btn-primary">Cancel</button>
-                                <button type="submit" class="btn btn-success">Submit</button>
+               
+                    <input type="hidden" name="user_id" id="user_id" value="<?php echo $page_protect->id; ?>"/>
+                    <?php
+                    /*                  <input type="hidden" name="department_id" id="department_id" value="<?php echo $page_protect->get_department(); ?>"/>
+                     * 
+                     */
+                    ?>
+                    <input type="hidden" name="optimization" id="optimization" value="0" />
+                    <input id="annulla" style="<?php echo $display_none; ?>"  class="btn btn-primary" name="annulla" tabindex="63" type="button" value="Annulla" onclick="javascript:window.location.href = './index.php?page=gestioneCampagne2'"/>
+                    <?php
+                    if ( isset($azione) && $azione=='modifica') {
+                        ?>
+                        <input id="modifica" style="<?php echo $display_none; ?>" class="btn btn-warning" name="modifica" tabindex="64" type="submit" value="modifica"  onclick="return controllaform()"/>
+
+                        <input type="hidden" name="modifica_confim" id="modifica_confim" value="modifica_confim" />
+                        <input type="hidden" name="id" id="id" value="<?php echo $_POST['id']; ?>"/>
+                        <?php
+                    } else {                        
+                        ?>
+                        <input style="<?php echo $display_none; ?>" id="salva" class="btn btn-success" name="salva" tabindex="64" type="submit" value="Salva"  onclick="return controllaform()"/>
+                        <input type="hidden" name="campaign_state_id" id="campaign_state_id" value="2" />
+                        <?php
+                    }
+                    ?>
+                    <input type="hidden" id="inserisciCampagna" name="inserisciCampagna" value="1" />
+            
                               </div>
                             </div>
 
@@ -234,9 +261,8 @@ $cat_sott = $funzione->get_allTable('campaign_cat_sott');
 
 <?php $form->close_page(); ?>
 
-    <!-- validator -->
-<script src="vendors/validator/validator.js"></script>
 <script>
+
   
 function validitaoffer(){
     if($( "#validitalevaofferta" ).val()==='1'){
@@ -264,9 +290,7 @@ function levaselect() {
     }
 }
 
-
-
-    
+  
 function checklength(areaText, maxchars, input, char, char_count_sms) {
     lunghezza_sms = 160;
     lunghezza_sms_concatenato = 153;
@@ -516,10 +540,10 @@ $('#mod_invio').on('select2:select', function () {
             
             <?php 
             if(isset($id_campaign['data_inizio'])){
-                echo 'startDate: \''.date('d/m/Y',strtotime($id_campaign['data_inizio'])).'\',';
+                echo 'startDate: \''.date('d/m/Y',strtotime($id_campaign['data_inizio_validita_offerta'])).'\',';
             }
             if(isset($id_campaign['data_fine'])){
-                echo 'endDate: \'' .date('d/m/Y',strtotime($id_campaign['data_fine'])).'\',';
+                echo 'endDate: \'' .date('d/m/Y',strtotime($id_campaign['data_fine_validita_offerta'])).'\',';
             }
             ?>
 
@@ -557,16 +581,20 @@ $('#mod_invio').on('select2:select', function () {
     $('#range_offerta span').html(moment().format('DD/MM/YYYY') + ' - ' + moment().add(1, 'week').format('DD/MM/YYYY'));
     
     <?php 
-            if(isset($id_campaign['data_inizio'])){
+            if(isset($id_campaign['data_inizio_validita_offerta'])){
                 
-                $start = date('d/m/Y',strtotime($id_campaign['data_inizio']));
-                $end = date('d/m/Y',strtotime($id_campaign['data_fine']));
+                $start = date('d/m/Y',strtotime($id_campaign['data_inizio_validita_offerta']));
+                $end = date('d/m/Y',strtotime($id_campaign['data_fine_validita_offerta']));
                 echo '$(\'#range_offerta span\').html(\''.$start.' - '.$end.'\');';
+                echo '$(\'#data_inizio_validita_offerta\').attr(\'value\',date(\'YYYY-MM-DD\',strtotime($id_campaign[\'data_inizio_validita_offerta\']));';
+                echo '$(\'#data_fine_validita_offerta\').attr(\'value\',date(\'YYYY-MM-DD\',strtotime($id_campaign[\'data_fine_validita_offerta\']));';
             }
             
             
     ?>
 
+    $('#data_inizio_validita_offerta').attr('value',moment().format('YYYY-MM-DD'));
+    $('#data_fine_validita_offerta').attr('value',moment().add(1, 'week').format('YYYY-MM-DD'));
     $('#range_offerta').daterangepicker(optionSet2, cb2);  
     $('#range_offerta').on('show.daterangepicker', function() {
         console.log("show event fired");
@@ -579,6 +607,9 @@ $('#mod_invio').on('select2:select', function () {
         console.log("apply event fired, start/end dates are " + picker.startDate.format('DD/MM/YYYY') + " to " + picker.endDate.format('DD/MM/YYYY'));
         select_startDate = picker.startDate.format('YYYY-MM-DD');        
         select_endDate = picker.endDate.format('YYYY-MM-DD');
+        $('#data_inizio_validita_offerta').attr('value',picker.startDate.format('YYYY-MM-DD'));
+        $('#data_fine_validita_offerta').attr('value',picker.endDate.format('YYYY-MM-DD'));
+ 
         console.log('select_startDate inn' + select_startDate);
  
     });
@@ -587,6 +618,8 @@ $('#mod_invio').on('select2:select', function () {
     });
     $('#options2').click(function() {
         $('#range_offerta').data('daterangepicker').setOptions(optionSet2, cb);
+        $('#data_inizio_validita_offerta').attr('value',start.format('YYYY-MM-DD'));
+        $('#data_fine_validita_offerta').attr('value',end.format('YYYY-MM-DD'));
          console.log('option2 setting');
     });
     $('#destroy').click(function() {
@@ -595,7 +628,20 @@ $('#mod_invio').on('select2:select', function () {
 
 
         
-      });
+    
+
+        $('#data_inizio_campagna').daterangepicker({
+          locale: {
+            format: 'DD/MM/YYYY'
+            },  
+          singleDatePicker: true,
+          calender_style: "picker_4",
+          }, function(start, end, label) {
+          console.log(start.toISOString(), end.toISOString(), label);
+        });
+
+
+});
      
      
     </script>

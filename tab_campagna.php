@@ -6,7 +6,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nomecampagna">Nome Campagna  <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="nomecampagna" name="nomecampagna"  required="required" class="form-control col-md-7 col-xs-12" readonly="readonly"  
+                          <input type="text" id="nomecampagna" name="pref_nome_campagna"  required="required" class="form-control col-md-7 col-xs-12" readonly="readonly"  
                            <?php
                             if ($modifica){
                                 echo " value=\"" . substr(stripslashes($id_campaign['pref_nome_campagna']), 0) . "\"";
@@ -19,10 +19,10 @@
                         </div>
                       </div>    
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Stack  <span class="required">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="stack">Stack  <span class="required">*</span></label>
                         <?php #print_r($id_campaign); ?>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select id="stack_ins" name="select_stacks[]" class="select2_single form-control" required="required" <?php echo $disabled_value;?> >      
+                            <select id="stack_ins" name="stack_id" class="select2_single form-control" required="required" <?php echo $disabled_value;?> >      
                                <option value="0"></option>
                             <?php 
                             foreach ($stacks as $key => $value) {
@@ -41,7 +41,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Squad  <span class="required">*</span></label>
                         <?php #print_r($stacks); ?>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select id="squad_ins" name="select_squads[]" class="select2_single form-control" required="required" <?php echo $disabled_value;?>>        
+                            <select id="squad_ins" name="squad_id" class="select2_single form-control" required="required" <?php echo $disabled_value;?>>        
                               <option value=""></option>
                             <?php 
                             foreach ($squads as $key => $value) {
@@ -60,7 +60,7 @@
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipologia <span class="required">*</span></label>                     
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <select id="type_ins" name="type_ins" class="select2_single form-control" required="required" <?php echo $disabled_value;?>>
+                          <select id="type_ins" name="type_id" class="select2_single form-control" required="required" <?php echo $disabled_value;?>>
                                <?php   
                                 if(isset($id_campaign['type_id'])){
                                    echo '<option selected value="'.$id_campaign['type_id'].'">'.$id_campaign['tipo_nome'].'</option>'; 
@@ -73,7 +73,7 @@
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Modalità  <span class="required">*</span></label>                       
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select id="moda_ins" name="select_moda[]" class="select2_single form-control" required="required" <?php echo $disabled_value;?>>        
+                            <select id="moda_ins" name="modality_id" class="select2_single form-control" required="required" <?php echo $disabled_value;?>>        
                               <option value=""></option>
                             <?php 
                             foreach ($modality as $key => $value) {
@@ -92,7 +92,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo Target  <span class="required">*</span></label>
                         <?php #print_r($stacks); ?>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select id="cate_ins" name="select_cate[]" class="select2_single form-control" required="required" <?php echo $disabled_value;?>>        
+                            <select id="cate_ins" name="category_id" class="select2_single form-control" required="required" <?php echo $disabled_value;?>>        
                               <option value=""></option>
                             <?php 
                             foreach ($category as $key => $value) {
@@ -136,13 +136,13 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descriz_target">Descrizione Target
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" id="descriz_target" name="descriz_target"  class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['descrizione_target'])){ echo $id_campaign['descrizione_target']; } ?>" <?php echo $disabled_value;?>>
+                            <input type="text" id="descriz_target" name="descrizione_target"  class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['descrizione_target'])){ echo $id_campaign['descrizione_target']; } ?>" <?php echo $disabled_value;?>>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Leva\Offerta  <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select id="validitalevaofferta" name="validitalevaofferta" class="select2_single form-control" onchange="validitaoffer()" required="required" <?php echo $disabled_value;?> >        
+                            <select id="validitalevaofferta" name="leva_offerta" class="select2_single form-control" onchange="validitaoffer()" required="required" <?php echo $disabled_value;?> >        
                              <?php  
                                 $select_0 ='';
                                 $select_1='';
@@ -165,7 +165,7 @@
                           </select>
                         </div>
                       </div>  
-                     <span id="validita-offerta" <?php echo $display_validitaofferta; ?>>  
+                     <span id="validita-offerta" <?php echo $display_validitaofferta; ?>>                  
                              <div class="form-group">           
                                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Validità Offerta  <span class="required">*</span></label>
 
@@ -176,6 +176,8 @@
                                              <div id="range_offerta" class="pull-left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                                                  <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                                                  <span id="range_offerta">20/11/2020 - 30/11/20</span> <b class="caret"></b>
+                                                 <input type="hidden" id="data_inizio_validita_offerta" name="data_inizio_validita_offerta" value="">
+                                                 <input type="hidden" id="data_fine_validita_offerta" name="data_fine_validita_offerta" value="">
                                              </div>
                                          </div>
                                      </div>
@@ -185,13 +187,43 @@
                              <div class="form-group">
                                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Offerta  <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="descriz_target" name="descriz_target"  class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['descrizione_offerta'])){echo $id_campaign['descrizione_offerta'];}?>">
+                          <input type="text" id="descrizione_offerta" name="descrizione_offerta" required="required"  class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['descrizione_offerta'])){echo $id_campaign['descrizione_offerta'];}?>">
                         </div>
-                             </div>                                                   
-                   
-                        
+                             </div> 
+                                                   
                       </span>   
-                    
+                    <span class="left"  id="span_cod_campagna"  style="margin-top:10px; width:90%; display:none;">
+                            <label id="label_cod_campagna">Cod_Campagna</label>
+                            <input id="cod_campagna" name="cod_campagna" type="text" class="text grande" 
+                            <?php
+                            if($action_duplica)
+                                echo "value=\"\"";
+                            elseif ($modifica)
+                                echo "value=\"" . $id_campaign['cod_campagna'] . "\"";
+								#echo "value=\"\"";
+                            else
+                                echo "value=\"\"";
+                            if ($readonly)
+                                echo $readonly_value;
+                            ?>
+                                   tabindex="1" maxlength="100" onfocus="seleziona('cod_campagna');" onblur="deseleziona('cod_campagna');"/>
+                        </span>
+                        <span class="left"  id="span_cod_comunicazione"  style="margin-top:10px; width:90%; display:none;">
+                            <label id="label_cod_comunicazione">Cod_Comunicazione</label>
+                            <input id="cod_comunicazione" name="cod_comunicazione" type="text" class="text grande" 
+                            <?php
+                            if($action_duplica)
+                                echo "value=\"\"";
+                            elseif ($modifica)
+                                echo "value=\"" . $id_campaign['cod_comunicazione'] . "\"";
+								#echo "value=\"\"";
+                            else
+                                echo "value=\"\"";
+                            if ($readonly)
+                                echo $readonly_value;
+                            ?>
+                                   tabindex="1" maxlength="100" onfocus="seleziona('cod_comunicazione');" onblur="deseleziona('cod_comunicazione');"/>
+                        </span>
 
                         </div> 
 
