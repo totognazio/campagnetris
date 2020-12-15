@@ -62,7 +62,7 @@ if ($page_protect->get_job_role() >= 2) {
         <div class="col-md-2 col-sm-6 col-xs-12">
             <label>Tipo Offerta:</label><span class="required">*</span>
             <p style="padding: 5px;">
-                <input type="checkbox" name="tipoofferta[]" id="consumer" 
+                <input type="checkbox" name="consumer" id="consumer" 
                                                 <?php
                                 if ($modifica) {
                                     if ($id_campaign['consumer'] == 1){
@@ -77,7 +77,7 @@ if ($page_protect->get_job_role() >= 2) {
                 value="1" data-parsley-mincheck="1" required class="flat" /> Consumer
                 <br />
 
-                <input type="checkbox" name="tipoofferta[]" id="business" 
+                <input type="checkbox" name="business" id="business" 
                                                                 <?php
                                 if ($modifica) {
                                     if ($id_campaign['business'] == 1){
@@ -92,7 +92,7 @@ if ($page_protect->get_job_role() >= 2) {
                        value="1" class="flat" /> Business
                 <br />
 
-                <input type="checkbox" name="tipoofferta[]" id="microbusiness" 
+                <input type="checkbox" name="microbusiness" id="microbusiness" 
                                                                                       <?php
                                 if ($modifica) {
                                     if ($id_campaign['microbusiness'] == 1){

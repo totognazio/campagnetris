@@ -128,7 +128,7 @@
                     <div class="x_content">
                         <p>Drag a file to the box below for upload or click to select file.</p>                        
                                         
-                        <form id="dropzone-canale" action="upload.php?id_upload=<?php echo $id_upload; ?>&canale"  class="dropzone">
+                        <form id="dropzone-canale" action="upload.php?fileid=<?php echo $fileid; ?>&canale"  class="dropzone">
                         </form>
                         <br />
                     </div>
@@ -348,80 +348,60 @@
 
 <script>
 $(document).ready(function() {  
-
-var myDropzoneCanale = new Dropzone(
-        '#dropzone-canale',
-        {
-          
-            init: function () {
-
-           //solo su Modifica o Duplica     
-           <?php if($modifica) {?>     
-            thisCanale = this;        
-            $.ajax({
-                type: "POST",
-                dataType: "json",
-                url: "scan_uploaded.php",
+    if(<?php echo $modifica; ?>){
+        Dropzone.autoDiscover = false;
+        Dropzone.options.myDropzone = {
+            init: function() {
+                thisDropzonecanale = this;
+       
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: "scan_uploaded.php",
                     data: { id_dir: '<?php echo $id_campaign['id']; ?>',subdir: 'canale'},
                     success: function (data) {
             
                     $.each(data, function(key,value){
                         
                         var mockFile = { name: value.name, size: value.size };
-                        thisCanale.options.thumbnail.call(thisCanale, mockFile, "file/<?php echo $id_campaign['id']; ?>/canale/"+value.name);
-                        thisCanale.options.addedfile.call(thisCanale, mockFile);
+                        thisDropzonecanale.options.thumbnail.call(thisDropzonecanale, mockFile, "file/<?php echo $id_campaign['id']; ?>/canale/"+value.name);
+                        thisDropzonecanale.options.addedfile.call(thisDropzonecanale, mockFile);
 
                     });
-                
-                }
-            });
-       <?php  } ?>
-
-            this.on("removedfile", function(file) {
-                        console.log('removedfile on');
-
-                        var filename = file.name; 
-
-                                $.ajax({
-                                url: "upload.php",
-                                data: { filename: filename, action: 'delete', id_upload: '<?php echo $id_upload; ?>',subdir: 'canale'},
-                                type: 'POST',
-                                success: function (data) {
-                                    if (data.NotificationType === "Error") {
-                                        console.log('error 1');
-                                        //toastr.error(data.Message);
-                                    } else {
-                                        //toastr.success(data.Message);
-                                        console.log('error 2');                          
-                                    }
-                                    },
-                                    error: function (data) {
-                                        //toastr.error(data.Message);
-                                        console.log('error 3');
-                                    }
-                                })
-
-                });
-
-
-                        this.on("processing", function (file) {
-                        });
-                        this.on("maxfilesexceeded",
-                            function (file) {
-                                this.removeAllFiles();
-                                this.addFile(file);
-                            });
-                        this.on("success",
-                            function (file, responseText) {
-                            // do something here
-                            });
-                        this.on("error",
-                            function (data, errorMessage, xhr) {
-                                // do something here
-                            });
+                    
                     }
-        });
+                });
+            }  
+        }
 
+    }
+
+//console.log('sono quiiii');
+
+var dropzone_canale= new Dropzone("#dropzone-canale");
+
+dropzone_canale.on("removedfile", function(file) {
+    console.log('removedfile on');
+
+     var filename = file.name; 
+
+     $.ajax({
+     url: "upload.php",
+     data: { filename: filename, action: 'delete', fileid: '<?php echo $fileid; ?>',subdir:'canale'},
+     type: 'POST',
+     success: function (data) {
+          if (data.NotificationType === "Error") {
+               toastr.error(data.Message);
+          } else {
+               toastr.success(data.Message);                          
+          }
+        },
+          error: function (data) {
+               toastr.error(data.Message);
+          }
+     })
+
+});
 
 });
 

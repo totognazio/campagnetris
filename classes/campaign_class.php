@@ -936,9 +936,8 @@ LEFT JOIN users ON `user_id` = users.id
 
 function insert($record) {
 //print_r($lista_id);
-echo 'dentro la insert ';
-        print_r($_POST);
         //print_r($_POST);
+
         $lista_variabili = "";
         $lista_valori = "";
         
@@ -948,6 +947,7 @@ echo 'dentro la insert ';
             if ($value == "data_fine") {
 
                 if ($record['data_inizio'] != "" && $record['durata_campagna'] != "") {
+                    echo $record['data_inizio'].' data inizio prima';
                     $data_inizio = $this->mysqli->real_escape_string($this->data_it_to_eng_($record['data_inizio']));
                     $durata_campagna = $this->mysqli->real_escape_string($record['durata_campagna']);
                     if (isset($record['escludi_sab_dom'])) {
@@ -972,9 +972,11 @@ echo "weee data fine ".$data_inizio.'  '. $durata_campagna.'  '. $escludi_sab_do
 echo $value . " - " . $valore_inviato . "<br/>";
                     if (strlen($valore_inviato) > 0) {
 //echo $value . " - " . $valore_inviato . "<br/>";
-                        if ($temp[0] == 'data') {
+                        if ($temp[0] == 'data' and $value !='data_inizio_validita_offerta' and $value !='data_fine_validita_offerta'  ) {
                             $lista_variabili = $lista_variabili . "`" . $value . "`,";
                             $lista_valori = $lista_valori . "'" . $this->mysqli->real_escape_string($this->data_it_to_eng_($valore_inviato)) . "',";
+                            //$lista_valori = $lista_valori . "'" . $this->mysqli->real_escape_string(addslashes($valore_inviato)) . "',";
+                            //$lista_valori = $lista_valori . "'" . $this->mysqli->real_escape_string(date('Y-m-d',strtotime($valore_inviato))) . "',";
                         } else {
 
                             $lista_variabili = $lista_variabili . "`" . $value . "`,";
@@ -1016,8 +1018,37 @@ echo $value . " - " . $valore_inviato . "<br/>";
 // not a MySQL exception
             return $e->getMessage() . " - " . $sql;
         }
+        // rename unique Dir with id row table
+        //rename("file/".$record['fileid'],"file/".$this->mysqli->insert_id);
+        // copy and remove files and dir of related file upload
+        $this->rcopy("file/".$record['fileid'],"file/".$this->mysqli->insert_id);
+        $this->rrmdir("file/".$record['fileid']);
+
         return $res;
     }
+
+// removes files and non-empty directories
+function rrmdir($dir) {
+  if (is_dir($dir)) {
+    $files = scandir($dir);
+    foreach ($files as $file)
+    if ($file != "." && $file != "..") $this->rrmdir("$dir/$file");
+    rmdir($dir);
+  }
+  else if (file_exists($dir)) unlink($dir);
+}
+
+// copies files and non-empty directories
+function rcopy($src, $dst) {
+  if (file_exists($dst)) rrmdir($dst);
+  if (is_dir($src)) {
+    mkdir($dst);
+    $files = scandir($src);
+    foreach ($files as $file)
+    if ($file != "." && $file != "..") $this->rcopy("$src/$file", "$dst/$file");
+  }
+  else if (file_exists($src)) copy($src, $dst);
+}
 
     function update($record, $id_campagne) {
 //print_r($record);
@@ -1424,7 +1455,7 @@ LEFT JOIN users ON `user_id` = users.id
     }
     
     function tablePianificazione($list) {   
-    print_r($list);
+    //print_r($list);
     ?>                                                    
                     <!--<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                     <table id="datatable-responsive" cellspacing="0" width="100%">
@@ -1452,7 +1483,7 @@ LEFT JOIN users ON `user_id` = users.id
                         <tbody>
                             
  <?php
- 
+    $page_protect = new Access_user;
     $string = '';
     $riga = 1;
     $tot_volume = $this->tot_volume();
@@ -1460,7 +1491,8 @@ LEFT JOIN users ON `user_id` = users.id
     
     //print_r($list);              
      foreach ($list as $key => $row) {
-         
+        $stato_elimina = $row['elimina'];
+        $permission = $page_protect->check_permission($row['squad_id']); 
         $string .= "<tr><td>".'   
                         <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaModifica"> 
                             <input type="hidden" name="id" value="'.$row['id'].'" />
@@ -1470,14 +1502,14 @@ LEFT JOIN users ON `user_id` = users.id
                             <input type="hidden" name="id" value="'.$row['id'].'" />
                             <input type="hidden" name="azione" value="duplica" />                                                                
                         </form>
-                        <form action="index.php?page=inserisciCampagna2" "onsubmit=\"return conferma(" . $stato_elimina . "," . $permission . ")\" method="post" id="campagnaElimina"> 
+                        <form action="index.php?page=inserisciCampagna2"  method="post" id="campagnaElimina"> 
                             <input type="hidden" name="id" value="'.$row['id'].'" />
                             <input type="hidden" name="azione" value="elimina" />                                                                
                         </form>
             
-                    <button class="btn btn-sm btn-primary" type="submit" onclick="manageCamp('.$row['id'].', \'modifica\');"  data-placement="top" data-toggle="tooltip" data-original-title="Modifica" title="Modifica"><i class="fa fa-edit" ></i></button>
-                    <button class="btn btn-sm btn-default" type="submit" onclick="manageCamp('.$row['id'].',\'duplica\');"  data-placement="top" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone" ></i></button>
-                    <button class="btn btn-sm btn-danger" type="submit" onclick="manageCamp('.$row['id'].',\'elimina\');"  data-placement="top" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></button>                    
+                    <button class="btn btn-sm btn-primary" type="submit" onclick="manageCamp('.$row['id'].', \'modifica\');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Modifica" title="Modifica"><i class="fa fa-edit" ></i></button>
+                    <button class="btn btn-sm btn-default" type="submit" onclick="manageCamp('.$row['id'].',\'duplica\');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone" ></i></button>
+                    <button class="btn btn-sm btn-danger" type="submit" onclick="manageCamp('.$row['id'].',\'elimina\');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></button>                    
                 '.  "</td>";
         $string .= "<td><small>$riga</small></td>";
         $string .= "<td><small>".$row['stacks_nome']."</small></td>";

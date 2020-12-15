@@ -1,0 +1,109 @@
+###H3G new import
+INSERT ignore INTO aprile2020(`Tac1`,mc2,mc3,mc4,`MC2_ROAMING`,`MC3_ROAMING`,`MC4_ROAMING`,Voce_out_roaming_S,numero_S,numero_voce) SELECT `DEVICE_ID` as Tac1,`MC2` as mc2,`MC3` as mc3, `MC4` as mc4, `MC2_ROAMING` as mc2_roaming,`MC3_ROAMING` as mc3_roaming, `MC4_ROAMING` as mc4_roaming,`DURATION`/60 as Voce_out_roaming_S,`NUM_SUBSCRIBER_TOTALI` as numero_S,`SUBSCRIBER_ATTIVI_VOCE` as numero_voce FROM brandmodelnew WHERE `BRAND`='H3G' and `SUBSCRIBER_ATTIVI_DATI`=0 GROUP by `DEVICE_ID`;
+INSERT ignore INTO aprile2020(`Tac1`,mc2,mc3,mc4,`MC2_ROAMING`,`MC3_ROAMING`,`MC4_ROAMING`,Voce_out_roaming_S,numero_S,numero_voce) SELECT `DEVICE_ID` as Tac1,`MC2` as mc2,`MC3` as mc3, `MC4` as mc4, `MC2_ROAMING` as mc2_roaming,`MC3_ROAMING` as mc3_roaming, `MC4_ROAMING` as mc4_roaming,`DURATION`/60 as Voce_out_roaming_S,`NUM_SUBSCRIBER_TOTALI` as numero_S,`SUBSCRIBER_ATTIVI_VOCE` as numero_voce FROM brandmodelnew WHERE `BRAND`='H3G' and brandmodelnew.SUBSCRIBER_ATTIVI_VOCE=0 GROUP by `DEVICE_ID`
+
+#########Numerosità
+update `aprile2020` left JOIN brandmodelnew on brandmodelnew.DEVICE_ID=aprile2020.Tac1 set numero_dati=brandmodelnew.SUBSCRIBER_ATTIVI_DATI WHERE brandmodelnew.BRAND='H3G' and brandmodelnew.SUBSCRIBER_ATTIVI_VOCE=0;
+update `aprile2020` left JOIN brandmodelnew on brandmodelnew.DEVICE_ID=aprile2020.Tac1 set numero_voce=brandmodelnew.SUBSCRIBER_ATTIVI_VOCE WHERE brandmodelnew.BRAND='H3G' and brandmodelnew.SUBSCRIBER_ATTIVI_DATI=0;
+
+
+############Voce 2g/3g
+####################################
+Voce_out_on_net_S  -->  voce LTE
+Voce_out_roaming_S  --> GSM
+###################################
+update `aprile2020` left JOIN brandmodel_dea_rat on brandmodel_dea_rat.DEVICE_ID=aprile2020.Tac1 set aprile2020.Voce_out_on_net_S=brandmodel_dea_rat.DURATION/60 WHERE brandmodel_dea_rat.SERVIZIO_PORTANTE='LTE';
+update `aprile2020` left JOIN brandmodel_dea_rat on brandmodel_dea_rat.DEVICE_ID=aprile2020.Tac1 set aprile2020.Voce_out_roaming_S=brandmodel_dea_rat.DURATION/60 WHERE brandmodel_dea_rat.SERVIZIO_PORTANTE='GSM';
+update `aprile2020` set Voce_tot=Voce_out_on_net_S+Voce_out_roaming_S WHERE 1
+
+######Dati
+update  `aprile2020` left JOIN brandmodelratNew on aprile2020.Tac1=brandmodelratNew.DEVICE_ID  set `volume_Dati_LTE_S`=brandmodelratNew.VOLUME_TOTALE_KB/1024 WHERE `BRAND`='H3G' and brandmodelratNew.SUBSCRIBER_ATTIVI_VOCE=0 and brandmodelratNew.RATtype='LTE';
+update  `aprile2020` left JOIN brandmodelratNew on aprile2020.Tac1=brandmodelratNew.DEVICE_ID  set `volume_Dati_3g_S`=brandmodelratNew.VOLUME_TOTALE_KB/1024 WHERE `BRAND`='H3G' and brandmodelratNew.SUBSCRIBER_ATTIVI_VOCE=0 and brandmodelratNew.RATtype='3G' ;
+update  `aprile2020` left JOIN brandmodelratNew on aprile2020.Tac1=brandmodelratNew.DEVICE_ID  set `volume_Dati_Naz_S`=brandmodelratNew.VOLUME_TOTALE_KB/1024 WHERE `BRAND`='H3G' and brandmodelratNew.SUBSCRIBER_ATTIVI_VOCE=0 and brandmodelratNew.RATtype='GSM';
+update  `aprile2020` set `volume_Dati_S`=`volume_Dati_Naz_S`+`volume_Dati_Int_S`+`volume_Dati_LTE_S`+`volume_Dati_3g_S` WHERE 1;
+
+###WIND new import
+INSERT ignore INTO `wind_202004`(`Annomese`, `Tac1`, `CONTEGGIO_SERVIZI`) SELECT `COD_ANNOMESE` as Annomese,`DEVICE_ID` as Tac1,`SUBSCRIBER_ATTIVI_DATI` as CONTEGGIO_SERVIZI FROM brandmodelnew where `MONOBRAND`='MONOBRAND' and brandmodelnew.SUBSCRIBER_ATTIVI_VOCE=0 GROUP by `DEVICE_ID`;
+update  `wind_202004` left JOIN brandmodelratNew on wind_202004.Tac1=brandmodelratNew.DEVICE_ID  set wind_202004.KBYTES_MOBILE_4G=brandmodelratNew.VOLUME_TOTALE_KB WHERE `MONOBRAND`='MONOBRAND' and brandmodelratNew.SUBSCRIBER_ATTIVI_VOCE=0 and brandmodelratNew.RATtype='LTE';
+update  `wind_202004` left JOIN brandmodelratNew on wind_202004.Tac1=brandmodelratNew.DEVICE_ID  set wind_202004.KBYTES_MOBILE_3G=brandmodelratNew.VOLUME_TOTALE_KB WHERE `MONOBRAND`='MONOBRAND' and brandmodelratNew.SUBSCRIBER_ATTIVI_VOCE=0 and brandmodelratNew.RATtype='3G' ;
+update  `wind_202004` left JOIN brandmodelratNew on wind_202004.Tac1=brandmodelratNew.DEVICE_ID  set wind_202004.KBYTES_MOBILE_2G=brandmodelratNew.VOLUME_TOTALE_KB WHERE `MONOBRAND`='MONOBRAND' and brandmodelratNew.SUBSCRIBER_ATTIVI_VOCE=0 and brandmodelratNew.RATtype='GSM';
+
+INSERT INTO wind_rete_202004(`Tac1`, `Count_IMEI`,`voce_tot`,`mc2`,`mc3`,`mc4`,`dropcall`) SELECT `DEVICE_ID` as Tac1,`SUBSCRIBER_ATTIVI_VOCE` as Count_IMEI,`DURATION`/60 as voce_tot, `MC2` as mc2 , `MC3` as mc3, `MC4` as mc4,`DROP_CALLS` as dropcall  FROM brandmodelnew where `MONOBRAND`='MONOBRAND' and SUBSCRIBER_ATTIVI_DATI=0 GROUP by `DEVICE_ID`;
+update `wind_rete_202004` set `durata_effettiva`=`voce_tot`, `MLN_min_ChiamateGSM`=(`voce_tot`/2)*60, `MLN_min_ChiamateUMTS`=(`voce_tot`/2)*60 WHERE 1;
+
+INSERT IGNORE INTO wind_trend_202004(`Tac1`, `count_imei`) SELECT `DEVICE_ID` as Tac1, sum(`NUM_SUBSCRIBER_TOTALI`) as `count_imei` FROM brandmodelnew where `MONOBRAND`='MONOBRAND' and brandmodelnew.SUBSCRIBER_ATTIVI_DATI=0  GROUP by `DEVICE_ID`;
+INSERT IGNORE INTO wind_trend_202004(`Tac1`, `count_imei`) SELECT `DEVICE_ID` as Tac1, sum(`NUM_SUBSCRIBER_TOTALI`) as `count_imei` FROM brandmodelnew where `MONOBRAND`='MONOBRAND' and brandmodelnew.SUBSCRIBER_ATTIVI_VOCE=0  GROUP by `DEVICE_ID`;
+
+
+
+
+
+
+
+
+
+
+########### Numerosita WindTre 
+SELECT dati_tacid.*, sum(`count_imei`) as conteggio FROM wind_trend_201909 left join dati_tacid on dati_tacid.TacId=Tac1 WHERE 1 GROUP BY dati_tacid.Modello UNION SELECT dati_tacid.*, SUM(`numero_S`) as conteggio FROM settembre2019 LEFT JOIN dati_tacid ON dati_tacid.TacId=Tac1 WHERE 1 GROUP BY dati_tacid.Modello
+####################################################################################################################
+#################OLD OLD ###########################################################################################
+###################################### 
+######################RAT Type 
+Radio Access Technology (RAT) type AVP
+1 – UTRAN                 3G
+
+2 – GERAN                 2G
+
+3 – WLAN
+
+4 – GAN
+
+5 – HSPA Evolution     este es un 3G más rápido pero para suscriptores aprovisionados como 4G (en un HSS en lugar de un HLR) que navegan en 3G.
+
+6 – EUTRAN               LTE o 4G
+
+
+############################ UPDATE Wind DATI Mese #####################################################
+insert into wind_201905 (wind_201905.Annomese,wind_201905.Tac1) SELECT `year` as Annomese, `tac` as Tac1 FROM `windbrandmodel201905` WHERE `dataflow`='GGSN'   GROUP by `tac`
+update `wind_201905` left JOIN windbrandmodel201905 on `Tac1`=windbrandmodel201905.tac set `KBYTES_MOBILE_4G`=windbrandmodel201905.VolumeTotale/1024 where windbrandmodel201905.dataflow='GGSN' and windbrandmodel201905.rattype='LTE';
+update  `wind_201905` left JOIN windbrandmodel201905 on `Tac1`=windbrandmodel201905.tac set `KBYTES_MOBILE_3G`=windbrandmodel201905.VolumeTotale/1024 where windbrandmodel201905.dataflow='GGSN' and windbrandmodel201905.rattype='UMTS';
+update  `wind_201905` left JOIN windbrandmodel201905 on `Tac1`=windbrandmodel201905.tac set `KBYTES_MOBILE_2G`=windbrandmodel201905.VolumeTotale/1024 where windbrandmodel201905.dataflow='GGSN' and windbrandmodel201905.rattype='GPRS';
+##################################################################
+#####UPDATE conteggio Attivi DATI da file/Tabella  csv senza RAT
+update  `wind_201905` left JOIN windbrandmodelnorat201905 on `Tac1`=windbrandmodelnorat201905.tac set `CONTEGGIO_SERVIZI`=windbrandmodelnorat201905.NumeroSubscriberAttivi where windbrandmodelnorat201905.dataflow='GGSN'
+
+############################ UPDATE Wind Voce Mese #####################################################
+insert into wind_rete_201905 (wind_rete_201905.Tac1, wind_rete_201905.Count_IMEI, durata_effettiva) SELECT `tac` as Tac1, `NumeroSubscriberAttivi` as Count_IMEI, `Durata` as durata_effettiva FROM windbrandmodelnorat201905 WHERE `dataflow`='MSC'  GROUP by `tac`
+update wind_rete_201905 left JOIN  `windbrandmodel201905` on wind_rete_201905.Tac1=windbrandmodel201905.tac set MLN_min_ChiamateGSM=windbrandmodel201905.Durata WHERE windbrandmodel201905.dataflow='MSC' and windbrandmodel201905.rattype='GSM';
+update wind_rete_201905 left JOIN  `windbrandmodel201905` on wind_rete_201905.Tac1=windbrandmodel201905.tac set MLN_min_ChiamateUMTS=windbrandmodel201905.Durata WHERE windbrandmodel201905.dataflow='MSC' and windbrandmodel201905.rattype='UMTS';
+update  `wind_rete_201905` set `voce_tot`=`MLN_min_ChiamateGSM`+`MLN_min_ChiamateUMTS` WHERE 1
+update wind_rete_201905 left JOIN  `windbrandmodel201905` on wind_rete_201905.Tac1=windbrandmodel201905.tac set wind_rete_201905.mc2=windbrandmodel201905.mc2,wind_rete_201905.mc3=windbrandmodel201905.mc3,wind_rete_201905.mc4=windbrandmodel201905.mc4,wind_rete_201905.dropcall=windbrandmodel201905.DropCalls WHERE windbrandmodel201905.dataflow='MSC';
+#########################################
+############ VOLTE UPDATE
+update `dati_tacid` left join `volte_devices` on dati_tacid.Modello=volte_devices.modello set dati_tacid.volte='true' where volte_devices.modello is not null
+
+SELECT * FROM volte_devices left join `dati_tacid` on dati_tacid.Modello=volte_devices.modello WHERE 1
+
+update dati_tacid left JOIN
+(SELECT dati_tacid.TacId as tacvolte  FROM volte_devices left join `dati_tacid` on dati_tacid.Modello=volte_devices.modello ) as pippo  on pippo.tacvolte=dati_tacid.TacId set dati_tacid.volte='true'
+
+####################################
+###############NEW UPDATE TRE
+####################################
+##########Tac e Numerosità 
+INSERT  ignore INTO maggio2019 (`Tac1`, numero_S,numero_dati,numero_voce,mc2,mc3,mc4,Voce_out_roaming_S) SELECT `DEVICE_ID` as Tac1, `NUM_SUBSCRIBER_TOTALI` as numero_S, `SUBSCRIBER_ATTIVI_DATI` as numero_dati, `SUBSCRIBER_ATTIVI_VOCE` as numero_voce, `MC2_H3G` as mc2,`MC3_H3G` as mc3, `MC4_H3G` as mc4, `DURATION`/60 as Voce_out_roaming_S  FROM brandmodeltrenorat WHERE 1 GROUP by `DEVICE_ID`
+##### Non serve piu#####update `maggio2019` left JOIN brandmodeltrenorat on maggio2019.Tac1=brandmodeltrenorat.DEVICE_ID set `Voce_out_on_net_S`=brandmodeltrenorat.DURATION/60, `Voce_out_roaming_S`= 0, `Voce_in_on_net_S`=0, `Voce_in_roaming_S`=0 WHERE brandmodeltrenorat.DEVICE_ID >0
+
+update  `maggio2019` left JOIN brandmodeltrerat on maggio2019.Tac1=brandmodeltrerat.DEVICE_ID  set `volume_Dati_LTE_S`=brandmodeltrerat.VOLUME_TOTALE/1024 WHERE brandmodeltrerat.RATtype=6;
+update  `maggio2019` left JOIN brandmodeltrerat on maggio2019.Tac1=brandmodeltrerat.DEVICE_ID  set `volume_Dati_3g_S`=brandmodeltrerat.VOLUME_TOTALE/1024 WHERE brandmodeltrerat.RATtype=1 ;
+update  `maggio2019` left JOIN brandmodeltrerat on maggio2019.Tac1=brandmodeltrerat.DEVICE_ID  set `volume_Dati_Naz_S`=brandmodeltrerat.VOLUME_TOTALE/1024 WHERE brandmodeltrerat.RATtype=2;
+update  `maggio2019` set `volume_Dati_S`=`volume_Dati_Naz_S`+`volume_Dati_Int_S`+`volume_Dati_LTE_S`+`volume_Dati_3g_S` WHERE 1;
+
+
+
+
+###########Drop Wind + Tre total
+(SELECT dati_tacid.*, sum(`mc2`)as mc2 , sum(`mc3`)as mc3, sum(`mc4`)as mc4  FROM `wind_rete_201909` left JOIN dati_tacid on dati_tacid.TacId=wind_rete_201909.Tac1  WHERE 1 GROUP by dati_tacid.TacId) UNION all (SELECT dati_tacid.*, sum(mc2+mc2_roaming)as mc2 , sum(mc3+mc3_roaming)as mc3, sum(mc4+mc4_roaming)as mc4  FROM settembre2019 left JOIN dati_tacid on dati_tacid.TacId=settembre2019.Tac1  WHERE 1 GROUP by dati_tacid.TacId)
+
+SELECT (sum(MC4)/(sum(MC2)+sum(MC3)+sum(MC4)))*100 as dropp,sum(`NUM_SUBSCRIBER_TOTALI`) as total_users,`COD_ANNOMESE` `DES_MARCA`,`MODELLO` FROM `brandmodelnew` WHERE `BRAND` like 'wind' GROUP by `MODELLO`
+

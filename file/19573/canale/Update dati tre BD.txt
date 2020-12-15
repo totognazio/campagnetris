@@ -1,0 +1,135 @@
+select * from(select sum(numero_S) as numero, dati_tacid.Modello , dati_tacid.Marca, if(dati_tacid.Tecnologia is NULL,'ND',dati_tacid.Tecnologia) as Tecnologia, if(dati_tacid.Tipo is NULL,'ND',dati_tacid.Tipo) as Tipo, if(dati_tacid.classe_throughput is NULL,'ND',dati_tacid.classe_throughput) as classe_throughput, if(dati_tacid.OS is NULL,'ND',dati_tacid.OS) as OS, Tac1 from luglio2018 left join dati_tacid on Tac1=dati_tacid.TacId where 1 group by Tipo) as temp group by Tipo order by numero desc
+
+############Aggiornamento manuale statistiche TRE
+################numerosità totale
+INSERT INTO maggio2018_bd (`Tac1`,maggio2018_bd.numero_S) SELECT `D_TE_TAC_ID` as Tac1, `conto` as numero_S FROM `bd_maggio2018_countall` WHERE 1
+
+INSERT INTO maggio2018_bd ( Tac1, volume_Dati_S) 
+ SELECT   `D_TE_TAC_ID` as Tac1, sum(`voleme_downlink`+`volume_uplink`) as volume_Dati_S (FROM  `bd_maggio2018_datiggsn` WHERE 1 GROUP by `D_TE_TAC_ID`) ON DUPLICATE KEY UPDATE maggio2018_bd.volume_Dati_S
+ 
+ 
+#################################################################################### 
+########################### NEW UPDATE TOOL from BigData############################
+#######insert numerosità totale (attivi voce e dati)
+  INSERT INTO novembre2018 (`Tac1`,numero_S) SELECT bd_count_imsi_total.TAC as Tac1, bd_count_imsi_total.tot as numero_S FROM bd_count_imsi_total WHERE 1
+  
+  UPDATE  `novembre2018` left JOIN bd_count_imsi_total on novembre2018.Tac1=bd_count_imsi_total.TAC  set `numero_s`=bd_count_imsi_total.tot
+
+#### Aggiunta del campo  numero_dati (attivi dati)
+ UPDATE  `novembre2018` left JOIN bd_count_imsi_dati on novembre2018.Tac1=bd_count_imsi_dati.TAC  set `numero_dati`=bd_count_imsi_dati.Conteggio
+##### Aggiunta del campo  numero_voce (attivi voce)
+ UPDATE  `novembre2018` left JOIN bd_count_imsi_voce on novembre2018.Tac1=bd_count_imsi_voce.TAC  set numero_voce=bd_count_imsi_voce.Conteggio
+
+ 
+#######Update Voce 3G
+	update  `novembre2018` left JOIN bd_voce on novembre2018.Tac1=bd_voce.TAC  set `Voce_out_on_net_S`=bd_voce.Durata/60 WHERE bd_voce.RECORD_TYPE=1 
+#######Update Voce 2G
+	update  `novembre2018` left JOIN bd_voce on novembre2018.Tac1=bd_voce.TAC  set `Voce_out_roaming_S`=bd_voce.Durata/60 WHERE bd_voce.RECORD_TYPE=2
+#######Update DATI  4G
+	update  `novembre2018` left JOIN bd_dati on novembre2018.Tac1=bd_dati.TAC  set `volume_Dati_LTE_S`=bd_dati.Up_down_B/1024 WHERE bd_dati.RATtype=6 
+#######Update DATI  3G  
+	update  `novembre2018` left JOIN bd_dati on novembre2018.Tac1=bd_dati.TAC  set `volume_Dati_3g_S`=bd_dati.Up_down_B/1024 WHERE bd_dati.RATtype=1  
+#######Update DATI  2G   
+	update  `novembre2018` left JOIN bd_dati on novembre2018.Tac1=bd_dati.TAC  set `volume_Dati_Naz_S`=bd_dati.Up_down_B/1024 WHERE bd_dati.RATtype=2 
+#######Update DATI  TOTALI	
+	update  `novembre2018` set `volume_Dati_S`=`volume_Dati_Naz_S`+`volume_Dati_Int_S`+`volume_Dati_LTE_S`+`volume_Dati_3g_S` WHERE 1	 
+  
+
+update  `novembre2018` left JOIN bd_voce on novembre2018.Tac1=bd_voce.TAC  set `Voce_out_on_net_S`=bd_voce.Durata/60 WHERE bd_voce.RECORD_TYPE=1;
+update  `novembre2018` left JOIN bd_voce on novembre2018.Tac1=bd_voce.TAC  set `Voce_out_roaming_S`=bd_voce.Durata/60 WHERE bd_voce.RECORD_TYPE=2;
+update  `novembre2018` left JOIN bd_dati on novembre2018.Tac1=bd_dati.TAC  set `volume_Dati_LTE_S`=bd_dati.Up_down_B/1024 WHERE bd_dati.RATtype=6;
+update  `novembre2018` left JOIN bd_dati on novembre2018.Tac1=bd_dati.TAC  set `volume_Dati_3g_S`=bd_dati.Up_down_B/1024 WHERE bd_dati.RATtype=1 ;
+update  `novembre2018` left JOIN bd_dati on novembre2018.Tac1=bd_dati.TAC  set `volume_Dati_Naz_S`=bd_dati.Up_down_B/1024 WHERE bd_dati.RATtype=2;
+update  `novembre2018` set `volume_Dati_S`=`volume_Dati_Naz_S`+`volume_Dati_Int_S`+`volume_Dati_LTE_S`+`volume_Dati_3g_S` WHERE 1; 
+
+###########################################  
+########### gennaio2019
+INSERT  INTO gennaio2019 (`Tac1`,numero_S) SELECT bd_count_imsi_total.TAC as Tac1, bd_count_imsi_total.tot as numero_S FROM bd_count_imsi_total WHERE 1;  
+###UPDATE  `gennaio2019` left JOIN bd_count_imsi_dati on gennaio2019.Tac1=bd_count_imsi_dati.TAC  set `numero_dati`=bd_count_imsi_dati.Conteggio;
+UPDATE  `gennaio2019` left JOIN bd_count_imsi_voce on gennaio2019.Tac1=bd_count_imsi_voce.TAC  set `numero_voce`=bd_count_imsi_voce.Conteggio;
+
+update  `gennaio2019` left JOIN bd_voce on gennaio2019.Tac1=bd_voce.TAC  set `Voce_out_on_net_S`=bd_voce.Durata/60 WHERE bd_voce.RECORD_TYPE=1;
+update  `gennaio2019` left JOIN bd_voce on gennaio2019.Tac1=bd_voce.TAC  set `Voce_out_roaming_S`=bd_voce.Durata/60 WHERE bd_voce.RECORD_TYPE=2;
+
+update  `gennaio2019` left JOIN bd_dati on gennaio2019.Tac1=bd_dati.TAC  set `volume_Dati_LTE_S`=bd_dati.Up_down_B/1024 WHERE bd_dati.RATtype=6;
+update  `gennaio2019` left JOIN bd_dati on gennaio2019.Tac1=bd_dati.TAC  set `volume_Dati_3g_S`=bd_dati.Up_down_B/1024 WHERE bd_dati.RATtype=1 ;
+update  `gennaio2019` left JOIN bd_dati on gennaio2019.Tac1=bd_dati.TAC  set `volume_Dati_Naz_S`=bd_dati.Up_down_B/1024 WHERE bd_dati.RATtype=2;
+update  `gennaio2019` set `volume_Dati_S`=`volume_Dati_Naz_S`+`volume_Dati_Int_S`+`volume_Dati_LTE_S`+`volume_Dati_3g_S` WHERE 1; 
+
+UPDATE  `gennaio2019` left JOIN bd_count_imsi_total on gennaio2019.Tac1=bd_count_imsi_total.TAC  set `numero_s`=bd_count_imsi_total.tot where gennaio2019.Tac1=bd_count_imsi_total.TAC
+
+  3490237116.2
+  96146115481.0
+  
+  ###################################### 
+######################RAT Type 
+Radio Access Technology (RAT) type AVP
+1 – UTRAN                 3G
+
+2 – GERAN                 2G
+
+3 – WLAN
+
+4 – GAN
+
+5 – HSPA Evolution     este es un 3G más rápido pero para suscriptores aprovisionados como 4G (en un HSS en lugar de un HLR) que navegan en 3G.
+
+6 – EUTRAN               LTE o 4G
+
+
+############################ UPDATE Wind DATI Mese #####################################################
+insert into wind_201906 (wind_201906.Annomese,wind_201906.Tac1) SELECT `year` as Annomese, `tac` as Tac1 FROM `windbrandmodel201906` WHERE `dataflow`='GGSN'   GROUP by `tac`
+update `wind_201906` left JOIN windbrandmodel201906 on `Tac1`=windbrandmodel201906.tac set `KBYTES_MOBILE_4G`=windbrandmodel201906.VolumeTotale/1024 where windbrandmodel201906.dataflow='GGSN' and windbrandmodel201906.rattype='LTE';
+update  `wind_201906` left JOIN windbrandmodel201906 on `Tac1`=windbrandmodel201906.tac set `KBYTES_MOBILE_3G`=windbrandmodel201906.VolumeTotale/1024 where windbrandmodel201906.dataflow='GGSN' and windbrandmodel201906.rattype='UMTS';
+update  `wind_201906` left JOIN windbrandmodel201906 on `Tac1`=windbrandmodel201906.tac set `KBYTES_MOBILE_2G`=windbrandmodel201906.VolumeTotale/1024 where windbrandmodel201906.dataflow='GGSN' and windbrandmodel201906.rattype='GPRS';
+##################################################################
+#####UPDATE conteggio Attivi DATI da file/Tabella  csv senza RAT
+update  `wind_201906` left JOIN windbrandmodelnorat201906 on `Tac1`=windbrandmodelnorat201906.tac set `CONTEGGIO_SERVIZI`=windbrandmodelnorat201906.NumeroSubscriberAttivi where windbrandmodelnorat201906.dataflow='GGSN'
+
+############################ UPDATE Wind Voce Mese #####################################################
+insert into wind_rete_201906 (wind_rete_201906.Tac1, wind_rete_201906.Count_IMEI, durata_effettiva) SELECT `tac` as Tac1, `NumeroSubscriberAttivi` as Count_IMEI, `Durata` as durata_effettiva FROM windbrandmodelnorat201906 WHERE `dataflow`='MSC'  GROUP by `tac`
+update wind_rete_201906 left JOIN  `windbrandmodel201906` on wind_rete_201906.Tac1=windbrandmodel201906.tac set MLN_min_ChiamateGSM=windbrandmodel201906.Durata WHERE windbrandmodel201906.dataflow='MSC' and windbrandmodel201906.rattype='GSM';
+update wind_rete_201906 left JOIN  `windbrandmodel201906` on wind_rete_201906.Tac1=windbrandmodel201906.tac set MLN_min_ChiamateUMTS=windbrandmodel201906.Durata WHERE windbrandmodel201906.dataflow='MSC' and windbrandmodel201906.rattype='UMTS';
+update  `wind_rete_201906` set `voce_tot`=`MLN_min_ChiamateGSM`+`MLN_min_ChiamateUMTS` WHERE 1
+update wind_rete_201906 left JOIN  `windbrandmodel201906` on wind_rete_201906.Tac1=windbrandmodel201906.tac set wind_rete_201906.mc2=windbrandmodel201906.mc2,wind_rete_201906.mc3=windbrandmodel201906.mc3,wind_rete_201906.mc4=windbrandmodel201906.mc4,wind_rete_201906.dropcall=windbrandmodel201906.DropCalls WHERE windbrandmodel201906.dataflow='MSC';
+#########################################
+############ VOLTE UPDATE
+update `dati_tacid` left join `volte_devices` on dati_tacid.Modello=volte_devices.modello set dati_tacid.volte='true' where volte_devices.modello is not null
+
+SELECT * FROM volte_devices left join `dati_tacid` on dati_tacid.Modello=volte_devices.modello WHERE 1
+
+update dati_tacid left JOIN
+(SELECT dati_tacid.TacId as tacvolte  FROM volte_devices left join `dati_tacid` on dati_tacid.Modello=volte_devices.modello ) as pippo  on pippo.tacvolte=dati_tacid.TacId set dati_tacid.volte='true'
+
+####################################
+###############NEW UPDATE TRE
+####################################
+##########Tac e Numerosità 
+INSERT  ignore INTO giugno2019 (`Tac1`, numero_S,numero_dati,numero_voce,mc2,mc3,mc4,Voce_out_roaming_S) SELECT `DEVICE_ID` as TAc1, `NUM_SUBSCRIBER_TOTALI` as numero_S, `SUBSCRIBER_ATTIVI_DATI` as numero_dati, `SUBSCRIBER_ATTIVI_VOCE` as numero_voce, `MC2_H3G` as mc2,`MC3_H3G` as mc3, `MC4_H3G` as mc4, `DURATION`/60 as Voce_out_roaming_S  FROM brandmodeltrenorat WHERE 1 GROUP by `DEVICE_ID`
+##### Non serve piu#####update `giugno2019` left JOIN brandmodeltrenorat on giugno2019.Tac1=brandmodeltrenorat.DEVICE_ID set `Voce_out_on_net_S`=brandmodeltrenorat.DURATION/60, `Voce_out_roaming_S`= 0, `Voce_in_on_net_S`=0, `Voce_in_roaming_S`=0 WHERE brandmodeltrenorat.DEVICE_ID >0
+
+update  `giugno2019` left JOIN brandmodeltrerat on giugno2019.Tac1=brandmodeltrerat.DEVICE_ID  set `volume_Dati_LTE_S`=brandmodeltrerat.VOLUME_TOTALE/1024 WHERE brandmodeltrerat.RATtype=6;
+update  `giugno2019` left JOIN brandmodeltrerat on giugno2019.Tac1=brandmodeltrerat.DEVICE_ID  set `volume_Dati_3g_S`=brandmodeltrerat.VOLUME_TOTALE/1024 WHERE brandmodeltrerat.RATtype=1 ;
+update  `giugno2019` left JOIN brandmodeltrerat on giugno2019.Tac1=brandmodeltrerat.DEVICE_ID  set `volume_Dati_Naz_S`=brandmodeltrerat.VOLUME_TOTALE/1024 WHERE brandmodeltrerat.RATtype=2;
+update  `giugno2019` set `volume_Dati_S`=`volume_Dati_Naz_S`+`volume_Dati_Int_S`+`volume_Dati_LTE_S`+`volume_Dati_3g_S` WHERE 1;
+
+#####################################################################
+###############Volte Eligible On WindTRe Numerosità e Voce Totale
+##Tre
+SELECT sum(numero_S) as numero_tot, sum(Voce_out_on_net_S+Voce_out_roaming_S+Voce_in_on_net_S+Voce_in_roaming_S) as voce_tot FROM `giugno2019` left JOIN dati_tacid on dati_tacid.TacId=giugno2019.Tac1 RIGHT JOIN volte_tac on volte_tac.TacId=giugno2019.Tac1 WHERE 1
+##Wind numero & voce 
+SELECT sum(wind_trend_201903.count_imei) as numero_tot from wind_trend_201903 RIGHT JOIN volte_tac on volte_tac.TacId=wind_trend_201903.Tac1
+
+
+########Query ardoprj
+####Query to find substring case unsensitive into table with generic binary file 
+SELECT * from (SELECT LOWER(CONVERT(`cvattach` USING latin1)) as cvlower, `codiceidentif` FROM `aa005_ curriculum_vitae_copy`) as pippo WHERE cvlower like '%mysql%'
+
+############Query da implementare sul Tool Export Toatale
+SELECT `Marca`,`Modello`,`Tipo`,`mobile_radio_access`,`OS`,`webfamily`,`classe_throughput`,`bands`,`volte`,`amr`,`volte_windtre`,`volte_eligible`,COALESCE(sum(giugno2019.numero_voce),0) as numerovoceTre,COALESCE(sum(giugno2019.numero_dati),0) as numerodatitre,COALESCE(sum(giugno2019.numero_S),0) as numeroTotTre,COALESCE(sum(wind_trend_201906.count_imei),0) as numeroTotWind, (COALESCE(sum(giugno2019.numero_S),0)+COALESCE(sum(wind_trend_201906.count_imei),0)) as totale FROM `dati_tacid` LEFT JOIN wind_trend_201906 on dati_tacid.TacId=wind_trend_201906.Tac1 left JOIN giugno2019 on giugno2019.Tac1=dati_tacid.TacId WHERE 1 GROUP by `Modello` order BY totale DESC
+
+SELECT `Marca`,`Modello`,`Tipo`,`mobile_radio_access`,`OS`,`webfamily`,`classe_throughput`,`bands`,`volte`,`amr`,`volte_windtre`,`volte_eligible`,sum(dicembre2017.numero_voce) as numerovoceTre,sum(dicembre2017.numero_dati) as numerodatitre,sum(dicembre2017.numero_S) as numeroTotTre,sum(wind_trend_201712.count_imei) as numeroTotWind, (COALESCE(sum(dicembre2017.numero_S),0)+COALESCE(sum(wind_trend_201712.count_imei),0)) as totale FROM `dati_tacid` LEFT JOIN wind_trend_201712 on dati_tacid.TacId=wind_trend_201712.Tac1 left JOIN dicembre2017 on dicembre2017.Tac1=dati_tacid.TacId WHERE 1 GROUP by `Modello` order BY totale DESC 
+
+###############################################
+#####New da implementare sul Tool con variante requisiti speciali aggiunti da MDM
+SELECT dati_tacid.*,wind_mdm_last.hsdpa_category,wind_mdm_last.hsdpa_maximum_download_rate,wind_mdm_last.hsupa_category,wind_mdm_last.hsupa_maximum_upload_rate,sum(giugno2019.numero_voce) as numerovoceTre,sum(giugno2019.numero_dati) as numerodatitre,sum(giugno2019.numero_S) as numeroTotTre,COALESCE(sum(wind_trend_201906.count_imei),0) as numeroTotWind, (COALESCE(sum(giugno2019.numero_S),0)+COALESCE(sum(wind_trend_201906.count_imei),0)) as totale FROM `dati_tacid` LEFT JOIN wind_trend_201906 on dati_tacid.TacId=wind_trend_201906.Tac1 left JOIN giugno2019 on giugno2019.Tac1=dati_tacid.TacId left JOIN wind_mdm_last on wind_mdm_last.tac=dati_tacid.TacId WHERE 1 GROUP by `Modello` order BY totale DESC

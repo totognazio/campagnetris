@@ -11,6 +11,10 @@ input:focus {
 <link href="vendors/dropzone/dist/min/dropzone.min.css" rel="stylesheet">
 <!-- Dropzone.js -->
 <script src="vendors/dropzone/dist/dropzone.js"></script>
+<script type="text/javascript">
+        // Immediately after the js include
+        Dropzone.autoDiscover = false;     
+</script>
 
 <?php
 include_once("./classes/access_user/access_user_class.php");
@@ -29,6 +33,7 @@ $campaign = new campaign_class();
 /// form tutto vuoto nel caso di add new campagna 
 $messaggio = "";
 $title = "Inserimento Nuova Campagna";
+$id_upload = uniqid();
 $nome_campagna = '';
 $disabled_value = "";
 $modifica = 0;
@@ -57,12 +62,12 @@ if (isset($_POST['azione'])) {
     
 }
 
-$idCampagna = "";
 if ( isset($azione) && $azione=='modifica') {
     $id_campaign = $campaign->get_list_campaign(" where campaigns.id=" . intval($id))->fetch_array();
     $title = "Modifica della Campagna ";
     $nome_campagna = $campaign->name_camp($id_campaign);
     $modifica = true;
+    $id_upload = $id_campaign['id'];
     $squad_id = $id_campaign['squad_id'];
     if ($page_protect->get_job_role() > 2) {
         $modifica_codici = true;
@@ -72,7 +77,7 @@ if ( isset($azione) && $azione=='modifica') {
     if ($permission) {
         
         if (isset($_POST['modifica_confim'])) {
-            $messaggio = $campaign->update($_POST, $_POST['id']);
+            $messaggio = $campaign->update($_POST, $id);
         }
     } else {
         $messaggio = "L'utente non pu&ograve; modificare la campagna";
@@ -84,9 +89,8 @@ if ( isset($azione) && $azione=='modifica') {
         $display_none = " display:none; ";
     }
 } elseif ( isset($azione) && $azione=='open') {
-    $idCampagna = intval($_POST['id']);
     $visualizza_campagna = 1;
-    $id_campaign = $campaign->get_list_campaign(" where campaigns.id=" . $idCampagna)->fetch_array();
+    $id_campaign = $campaign->get_list_campaign(" where campaigns.id=" . $id)->fetch_array();
     $modifica = true;
     $readonly = true;
     $readonly_value = " readonly=\"readonly\" ";
@@ -109,7 +113,7 @@ if ( isset($azione) && $azione=='modifica') {
 
     if ($permission) {
         if (isset($_POST['modifica_confim'])) {
-            $messaggio = $campaign->update($_POST, $_POST['id']);
+            $messaggio = $campaign->update($_POST, $id);
         }
     } else {
         $messaggio = "L'utente non pu&ograve; modificare la campagna";
@@ -149,12 +153,8 @@ $cat_sott = $funzione->get_allTable('campaign_cat_sott');
 
               <div class="title_right">
                 <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                  <!--<div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">Go!</button>
-                    </span>
-                  </div>-->
+
+
                 </div>
               </div>
             </div>
@@ -186,7 +186,8 @@ $cat_sott = $funzione->get_allTable('campaign_cat_sott');
 <!--inizio mega Form inserimento-->               
 <form id="form-campagna-ins" data-parsley-validate class="form-horizontal form-label-left" enctype="multipart/form-data" action="<?php echo $back_url; ?>" method="post">  
                 <input type="hidden" name="todo" value="<?php echo $_POST['azione']; ?>">
-                <input type="hidden" name="user_id" id="user_id" value="<?php echo $page_protect->id; ?>"/>   
+                <input type="hidden" name="user_id" id="user_id" value="<?php echo $page_protect->id; ?>"> 
+                <input type="hidden" name="id_upload" id="fileid" value="<?php echo $id_upload; ?>">  
                 <div class="" role="tabpanel" data-example-id="togglable-tabs">
                        
                       <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
@@ -581,13 +582,15 @@ $('#mod_invio').on('select2:select', function () {
     $('#range_offerta span').html(moment().format('DD/MM/YYYY') + ' - ' + moment().add(1, 'week').format('DD/MM/YYYY'));
     
     <?php 
-            if(isset($id_campaign['data_inizio_validita_offerta'])){
+            if(isset($id_campaign['leva']) and $id_campaign['leva']==1){
                 
                 $start = date('d/m/Y',strtotime($id_campaign['data_inizio_validita_offerta']));
                 $end = date('d/m/Y',strtotime($id_campaign['data_fine_validita_offerta']));
                 echo '$(\'#range_offerta span\').html(\''.$start.' - '.$end.'\');';
-                echo '$(\'#data_inizio_validita_offerta\').attr(\'value\',date(\'YYYY-MM-DD\',strtotime($id_campaign[\'data_inizio_validita_offerta\']));';
-                echo '$(\'#data_fine_validita_offerta\').attr(\'value\',date(\'YYYY-MM-DD\',strtotime($id_campaign[\'data_fine_validita_offerta\']));';
+                echo '$(\'#data_inizio_validita_offerta\').attr(\'value\',date(\'YYYY-MM-DD\',\''.strtotime($id_campaign['data_inizio_validita_offerta']).'\'));';
+                echo '$(\'#data_inizio_validita_offerta\').attr(\'value\',date(\'YYYY-MM-DD\',\''.strtotime($id_campaign['data_fine_validita_offerta']).'\'));';
+                //echo '$(\'#data_fine_validita_offerta\').attr(\'value\',date(\'YYYY-MM-DD\',strtotime($id_campaign[\'data_fine_validita_offerta\']));';
+
             }
             
             

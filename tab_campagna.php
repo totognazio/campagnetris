@@ -147,10 +147,10 @@
                                 $select_0 ='';
                                 $select_1='';
                                 $display_validitaofferta = 'style="display: none;"';
-                                if($id_campaign['leva']=='0'){
+                                if($id_campaign['leva_offerta']=='0'){
                                    $select_0 = 'selected';
                                 }
-                                elseif($id_campaign['leva']=='1'){
+                                elseif($id_campaign['leva_offerta']=='1'){
                                    ?><script> $('#validita-offerta').show(); </script>
                                    <?php
                                    $select_1 = 'selected';

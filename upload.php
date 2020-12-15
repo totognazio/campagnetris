@@ -1,9 +1,17 @@
 <?php
    if(isset($_FILES['file'])){
-      $dir = "file/";
-      $fileid = $_GET['fileid'];
-       
-      print_r($_FILES);
+      
+      $id_upload = $_GET['id_upload'];
+      if(isset($_GET['comunicazione'])){
+         $dir = "file\\$id_upload\\comunicazione\\";
+         
+      }
+      elseif(isset($_GET['canale'])){
+         $dir = "file/$id_upload/canale/";
+      }
+      
+      mkdir($dir, 0777, TRUE);
+      //print_r($_FILES);
 
       $errors= array();
       $file_size =$_FILES['file']['size']; 
@@ -20,7 +28,7 @@
       $file_ext = $info->getExtension();
       $file_basename = $info->getBasename();
       
-      $file_name = $fileid.'_'. $file_basename;
+      $file_name = $file_basename;
 
       $extensions= array("xlsx","txt","xls","xlsm");
       
@@ -34,16 +42,22 @@
       
       if(empty($errors)==true){
          //move_uploaded_file($file_tmp,"gestioneLSoc/template/".$file_tmp);
-         move_uploaded_file($file_tmp,"file/".$file_name);
+         move_uploaded_file($file_tmp, $dir.$file_name);
          #echo "Success";
       }else{
          print_r($errors);
       }
   }
   elseif($_POST['action']=='delete'){
+     if(isset($_POST['subdir'])){
+         $subdir = $_POST['subdir'];
+     }
+     else{
+         exit('Need subdir file upload!!!');
+     }
       $file_basename = $_POST['filename'];
-      $fileid = $_POST['fileid'];
-      $file_name = $fileid.'_'. $file_basename;
+      $id_upload = $_POST['id_upload'];
+      $file_name = $id_upload.'/'.$subdir.'/'. $file_basename;
       echo 'deleteeee  '.$file_name;
       unlink("file/".$file_name); 
   }

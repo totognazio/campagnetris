@@ -556,7 +556,7 @@ if ($lista_ext2) {
             }
             if (document.getElementById('control_stack').value == "1") {
                 if ((document.getElementById('perc_control_group').value == "") || (document.getElementById('perc_control_group').value == "0")) {
-                    Errore = Errore + "- Percentuale control stack\n";
+                    Errore = Errore + "- Percentuale control group";
                 }
             }
 
@@ -1733,7 +1733,7 @@ if ($lista_ext2) {
                                 if ($readonly)
                                     echo $disabled_value;
                                 ?>
-                                                                            id="voce" name="voce" value="1" tabindex="50" onfocus="seleziona('voce');" onblur="deseleziona('voce');" />Voce</span>
+                                id="voce" name="voce" value="1" tabindex="50" onfocus="seleziona('voce');" onblur="deseleziona('voce');" />Voce</span>
                             <span style="display:block; width:100%;"><input type="checkbox" 
                                 <?php
                                 if ($modifica) {

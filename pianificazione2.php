@@ -25,6 +25,9 @@ if (isset($_GET['action']) && $_GET['action'] == "log_out") {
     $page_protect->log_out(); // the method to log off
 }
 
+//rename("file/5fd3a759daa6e","file/19572");
+//copy ("file/5fd3a405b8b32","file/19573");
+//unlink("file/5fd3a405b8b32");
 include('action.php');
 
 $channels = $funzione->get_list_select('channels');
@@ -37,7 +40,7 @@ $sprints = $funzione->get_sprints();
 // print_r($sprints);
 $form->head_page("Pianificazione Campagne", "Filtro");
 //print_r($_SESSION);  
-print_r($_POST); 
+//print_r($_POST); 
                 
                 if (isset($result)) {
                     echo "<div class=\"info\">";
@@ -134,7 +137,7 @@ $form->open_row("Campagne", "Filtrate");
                             <input type="hidden" name="azione" value="new" />  
                             <input type="hidden" name="id" value="0" />                                                              
                 </form> 
-<button class="btn btn btn-xs btn-success" type="submit" onclick="manageCamp('','new');" data-placement="top" data-toggle="tooltip" data-original-title="Nuova Campagna" title="Nuova Campagna"><i class="fa fa-plus-square"></i> Nuova Campagna</button>
+<button class="btn btn btn-xs btn-success" type="submit" onclick="manageCamp('','new');" data-placement="top" data-toggle="tooltip" data-original-title="Inserisci nuova Campagna"><i class="fa fa-plus-square"></i> Nuova Campagna</button>
 <div class="col-md-12 col-sm-12 col-xs-12" id="content_response">
 
 

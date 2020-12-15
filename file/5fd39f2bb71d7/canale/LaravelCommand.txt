@@ -1,0 +1,62 @@
+###Per creare un nuovo progetto
+composer create-project laravel/laravel biblios --prefer-dist
+artisan key:generate
+cp .env.example .env
+
+###### Per installare un progetto clonato da GitHub
+#git clone <url-del-progetto-github>
+#composer install
+#cp .env.example .env
+#php artisan key:generate
+#php artisan jwt:secret
+###configurare il database nel file .env
+#DN_DATABASE
+#DB_USERNAME
+#DB_PASSWORD
+#### creazione delle tabelle
+#php artisan migrate
+
+####lanciare il server
+php -S localhost:2000
+php artisan serve
+###Crea il Controller
+php artisan make:controller PageController
+
+###Crea il Controller Users con tutti i metodi per un resource controller (CRUD)
+
+
+#######crea la tabella
+php artisan migrate
+
+####### la ricrea nel caso esista già
+php artisan migrate:fresh 
+
+####Scaffolding per creare autenticazione in automatico
+php artisan make:auth
+
+#######lanciare il server
+php artisan serve
+
+####publish del provider Cors di Barry
+php artisan vendor:publish --provider="Barryvdh\Cors\ServiceProvider"
+
+###Rotte PHP -- mostra tutte le Rotte possibili
+php artisan route:list
+
+###Creazione dati fake per il DB con seeders
+php artisan make:seeder UsersTableSeeder
+
+#### creazione eleme
+
+
+####################################################
+#######################YounetCharts
+php artisan make:model Pulse
+php artisan make:controller PulseController
+php artisan make:migration CreatePulses
+php artisan migrate
+php artisan db:seed
+
+
+
+

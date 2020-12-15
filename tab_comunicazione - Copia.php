@@ -56,7 +56,7 @@
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">             
                     <div class="x_content">                                          
-                        <form id="my-dropzone" action="upload.php?id_upload=<?php echo $id_upload; ?>&comunicazione"  class="dropzone">
+                        <form id="my-dropzone" action="upload.php?fileid=<?php echo $fileid; ?>&comunicazione"  class="dropzone">
                         </form>
                         <br />
                     </div>
@@ -70,15 +70,15 @@
 
 <script>
 $(document).ready(function() { 
-var myDropzoneProfile = new Dropzone(
-        '#my-dropzone',
-        {
-          
-            init: function () {
-
-           //solo su Modifica o Duplica     
-          <?php if($modifica) {?>    
-            thisDropzone = this;        
+Dropzone.autoDiscover = false;     
+var myDrop= new Dropzone("#my-dropzone");
+<?php 
+if($modifica){
+?>     
+    Dropzone.options.myDrop = {
+        init: function() {
+            thisDropzone = this;
+        
             $.ajax({
                 type: "POST",
                 dataType: "json",
@@ -96,53 +96,35 @@ var myDropzoneProfile = new Dropzone(
                 
                 }
             });
-        <?php  } ?>
+        }  
+    }
+<?php } ?>
+//console.log('sono quiiii');
+myDrop.on("removedfile", function(file) {
+    console.log('removedfile on');
 
-            this.on("removedfile", function(file) {
-                        console.log('removedfile on');
+     var filename = file.name; 
 
-                        var filename = file.name; 
+     $.ajax({
+     url: "upload.php",
+     data: { filename: filename, action: 'delete', fileid: '<?php echo $fileid; ?>',subdir: 'comunicazione'},
+     type: 'POST',
+     success: function (data) {
+          if (data.NotificationType === "Error") {
+               console.log('error 1');
+               //toastr.error(data.Message);
+          } else {
+               //toastr.success(data.Message);
+               console.log('error 2');                          
+          }
+        },
+          error: function (data) {
+               //toastr.error(data.Message);
+               console.log('error 3');
+          }
+     })
 
-                                $.ajax({
-                                url: "upload.php",
-                                data: { filename: filename, action: 'delete', id_upload: '<?php echo $id_upload; ?>',subdir: 'comunicazione'},
-                                type: 'POST',
-                                success: function (data) {
-                                    if (data.NotificationType === "Error") {
-                                        console.log('error 1');
-                                        //toastr.error(data.Message);
-                                    } else {
-                                        //toastr.success(data.Message);
-                                        console.log('error 2');                          
-                                    }
-                                    },
-                                    error: function (data) {
-                                        //toastr.error(data.Message);
-                                        console.log('error 3');
-                                    }
-                                })
-
-                });
-
-
-                        this.on("processing", function (file) {
-                        });
-                        this.on("maxfilesexceeded",
-                            function (file) {
-                                this.removeAllFiles();
-                                this.addFile(file);
-                            });
-                        this.on("success",
-                            function (file, responseText) {
-                            // do something here
-                            });
-                        this.on("error",
-                            function (data, errorMessage, xhr) {
-                                // do something here
-                            });
-                    }
-        });
-
+});
 
 
 

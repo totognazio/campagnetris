@@ -46,36 +46,11 @@ if (isset($_POST['todo']) and $_POST['todo']=='modifica') {
         $result = "L'utente non pu&ograve; modificare l'articolo";
     }
 }
-/*
+
+
 if (isset($_POST['elimina'])) {
     if (isset($_POST['id'])) {
         $id = intval($_POST['id']);
         $result = $campaign->delete_campaign($id);
     }
 }
-
-if (isset($_POST['salva'])) {
-    if ($page_protect->get_insert_permission()) {
-        $result = $campaign->insert($_POST);
-        if ($result == "1")
-            $result = "La campagna è stata inserita correttamente";
-    } else {
-        $result = "L'utente non ha i diritti di inseirmento";
-    }
-}
-if (isset($_POST['modifica'])) {
-    $id_campaign = $campaign->get_list_campaign(" where campaigns.id=" . intval($_POST['id']))->fetch_array();
-    $squad_id = $id_campaign['squad_id'];
-    $permission = $page_protect->check_permission($squad_id);
-    if ($permission) {
-        if (isset($_POST['modifica_confim'])) {
-            $result = $campaign->update($_POST, $_POST['id']);
-            if (is_numeric($result))
-                $result = "La campagna è stata modificata";
-        }
-    } else {
-        $result = "L'utente non pu&ograve; modificare l'articolo";
-    }
-}
-
-?>
