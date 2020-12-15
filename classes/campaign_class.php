@@ -1040,7 +1040,7 @@ function rrmdir($dir) {
 
 // copies files and non-empty directories
 function rcopy($src, $dst) {
-  if (file_exists($dst)) rrmdir($dst);
+  if (file_exists($dst)) $this->rrmdir($dst);
   if (is_dir($src)) {
     mkdir($dst);
     $files = scandir($src);
