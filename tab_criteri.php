@@ -24,7 +24,7 @@ if ($page_protect->get_job_role() >= 2) {
                                 if ($readonly){
                                 echo $disabled_value;}
                 ?>       
-                value="1" data-parsley-mincheck="1" required class="flat" /> Attivi
+                value="1" data-parsley-multiple="stato" required class="flat" /> Attivi
                 <br />
 
                 <input type="checkbox" name="sospesi" id="sospesi" 
@@ -39,10 +39,10 @@ if ($page_protect->get_job_role() >= 2) {
                                 if ($readonly){
                                 echo $disabled_value;}
                                 ?>
-                       value="1" class="flat" /> Sospesi
+                       value="1" data-parsley-multiple="stato" class="flat" /> Sospesi
                 <br />
 
-                <input type="checkbox" name="disattivi" id="disattivi" 
+                <input type="checkbox" data-parsley-multiple="stato" name="disattivi" id="disattivi" 
                         <?php
                                 if ($modifica) {
                                     if ($id_campaign['disattivi'] == 1){
@@ -62,7 +62,7 @@ if ($page_protect->get_job_role() >= 2) {
         <div class="col-md-2 col-sm-6 col-xs-12">
             <label>Tipo Offerta:</label><span class="required">*</span>
             <p style="padding: 5px;">
-                <input type="checkbox" name="consumer" id="consumer" 
+                <input type="checkbox" name="consumer" id="consumer"  data-parsley-multiple="consumer" required 
                                                 <?php
                                 if ($modifica) {
                                     if ($id_campaign['consumer'] == 1){
@@ -74,10 +74,10 @@ if ($page_protect->get_job_role() >= 2) {
                                 if ($readonly){
                                 echo $disabled_value;}
                                 ?>                              
-                value="1" data-parsley-mincheck="1" required class="flat" /> Consumer
+                value="1"  class="flat" /> Consumer
                 <br />
 
-                <input type="checkbox" name="business" id="business" 
+                <input type="checkbox" name="business" id="business" data-parsley-multiple="consumer" 
                                                                 <?php
                                 if ($modifica) {
                                     if ($id_campaign['business'] == 1){
@@ -92,7 +92,7 @@ if ($page_protect->get_job_role() >= 2) {
                        value="1" class="flat" /> Business
                 <br />
 
-                <input type="checkbox" name="microbusiness" id="microbusiness" 
+                <input type="checkbox" name="microbusiness" id="microbusiness" data-parsley-multiple="consumer" 
                                                                                       <?php
                                 if ($modifica) {
                                     if ($id_campaign['microbusiness'] == 1){
@@ -111,7 +111,7 @@ if ($page_protect->get_job_role() >= 2) {
         <div class="col-md-2 col-sm-6 col-xs-12">
             <label>Tipo Contratto:</label><span class="required">*</span>
             <p style="padding: 5px;">
-                <input type="checkbox" name="prepagato" id="prepagato" 
+                <input type="checkbox" name="prepagato" id="prepagato" data-parsley-multiple="tipo_contratto" required   
                                                                                                             <?php
                                 if ($modifica) {
                                     if ($id_campaign['prepagato'] == 1){
@@ -123,11 +123,11 @@ if ($page_protect->get_job_role() >= 2) {
                                 if ($readonly){
                                 echo $disabled_value;}
                                 ?>                         
-                       value="1" data-parsley-mincheck="1" required class="flat" /> Prepagato
+                       value="1"  class="flat" /> Prepagato
                 <br />
 
-                <input type="checkbox" name="postpagato" id="postpagato" 
-                                                                                                                                   <?php
+                <input type="checkbox" name="postpagato" id="postpagato" data-parsley-multiple="tipo_contratto"  
+                        <?php
                                 if ($modifica) {
                                     if ($id_campaign['postpagato'] == 1){
                                     echo " checked=\"checked\" ";}
@@ -141,7 +141,7 @@ if ($page_protect->get_job_role() >= 2) {
                        value="postpagato" class="flat" /> Postpagato
                 <br />
 
-                <input type="checkbox" name="contratto_microbusiness" id="contratto_microbusiness"                                                                                                                                    <?php
+                <input type="checkbox" name="contratto_microbusiness" id="contratto_microbusiness" data-parsley-multiple="tipo_contratto"                                                                                                                                     <?php
                                 if ($modifica) {
                                     if ($id_campaign['contratto_microbusiness'] == 1){
                                     echo " checked=\"checked\" ";}
@@ -238,7 +238,7 @@ if ($page_protect->get_job_role() >= 2) {
         <div class="col-md-2 col-sm-6 col-xs-12">
             <label>Mercato:</label><span class="required">*</span>
             <p style="padding: 5px;">
-                <input type="checkbox" name="voce" id="voce"        
+                <input type="checkbox" name="voce" id="voce" data-parsley-multiple="mercato" required        
                     <?php
                                 if ($modifica) {
                                     if ($id_campaign['voce'] == 1){
@@ -250,7 +250,7 @@ if ($page_protect->get_job_role() >= 2) {
                                 ?> 
                        value="1" class="flat" /> Mobile Voce
                 <br />
-                <input type="checkbox" name="dati" id="dati" 
+                <input type="checkbox" name="dati" id="dati" data-parsley-multiple="mercato" 
                     <?php
                                 if ($modifica) {
                                     if ($id_campaign['dati'] == 1){
@@ -262,7 +262,7 @@ if ($page_protect->get_job_role() >= 2) {
                                 ?> 
                        value="1" class="flat" /> Mobile Dati
                 <br />
-                <input type="checkbox" name="fisso" id="fisso" 
+                <input type="checkbox" name="fisso" id="fisso" data-parsley-multiple="mercato"  
                                            <?php
                                 if ($modifica) {
                                     if ($id_campaign['fisso'] == 1){
@@ -279,7 +279,7 @@ if ($page_protect->get_job_role() >= 2) {
                 <div class="col-md-2 col-sm-6 col-xs-12">
             <label>Frodatori:</label><span class="required">*</span>
             <p style="padding: 5px;">
-                <input type="checkbox" name="no_frodi" id="no_frodi" 
+                <input type="checkbox" name="no_frodi" id="no_frodi" data-parsley-multiple="frodatori" required  
                                                                   <?php
                                 if ($modifica) {
                                     if ($id_campaign['no_frodi'] == 1){
@@ -292,7 +292,7 @@ if ($page_protect->get_job_role() >= 2) {
                        value="1" data-parsley-mincheck="1" required class="flat" /> No Frodi
                 <br />
 
-                <input type="checkbox" name="altri_filtri" id="altri_filtri" 
+                <input type="checkbox" name="altri_filtri" id="altri_filtri" data-parsley-multiple="frodatori" 
                       <?php
                                 if ($modifica) {
                                     if ($id_campaign['no_frodi'] == 1){
@@ -313,16 +313,18 @@ if ($page_protect->get_job_role() >= 2) {
             <label>Segmento:</label><span class="required">*</span>
             <p style="padding: 5px;">
              <?php 
-                              
+                 $require_first = 'required';             
                             if ($modifica){$segment_id = $id_campaign['segment_id'];}
                             else {$segment_id = 0;}                            
                             foreach ($segments as $key => $value) {                                
-                                echo' <input type="radio" name="segment_id" id="'.$key.'" value="'.$key.'" data-parsley-mincheck="1" required class="flat" ';
+                                echo' <input type="radio" name="segment_id" id="'.$key.'" value="'.$key.'" data-parsley-multiple="segmento" '.$require_first.'  class="flat" ';
                                 if ($readonly) {echo $disabled_value;}
                                 if ($segment_id == $key){echo " checked=\"checked\" ";}                                
                                 echo'/> '.ucwords(strtolower($value));
                                 echo'<br/>';
-                            }                             
+                                $require_first = '';  
+                            }
+                                                       
               ?>  
 
 
@@ -331,7 +333,7 @@ if ($page_protect->get_job_role() >= 2) {
                                    
                         <div class="col-md-4 col-sm-6 col-xs-12">
                          <label >Indicatore Dinamico  <span class="required">*</span></label>    
-                          <input type="text" id="indicatore_dinamico" name="indicatore_dinamico"  class="form-control col-md-7 col-xs-12" 
+                          <input type="text" id="indicatore_dinamico" name="indicatore_dinamico"  required="required" class="form-control col-md-7 col-xs-12" 
                                 <?php
                                 $value = "";
                                 if ($modifica) {

@@ -6,7 +6,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nomecampagna">Nome Campagna  <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="nomecampagna" name="pref_nome_campagna"  required="required" class="form-control col-md-7 col-xs-12" readonly="readonly"  
+                          <input type="text" id="nomecampagna" name="pref_nome_campagna"  class="form-control col-md-7 col-xs-12" readonly="readonly"  
                            <?php
                             if ($modifica){
                                 echo " value=\"" . substr(stripslashes($id_campaign['pref_nome_campagna']), 0) . "\"";
@@ -17,13 +17,14 @@
                             ?>
                             />
                         </div>
-                      </div>    
+                      </div>  
+                      <br>  
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="stack">Stack  <span class="required">*</span></label>
                         <?php #print_r($id_campaign); ?>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <select id="stack_ins" name="stack_id" class="select2_single form-control" required="required" <?php echo $disabled_value;?> >      
-                               <option value="0"></option>
+                               <option value=""></option>
                             <?php 
                             foreach ($stacks as $key => $value) {
                                 if($id_campaign['stack_id']==$key){
@@ -92,7 +93,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo Target  <span class="required">*</span></label>
                         <?php #print_r($stacks); ?>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select id="cate_ins" name="category_id" class="select2_single form-control" required="required" <?php echo $disabled_value;?>>        
+                            <select id="cate_ins" name="category_id" class="select2_single form-control" tabindex="-1" required="required" <?php echo $disabled_value;?>>        
                               <option value=""></option>
                             <?php 
                             foreach ($category as $key => $value) {

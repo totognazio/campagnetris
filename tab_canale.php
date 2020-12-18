@@ -76,8 +76,8 @@
                 }
                 if($modifica and $id_campaign['tipo_leva']=='multi'){$select_multileva = ' selected';$display_multi='';}                
                 ?>
-                <select  id="idlevaselect" name="tipo_leva" class="select2_single form-control" onchange="levaselect()" required="required" <?php echo $disabled_value;?>>        
-                    <option value="0" selected></option>
+                <select  id="idlevaselect" name="tipo_leva" class="select2_single form-control" required="required" onchange="levaselect()"  <?php echo $disabled_value;?>>        
+                    <option value=""></option>
                     <option <?php echo $select_monoleva; ?> value="mono">MonoLeva</option>
                     <option <?php echo $select_multileva; ?> value="multi" >MultiLeva</option>
 
@@ -90,7 +90,7 @@
                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Opzione  <span class="required">*</span></label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <select id="opzione_leva" name="opzione_leva" class="select2_single form-control" <?php echo $disabled_value;?> required="required">       
-                        <option <?php if($modifica and $id_campaign['opzione_leva']=='0'){echo ' selected';} ?> value="0"></option>
+                        <option <?php if($modifica and $id_campaign['opzione_leva']=='0'){echo ' selected';} ?> value=""></option>
                         <option <?php if($modifica and $id_campaign['opzione_leva']=='Ropz'){echo ' selected';} ?> value="Ropz">Ropz</option>
                         <option <?php if($modifica and $id_campaign['opzione_leva']=='Popz'){echo ' selected';} ?>value="Ropz">Popz</option>
 
@@ -171,9 +171,8 @@
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-6 col-xs-12">Durata Campagna<span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <select  <?php echo $disabled_value;?> id="duratacampagna" name="durata_campagna"  class="select2_single form-control"  style="width: 100%"   required="required" onchange="durata_camp(this.value);volumeRipartizione(0);">        
-                    <option <?php if($modifica and $id_campaign['durata_campagna']=='0'){echo ' selected';}?> value="0"></option>
-                    <option <?php if($modifica and $id_campaign['durata_campagna']=='1'){echo ' selected';}?> value="1">1 Giorno</option>
+                <select  <?php echo $disabled_value;?> id="duratacampagna" name="durata_campagna"  class="select2_single form-control"  style="width: 100%"  onchange="durata_camp(this.value);volumeRipartizione(0);">                            
+                    <option <?php if($modifica and $id_campaign['durata_campagna']=='1'){echo ' selected';}else{echo ' selected';}?> value="1">1 Giorno</option>
                     <option <?php if($modifica and $id_campaign['durata_campagna']=='2'){echo ' selected';}?> value="2">2 Giorni</option>
                     <option <?php if($modifica and $id_campaign['durata_campagna']=='3'){echo ' selected';}?> value="3">3 Giorni</option>
                     <option <?php if($modifica and $id_campaign['durata_campagna']=='4'){echo ' selected';}?> value="4">4 Giorni</option>
@@ -193,66 +192,66 @@
         </div>  
         
         <div class="form-group" id="day1" style="display: none;">      
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="volumeGiornaliero1">Volume Giorno 1<span class="required"></span>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="volumeGiornaliero1">Volume Giorno 1
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <input <?php echo $disabled_value;?> type="number" id="VolumeGiornaliero1" name="volumeGiornaliero1"  class="form-control col-md-7 col-xs-12" style="text-align:right"   pattern="/^-?\d+\.?\d*$/" onKeyPress="if (this.value.length == 9)
-                    return false;"  min="0" max="999999999" value="<?php if($modifica){echo $id_campaign['volumeGiornaliero1'];}else{echo'0';}?>" required="required" value="" oninput="validity.valid||(value='');" onblur="volumeRipartizione(1);">     
+                    return false;"  min="0" max="999999999" value="<?php if($modifica){echo $id_campaign['volumeGiornaliero1'];}else{echo'0';}?>"  value="" oninput="validity.valid||(value='');" onblur="volumeRipartizione(1);">     
 
             </div>
         </div>  
         <div class="form-group" id="day2" style="display: none;">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="volumeGiornaliero2">Volume Giorno 2<span class="required"></span>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="volumeGiornaliero2">Volume Giorno 2
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <input <?php echo $disabled_value;?> type="number" id="VolumeGiornaliero2" name="volumeGiornaliero2"  class="form-control col-md-7 col-xs-12" style="text-align:right"  pattern="/^-?\d+\.?\d*$/" onKeyPress="if (this.value.length == 9)
-                            return false;"  min="0" max="999999999"  required="required" value="<?php if($modifica){echo $id_campaign['volumeGiornaliero2'];}else{echo'0';}?>" oninput="validity.valid||(value='');" onblur="volumeRipartizione(2);">     
+                            return false;"  min="0" max="999999999"   value="<?php if($modifica){echo $id_campaign['volumeGiornaliero2'];}else{echo'0';}?>" oninput="validity.valid||(value='');" onblur="volumeRipartizione(2);">     
 
             </div>
         </div>  
         <div class="form-group" id="day3" style="display: none;">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="volumeGiornaliero3">Volume Giorno 3<span class="required"></span>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="volumeGiornaliero3">Volume Giorno 3
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <input <?php echo $disabled_value;?> type="number" id="VolumeGiornaliero3" name="volumeGiornaliero3"  class="form-control col-md-7 col-xs-12" style="text-align:right"  pattern="/^-?\d+\.?\d*$/" onKeyPress="if (this.value.length == 9)
-                            return false;"  min="0" max="999999999" value="<?php if($modifica){echo $id_campaign['volumeGiornaliero3'];}else{echo'0';}?>" required="required"  oninput="validity.valid||(value='');" onblur="volumeRipartizione(3);">     
+                            return false;"  min="0" max="999999999" value="<?php if($modifica){echo $id_campaign['volumeGiornaliero3'];}else{echo'0';}?>"   oninput="validity.valid||(value='');" onblur="volumeRipartizione(3);">     
 
             </div>
         </div>  
         <div class="form-group" id="day4" style="display: none;">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="volumeGiornaliero4">Volume Giorno 4<span class="required"></span>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="volumeGiornaliero4">Volume Giorno 4
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <input <?php echo $disabled_value;?> type="number" id="VolumeGiornaliero4" name="volumeGiornaliero4" class="form-control col-md-7 col-xs-12" style="text-align:right"  pattern="/^-?\d+\.?\d*$/" onKeyPress="if (this.value.length == 9)
-                            return false;" min="0" max="999999999" value="<?php if($modifica){echo $id_campaign['volumeGiornaliero4'];}else{echo'0';}?>" required="required" oninput="validity.valid||(value='');" onblur="volumeRipartizione(4);">     
+                            return false;" min="0" max="999999999" value="<?php if($modifica){echo $id_campaign['volumeGiornaliero4'];}else{echo'0';}?>"  oninput="validity.valid||(value='');" onblur="volumeRipartizione(4);">     
 
             </div>
         </div>  
         <div class="form-group" id="day5" style="display: none;">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="VolumeGiornaliero5">Volume Giorno 5<span class="required"></span>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="VolumeGiornaliero5">Volume Giorno 5
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <input <?php echo $disabled_value;?> type="number" id="VolumeGiornaliero5" name="volumeGiornaliero5"  class="form-control col-md-7 col-xs-12" style="text-align:right"  pattern="/^-?\d+\.?\d*$/" onKeyPress="if (this.value.length == 9)
-                            return false;"  min="0" max="999999999" value="<?php if($modifica){echo $id_campaign['volumeGiornaliero5'];}else{echo'0';}?>" required="required"  oninput="validity.valid||(value='');" onblur="volumeRipartizione(5);">     
+                            return false;"  min="0" max="999999999" value="<?php if($modifica){echo $id_campaign['volumeGiornaliero5'];}else{echo'0';}?>"   oninput="validity.valid||(value='');" onblur="volumeRipartizione(5);">     
 
             </div>
         </div>  
 
         <div class="form-group" id="day6" style="display: none;">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="note">Volume Giorno 6<span class="required"></span>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="note">Volume Giorno 6
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <input <?php echo $disabled_value;?> type="number" id="VolumeGiornaliero6" name="volumeGiornaliero6" class="form-control col-md-7 col-xs-12" style="text-align:right"   pattern="/^-?\d+\.?\d*$/" onKeyPress="if (this.value.length == 9)
-                            return false;"  min="0" max="999999999" value="<?php if($modifica){echo $id_campaign['volumeGiornaliero6'];}else{echo'0';}?>" required="required" oninput="validity.valid||(value='');" onblur="volumeRipartizione(6);">     
+                            return false;"  min="0" max="999999999" value="<?php if($modifica){echo $id_campaign['volumeGiornaliero6'];}else{echo'0';}?>"  oninput="validity.valid||(value='');" onblur="volumeRipartizione(6);">     
 
             </div>
         </div>  
         <div class="form-group" id="day7" style="display: none;">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="note">Volume Giorno 7<span class="required"></span>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="note">Volume Giorno 7
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <input <?php echo $disabled_value;?> type="number" id="VolumeGiornaliero7" name="volumeGiornaliero7" class="form-control col-md-7 col-xs-12" style="text-align:right" pattern="/^-?\d+\.?\d*$/" 
-                       onKeyPress="if (this.value.length == 9 return false;"   min="0" max="999999999" value="<?php if($modifica){echo $id_campaign['volumeGiornaliero7'];}else{echo'0';}?>" required="required" value="" oninput="validity.valid||(value='');" onblur="volumeRipartizione(7);">     
+                       onKeyPress="if (this.value.length == 9 return false;"   min="0" max="999999999" value="<?php if($modifica){echo $id_campaign['volumeGiornaliero7'];}else{echo'0';}?>" value="" oninput="validity.valid||(value='');" onblur="volumeRipartizione(7);">     
 
             </div>
         </div>                            
@@ -268,7 +267,7 @@
         <div class="col-md-3 col-sm-6 col-xs-12">
                                 
                         <label>Sender  <span class="required">*</span></label>
-                            <select id="senders_ins" name="senders_ins" class="select2_single form-control" style="width:100%" required="required" <?php echo $disabled_value;?>>      
+                            <select id="senders_ins" name="senders_id" class="select2_single form-control" style="width:100%" required="required" <?php echo $disabled_value;?>>      
                                 <?php   
                                 if(isset($id_campaign['sender_id'])){
                                    echo '<option selected value="'.$id_campaign['sender_id'].'">'.$id_campaign['sender_nome'].'</option>'; 
@@ -279,7 +278,7 @@
                        <label style="margin-top:20px">Storicizzazione Legale  <span class="required">*</span></label>
                         <?php #print_r($stacks); ?>
                        
-                            <select id="storicizza_ins" name="storicizza_ins" class="select2_single form-control" style="width:100%" required="required" <?php echo $disabled_value;?>>      
+                            <select id="storicizza_ins" name="storicizza" class="select2_single form-control" style="width:100%" required="required" <?php echo $disabled_value;?>>      
                                 <option value=""></option>
                                 <option <?php if($modifica and $id_campaign['storicizza']=='0'){echo ' selected';} ?> value="0">No</option>
                                 <option <?php if($modifica and $id_campaign['storicizza']=='1'){echo ' selected';} ?> value="1">Si</option>
@@ -305,7 +304,7 @@
                       
                         <span id="spanLabelLinkTesto" style="display:none;">
                             <label style="margin-top:20px" id="labelLinkTesto">Link<span id="req_19" class="req">*</span></label>
-                            <input  id="link" name="link" type="text" class="form-control col-md-7 col-xs-12" style="text-align:right" tabindex="23" maxlength="400" onkeyup="checklength(0, 255, 'link', 'charLink', ''); checklengthTotal('charLink','charTesto','numero_totale');" />
+                            <input  id="link" name="link" type="text" class="form-control col-md-7 col-xs-12" style="text-align:right" tabindex="23" maxlength="400" onkeyup="checklength(0, 255, 'link', 'charLink', ''); checklengthTotal('charLink','charTesto','numero_totale');" required="required"/>
                             <label style="width:100%;"><small>Numero</small><input type="text" name="charLink" id="charLink" class="text" readonly="readonly"  size="3" value="255" placeholder="max 255"onfocus="this.blur()" /></label>   
                             <label style="width:100%;"><small>Totale (SMS+Link)</small><input type="text" name="numero_totale" id="numero_totale" value="" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>                  
                         </span>   
@@ -314,7 +313,7 @@
                         <?php #print_r($stacks); ?>
                        
                             <select id="tipoMonitoring" name="tipoMonitoring" class="select2_single form-control" style="width:100%" required="required" <?php echo $disabled_value; ?>>      
-                                <option value="0"></option>
+                                <option value=""></option>
                                 <option <?php if($modifica and $id_campaign['tipoMonitoring']=='1'){echo ' selected';}?> value="1">ADV Tracking tool</option>
                                 <option <?php if($modifica and $id_campaign['tipoMonitoring']=='2'){echo ' selected';}?> value="2">Orphan page</option>
                                 <option <?php if($modifica and $id_campaign['tipoMonitoring']=='3'){echo ' selected';}?> value="3">No monitoring</option>
@@ -330,10 +329,10 @@
             <?php #print_r($stacks); ?>
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <label>Categoria & Sottocategoria</label>
-                <select id="cat_sott_ins" style="width: 100%" name="select_cat_sott[]" class="select2_single form-control" required="required" <?php echo $disabled_value; ?>>        
+                <select id="cat_sott_ins" style="width: 100%" name="category_id" class="select2_single form-control" required="required" <?php echo $disabled_value; ?>>        
                     <?php                               
                     foreach ($cat_sott as $key => $value) {
-                        if($modifica and $id_campaign['tipoMonitoring']==$value['id']){$selected = ' selected';}
+                        if($modifica and $id_campaign['category_id']==$value['id']){$selected = ' selected';}
                         else{$selected = '';}
                         echo '<option '. $selected. ' value="' . $value['id'] .'">'  . $value['name'] . ' - ' . $value['label'] . '</option>';
                     }
@@ -351,10 +350,8 @@ $(document).ready(function() {
 
 var myDropzoneCanale = new Dropzone(
         '#dropzone-canale',
-        {
-          
+        {          
             init: function () {
-
            //solo su Modifica o Duplica     
            <?php if($modifica) {?>     
             thisCanale = this;        

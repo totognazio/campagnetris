@@ -5,13 +5,13 @@
    
         
     <div class="col-md-12 col-sm-6 col-xs-12"> 
-                    <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="col-md-6 col-sm-6 col-xs-12">
               <label style="width:100%;">Call Guide
               <img id="infoRedemption" title="Indicare le azioni che il cliente dovr&agrave; eseguire per essere considerato redeemer (esempio: il cliente dovr&agrave; attivare una opzione in un range temporale). 
                                  Non &egrave; considerata redemption il click di un link da parte di un cliente." alt="Criteri Redemption" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
               </label>
 
-                <textarea id="redemption" name="redemption" class="form-control" rows="10"  <?php if ($readonly){echo $disabled_value;}?> onkeyup="checklength(0, 1000, 'redemption', 'charRedemption', '');" required="required" ><?php if ($modifica){echo stripslashes($id_campaign['redemption']); }?></textarea>
+                <textarea id="redemption" name="redemption" class="form-control" rows="10" <?php if ($readonly){echo $disabled_value;}?> onkeyup="checklength(0, 1000, 'redemption', 'charRedemption', '');" required="required" ><?php if ($modifica){echo stripslashes($id_campaign['redemption']); }?></textarea>
                 <label style="width:100%;"><input type="text" name="charRedemption" id="charRedemption" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="4" value="1000" onfocus="this.blur()" /></label>
               </div> 
             <div class="col-md-3 col-sm-6 col-xs-12">
@@ -30,8 +30,8 @@
                                     else {$value_0_selected = " selected";}                                    
                                 } 
                                 ?> 
-                     <select id="select_control_group" name="control_group" <?php if ($readonly){echo $disabled_value;} ?> class="select2_single form-control" style="width:100%" required="required">                                                                 
-                         <option value="0"></option>       
+                     <select id="select_control_group" name="control_group" <?php if ($readonly){echo $disabled_value;} ?> class="select2_single form-control" style="width:100%" required="required" >                                                                 
+                         <option value=""></option>       
                          <option value="0" <?php echo $value_0_selected; ?>>No</option>
                          <option value="1" <?php echo $value_1_selected; ?>>Si</option>
                     </select>                     
@@ -75,7 +75,6 @@ var myDropzoneProfile = new Dropzone(
         {
           
             init: function () {
-
            //solo su Modifica o Duplica     
           <?php if($modifica) {?>    
             thisDropzone = this;        
@@ -91,6 +90,7 @@ var myDropzoneProfile = new Dropzone(
                         var mockFile = { name: value.name, size: value.size };
                         thisDropzone.options.thumbnail.call(thisDropzone, mockFile, "file/<?php echo $id_campaign['id']; ?>/comunicazione/"+value.name);
                         thisDropzone.options.addedfile.call(thisDropzone, mockFile);
+                        thisDropzone.option.complete.call(thisDropzone,mockFile);
 
                     });
                 
@@ -125,15 +125,25 @@ var myDropzoneProfile = new Dropzone(
                 });
 
 
-                        this.on("processing", function (file) {
+                this.on("processing", function (file) {
                         });
-                        this.on("maxfilesexceeded",
+                this.on("maxfilesexceeded",
                             function (file) {
                                 this.removeAllFiles();
                                 this.addFile(file);
                             });
-                        this.on("success",
+
+                this.on("success",
                             function (file, responseText) {
+                                var filename = file.name; 
+                                var a = document.createElement('a');
+                                a.setAttribute('class',"dz-remove");
+                                //onclick="javascript:window.location.href = './index.php?page=gestioneCampagne2'"
+                                a.setAttribute('href',"upload.php?download=<?php echo $id_upload; ?>&com&file=" + filename);
+                                //a.setAttribute('href',"/campagnetris/file/<?php echo $id_upload; ?>/comunicazione/" + filename);
+                                a.setAttribute('target', '_blank');
+                                a.innerHTML = "Download";
+                                file.previewTemplate.appendChild(a);
                             // do something here
                             });
                         this.on("error",
@@ -150,8 +160,9 @@ $('#select_control_group').select2({
           placeholder: "Select"
         });    
     
-$('#select_control_group').on('select2:select', function () {
+$('#select_control_group').on('select2:select', function () {    
     var selected = $('#select_control_group').val();
+    $(this).parsley().validate();
     if(selected === '1'){
            //$("#spanLabelLinkTesto").fadeOut();
            $("#spanControlGroup").fadeIn();  
@@ -164,4 +175,7 @@ $('#select_control_group').on('select2:select', function () {
     
     
     });
+
+
+
 </script>

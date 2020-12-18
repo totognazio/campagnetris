@@ -183,8 +183,17 @@ $cat_sott = $funzione->get_allTable('campaign_cat_sott');
                    
                   <div class="x_content">                     
 <?php print_r($_POST); ?>
-<!--inizio mega Form inserimento-->               
-<form id="form-campagna-ins" data-parsley-validate class="form-horizontal form-label-left" enctype="multipart/form-data" action="<?php echo $back_url; ?>" method="post">  
+<!--inizio mega Form inserimento-->   
+<div class="bs-callout bs-callout-warning hidden">
+  <h3><strong>Errore di validazione !!!   :(</strong></h3>
+  <p><strong> Verifica il corretto inserimento dei campi evidenziati in rosso in tutte le schede</strong></p>
+</div>
+
+<div class="bs-callout bs-callout-info hidden">
+  <h4>Yay!</h4>
+  <p>Everything seems to be ok :)</p>
+</div>            
+<form id="form-campagna-ins" data-parsley-validate="" class="form-horizontal form-label-left" enctype="multipart/form-data" action="<?php echo $back_url; ?>" method="post">  
                 <input type="hidden" name="todo" value="<?php echo $_POST['azione']; ?>">
                 <input type="hidden" name="user_id" id="user_id" value="<?php echo $page_protect->id; ?>"> 
                 <input type="hidden" name="id_upload" id="fileid" value="<?php echo $id_upload; ?>">  
@@ -226,8 +235,6 @@ $cat_sott = $funzione->get_allTable('campaign_cat_sott');
                             <div class="form-group">
                               <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                                   <div class="ln_solid"></div>
-               
-                    <input type="hidden" name="user_id" id="user_id" value="<?php echo $page_protect->id; ?>"/>
                     <?php
                     /*                  <input type="hidden" name="department_id" id="department_id" value="<?php echo $page_protect->get_department(); ?>"/>
                      * 
@@ -238,14 +245,14 @@ $cat_sott = $funzione->get_allTable('campaign_cat_sott');
                     <?php
                     if ( isset($azione) && $azione=='modifica') {
                         ?>
-                        <input id="modifica" style="<?php echo $display_none; ?>" class="btn btn-warning" name="modifica" tabindex="64" type="submit" value="modifica"  onclick="return controllaform()"/>
+                        <input id="modifica" style="<?php echo $display_none; ?>" class="btn btn-warning" name="modifica" tabindex="64" type="submit" value="modifica"  />
 
                         <input type="hidden" name="modifica_confim" id="modifica_confim" value="modifica_confim" />
                         <input type="hidden" name="id" id="id" value="<?php echo $_POST['id']; ?>"/>
                         <?php
                     } else {                        
                         ?>
-                        <input style="<?php echo $display_none; ?>" id="salva" class="btn btn-success" name="salva" tabindex="64" type="submit" value="Salva"  onclick="return controllaform()"/>
+                        <input style="<?php echo $display_none; ?>" id="salva" class="btn btn-success" name="salva" tabindex="64" type="submit" value="Salva" />
                         <input type="hidden" name="campaign_state_id" id="campaign_state_id" value="2" />
                         <?php
                     }
@@ -384,7 +391,7 @@ $('#mod_invio').on('select2:select', function () {
            //$("#spanLabelLinkTesto").fadeOut();
            $("#spanLabelLinkTesto").fadeIn();  
     }
-    else if (selected_modsms === 'standard') {
+    else if (selected_modsms === 'Standard') {
        $("#spanLabelLinkTesto").fadeOut(); 
     }
     console.log('selected_modsms  '+ selected_modsms);   
@@ -648,3 +655,364 @@ $('#mod_invio').on('select2:select', function () {
      
      
     </script>
+
+<script type="text/javascript">
+function controllaform() {
+        var Errore = 'Attenzione non hai compilato tutti i campi obbligatori:\n\n';
+        durata = document.getElementById('durata_campagna').value;
+        volumeTotale = document.getElementById('volume').value;
+        volumeTrial = document.getElementById('volume_trial').value;
+        somma = 0;
+        for (i = 1; i <= durata; i++) {
+            somma = parseInt(somma) + parseInt(document.getElementById('volumeGiornaliero' + i).value);
+        }
+        //somma = somma + parseInt(volumeTrial);
+//Se check trial e campo trial valorizzato controllo se è selezionato sabato o domenica
+/*
+        if ((document.getElementById('trial_campagna').checked) && (document.getElementById('data_trial').value != "")) {
+            s = document.getElementById('data_trial').value;
+            c = s.split("/");
+            data = new Date(c[2], c[1] - 1, c[0]);
+            giorno = data.getDay();
+            if (giorno == 6) {
+                alert('Attenzione: hai pianificato il trial di sabato');
+                return false;
+            }
+            if (giorno == 0) {
+                alert('Attenzione: hai pianificato il trial di domenica');
+                return false;
+            }
+        }
+*/
+//Se data inizio è valorizzato controllo se è selezionato domenica
+/* 
+        if (document.getElementById('data_inizio').value != "")
+        {
+
+            s = document.getElementById('data_inizio').value;
+            c = s.split("/");
+            data = new Date(c[2], c[1] - 1, c[0]);
+            giorno = data.getDay();
+            if (giorno == 0) {
+                alert('Attenzione: hai pianificato la campagna di domenica');
+                return false;
+            }
+        }
+*/
+
+//Se check escludi sabato e campo data inizio valorizzato controllo se è selezionato sabato
+/*
+        if ((document.getElementById('escludi_sabato').checked) && (document.getElementById('data_inizio').value != "")) {
+            s = document.getElementById('data_inizio').value;
+            c = s.split("/");
+            data = new Date(c[2], c[1] - 1, c[0]);
+            giorno = data.getDay();
+            if (giorno == 6) {
+                alert('Attenzione: hai pianificato la campagna di sabato');
+                return false;
+            }
+        }
+*/
+/*
+        if ((document.getElementById('trial_campagna').checked) && (document.getElementById('data_trial').value != "") && (document.getElementById('data_inizio').value != "")) {
+            ctlDate = ctrlDate(document.getElementById('data_trial').value, document.getElementById('data_inizio').value);
+            if (ctlDate)
+            {
+                alert('Attenzione: Data inizio campagna antecedente quella del trial');
+                return false;
+            }
+            else
+            {
+                data1 = document.getElementById('data_trial').value;
+                data2 = document.getElementById('data_inizio').value;
+                anno1 = parseInt(data1.substr(6), 10);
+                mese1 = parseInt(data1.substr(3, 2), 10);
+                giorno1 = parseInt(data1.substr(0, 2), 10);
+                anno2 = parseInt(data2.substr(6), 10);
+                mese2 = parseInt(data2.substr(3, 2), 10);
+                giorno2 = parseInt(data2.substr(0, 2), 10);
+                var dataok1 = new Date(anno1, mese1 - 1, giorno1);
+                var dataok2 = new Date(anno2, mese2 - 1, giorno2);
+                differenza = dataok2 - dataok1;
+                giorni_differenza = new String(Math.floor(differenza / 86400000));
+                s = document.getElementById('data_trial').value;
+                c = s.split("/");
+                data = new Date(c[2], c[1] - 1, c[0]);
+                giorno = data.getDay();
+                if ((giorno == 5) && (giorni_differenza == 4))
+                {
+                    alert('Attenzione: La data di inizio della campagna deve essere dopo almeno 2 giorni lavorativi la data di trial');
+                    return false;
+                }
+
+                if (giorni_differenza < 2)
+                {
+                    alert('Attenzione: La data di inizio della campagna deve essere dopo almeno 2 giorni lavorativi la data di trial');
+                    return false;
+                }
+            }
+
+        }
+*/
+        if (somma != volumeTotale) {
+            alert('Attenzione il volume totale non coincide con la somma dei volumi giornalieri.');
+            return false;
+        } else {
+            /* if (document.getElementById('nome_campagna').value == "") {
+             Errore = Errore + "- Nome campagna\n";
+             }
+             if (document.getElementById('nome_campagna').value.length > 60) {
+             Errore = Errore + "- Nome campagna troppo lungo" + document.getElementById('nome_campagna').value.length + " caratteri. Utilizzare massimo 60 caratteri\n";
+             }*/
+            if ((document.getElementById('nome_campagna').value.length + document.getElementById('pref_nome_campagna').value.length) > 40) {
+                Errore = Errore + "- Nome campagna troppo lungo" + document.getElementById('nome_campagna').value.length + " caratteri. Utilizzare massimo 20 digit per le note\n";
+            }
+            if (document.getElementById('stack_id').value == "0") {
+                Errore = Errore + "- Stack campagna\n";
+            }
+            if (document.getElementById('type_id').value == "") {
+                Errore = Errore + "- Tipo campagna\n";
+            }
+            if (document.getElementById('priority').value == "0") {
+                Errore = Errore + "- Priorit&agrave; PM\n";
+            }
+            if (document.getElementById('squad_id').value == "") {
+                Errore = Errore + "- Squad\n";
+            }
+            /*
+            if (document.getElementById('validitalevaofferta').value == "") {
+                Errore = Errore + "- Leva/offerta\n";
+            }
+            */
+            if (document.getElementById('validitalevaofferta').value == "1") {
+                /*
+                if (document.getElementById('data_inizio_validita_offerta').value == "") {
+                    Errore = Errore + "- Data inizio offerta\n";
+                }
+                if (document.getElementById('data_fine_validita_offerta').value == "") {
+                    Errore = Errore + "- Data fine offerta\n";
+                }
+
+                if ((document.getElementById('data_inizio_validita_offerta').value != "") && (document.getElementById('data_fine_validita_offerta').value != "")) {
+                    ctlDate = ctrlDate(document.getElementById('data_inizio_validita_offerta').value, document.getElementById('data_fine_validita_offerta').value);
+                    if (ctlDate) {
+                        Errore = Errore + "- Data fine offerta antecedente la data di inizio offerta\n";
+                    }
+                    ctlDate = ctrlDate(document.getElementById('data_inizio_validita_offerta').value, document.getElementById('data_inizio').value);
+                    if (ctlDate) {
+                        Errore = Errore + "- Data di inizio offerta successiva a data inizio comunicazione \n";
+                    }
+                }
+                */
+                if (document.getElementById('descrizione_offerta').value == "") {
+                    Errore = Errore + "- Descrizione leva/offerta\n";
+                }
+            }
+/*
+            if ((!(document.getElementById('attivi').checked)) && (!(document.getElementById('sospesi').checked))) {
+                Errore = Errore + "- Seleziona almeno uno stato\n";
+            }
+            if ((!(document.getElementById('consumer').checked)) && (!(document.getElementById('business').checked))) {
+                Errore = Errore + "- Seleziona almeno un tipo di offerta\n";
+            }
+            if ((!(document.getElementById('prepagato').checked)) && (!(document.getElementById('postpagato').checked))) {
+                Errore = Errore + "- Seleziona almeno un tipo di contratto\n";
+            }
+            if ((!(document.getElementById('voce').checked)) && (!(document.getElementById('dati').checked))) {
+                Errore = Errore + "- Seleziona almeno un tipo di piano\n";
+            }
+            if ((!(document.getElementById('etf').checked)) && (!(document.getElementById('vip').checked)) && (!(document.getElementById('dipendenti').checked)) && (!(document.getElementById('trial').checked))) {
+                Errore = Errore + "- Seleziona almeno un ruolo\n";
+            }
+            if (document.getElementById('altri_criteri').value == "") {
+                Errore = Errore + "- Altri criteri\n";
+            }
+            
+
+
+            if (document.getElementById('control_stack').value == "") {
+                Errore = Errore + "- Control stack\n";
+            }
+            if (document.getElementById('control_stack').value == "1") {
+                if ((document.getElementById('perc_control_group').value == "") || (document.getElementById('perc_control_group').value == "0")) {
+                    Errore = Errore + "- Percentuale control group";
+                }
+            }
+
+
+            if ((document.getElementById('trial_campagna').checked)) {
+                if (document.getElementById('data_trial').value == "") {
+                    Errore = Errore + "- Data trial\n";
+                }
+                if (document.getElementById('volume_trial').value == "0") {
+                    Errore = Errore + "- Volume trial\n";
+                }
+            }
+            if (document.getElementById('data_inizio').value == "") {
+                Errore = Errore + "- Data inizio comunicazione\n";
+            }
+            if (document.getElementById('durata_campagna').value == "") {
+                Errore = Errore + "- Durata\n";
+            }
+            if (document.getElementById('perc_scostamento').value == "") {
+                Errore = Errore + "- Percentuale scostamento atteso\n";
+            }
+            if ((document.getElementById('volume').value == "") || (document.getElementById('volume').value == "0")) {
+                Errore = Errore + "- Volume totale stimato\n";
+            }
+
+            for (i = 1; i <= durata; i++) {
+                if (document.getElementById('volumeGiornaliero' + i).value == "") {
+                    Errore = Errore + "- Volume giornaliero " + i + "\n";
+                }
+            }
+
+            if (document.getElementById('caricamento_massivo').value == "") {
+                Errore = Errore + "- Caricamento massivo\n";
+            }
+            */
+
+            if (document.getElementById('channel_id').value == "") {
+                Errore = Errore + "- Canale\n";
+            }
+<?php
+$lista_ext1 = $campaign->get_channel_ext1();
+if ($lista_ext1) {
+    foreach ($lista_ext1 as $key => $value) {
+        ?>
+                    if (document.getElementById('channel_id').value == "<?php echo $value; ?>") {
+                        if (document.getElementById('sender_id').value == "") {
+                            Errore = Errore + "- Sender\n";
+                        }
+                        if (document.getElementById('storicizza').value == "") {
+                            Errore = Errore + "- storicizza\n";
+                        }
+                        if (document.getElementById('testo_sms').value == "") {
+                            Errore = Errore + "- testo sms\n";
+                        }
+                        if (document.getElementById('mod_invio').value == "") {
+                            Errore = Errore + "- Mod invio\n";
+                        }                         
+                        if ((document.getElementById('testo_sms').value != "") && (!validaTesto())) {
+                            Errore = Errore + "- Il campo testo sms contiene caratteri non consentiti\n";
+                        }
+                        if (document.getElementById('sms_duration').value == "") {
+                            Errore = Errore + "- Durata SMS\n";
+                        }
+
+                        if (document.getElementById('mod_invio').value == "Interattivo") {
+                            if (document.getElementById('link').value == "") {
+                                Errore = Errore + "- Link\n";
+                            }
+                        }
+                        if (document.getElementById('tipoMonitoring').value == "") {
+                                Errore = Errore + "- Tipo Monitoring\n";
+                        }
+
+                    }
+        <?php
+    }
+}
+$lista_ext2 = $campaign->get_channel_ext2();
+if ($lista_ext2) {
+    foreach ($lista_ext2 as $key => $value) {
+        ?>
+                    if (document.getElementById('channel_id').value == "<?php echo $value; ?>") {
+                        if (document.getElementById('category_id').value == "") {
+                            Errore = Errore + "- Categoria & Sottocategoria\n";
+                        }
+                    }
+        <?php
+    }
+}
+?>
+/*
+            if ((document.getElementById('trial_campagna').checked)) {
+                if (document.getElementById('data_trial').value == "") {
+                    Errore = Errore + "- Data trial\n";
+                }
+                if (document.getElementById('volume_trial').value == "0") {
+                    Errore = Errore + "- Volume trial\n";
+                }
+            }
+ */           
+            if (document.getElementById('data_inizio').value == "") {
+                Errore = Errore + "- Data inizio campagna\n";
+            }
+            if (document.getElementById('durata_campagna').value == "") {
+                Errore = Errore + "- Durata\n";
+            }
+            /*
+            if (document.getElementById('perc_scostamento').value == "") {
+                Errore = Errore + "- Percentuale scostamento atteso\n";
+            }
+            */
+            if ((document.getElementById('volume').value == "") || (document.getElementById('volume').value == "0")) {
+                Errore = Errore + "- Volume totale stimato\n";
+            }
+
+            for (i = 1; i <= durata; i++) {
+
+                if (document.getElementById('volumeGiornaliero' + i).value == "") {
+                    Errore = Errore + "- Volume giornaliero " + i + "\n";
+                }
+
+            }
+            if (Errore == "Attenzione non hai compilato tutti i campi obbligatori:\n\n") {
+                if (!(confirm('Confermi?'))) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            else {
+                alert(Errore);
+                return false;
+            }
+        }
+
+    }
+
+
+
+$(function () {
+
+$('#form-campagna-ins').parsley().subscribe("parsley:field:validated", (fieldInstance) => 
+    {
+    console.log('parsley-error qqeeee '+$('.parsley-error').length);
+    $.listen('parsley:field:validated', function(fieldInstance){
+    if (fieldInstance.$element.is(":hidden")) {
+        fieldInstance._ui.$errorsWrapper.css('display', 'none');
+        fieldInstance.validationResult = true;
+        return true;
+    });
+    }
+    );
+/*
+  $('#form-campagna-ins').parsley().on('field:validated', function() {
+    var ok = $('.parsley-error').length <= 25;
+    console.log('ok form  '+ok);
+    console.log('parsley-error  '+$('.parsley-error').length);
+    //console.log('parsley-error  '+JSON.stringify($('.parsley-error')));
+    $('.bs-callout-info').toggleClass('hidden', !ok);
+    $('.bs-callout-warning').toggleClass('hidden', ok);
+
+  });
+
+  $("#form-campagna-ins").on('submit', function(e) {
+    var ok = $('.parsley-error').length <= 7;  
+    alert('form submit');
+    e.preventDefault();
+    if (ok) {
+      
+    }
+  });
+  */
+});
+
+
+
+
+
+
+</script>

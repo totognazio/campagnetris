@@ -48,7 +48,7 @@
          print_r($errors);
       }
   }
-  elseif($_POST['action']=='delete'){
+  elseif(isset($_POST['action']) and $_POST['action']=='delete'){
      if(isset($_POST['subdir'])){
          $subdir = $_POST['subdir'];
      }
@@ -61,6 +61,39 @@
       echo 'deleteeee  '.$file_name;
       unlink("file/".$file_name); 
   }
+  //download file
+  elseif(isset($_GET['download'])){
+     
+         $id_upload = $_GET['download'];
+         $filename = $_GET['file'];
+         if(isset($_GET['com'])){
+            $dir = "file\\$id_upload\\comunicazione\\";         
+         }
+         elseif(isset($_GET['canale'])){
+            $dir = "file\\$id_upload\\canale\\";   
+         }
+         else{
+            exit('Download Error !!!');
+         }
+$file_path = $dir.$filename;
+  // verifico che il file esista
+if (!file_exists($file_path))
+{
+  // se non esiste stampo un errore
+  echo "Il file non esiste!";
+}else{
+  // Se il file esiste...
+  // Imposto gli header della pagina per forzare il download del file
+  header("Cache-Control: public");
+  header("Content-Description: File Transfer");
+  header("Content-Disposition: attachment; filename= " . $filename);
+  header("Content-Transfer-Encoding: binary");
+  // Leggo il contenuto del file
+  readfile($file_path);
+}
+  
+      
+}
 ?>
 <!--
 <html>

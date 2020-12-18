@@ -59,6 +59,10 @@
 <script src="build/js/custom.min.js"></script>
 <!-- Custom Util -->
 <script src="js/util.js"></script>
+ <!-- /Parsley -->
+    <script src="node_modules/parsleyjs/dist/parsley.min.js"></script>
+    <script src="node_modules/parsleyjs/dist/i18n/it.js"></script>
+    <script src="node_modules/parsleyjs/dist/i18n/it.extra.js"></script>
 
 <!-- Initialize the plugin: -->
 <script type="text/javascript">
@@ -213,8 +217,7 @@ $('#stack_ins').select2({
           // allowClear: true
         });
 $('#stack_ins').on('select2:select', function () {
-    $(this).parsley().validate();
-    var selected_stacks = $('#stack_ins').val();
+    var selected_stacks = $('#stack_ins').val();   
     console.log('stack  '+ selected_stacks);
     
     $.ajax({
@@ -230,14 +233,19 @@ $('#stack_ins').on('select2:select', function () {
                 
             }
             
-        });  
+        }); 
+       $(this).parsley().validate();   
 });
 
 $('#senders_ins').select2({
           placeholder: "Select Sender",
           allowClear: true
         });
-
+$('#senders_ins').on('select2:select', function () {
+    var selected_stacks = $('#senders_ins').val();
+    $(this).parsley().validate();   
+    console.log('sender  '+ selected_stacks);
+});
 
 $('#chammel_ins').select2({
           placeholder: "Select"
@@ -245,6 +253,7 @@ $('#chammel_ins').select2({
         });
 $('#chammel_ins').on('select2:select', function () {
    var selected_channel_id = $('#chammel_ins').val();
+   $(this).parsley().validate();
     
    if(selected_channel_id ==='1' || selected_channel_id ==='12'){
         $('#sms_field').show();
@@ -302,7 +311,8 @@ $('#tit_sott_ins').select2({
         });
 $('#tit_sott_ins').on('select2:select', function () {
     var selected_stacks = $('#tit_sott_ins').val();
-    console.log('stack  '+ selected_stacks);
+    $(this).parsley().validate();
+    console.log('tit_sott_ins  '+ selected_stacks);
 });
 
 $('#cat_sott_ins').select2({
@@ -311,7 +321,8 @@ $('#cat_sott_ins').select2({
         });
 $('#cat_sott_ins').on('select2:select', function () {
     var selected_stacks = $('#cat_sott_ins').val();
-    console.log('stack  '+ selected_stacks);
+    $(this).parsley().validate();
+    console.log('cat_sott_ins  '+ selected_stacks);
 
 });
 
@@ -321,7 +332,18 @@ $('#moda_ins').select2({
         });
 $('#moda_ins').on('select2:select', function () {
     var selected_moda = $('#moda_ins').val();
-    console.log('type_ins  '+ selected_moda);
+    $(this).parsley().validate();
+    console.log('moda_ins  '+ selected_moda);
+
+});
+
+$('#mod_invio').select2({
+          placeholder: " Select"         
+        });
+$('#mod_invio').on('select2:select', function () {
+    var selected_mod_invio = $('#mod_invio').val();
+    $(this).parsley().validate();
+    console.log('mod_invio  '+ selected_moda);
 
 });
 
@@ -329,9 +351,10 @@ $('#cate_ins').select2({
           placeholder: " Select"         
         });
 $('#cate_ins').on('select2:select', function () {
-    var selected_cate = $('#moda_ins').val();
-    console.log('type_ins  '+ selected_cate);
-
+    var selected_cate = $('#cate_ins').val();
+    $(this).parsley().validate();
+    console.log('cate_ins  '+ selected_cate);
+    
 });
 
 $('#squad_ins').select2({
@@ -340,6 +363,7 @@ $('#squad_ins').select2({
         });
 $('#squad_ins').on('select2:select', function () {
     var selected_stacks = $('#squad_ins').val();
+     $(this).parsley().validate();
     console.log('squad  '+ selected_stacks);
      
 });
@@ -350,6 +374,7 @@ $('#type_ins').select2({
         });
 $('#type_ins').on('select2:select', function () {
     var selected_type = $('#type_ins').val();
+     $(this).parsley().validate();
     console.log('type_ins  '+ selected_type);
     
     $.ajax({
@@ -374,10 +399,11 @@ $('#offer_ins').select2({
         });
 $('#offer_ins').on('select2:select', function () {
     var selected_offer_id = $('#offer_ins').val();
+     $(this).parsley().validate();
     console.log('offer  '+ selected_offer_id);
 });
 
-    
+  
 
 function  campagnTable() {
     console.log('startdate in camp '+ select_startDate);
@@ -544,12 +570,6 @@ function  campagnTable() {
 
     <!-- Autosize -->
     <script src="vendors/autosize/dist/autosize.min.js"></script>
-
-   <!-- /Parsley -->
-    <script src="node_modules/parsleyjs/dist/parsley.min.js"></script>
-    <script src="node_modules/parsleyjs/dist/i18n/it.js"></script>
-    <script src="node_modules/parsleyjs/dist/i18n/it.extra.js"></script>
-
     <!-- Autosize -->
     <script>
       $(document).ready(function() {

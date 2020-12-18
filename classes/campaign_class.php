@@ -420,8 +420,20 @@ class campaign_class  {
 //        return true;
     }
 
+    // per i canali SMS e SMS Long
     function get_channel_ext1() {
         $sql = "SELECT id from channels  where ext_1=1 or ext_1=12 ";
+        if (!$result = mysqli_query($this->mysqli,$sql)) {
+            $this->the_msg = $this->messages(14);
+        } else {
+            $export = mysqli_fetch_assoc($result);
+            return $export;
+        }
+    }
+// per il canale POS NG
+    function get_channel_ext2() {
+        $sql = "SELECT id from channels  where ext_2=13 ";
+
         if (!$result = mysqli_query($this->mysqli,$sql)) {
             $this->the_msg = $this->messages(14);
         } else {
@@ -692,16 +704,6 @@ class campaign_class  {
         return $result;
     }
 
-    function get_channel_ext2() {
-        $sql = "SELECT id from channels  where ext_2=1 ";
-
-        if (!$result = mysqli_query($this->mysqli,$sql)) {
-            $this->the_msg = $this->messages(14);
-        } else {
-            $export = mysqli_fetch_assoc($result);
-            return $export;
-        }
-    }
 
     function get_list_kick_off($start, $end, $state) {
         $sortSql = " order by data_inizio asc";

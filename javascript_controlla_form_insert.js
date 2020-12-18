@@ -288,15 +288,7 @@ function calcolaIVA(campo1, campo2, flgIVA) {
 }
 
 
-function onKeyNumeric(e) {
-    if (((e.keyCode >= 48) && (e.keyCode <= 57)) || ((e.keyCode > 95) && (e.keyCode < 106)) || (e.keyCode == 8) || (e.keyCode == 46) || (e.keyCode == 9) || (e.keyCode == 8) || (e.keyCode == 109) || (e.keyCode == 37) || (e.keyCode == 39)) {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
+
 
 function onKeyNumericDecimal(e) {
     if (((e.keyCode >= 48) && (e.keyCode <= 57)) || ((e.keyCode > 95) && (e.keyCode < 106)) || (e.keyCode == 8) || (e.keyCode == 46) || (e.keyCode == 9) || (e.keyCode == 8) || (e.keyCode == 109) || (e.keyCode == 37) || (e.keyCode == 39) || (e.keyCode == 190) || (e.keyCode == 110)) {
@@ -308,17 +300,7 @@ function onKeyNumericDecimal(e) {
     }
 }
 
-function seleziona(campo) {
 
-    campoSelezionato = document.getElementById(campo);
-    campoSelezionato.style.background = "orange";
-}
-
-function deseleziona(campo) {
-
-    campoSelezionato = document.getElementById(campo);
-    campoSelezionato.style.background = "white";
-}
 
 function trial_check() {
 
@@ -380,6 +362,17 @@ function interattivo() {
 }
 
 */
+function seleziona(campo) {
+
+    campoSelezionato = document.getElementById(campo);
+    campoSelezionato.style.background = "orange";
+};
+
+function deseleziona(campo) {
+
+    campoSelezionato = document.getElementById(campo);
+    campoSelezionato.style.background = "white";
+};
 
 function manageCamp(id, azione){
     //alert('eccoloooo ' + id +' '+ azione);
@@ -400,6 +393,18 @@ function manageCamp(id, azione){
         } 
 
 };
+
+function onKeyNumeric(e) {
+    if (((e.keyCode >= 48) && (e.keyCode <= 57)) || ((e.keyCode > 95) && (e.keyCode < 106)) || (e.keyCode == 8) || (e.keyCode == 46) || (e.keyCode == 9) || (e.keyCode == 8) || (e.keyCode == 109) || (e.keyCode == 37) || (e.keyCode == 39)) {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+};
+
+
 
 
 
