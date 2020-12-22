@@ -47,6 +47,8 @@ $azione = "new";
 $readonly = false;
 $readonly_value = "";
 $visualizza_campagna = 0;
+
+
 $back_url = "";
 if ($page_protect->check_top_user($page_protect->get_squad())) {
     $back_url = "./index.php?page=pianificazione2";
@@ -193,7 +195,7 @@ $cat_sott = $funzione->get_allTable('campaign_cat_sott');
   <h4>Yay!</h4>
   <p>Everything seems to be ok :)</p>
 </div>            
-<form id="form-campagna-ins" data-parsley-validate="" class="form-horizontal form-label-left" enctype="multipart/form-data" action="<?php echo $back_url; ?>" method="post">  
+<form id="form-campagna-ins"  data-parsley-validate="" class="form-horizontal form-label-left" enctype="multipart/form-data" action="<?php echo $back_url; ?>" method="post">  
                 <input type="hidden" name="todo" value="<?php echo $_POST['azione']; ?>">
                 <input type="hidden" name="user_id" id="user_id" value="<?php echo $page_protect->id; ?>"> 
                 <input type="hidden" name="id_upload" id="fileid" value="<?php echo $id_upload; ?>">  
@@ -245,7 +247,7 @@ $cat_sott = $funzione->get_allTable('campaign_cat_sott');
                     <?php
                     if ( isset($azione) && $azione=='modifica') {
                         ?>
-                        <input id="modifica" style="<?php echo $display_none; ?>" class="btn btn-warning" name="modifica" tabindex="64" type="submit" value="modifica"  />
+                        <input id="modifica" style="<?php echo $display_none; ?>" class="btn btn-warning" name="modifica" tabindex="64" type="submit" value="modifica" />
 
                         <input type="hidden" name="modifica_confim" id="modifica_confim" value="modifica_confim" />
                         <input type="hidden" name="id" id="id" value="<?php echo $_POST['id']; ?>"/>
@@ -659,12 +661,11 @@ $('#mod_invio').on('select2:select', function () {
 <script type="text/javascript">
 function controllaform() {
         var Errore = 'Attenzione non hai compilato tutti i campi obbligatori:\n\n';
-        durata = document.getElementById('durata_campagna').value;
-        volumeTotale = document.getElementById('volume').value;
-        volumeTrial = document.getElementById('volume_trial').value;
+        durata = document.getElementById('duratacampagna').value;
+        volumeTotale = document.getElementById('volume_tot').value;        
         somma = 0;
         for (i = 1; i <= durata; i++) {
-            somma = parseInt(somma) + parseInt(document.getElementById('volumeGiornaliero' + i).value);
+            somma = parseInt(somma) + parseInt(document.getElementById('VolumeGiornaliero' + i).value);
         }
         //somma = somma + parseInt(volumeTrial);
 //Se check trial e campo trial valorizzato controllo se è selezionato sabato o domenica
@@ -764,19 +765,19 @@ function controllaform() {
              if (document.getElementById('nome_campagna').value.length > 60) {
              Errore = Errore + "- Nome campagna troppo lungo" + document.getElementById('nome_campagna').value.length + " caratteri. Utilizzare massimo 60 caratteri\n";
              }*/
-            if ((document.getElementById('nome_campagna').value.length + document.getElementById('pref_nome_campagna').value.length) > 40) {
-                Errore = Errore + "- Nome campagna troppo lungo" + document.getElementById('nome_campagna').value.length + " caratteri. Utilizzare massimo 20 digit per le note\n";
+            if ((document.getElementById('squad_ins').value.length + document.getElementById('nomecampagna').value.length) > 40) {
+                Errore = Errore + "- Nome campagna troppo lungo" + document.getElementById('nomecampagna').value.length + " caratteri. Utilizzare massimo 20 digit per le note\n";
             }
-            if (document.getElementById('stack_id').value == "0") {
+            if (document.getElementById('stack_ins').value == "0") {
                 Errore = Errore + "- Stack campagna\n";
             }
-            if (document.getElementById('type_id').value == "") {
+            if (document.getElementById('type_ins').value == "") {
                 Errore = Errore + "- Tipo campagna\n";
             }
             if (document.getElementById('priority').value == "0") {
                 Errore = Errore + "- Priorit&agrave; PM\n";
             }
-            if (document.getElementById('squad_id').value == "") {
+            if (document.getElementById('squad_ins').value == "") {
                 Errore = Errore + "- Squad\n";
             }
             /*
@@ -872,7 +873,7 @@ function controllaform() {
             }
             */
 
-            if (document.getElementById('channel_id').value == "") {
+            if (document.getElementById('channel_ins').value == "") {
                 Errore = Errore + "- Canale\n";
             }
 <?php
@@ -880,8 +881,8 @@ $lista_ext1 = $campaign->get_channel_ext1();
 if ($lista_ext1) {
     foreach ($lista_ext1 as $key => $value) {
         ?>
-                    if (document.getElementById('channel_id').value == "<?php echo $value; ?>") {
-                        if (document.getElementById('sender_id').value == "") {
+                    if (document.getElementById('channel_ins').value == "<?php echo $value; ?>") {
+                        if (document.getElementById('sender_ins').value == "") {
                             Errore = Errore + "- Sender\n";
                         }
                         if (document.getElementById('storicizza').value == "") {
@@ -917,7 +918,7 @@ $lista_ext2 = $campaign->get_channel_ext2();
 if ($lista_ext2) {
     foreach ($lista_ext2 as $key => $value) {
         ?>
-                    if (document.getElementById('channel_id').value == "<?php echo $value; ?>") {
+                    if (document.getElementById('channel_ins').value == "<?php echo $value; ?>") {
                         if (document.getElementById('category_id').value == "") {
                             Errore = Errore + "- Categoria & Sottocategoria\n";
                         }
@@ -936,10 +937,10 @@ if ($lista_ext2) {
                 }
             }
  */           
-            if (document.getElementById('data_inizio').value == "") {
+            if (document.getElementById('data_inizio_campagna').value == "") {
                 Errore = Errore + "- Data inizio campagna\n";
             }
-            if (document.getElementById('durata_campagna').value == "") {
+            if (document.getElementById('duratacampagna').value == "") {
                 Errore = Errore + "- Durata\n";
             }
             /*
@@ -947,13 +948,13 @@ if ($lista_ext2) {
                 Errore = Errore + "- Percentuale scostamento atteso\n";
             }
             */
-            if ((document.getElementById('volume').value == "") || (document.getElementById('volume').value == "0")) {
+            if ((document.getElementById('volume_tot').value == "") || (document.getElementById('volume_tot').value == "0")) {
                 Errore = Errore + "- Volume totale stimato\n";
             }
 
             for (i = 1; i <= durata; i++) {
 
-                if (document.getElementById('volumeGiornaliero' + i).value == "") {
+                if (document.getElementById('VolumeGiornaliero' + i).value == "") {
                     Errore = Errore + "- Volume giornaliero " + i + "\n";
                 }
 
@@ -976,42 +977,16 @@ if ($lista_ext2) {
 
 
 $(function () {
-
-$('#form-campagna-ins').parsley().subscribe("parsley:field:validated", (fieldInstance) => 
-    {
-    console.log('parsley-error qqeeee '+$('.parsley-error').length);
-    $.listen('parsley:field:validated', function(fieldInstance){
-    if (fieldInstance.$element.is(":hidden")) {
-        fieldInstance._ui.$errorsWrapper.css('display', 'none');
-        fieldInstance.validationResult = true;
-        return true;
-    });
-    }
-    );
-/*
   $('#form-campagna-ins').parsley().on('field:validated', function() {
-    var ok = $('.parsley-error').length <= 25;
+    var ok = $('.parsley-error').length === 0;
+    
     console.log('ok form  '+ok);
     console.log('parsley-error  '+$('.parsley-error').length);
-    //console.log('parsley-error  '+JSON.stringify($('.parsley-error')));
     $('.bs-callout-info').toggleClass('hidden', !ok);
     $('.bs-callout-warning').toggleClass('hidden', ok);
-
-  });
-
-  $("#form-campagna-ins").on('submit', function(e) {
-    var ok = $('.parsley-error').length <= 7;  
-    alert('form submit');
-    e.preventDefault();
-    if (ok) {
-      
-    }
-  });
-  */
+  })
+  
 });
-
-
-
 
 
 

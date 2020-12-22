@@ -11,18 +11,20 @@
                             $lista_name = array_column($list, 'name');
                             $javascript = $disabled_value.' required="required" ';
                             $display_sms =  ' style="display: none;"';
+                            $required_sms_field = '';
+                            $required_pos_field = '';
                             $display_pos =  ' style="display: none;"';
                             $style = " style=\"width:100%;\" ";
                             if ($modifica){
                                 $valore_channel_id = $id_campaign['channel_id'];
-                                if($valore_channel_id==1 or $valore_channel_id==12){$display_sms =  '';}
-                                if($valore_channel_id==13){$display_pos =  '';}    
+                                if($valore_channel_id==1 or $valore_channel_id==12){$display_sms =  ''; $required_sms_field =  ' required="required" ';}
+                                if($valore_channel_id==13){$display_pos =  ''; $required_pos_field =  ' required="required" ';}    
                             }
                             else{
                                 $valore_channel_id = "";}
-                            $funzioni_admin->stampa_select2('chammel_ins', $lista_field, $lista_name, $javascript, $style, $valore_channel_id, 'channel_id');
+                                $funzioni_admin->stampa_select2('channel_ins', $lista_field, $lista_name, $javascript, $style, $valore_channel_id, 'channel_id');
                             ?>           
-                <!--<select id="chammel_ins" style="width: 100%" name="select_channels[]" class="select2_single form-control"  required="required" <?php #echo $disabled_value;?>>      
+                <!--<select id="channel_ins" style="width: 100%" name="select_channels[]" class="select2_single form-control"  required="required" <?php #echo $disabled_value;?>>      
                     <option value="0"></option>
                     <?php 
                     /*
@@ -263,11 +265,11 @@
     
     </div>  
 
-    <span id="sms_field" <?php echo $display_sms; ?>>  
+    <span id="sms_field" <?php echo $display_sms; ?> data-parsley-check-children="7" data-parsley-validate-if-empty="">  
         <div class="col-md-3 col-sm-6 col-xs-12">
                                 
                         <label>Sender  <span class="required">*</span></label>
-                            <select id="senders_ins" name="senders_id" class="select2_single form-control" style="width:100%" required="required" <?php echo $disabled_value;?>>      
+                            <select id="senders_ins" name="senders_id" class="select2_single form-control" style="width:100%"  <?php echo $required_sms_field; ?> <?php echo $disabled_value;?>>      
                                 <?php   
                                 if(isset($id_campaign['sender_id'])){
                                    echo '<option selected value="'.$id_campaign['sender_id'].'">'.$id_campaign['sender_nome'].'</option>'; 
@@ -278,7 +280,7 @@
                        <label style="margin-top:20px">Storicizzazione Legale  <span class="required">*</span></label>
                         <?php #print_r($stacks); ?>
                        
-                            <select id="storicizza_ins" name="storicizza" class="select2_single form-control" style="width:100%" required="required" <?php echo $disabled_value;?>>      
+                            <select id="storicizza_ins" name="storicizza" class="select2_single form-control" style="width:100%"  <?php echo $required_sms_field; ?> <?php echo $disabled_value;?>>      
                                 <option value=""></option>
                                 <option <?php if($modifica and $id_campaign['storicizza']=='0'){echo ' selected';} ?> value="0">No</option>
                                 <option <?php if($modifica and $id_campaign['storicizza']=='1'){echo ' selected';} ?> value="1">Si</option>
@@ -289,13 +291,13 @@
           <form id="demo-form" data-parsley-validate>
             
               <label style="margin-top:20px" for="message">Test SMS </label>
-              <textarea id="testo_sms" <?php echo $disabled_value; ?> required="required" class="form-control" name="testo_sms" onkeyup="checklength(0, 640, 'testo_sms', 'charTesto', 'numero_sms')" ><?php if($modifica){echo $id_campaign['testo_sms'];}else{echo'';}?></textarea>  
+              <textarea id="testo_sms" <?php echo $disabled_value; ?>  <?php echo $required_sms_field; ?> class="form-control" name="testo_sms" onkeyup="checklength(0, 640, 'testo_sms', 'charTesto', 'numero_sms')" ><?php if($modifica){echo $id_campaign['testo_sms'];}else{echo'';}?></textarea>  
               <label style="width:100%;"><small>Numeri caratteri utilizzati</small><input type="text" name="charTesto" id="charTesto" value="" class="text" value="" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>
               <label style="width:100%;"><small>Numero SMS</small><input type="text" name="numero_sms" id="numero_sms" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>                  
             </form>             
      
                           <label>Modalità Invio  <span class="required">*</span></label>                       
-                            <select id="mod_invio" name="mod_invio" class="select2_single form-control" style="width:100%" required="required" <?php echo $disabled_value;?>>      
+                            <select id="mod_invio" name="mod_invio" class="select2_single form-control" style="width:100%"  <?php echo $required_sms_field; ?> <?php echo $disabled_value;?>>      
                                 <option value=""></option>
                                 <option <?php if($modifica and $id_campaign['mod_invio']=='Interattivo'){echo ' selected';} ?> value="Interattivo">Interattivo</option>
                                 <option <?php if($modifica and $id_campaign['mod_invio']=='Standard'){echo ' selected';} ?> value="Standard">Standard</option>
@@ -304,7 +306,7 @@
                       
                         <span id="spanLabelLinkTesto" style="display:none;">
                             <label style="margin-top:20px" id="labelLinkTesto">Link<span id="req_19" class="req">*</span></label>
-                            <input  id="link" name="link" type="text" class="form-control col-md-7 col-xs-12" style="text-align:right" tabindex="23" maxlength="400" onkeyup="checklength(0, 255, 'link', 'charLink', ''); checklengthTotal('charLink','charTesto','numero_totale');" required="required"/>
+                            <input  id="link" name="link" type="text" class="form-control col-md-7 col-xs-12" style="text-align:right" tabindex="23" maxlength="400" onkeyup="checklength(0, 255, 'link', 'charLink', ''); checklengthTotal('charLink','charTesto','numero_totale');"  <?php echo $required_sms_field; ?>/>
                             <label style="width:100%;"><small>Numero</small><input type="text" name="charLink" id="charLink" class="text" readonly="readonly"  size="3" value="255" placeholder="max 255"onfocus="this.blur()" /></label>   
                             <label style="width:100%;"><small>Totale (SMS+Link)</small><input type="text" name="numero_totale" id="numero_totale" value="" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>                  
                         </span>   
@@ -312,14 +314,14 @@
                        <label style="margin-top:20px">Tipo Monitoring  <span class="required">*</span></label>
                         <?php #print_r($stacks); ?>
                        
-                            <select id="tipoMonitoring" name="tipoMonitoring" class="select2_single form-control" style="width:100%" required="required" <?php echo $disabled_value; ?>>      
+                            <select id="tipoMonitoring" name="tipoMonitoring" class="select2_single form-control" style="width:100%" <?php echo $required_sms_field; ?> <?php echo $disabled_value; ?>>      
                                 <option value=""></option>
                                 <option <?php if($modifica and $id_campaign['tipoMonitoring']=='1'){echo ' selected';}?> value="1">ADV Tracking tool</option>
                                 <option <?php if($modifica and $id_campaign['tipoMonitoring']=='2'){echo ' selected';}?> value="2">Orphan page</option>
                                 <option <?php if($modifica and $id_campaign['tipoMonitoring']=='3'){echo ' selected';}?> value="3">No monitoring</option>
                           </select>
                        <label style="margin-top:20px">Durata SMS  <span class="required">*</span></label>
-                          <input type="text" id="sms_duration" name="sms_duration"  class="form-control col-md-7 col-xs-12" value="<?php if($modifica){echo $id_campaign['sms_duration'];}else{echo'2';}?>" <?php echo $disabled_value; ?>>
+                          <input type="text" id="sms_duration" name="sms_duration"  class="form-control col-md-7 col-xs-12" value="<?php if($modifica){echo $id_campaign['sms_duration'];}else{echo'2';}?>" <?php echo $required_sms_field; ?> <?php echo $disabled_value; ?>>
                         <img id="info" title="Numero di giorni in cui la rete tenter&agrave; l'invio dell'sms. Range da 1 a 7 giorni." alt="Durata SMS" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
   
         </div>
@@ -329,7 +331,7 @@
             <?php #print_r($stacks); ?>
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <label>Categoria & Sottocategoria</label>
-                <select id="cat_sott_ins" style="width: 100%" name="category_id" class="select2_single form-control" required="required" <?php echo $disabled_value; ?>>        
+                <select id="cat_sott_ins" style="width: 100%" name="category_id" class="select2_single form-control" <?php echo $required_pos_field ?> <?php echo $disabled_value; ?>>        
                     <?php                               
                     foreach ($cat_sott as $key => $value) {
                         if($modifica and $id_campaign['category_id']==$value['id']){$selected = ' selected';}
@@ -421,5 +423,7 @@ var myDropzoneCanale = new Dropzone(
 
 
 });
+
+
 
 </script>

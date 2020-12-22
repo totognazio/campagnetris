@@ -24,6 +24,8 @@ if (isset($_POST['todo']) and $_POST['todo']=='elimina') {
 }
 //inserimento campagna
 if (isset($_POST['todo']) and $_POST['todo']=='new') {
+    //print_r($_POST);
+    
     if ($page_protect->get_insert_permission()) {
         $result = $campaign->insert($_POST);
         if ($result == "1")
@@ -31,6 +33,7 @@ if (isset($_POST['todo']) and $_POST['todo']=='new') {
     } else {
         $result = "L'utente non ha i diritti di inseirmento";
     }
+    
 }
 if (isset($_POST['todo']) and $_POST['todo']=='modifica') {
     $id_campaign = $campaign->get_list_campaign(" where campaigns.id=" . intval($_POST['id']))->fetch_array();

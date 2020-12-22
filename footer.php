@@ -247,17 +247,33 @@ $('#senders_ins').on('select2:select', function () {
     console.log('sender  '+ selected_stacks);
 });
 
-$('#chammel_ins').select2({
+$('#channel_ins').select2({
           placeholder: "Select"
           // allowClear: true
         });
-$('#chammel_ins').on('select2:select', function () {
-   var selected_channel_id = $('#chammel_ins').val();
+$('#channel_ins').on('select2:select', function () {
+   var selected_channel_id = $('#channel_ins').val();
+   $('#cat_sott_ins').attr('required', false);
+        $('#sms_duration').attr('required', false);
+        $('#tipoMonitoring').attr('required', false);
+        $('#link').attr('required', false);
+        $('#mod_invio').attr('required', false);
+        $('#testo_sms').attr('required', false);
+        $('#storicizza_ins').attr('required', false);
+        $('#senders_ins').attr('required', false);
    $(this).parsley().validate();
     
    if(selected_channel_id ==='1' || selected_channel_id ==='12'){
         $('#sms_field').show();
-        $('#pos_field').hide();
+        $('#sms_duration').attr('required', true)
+        $('#tipoMonitoring').attr('required', true)
+        $('#link').attr('required', true)
+        $('#mod_invio').attr('required', true)
+        $('#testo_sms').attr('required', true)
+        $('#storicizza_ins').attr('required', true)
+        $('#senders_ins').attr('required', true)
+        
+         $('#pos_field').hide();
         $.ajax({
         url: "selectSender_1.php",
                 method: "POST",
@@ -279,6 +295,7 @@ $('#chammel_ins').on('select2:select', function () {
     }   
     else if(selected_channel_id ==='13'){
        $('#pos_field').show();
+       $('#cat_sott_ins').attr('required', true)
        $('#sms_field').hide();
        
       $.ajax({

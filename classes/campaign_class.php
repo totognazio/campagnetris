@@ -938,7 +938,7 @@ LEFT JOIN users ON `user_id` = users.id
 
 function insert($record) {
 //print_r($lista_id);
-        //print_r($_POST);
+        print_r($_POST);
 
         $lista_variabili = "";
         $lista_valori = "";
@@ -988,6 +988,7 @@ echo $value . " - " . $valore_inviato . "<br/>";
                 }
             }
         }
+        
 		
 	/*			
         if (!is_numeric($record['offer_id']) ) {        
@@ -1021,11 +1022,17 @@ echo $value . " - " . $valore_inviato . "<br/>";
             return $e->getMessage() . " - " . $sql;
         }
         // rename unique Dir with id row table
-        //rename("file/".$record['fileid'],"file/".$this->mysqli->insert_id);
+        //exec('rename file/.'$record['id_upload'].' file/'..$this->mysqli->insert_id);
+        //copy("file/".$record['id_upload'],"file/".$this->mysqli->insert_id);
+        //unlink("file/".$record['id_upload']);
+        
         // copy and remove files and dir of related file upload
-        $this->rcopy("file/".$record['fileid'],"file/".$this->mysqli->insert_id);
-        $this->rrmdir("file/".$record['fileid']);
-
+        if(isset($record['id_upload'])){
+            $this->rcopy("file/".$record['id_upload'],"file/".$this->mysqli->insert_id);
+            $this->rrmdir("file/".$record['id_upload']);
+        }
+        
+        
         return $res;
     }
 

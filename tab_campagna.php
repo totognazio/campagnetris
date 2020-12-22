@@ -23,7 +23,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="stack">Stack  <span class="required">*</span></label>
                         <?php #print_r($id_campaign); ?>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select id="stack_ins" name="stack_id" class="select2_single form-control" required="required" <?php echo $disabled_value;?> >      
+                            <select id="stack_ins" name="stack_id" class="select2_single form-control"  required="required" <?php echo $disabled_value;?> >      
                                <option value=""></option>
                             <?php 
                             foreach ($stacks as $key => $value) {
@@ -42,7 +42,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Squad  <span class="required">*</span></label>
                         <?php #print_r($stacks); ?>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select id="squad_ins" name="squad_id" class="select2_single form-control" required="required" <?php echo $disabled_value;?>>        
+                            <select id="squad_ins" name="squad_id" class="select2_single form-control"  required="required" <?php echo $disabled_value;?>>        
                               <option value=""></option>
                             <?php 
                             foreach ($squads as $key => $value) {
@@ -61,7 +61,7 @@
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipologia <span class="required">*</span></label>                     
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <select id="type_ins" name="type_id" class="select2_single form-control" required="required" <?php echo $disabled_value;?>>
+                          <select id="type_ins" name="type_id" class="select2_single form-control"  required="required" <?php echo $disabled_value;?>>
                                <?php   
                                 if(isset($id_campaign['type_id'])){
                                    echo '<option selected value="'.$id_campaign['type_id'].'">'.$id_campaign['tipo_nome'].'</option>'; 
@@ -74,7 +74,7 @@
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Modalità  <span class="required">*</span></label>                       
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select id="moda_ins" name="modality_id" class="select2_single form-control" required="required" <?php echo $disabled_value;?>>        
+                            <select id="moda_ins" name="modality_id" class="select2_single form-control"  required="required" <?php echo $disabled_value;?>>        
                               <option value=""></option>
                             <?php 
                             foreach ($modality as $key => $value) {
@@ -93,7 +93,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo Target  <span class="required">*</span></label>
                         <?php #print_r($stacks); ?>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select id="cate_ins" name="category_id" class="select2_single form-control" tabindex="-1" required="required" <?php echo $disabled_value;?>>        
+                            <select id="cate_ins" name="category_id" class="select2_single form-control" tabindex="-1"  required="required" <?php echo $disabled_value;?>>        
                               <option value=""></option>
                             <?php 
                             foreach ($category as $key => $value) {
@@ -112,7 +112,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Priorità PM <span class="required">*</span></label>                     
                         <div class="col-md-6 col-sm-6 col-xs-12">
  
-                          <select id="priority" name="priority" class="select2_single form-control" required="required" <?php echo $disabled_value;?>>
+                          <select id="priority" name="priority" class="select2_single form-control"  required="required" <?php echo $disabled_value;?>>
                            <?php 
                             $selected = 'selected';
                             $lista_priorita = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
@@ -143,7 +143,7 @@
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Leva\Offerta  <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select id="validitalevaofferta" name="leva_offerta" class="select2_single form-control" onchange="validitaoffer()" required="required" <?php echo $disabled_value;?> >        
+                            <select id="validitalevaofferta" name="leva_offerta" class="select2_single form-control" onchange="validitaoffer()"  required="required" <?php echo $disabled_value;?> >        
                              <?php  
                                 $select_0 ='';
                                 $select_1='';
@@ -188,7 +188,7 @@
                              <div class="form-group">
                                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Offerta  <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="descrizione_offerta" name="descrizione_offerta" required="required"  class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['descrizione_offerta'])){echo $id_campaign['descrizione_offerta'];}?>">
+                          <input type="text" id="descrizione_offerta" name="descrizione_offerta"  required="required"  class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['descrizione_offerta'])){echo $id_campaign['descrizione_offerta'];}?>">
                         </div>
                              </div> 
                                                    
