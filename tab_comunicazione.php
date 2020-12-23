@@ -72,10 +72,11 @@
 $(document).ready(function() { 
 var myDropzoneProfile = new Dropzone(
         '#my-dropzone',
-        {
-          
+        {          
             init: function () {
-           //solo su Modifica o Duplica     
+            //this.options.dictRemoveFileConfirmation = true;
+            this.options.dictRemoveFileConfirmation = "Confermi di voler eliminare il File?";
+            //solo su Modifica o Duplica     
           <?php if($modifica) {?>    
             thisDropzone = this;        
             $.ajax({
@@ -85,19 +86,27 @@ var myDropzoneProfile = new Dropzone(
                     data: { id_dir: '<?php echo $id_campaign['id']; ?>',subdir: 'comunicazione'},
                     success: function (data) {
             
-                    $.each(data, function(key,value){
-                        
-                        var mockFile = { name: value.name, size: value.size };
-                        thisDropzone.options.thumbnail.call(thisDropzone, mockFile, "file/<?php echo $id_campaign['id']; ?>/comunicazione/"+value.name);
+                    $.each(data, function(key,value){  
+                                var filename = value.name; 
+                                var a = document.createElement('a');
+                                a.setAttribute('class',"dz-remove");
+                                //onclick="javascript:window.location.href = './index.php?page=gestioneCampagne2'"
+                                a.setAttribute('href',"upload.php?download=<?php echo $id_campaign['id']; ?>&com&file=" + filename);
+                                a.setAttribute('target', '_blank');
+                                a.innerHTML = "Download file";
+
+                        var mockFile = { name: value.name, size: value.size };                        
+                        thisDropzone.options.thumbnail.call(thisDropzone, mockFile);
                         thisDropzone.options.addedfile.call(thisDropzone, mockFile);
-                        thisDropzone.option.complete.call(thisDropzone,mockFile);
+                        thisDropzone.options.success.call(thisDropzone, mockFile);
+                        thisDropzone.options.complete.call(thisDropzone, mockFile);
+                        document.getElementById("my-dropzone").lastChild.appendChild(a);
 
                     });
                 
                 }
             });
         <?php  } ?>
-
             this.on("removedfile", function(file) {
                         console.log('removedfile on');
 
@@ -140,20 +149,20 @@ var myDropzoneProfile = new Dropzone(
                                 a.setAttribute('class',"dz-remove");
                                 //onclick="javascript:window.location.href = './index.php?page=gestioneCampagne2'"
                                 a.setAttribute('href',"upload.php?download=<?php echo $id_upload; ?>&com&file=" + filename);
-                                //a.setAttribute('href',"/campagnetris/file/<?php echo $id_upload; ?>/comunicazione/" + filename);
                                 a.setAttribute('target', '_blank');
-                                a.innerHTML = "Download";
+                                a.innerHTML = "Download file";
                                 file.previewTemplate.appendChild(a);
                             // do something here
                             });
-                        this.on("error",
+           
+                this.on("error",
                             function (data, errorMessage, xhr) {
                                 // do something here
                             });
-                    }
+           
+                            
+            }
         });
-
-
 
 
 $('#select_control_group').select2({

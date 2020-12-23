@@ -354,6 +354,7 @@ var myDropzoneCanale = new Dropzone(
         '#dropzone-canale',
         {          
             init: function () {
+             this.options.dictRemoveFileConfirmation = "Confermi di voler eliminare il File?";   
            //solo su Modifica o Duplica     
            <?php if($modifica) {?>     
             thisCanale = this;        
@@ -365,10 +366,19 @@ var myDropzoneCanale = new Dropzone(
                     success: function (data) {
             
                     $.each(data, function(key,value){
-                        
-                        var mockFile = { name: value.name, size: value.size };
-                        thisCanale.options.thumbnail.call(thisCanale, mockFile, "file/<?php echo $id_campaign['id']; ?>/canale/"+value.name);
+                        var filename = value.name; 
+                        var a = document.createElement('a');
+                                a.setAttribute('class',"dz-remove");
+                                //onclick="javascript:window.location.href = './index.php?page=gestioneCampagne2'"
+                                a.setAttribute('href',"upload.php?download=<?php echo $id_campaign['id']; ?>&canale&file=" + filename);
+                                a.setAttribute('target', '_blank');
+                                a.innerHTML = "Download file";
+                        var mockFile = { name: value.name, size: value.size };                        
+                        thisCanale.options.thumbnail.call(thisCanale, mockFile);
                         thisCanale.options.addedfile.call(thisCanale, mockFile);
+                        thisCanale.options.success.call(thisCanale, mockFile);
+                        thisCanale.options.complete.call(thisCanale, mockFile);
+                        document.getElementById("dropzone-canale").lastChild.appendChild(a);
 
                     });
                 
@@ -410,8 +420,16 @@ var myDropzoneCanale = new Dropzone(
                                 this.removeAllFiles();
                                 this.addFile(file);
                             });
-                        this.on("success",
+                   this.on("success",
                             function (file, responseText) {
+                                var filename = file.name; 
+                                var a = document.createElement('a');
+                                a.setAttribute('class',"dz-remove");
+                                //onclick="javascript:window.location.href = './index.php?page=gestioneCampagne2'"
+                                a.setAttribute('href',"upload.php?download=<?php echo $id_upload; ?>&canale&file=" + filename);
+                                a.setAttribute('target', '_blank');
+                                a.innerHTML = "Download file";
+                                file.previewTemplate.appendChild(a);
                             // do something here
                             });
                         this.on("error",
