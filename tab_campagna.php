@@ -152,7 +152,10 @@
                                    $select_0 = 'selected';
                                 }
                                 elseif($id_campaign['leva_offerta']=='1'){
-                                   ?><script> $('#validita-offerta').show(); </script>
+                                   ?><script> 
+                                        $('#validita-offerta').show();
+                                        $('#descrizione_offerta').attr('required', true);                                                                   
+                                      </script>
                                    <?php
                                    $select_1 = 'selected';
                                    $display_validitaofferta = '';
@@ -188,7 +191,7 @@
                              <div class="form-group">
                                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Offerta  <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="descrizione_offerta" name="descrizione_offerta"  required="required"  class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['descrizione_offerta'])){echo $id_campaign['descrizione_offerta'];}?>">
+                          <input type="text" id="descrizione_offerta" name="descrizione_offerta"  class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['descrizione_offerta'])){echo $id_campaign['descrizione_offerta'];}?>">
                         </div>
                              </div> 
                                                    
@@ -224,6 +227,32 @@
                                 echo $readonly_value;
                             ?>
                                    tabindex="1" maxlength="100" onfocus="seleziona('cod_comunicazione');" onblur="deseleziona('cod_comunicazione');"/>
+                        </span>
+                      
+                        <span class="left"  id="span_state"  style="margin-top:10px; width:90%; display:none;">
+                            <label>Stato<span id="req_6" class="req">*</span></label>
+                            <?php
+                            if (isset($id_campaign['ordinamento_stato'])) {
+                                if (($id_campaign['ordinamento_stato'] < 2) && ($page_protect->get_job_role() == 2)) {
+                                    $list = $funzioni_admin->get_list_state_id('campaign_states', 2);
+                                } else {
+                                    $list = $funzioni_admin->get_list_state_id('campaign_states', 10);
+                                }
+//$list = $funzioni_admin->get_list_id('campaign_states');
+                                $lista_field = array_column($list, 'id');
+                                $lista_name = array_column($list, 'name');
+                                $javascript = "  tabindex=\"7\" onfocus=\"seleziona('selectStato');\" onblur=\"deseleziona('selectStato');\" ";
+                                if ($readonly)
+                                    $javascript = $javascript . $disabled_value;
+                                $style = " style=\"width:150px;\" ";
+                                if ($modifica)
+                                    $campaign_state_id = $id_campaign['campaign_state_id'];
+                                else
+                                    $campaign_state_id = "";
+                                $funzioni_admin->stampa_select('campaign_state_id', $lista_field, $lista_name, $javascript, $style, $campaign_state_id);
+                            }
+                            ?>
+
                         </span>
 
                         </div> 

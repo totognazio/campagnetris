@@ -5,7 +5,7 @@
 
         <a href="mailto:francesco.forti@windtre.it?Subject=Segnalazioni%20e%20Consigli" target="_top" title="Invia mail">
             Tool Campaign - Powered by Device Engineering </a>
-<?php print_r($_SESSION); ?>
+<?php #print_r($_SESSION); ?>
     </div>
     <div class="clearfix"></div>
 </footer>

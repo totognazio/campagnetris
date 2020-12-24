@@ -133,11 +133,13 @@ $form->head_page("Pianificazione Campagne", "Filtro");
 $form->close_row();
 $form->open_row("Campagne", "Filtrate");
 ?>
+<!--button add new campaign -->
                 <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaNew"> 
                             <input type="hidden" name="azione" value="new" />  
                             <input type="hidden" name="id" value="0" />                                                              
                 </form> 
 <button class="btn btn btn-xs btn-success" type="submit" onclick="manageCamp('','new');" data-placement="top" data-toggle="tooltip" data-original-title="Inserisci nuova Campagna"><i class="fa fa-plus-square"></i> Nuova Campagna</button>
+<!--button add new campaign -->
 <div class="col-md-12 col-sm-12 col-xs-12" id="content_response">
 
 
@@ -176,6 +178,6 @@ $form->open_row("Campagne", "Filtrate");
         if (permesso_inserisci != 1)
             alert("Non hai i permessi per inserire una campagna");
         else
-            document.location.href = './index.php?page=inserisciCampagna';
+            document.location.href = './index.php?page=inserisciCampagna2';
     }
   </script>

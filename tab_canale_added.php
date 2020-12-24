@@ -212,7 +212,7 @@
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <input type="number" id="VolumeGiornaliero7" name="volumeGiornaliero7" class="form-control col-md-7 col-xs-12" style="text-align:right" pattern="/^-?\d+\.?\d*$/" 
-                       onKeyPress="if (this.value.length == 9 return false;"   min="0" max="999999999" value="0" required="required" value="" oninput="validity.valid||(value='');" onblur="volumeRipartizione(7);">     
+                       onKeyPress="if(this.value.length == 9) return false;"   min="0" max="999999999" value="0" required="required" value="" oninput="validity.valid||(value='');" onblur="volumeRipartizione(7);">     
 
             </div>
         </div>                            

@@ -1060,7 +1060,7 @@ function rcopy($src, $dst) {
 }
 
     function update($record, $id_campagne) {
-//print_r($record);
+print_r($record);
         $send_email = 0;
         $id_state = $this->get_state($id_campagne);
         $lista_variabili = "";
@@ -1118,10 +1118,11 @@ function rcopy($src, $dst) {
             }
             //}
         }
+        $lista_variabili = $lista_variabili . " `data_inserimento` = '" . date("Y-m-d  H:i:s") . "'";
 
-        $lista_variabili = substr($lista_variabili, 0, -1);
+        //$lista_variabili = substr($lista_variabili, 0, -1);
         $sql = "UPDATE `campaigns` SET " . $lista_variabili . " where id='" . $id_campagne . "';";
-        //echo $sql;
+        echo $sql;
         $page_protect = new Access_user;
         $user_info = $page_protect->get_user_id();
         $results = $this->mysqli->query($sql) or die($sql . " - " . $this->mysqli->error);

@@ -277,11 +277,14 @@ $cat_sott = $funzione->get_allTable('campaign_cat_sott');
 function validitaoffer(){
     if($( "#validitalevaofferta" ).val()==='1'){
         $('#validita-offerta').show();
+        $('#descrizione_offerta').attr('required', true);   
     } else if($( "#validitalevaofferta" ).val()==='0'){
         $('#validita-offerta').hide();
+        $('#descrizione_offerta').attr('required', false);
     }
     else {
        $('#validita-offerta').hide(); 
+       $('#descrizione_offerta').attr('required', false);
     }
     
 }
@@ -289,14 +292,20 @@ function validitaoffer(){
 function levaselect() {
     if($( "#idlevaselect" ).val()==='mono'){
         $('#monoleva').show();
+        $('#opzione_leva').attr('required', true); 
         $('#multileva').hide();
+        $('#dropzone-canale').attr('required', false);
     }else if($( "#idlevaselect" ).val()==='multi'){
         $('#monoleva').hide();
         $('#multileva').show();
+        $('#dropzone-canale').attr('required', true);
+        $('#opzione_leva').attr('required', false);
     }
-    else if ($( "#idlevaselect" ).val()==='0'){
+    else{
         $('#monoleva').hide();
         $('#multileva').hide();  
+        $('#dropzone-canale').attr('required', false);
+        $('#opzione_leva').attr('required', false);
     }
 }
 

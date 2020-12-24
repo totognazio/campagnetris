@@ -91,7 +91,7 @@
 
                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Opzione  <span class="required">*</span></label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    <select id="opzione_leva" name="opzione_leva" class="select2_single form-control" <?php echo $disabled_value;?> required="required">       
+                    <select id="opzione_leva" name="opzione_leva" class="select2_single form-control" <?php echo $disabled_value;?>>       
                         <option <?php if($modifica and $id_campaign['opzione_leva']=='0'){echo ' selected';} ?> value=""></option>
                         <option <?php if($modifica and $id_campaign['opzione_leva']=='Ropz'){echo ' selected';} ?> value="Ropz">Ropz</option>
                         <option <?php if($modifica and $id_campaign['opzione_leva']=='Popz'){echo ' selected';} ?>value="Ropz">Popz</option>
