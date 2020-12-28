@@ -16,7 +16,8 @@ if (isset($_GET['action']) && $_GET['action'] == "log_out") {
 }
 
 $campaign = new campaign_class();
-if (isset($_POST['todo']) and $_POST['todo']=='elimina') {
+//print_r($_POST);
+if (isset($_POST['azione']) and $_POST['azione']=='elimina') {
     if (isset($_POST['id'])) {
         $id = intval($_POST['id']);
         $result = $campaign->delete_campaign($id);
@@ -24,7 +25,7 @@ if (isset($_POST['todo']) and $_POST['todo']=='elimina') {
 }
 //inserimento campagna
 if (isset($_POST['todo']) and $_POST['todo']=='new') {
-    //print_r($_POST);
+    
     
     if ($page_protect->get_insert_permission()) {
         $result = $campaign->insert($_POST);
@@ -47,13 +48,5 @@ if (isset($_POST['todo']) and $_POST['todo']=='modifica') {
         }
     } else {
         $result = "L'utente non pu&ograve; modificare l'articolo";
-    }
-}
-
-
-if (isset($_POST['elimina'])) {
-    if (isset($_POST['id'])) {
-        $id = intval($_POST['id']);
-        $result = $campaign->delete_campaign($id);
     }
 }

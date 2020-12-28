@@ -366,33 +366,37 @@ function seleziona(campo) {
 
     campoSelezionato = document.getElementById(campo);
     campoSelezionato.style.background = "orange";
-};
+}
 
 function deseleziona(campo) {
 
     campoSelezionato = document.getElementById(campo);
     campoSelezionato.style.background = "white";
-};
+}
 
-function manageCamp(id, azione){
+function manageCamp(id, azione, permesso_elimina, stato){
     //alert('eccoloooo ' + id +' '+ azione);
         if(azione==='modifica'){
-            document.getElementById("campagnaModifica").submit(); 
+            document.getElementById("campagnaModifica"+id).submit(); 
         }
-        if(azione==='duplica'){
-            document.getElementById("campagnaDuplica").submit(); 
+    
+        if (azione === 'duplica') {
+            if (duplica())
+                document.getElementById("campagnaDuplica"+id).submit(); 
+            
         } 
-        if(azione==='elimina'){
-            document.getElementById("campagnaElimina").submit(); 
-        } 
+        if (azione === 'elimina') {
+            if(conferma(stato, permesso_elimina))
+                document.getElementById("campagnaElimina"+id).submit(); 
+            } 
         if(azione==='open'){
-            document.getElementById("campagnaOpen").submit(); 
+            document.getElementById("campagnaOpen"+id).submit(); 
         } 
         if(azione==='new'){
-            document.getElementById("campagnaNew").submit(); 
+            document.getElementById("campagnaNew"+id).submit(); 
         } 
 
-};
+}
 
 function onKeyNumeric(e) {
     if (((e.keyCode >= 48) && (e.keyCode <= 57)) || ((e.keyCode > 95) && (e.keyCode < 106)) || (e.keyCode == 8) || (e.keyCode == 46) || (e.keyCode == 9) || (e.keyCode == 8) || (e.keyCode == 109) || (e.keyCode == 37) || (e.keyCode == 39)) {
@@ -402,7 +406,40 @@ function onKeyNumeric(e) {
     {
         return false;
     }
-};
+}
+
+    function conferma(stato, permesso_elimina) {
+        if (permesso_elimina == 0) {
+            alert("Non hai i permessi per eliminare la campagna!");
+            return false;
+        }
+        if (stato == 0) {
+            alert("La campagna non è in uno stato eliminabile");
+            return false;
+        }
+        if (!(confirm('Confermi eliminazione?'))) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    function duplica() {
+        if (!(confirm('Confermi di voler duplicare la campagna?')))
+        {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    function inserisci() {
+        permesso_inserisci = 1;
+        if (permesso_inserisci != 1)
+            alert("Non hai i permessi per inserire una campagna");
+        else
+            document.location.href = './index.php?page=inserisciCampagna2';
+    }
 
 
 

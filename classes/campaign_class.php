@@ -1504,22 +1504,22 @@ LEFT JOIN users ON `user_id` = users.id
         $stato_elimina = $row['elimina'];
         $permission = $page_protect->check_permission($row['squad_id']); 
         $string .= "<tr><td>".'   
-                        <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaModifica"> 
+                        <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaModifica'.$row['id'].'"> 
                             <input type="hidden" name="id" value="'.$row['id'].'" />
                             <input type="hidden" name="azione" value="modifica" />                                                                
                         </form>
-                        <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaDuplica"> 
+                        <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaDuplica'.$row['id'].'"> 
                             <input type="hidden" name="id" value="'.$row['id'].'" />
                             <input type="hidden" name="azione" value="duplica" />                                                                
                         </form>
-                        <form action="index.php?page=inserisciCampagna2"  method="post" id="campagnaElimina"> 
+                        <form action="index.php?page=pianificazione2"  method="post" id="campagnaElimina'.$row['id'].'"> 
                             <input type="hidden" name="id" value="'.$row['id'].'" />
                             <input type="hidden" name="azione" value="elimina" />                                                                
                         </form>
             
-                    <button class="btn btn-sm btn-primary" type="submit" onclick="manageCamp('.$row['id'].', \'modifica\');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Modifica" title="Modifica"><i class="fa fa-edit" ></i></button>
-                    <button class="btn btn-sm btn-default" type="submit" onclick="manageCamp('.$row['id'].',\'duplica\');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone" ></i></button>
-                    <button class="btn btn-sm btn-danger" type="submit" onclick="manageCamp('.$row['id'].',\'elimina\');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></button>                    
+                    <button class="btn btn-sm btn-primary" type="submit" onclick="manageCamp('.$row['id'].', \'modifica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Modifica" title="Modifica"><i class="fa fa-edit" ></i></button>
+                    <button class="btn btn-sm btn-default" type="submit" onclick="manageCamp('.$row['id'].',\'duplica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone" ></i></button>
+                    <button class="btn btn-sm btn-danger" type="submit" onclick="manageCamp('.$row['id'].',\'elimina\','.$permission.','.$stato_elimina.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></button>                    
                 '.  "</td>";
         $string .= "<td><small>$riga</small></td>";
         $string .= "<td><small>".$row['stacks_nome']."</small></td>";
@@ -1529,7 +1529,7 @@ LEFT JOIN users ON `user_id` = users.id
                             <input type="hidden" name="id" value="'.$row['id'].'" />
                             <input type="hidden" name="azione" value="open" />                                                                
                         </form>
-                        <a href="#" data-toggle="tooltip" title="Open" onclick="manageCamp('.$row['id'].', \'open\');">'.$this->nomeCampagna($row).'</a>
+                        <a href="#" data-placement="bottom" data-toggle="tooltip" title="Open" onclick="manageCamp('.$row['id'].', \'open\');">'.$this->nomeCampagna($row).'</a>
                 '
                 . "</small></td>";
         $string .= "<td><small>".$row['tipo_nome']."</small></td>";

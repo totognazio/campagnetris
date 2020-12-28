@@ -269,7 +269,7 @@
         <div class="col-md-3 col-sm-6 col-xs-12">
                                 
                         <label>Sender  <span class="required">*</span></label>
-                            <select id="senders_ins" name="senders_id" class="select2_single form-control" style="width:100%"  <?php echo $required_sms_field; ?> <?php echo $disabled_value;?>>      
+                            <select id="senders_ins" name="sender_id" class="select2_single form-control" style="width:100%"  <?php echo $required_sms_field; ?> <?php echo $disabled_value;?>>      
                                 <?php   
                                 if(isset($id_campaign['sender_id'])){
                                    echo '<option selected value="'.$id_campaign['sender_id'].'">'.$id_campaign['sender_nome'].'</option>'; 
@@ -288,13 +288,13 @@
 
                           </select>
                          
-          <form id="demo-form" data-parsley-validate>
+          
             
               <label style="margin-top:20px" for="message">Test SMS </label>
-              <textarea id="testo_sms" <?php echo $disabled_value; ?>  <?php echo $required_sms_field; ?> class="form-control" name="testo_sms" onkeyup="checklength(0, 640, 'testo_sms', 'charTesto', 'numero_sms')" ><?php if($modifica){echo $id_campaign['testo_sms'];}else{echo'';}?></textarea>  
+              <textarea id="testo_sms" <?php echo $disabled_value; ?><?php echo $required_sms_field; ?> class="form-control" name="testo_sms" onkeyup="checklength(0, 640, 'testo_sms', 'charTesto', 'numero_sms')" ><?php if($modifica){echo $id_campaign['testo_sms'];}else{echo'';}?></textarea>  
               <label style="width:100%;"><small>Numeri caratteri utilizzati</small><input type="text" name="charTesto" id="charTesto" value="" class="text" value="" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>
               <label style="width:100%;"><small>Numero SMS</small><input type="text" name="numero_sms" id="numero_sms" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>                  
-            </form>             
+                     
      
                           <label>Modalità Invio  <span class="required">*</span></label>                       
                             <select id="mod_invio" name="mod_invio" class="select2_single form-control" style="width:100%"  <?php echo $required_sms_field; ?> <?php echo $disabled_value;?>>      
