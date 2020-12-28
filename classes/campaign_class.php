@@ -832,14 +832,14 @@ LEFT JOIN users ON `user_id` = users.id
     function delete_campaign($id) {
         $id_campaign = $this->get_list_campaign(" where campaigns.id=" . intval($_POST['id']))->fetch_array();
         
-        
-        
         $page_protect = new Access_user;
         $permission = $page_protect->check_permission($id_campaign['squad_id']);
 //print_r($lista_id);
         if ($permission) {
             $sql = "DELETE FROM  `campaigns` WHERE `campaigns`.`id` = '$id'";
             $results = $this->mysqli->query($sql) or die($sql . " - " . $this->mysqli->error);
+            $this->rrmdir("file/".$id_campaign['id']);
+
             return "Record eliminati: " . $this->mysqli->affected_rows . " ";
         } else {
             return "L'utente non può eliminare la campagna ";

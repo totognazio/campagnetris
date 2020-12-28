@@ -17,26 +17,31 @@ if (isset($_GET['action']) && $_GET['action'] == "log_out") {
 
 $campaign = new campaign_class();
 //print_r($_POST);
-if (isset($_POST['azione']) and $_POST['azione']=='elimina') {
-    if (isset($_POST['id'])) {
-        $id = intval($_POST['id']);
-        $result = $campaign->delete_campaign($id);
-    }
-}
+
 //inserimento campagna
-if (isset($_POST['todo']) and $_POST['todo']=='new') {
-    
-    
+if (isset($_POST['azione']) and $_POST['azione']=='new') {   
     if ($page_protect->get_insert_permission()) {
         $result = $campaign->insert($_POST);
         if ($result == "1")
             $result = "La campagna è stata inserita correttamente";
     } else {
         $result = "L'utente non ha i diritti di inseirmento";
-    }
-    
+    }   
 }
-if (isset($_POST['todo']) and $_POST['todo']=='modifica') {
+
+//inserimento campagna
+if (isset($_POST['azione']) and $_POST['azione']=='duplica') {   
+    if ($page_protect->get_insert_permission()) {
+        $result = $campaign->insert($_POST);
+        if ($result == "1")
+            $result = "La campagna è stata inserita correttamente";
+    } else {
+        $result = "L'utente non ha i diritti di inseirmento";
+    }   
+}
+
+//modifica campagna
+if (isset($_POST['azione']) and $_POST['azione']=='modifica') {
     $id_campaign = $campaign->get_list_campaign(" where campaigns.id=" . intval($_POST['id']))->fetch_array();
     $squad_id = $id_campaign['squad_id'];
     $permission = $page_protect->check_permission($squad_id);
@@ -48,5 +53,12 @@ if (isset($_POST['todo']) and $_POST['todo']=='modifica') {
         }
     } else {
         $result = "L'utente non pu&ograve; modificare l'articolo";
+    }
+}
+//eliminazione Campagna
+if (isset($_POST['azione']) and $_POST['azione']=='elimina') {
+    if (isset($_POST['id'])) {
+        $id = intval($_POST['id']);
+        $result = $campaign->delete_campaign($id);
     }
 }

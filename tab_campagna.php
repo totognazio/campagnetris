@@ -27,7 +27,7 @@
                                <option value=""></option>
                             <?php 
                             foreach ($stacks as $key => $value) {
-                                if($id_campaign['stack_id']==$key){
+                                if($modifica && $id_campaign['stack_id']==$key){
                                    echo '<option selected value="'.$key.'">'.$value.'</option>'; 
                                 }
                                 else {
@@ -46,7 +46,7 @@
                               <option value=""></option>
                             <?php 
                             foreach ($squads as $key => $value) {
-                                if($id_campaign['squad_id']==$key){
+                                if($modifica && $id_campaign['squad_id']==$key){
                                    echo '<option selected value="'.$key.'">'.$value.'</option>'; 
                                 }
                                 else {
@@ -78,7 +78,7 @@
                               <option value=""></option>
                             <?php 
                             foreach ($modality as $key => $value) {
-                               if($id_campaign['modality_id']==$key){
+                               if($modifica && $id_campaign['modality_id']==$key){
                                    echo '<option selected value="'.$key.'">'.$value.'</option>'; 
                                 }
                                 else {
@@ -96,8 +96,9 @@
                             <select id="cate_ins" name="category_id" class="select2_single form-control" tabindex="-1"  required="required" <?php echo $disabled_value;?>>        
                               <option value=""></option>
                             <?php 
+                            //print_r($category);
                             foreach ($category as $key => $value) {
-                                if($id_campaign['category_id']==$key){
+                                if($modifica && $id_campaign['category_id']==$key){
                                    echo '<option selected value="'.$key.'">'.$value.'</option>'; 
                                 }
                                 else {
@@ -148,10 +149,10 @@
                                 $select_0 ='';
                                 $select_1='';
                                 $display_validitaofferta = 'style="display: none;"';
-                                if($id_campaign['leva_offerta']=='0'){
+                                if($modifica && $id_campaign['leva_offerta']=='0'){
                                    $select_0 = 'selected';
                                 }
-                                elseif($id_campaign['leva_offerta']=='1'){
+                                elseif($modifica && $id_campaign['leva_offerta']=='1'){
                                    ?><script> 
                                         $('#validita-offerta').show();
                                         $('#descrizione_offerta').attr('required', true);                                                                   

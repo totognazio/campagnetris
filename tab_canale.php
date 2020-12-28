@@ -299,14 +299,37 @@
                           <label>Modalità Invio  <span class="required">*</span></label>                       
                             <select id="mod_invio" name="mod_invio" class="select2_single form-control" style="width:100%"  <?php echo $required_sms_field; ?> <?php echo $disabled_value;?>>      
                                 <option value=""></option>
-                                <option <?php if($modifica and $id_campaign['mod_invio']=='Interattivo'){echo ' selected';} ?> value="Interattivo">Interattivo</option>
+                                <option value="Interattivo"<?php if($modifica and $id_campaign['mod_invio']=='Interattivo'){ echo ' selected ';} ?>>Interattivo</option>
                                 <option <?php if($modifica and $id_campaign['mod_invio']=='Standard'){echo ' selected';} ?> value="Standard">Standard</option>
 
                           </select>
-                      
-                        <span id="spanLabelLinkTesto" style="display:none;">
+                        <?php if($modifica and $id_campaign['mod_invio']=='Interattivo'){ ?>
+                            <script> 
+                                $('#spanLabelLinkTesto').show();
+                                $('#link').attr('required', true);                                                                   
+                            </script>
+                        <?php } 
+                         else { ?>
+                            <script> 
+                                $('#spanLabelLinkTesto').hide();
+                                $('#link').attr('required', false);                                                                   
+                            </script>
+                        <?php } ?>  
+                        <span id="spanLabelLinkTesto">
                             <label style="margin-top:20px" id="labelLinkTesto">Link<span id="req_19" class="req">*</span></label>
-                            <input  id="link" name="link" type="text" class="form-control col-md-7 col-xs-12" style="text-align:right" tabindex="23" maxlength="400" onkeyup="checklength(0, 255, 'link', 'charLink', ''); checklengthTotal('charLink','charTesto','numero_totale');"  <?php echo $required_sms_field; ?>/>
+                            <input  id="link" name="link" type="text" class="form-control col-md-7 col-xs-12" style="text-align:right" tabindex="23" maxlength="400" 
+                            <?php
+                            if ($modifica)
+                                echo "value=\"" . $id_campaign['link'] . "\"";
+                            else
+                                echo "value=\"\"";
+                            ?>
+                            <?php
+                            if ($readonly)
+                                echo $disabled_value;
+                            ?>
+                            
+                            onkeyup="checklength(0, 255, 'link', 'charLink', ''); checklengthTotal('charLink','charTesto','numero_totale');"/>
                             <label style="width:100%;"><small>Numero</small><input type="text" name="charLink" id="charLink" class="text" readonly="readonly"  size="3" value="255" placeholder="max 255"onfocus="this.blur()" /></label>   
                             <label style="width:100%;"><small>Totale (SMS+Link)</small><input type="text" name="numero_totale" id="numero_totale" value="" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>                  
                         </span>   

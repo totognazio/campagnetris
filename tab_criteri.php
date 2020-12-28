@@ -138,7 +138,7 @@ if ($page_protect->get_job_role() >= 2) {
                                 if ($readonly){
                                 echo $disabled_value;}
                                 ?>  
-                       value="postpagato" class="flat" /> Postpagato
+                       value="1" class="flat" /> Postpagato
                 <br />
 
                 <input type="checkbox" name="contratto_microbusiness" id="contratto_microbusiness" data-parsley-multiple="tipo_contratto"                                                                                                                                     <?php
@@ -152,7 +152,7 @@ if ($page_protect->get_job_role() >= 2) {
                                 if ($readonly){
                                 echo $disabled_value;}
                                 ?>  
-                       value="microBusiness" class="flat" /> MicroBusiness
+                       value="1" class="flat" /> MicroBusiness
                 <br />
             <p>     
         </div>
@@ -295,7 +295,7 @@ if ($page_protect->get_job_role() >= 2) {
                 <input type="checkbox" name="altri_filtri" id="altri_filtri" data-parsley-multiple="frodatori" 
                       <?php
                                 if ($modifica) {
-                                    if ($id_campaign['no_frodi'] == 1){
+                                    if ($id_campaign['altri_filtri'] == 1){
                                     echo " checked=\"checked\" ";}
                                 } else{
                                         echo "";}

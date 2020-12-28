@@ -100,6 +100,7 @@ if ( isset($azione) && $azione=='modifica') {
     $display_none = " display:none; ";
     $title = "Visualizzazione Campagna ";
     $nome_campagna = $campaign->name_camp($id_campaign);
+
 } elseif ( isset($azione) && $azione=='duplica') {    
     $title = "Duplicazione Campagna ";
     $id_campaign = $campaign->get_list_campaign(" where campaigns.id=" . intval($id))->fetch_array();
@@ -196,7 +197,7 @@ $cat_sott = $funzione->get_allTable('campaign_cat_sott');
   <p>Everything seems to be ok :)</p>
 </div>            
 <form id="form-campagna-ins"  data-parsley-validate="" class="form-horizontal form-label-left" enctype="multipart/form-data" action="<?php echo $back_url; ?>" method="post">  
-                <input type="hidden" name="todo" value="<?php echo $_POST['azione']; ?>">
+                <input type="hidden" name="azione" value="<?php echo $_POST['azione']; ?>">
                 <input type="hidden" name="user_id" id="user_id" value="<?php echo $page_protect->id; ?>"> 
                 <input type="hidden" name="id_upload" id="fileid" value="<?php echo $id_upload; ?>">  
                 <div class="" role="tabpanel" data-example-id="togglable-tabs">
@@ -399,11 +400,13 @@ $('#mod_invio').on('select2:select', function () {
     var selected_modsms = $('#mod_invio').val();
     
     if(selected_modsms === 'Interattivo'){
-           //$("#spanLabelLinkTesto").fadeOut();
+           $("#spanLabelLinkTesto").fadeOut();
            $("#spanLabelLinkTesto").fadeIn();  
+           $('#link').attr('required', true);  
     }
     else if (selected_modsms === 'Standard') {
        $("#spanLabelLinkTesto").fadeOut(); 
+       $('#link').attr('required', false);  
     }
     console.log('selected_modsms  '+ selected_modsms);   
     });
