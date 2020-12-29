@@ -1525,7 +1525,7 @@ LEFT JOIN users ON `user_id` = users.id
         $string .= "<td><small>".$row['stacks_nome']."</small></td>";
         $string .= "<td><small>".$row['squads_nome']."</small></td>";
         $string .= "<td><small>".'
-                         <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaOpen"> 
+                         <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaOpen'.$row['id'].'"> 
                             <input type="hidden" name="id" value="'.$row['id'].'" />
                             <input type="hidden" name="azione" value="open" />                                                                
                         </form>

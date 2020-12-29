@@ -53,19 +53,15 @@ $form->head_page("Pianificazione Campagne", "Filtro");
                     <br>
                   <div class="well" style="overflow: auto">
                                 
-                      <div class="col-md-8"><h4>Date Range</h4>
+                      <div class="col-md-6 col-sm-6 col-xs-12"><h4>Date Range</h4>
                         <div id="reportrange_right" class="pull-left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                           <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                           <span id="datarange">December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
                         </div>
                       </div>
-                               
-                      <div class="col-md-4"><h4>Sprint</h4>
-                    
-                        <!--<label class="control-label col-md-3 col-sm-3 col-xs-12">Categoria  <span class="required">*</span></label>-->
-                        <?php #print_r($stacks); ?>
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            <select id="cate_ins" name="select_cate[]" class="select2_single form-control" required="required">        
+                     <div class="col-md-2 col-sm-2 col-xs-12">
+                                <h4>Sprint</h4>
+                             <select id="sprints" name="sprints" class="select2_single form-control">        
                               <option value=""></option>
                             <?php 
                             foreach ($sprints as $key => $value) {
@@ -73,13 +69,9 @@ $form->head_page("Pianificazione Campagne", "Filtro");
                             }                                                  
                             ?>  
                           </select>
-                        </div>
-                      
-                      </div>
-              
-                                
-                                
-                            </div>
+                    </div>       
+                     </div>          
+                
                     <div class="col-md-12">
                             <div class="col-md-2 col-sm-2 col-xs-12">
                                 <h4>Stacks</h4>

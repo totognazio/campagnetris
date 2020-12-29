@@ -192,7 +192,7 @@
                              <div class="form-group">
                                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Offerta  <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="descrizione_offerta" name="descrizione_offerta"  class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['descrizione_offerta'])){echo $id_campaign['descrizione_offerta'];}?>">
+                          <input type="text" id="descrizione_offerta" name="descrizione_offerta"  class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['descrizione_offerta'])){echo $id_campaign['descrizione_offerta'];}?>" <?php echo $disabled_value;?>>
                         </div>
                              </div> 
                                                    

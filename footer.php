@@ -364,6 +364,15 @@ $('#mod_invio').on('select2:select', function () {
 
 });
 
+$('#sprints').select2({
+          placeholder: " Select a Sprint",
+          allowClear: true        
+        });
+$('#sprints').on('select2:select', function () {
+    var selected_sprints = $('#sprints').val();
+    console.log('sprints  '+ selected_sprints);
+});
+
 $('#cate_ins').select2({
           placeholder: " Select"         
         });
