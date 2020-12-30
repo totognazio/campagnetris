@@ -1396,6 +1396,16 @@ LEFT JOIN users ON `user_id` = users.id
        
     
     function getCampaigns($filter){
+      if(!empty($filter['sprint'])){
+          $funzioni = new funzioni_admin();
+          $sprint = $funzioni->get_sprint($filter['sprint']);
+          //echo 'eccolo quiiiiiiiii';
+          //print_r($sprint);
+          $sql_and = " (`data_inizio` <= '".$sprint['data_fine']."' AND (`data_fine` >= '".$sprint['data_inizio']."' ))";
+      } 
+      else {
+          $sql_and = " 1 ";
+      } 
         
        $sql = "SELECT durata_campagna
 	,escludi_sab_dom
@@ -1424,25 +1434,10 @@ LEFT JOIN users ON `user_id` = users.id
         LEFT JOIN users ON `user_id` = users.id
         LEFT JOIN offers ON `offer_id` = offers.id";
 
-       /*// query per escusione --> inversa alla attuale
-       $filter = $this->getFilter2Query();
-          
-             $sql .= " WHERE squads.id NOT IN ('" . implode("', '", $filter["squads"]). "')"
-               . " and campaign_stacks.id NOT IN ('" . implode("', '", $filter["stacks"]). "') and "
-               . "channels.id NOT IN ('" . implode("', '", $filter["channels"]). "') "
-               . "and campaign_states.id NOT IN ('" . implode("', '", $filter["states"]). "') "
-               . "and campaign_types.id NOT IN ('" . implode("', '", $filter["typologies"]). "')";
-        * 
-        */
-                  
-         //echo 'start'.$filter['startDate'].' data '.date('Y-m-d',intval($filter['startDate']));
-         //echo 'end'.$filter['endDate'].' data '.date('Y-m-d',intval($filter['endDate']));
+       
+         $sql .= " WHERE (`data_inizio` <= '".$filter['endDate']."' AND (`data_fine` >= '".$filter['startDate']."' )) and $sql_and";
          
-         $sql .= " WHERE (`data_inizio` <= '".$filter['endDate']."' AND (`data_fine` >= '".$filter['startDate']."' )) and ";
-         //$sql .= " WHERE (`data_inizio` <= '".date('Y-m-d',intval($filter['startDate']))."' AND (`data_fine` >= '".date('Y-m-d',intval($filter['endDate']))."' )) and ";
-         //$sql .= " WHERE (`data_inizio` >= '2020-09-30' AND (`data_fine` <= '2020-10-29' )) and ";
-         
-             $sql .= "  squads.id  IN ('" . implode("', '", $filter["squads"]). "')"
+         $sql .= "  and squads.id  IN ('" . implode("', '", $filter["squads"]). "')"
                . " and campaign_stacks.id  IN ('" . implode("', '", $filter["stacks"]). "') and "
                . "channels.id  IN ('" . implode("', '", $filter["channels"]). "') "
                . "and campaign_states.id  IN ('" . implode("', '", $filter["states"]). "') "
@@ -1452,7 +1447,7 @@ LEFT JOIN users ON `user_id` = users.id
 
        $sql .= " order by data_inizio ASC ";
        
-      // echo $sql;
+      //echo $sql;
   
         $result3 = $this->mysqli->query($sql) or die($sql . " - " . $this->mysqli->error);
         $list = array();
@@ -1689,12 +1684,21 @@ LEFT JOIN users ON `user_id` = users.id
             $endDate = $filter_view["endDate"];            
         }else{
                 $endDate = date('Y-m-t');
-            }  
+            }
+        
+        if(isset($filter_view["sprint"])){
+            $sprint = $filter_view["sprint"];            
+        }else{
+                $sprint = '';
+            }    
+        
+        //$sprint = $_POST['sprint'];
                     
+        //print_r($filter_view);
+
+        $_SESSION['filter'] = array("sprint"=>$sprint,"startDate"=>$startDate,"endDate"=>$endDate,"channels"=>$channels,"squads"=>$squads,"stacks"=>$stacks,"states"=>$states,"typologies"=>$typologies);
         
-        $_SESSION['filter'] = array("startDate"=>$startDate,"endDate"=>$endDate,"channels"=>$channels,"squads"=>$squads,"stacks"=>$stacks,"states"=>$states,"typologies"=>$typologies);
-        
-        return array("startDate"=>$startDate,"endDate"=>$endDate,"channels"=>$channels,"squads"=>$squads,"stacks"=>$stacks,"states"=>$states,"typologies"=>$typologies);
+        return array("sprint"=>$sprint, "startDate"=>$startDate,"endDate"=>$endDate,"channels"=>$channels,"squads"=>$squads,"stacks"=>$stacks,"states"=>$states,"typologies"=>$typologies);
    
     }
 

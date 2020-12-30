@@ -258,3 +258,52 @@
 
                         </div> 
 
+<script>
+    var group_label = "_";
+    var channel_label = "_";
+    var type_label = "_";
+    var offer_label = "_";
+    var segment_label = "_";
+    var data_label = "";
+    
+  $(document).ready(function () {
+            if (document.getElementById('nomecampagna').value.length > 0) {
+            var pref_nome_campagna = document.getElementById('nomecampagna').value;
+            var myarr = pref_nome_campagna.split("_");
+            //if (myarr[0].value.length > 0)
+            data_label = myarr[0];
+            //if (myarr[1].value.length > 0)
+            channel_label = "_" + myarr[1];
+            //if (myarr[2].value.length > 0)
+            type_label = "_" + myarr[2];
+            if (typeof myarr[3] !== 'undefined')
+                offer_label = "_" + myarr[3];
+            else
+                offer_label = "_";
+            //offer_label = document.getElementById('offer_description').value
+            if (typeof myarr[4] !== 'undefined')
+                segment_label = "_" + myarr[4];
+            //alert(offer_label);
+            else
+                segment_label = "_";
+        }
+
+       
+        $('#channel_ins').on('select2:select', function () {  
+            $.getJSON("get_label.php", {channel_id: $(this).val()}, function (dati) {
+                channel_label = "_" + dati[0].etichetta;
+                document.getElementById('nomecampagna').value = data_label + channel_label + type_label + offer_label + segment_label;
+            });
+        });
+        $('#type_ins').on('select2:select', function () {
+            $.getJSON("get_label.php", {type_id: $(this).val()}, function (dati) {
+                type_label = "_" + dati[0].etichetta;
+                document.getElementById('nomecampagna').value = data_label + channel_label + type_label + offer_label + segment_label;
+            });
+        });
+
+
+        
+
+  })      
+</script>

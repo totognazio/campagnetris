@@ -60,7 +60,7 @@ $form->head_page("Pianificazione Campagne", "Filtro");
                         </div>
                       </div>
                      <div class="col-md-2 col-sm-2 col-xs-12">
-                                <h4>Sprint</h4>
+                                <h4>Sprints</h4>
                              <select id="sprints" name="sprints" class="select2_single form-control">        
                               
                             <?php 

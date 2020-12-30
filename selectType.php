@@ -7,7 +7,7 @@ $string = '_';
 
 if (isset($_POST['selected_type'])) {
     $selected_type = intval($_POST['selected_type']);
-    $label = $funzioni_admin->get_type_label2($selected_type);
+    $label = $funzioni_admin->get_type_label($selected_type);
     // print_r($lista);
     $string .= $label;
 

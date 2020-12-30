@@ -75,6 +75,7 @@ $(document).ready(function () {
     var selected_states = $('#states').val();
     var selected_channels = $('#channels').val();
     var selected_typologies = $('#typologies').val();
+    var selected_sprint;
 
     $('#stacks').multiselect({
             enableClickableOptGroups: true,
@@ -397,7 +398,7 @@ $('#type_ins').on('select2:select', function () {
     var selected_type = $('#type_ins').val();
      $(this).parsley().validate();
     console.log('type_ins  '+ selected_type);
-    
+    /*
     $.ajax({
     url: "selectType.php",
             method: "POST",
@@ -410,7 +411,8 @@ $('#type_ins').on('select2:select', function () {
                 $("#nomecampagna").val(data);
             }
             
-        });  
+        }); 
+        */ 
 });
 
 
@@ -429,13 +431,14 @@ $('#offer_ins').on('select2:select', function () {
 function  campagnTable() {
     console.log('startdate in camp '+ select_startDate);
     console.log('enddate in camp '+ select_endDate);
-  
+    console.log('sprint inside camp '+ selected_sprint);
+    
     $("#content_response").fadeOut();
     $('.loader').show();
     $.ajax({
     url: "get_Filter.php",
             method: "POST",
-            data: {startDate: select_startDate, endDate: select_endDate, selected_stacks: selected_stacks, selected_squads: selected_squads, selected_states: selected_states, selected_channels: selected_channels, selected_typologies: selected_typologies},
+            data: {sprint: selected_sprint, startDate: select_startDate, endDate: select_endDate, selected_stacks: selected_stacks, selected_squads: selected_squads, selected_states: selected_states, selected_channels: selected_channels, selected_typologies: selected_typologies},
             //dataType:"html",    
             success: function (data)
             {
@@ -547,8 +550,10 @@ function  campagnTable() {
         select_startDate = picker.startDate.format('YYYY-MM-DD');        
         select_endDate = picker.endDate.format('YYYY-MM-DD');
         console.log('select_startDate inn' + select_startDate);
-
-        $('#sprints').select2({
+        
+        
+        $('#sprints').select2('val', ' ');
+        $('#sprints').select2({          
             ajax: ({
                 url: "get_sprints.php",
                 dataType: 'json',
@@ -558,7 +563,9 @@ function  campagnTable() {
                   //dataType:"html",    
                   success: function (data)
                   {
-                      console.log('data eccoliii '+ JSON.stringify(data));
+                      console.log('sprints dentro '+ JSON.stringify(data));
+                      data: data;                                            
+                      //$("#select2").select2({width: 300});
                   }
                 })
         });
@@ -573,11 +580,9 @@ function  campagnTable() {
         $('#reportrange_right').data('daterangepicker').remove();
     });
     
- 
-        $('#sprints').select2({
+    $('#sprints').select2({
           placeholder: " Select a Sprint",
-          allowClear: true,   
-                       
+          allowClear: true,                        
           ajax: ({
           url: "get_sprints.php",
           dataType: 'json',
@@ -593,21 +598,21 @@ function  campagnTable() {
         
         }
     );
-
-
-
-
-
-    $('#sprints').on('select2:select', function () {
-        var selected_sprints = $('#sprints').val();  
-         console.log('sprints  '+ selected_sprints);
-        //campagnTable();
-    });
-
-
-    });
+    $('#sprints').on('select2:unselecting', function () {
+        selected_sprint = '';   
+        console.log('sprints cancellato  '+ selected_sprint);
+        campagnTable();
     
+    });
+    $('#sprints').on('select2:select', function () {
+        selected_sprint = $('#sprints').val();   
+        console.log('sprints  '+ selected_sprint);
+        campagnTable();
+    
+    });
 
+
+});
 
 
 </script>

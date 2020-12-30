@@ -987,7 +987,7 @@ if ($lista_ext2) {
     }
 
 
-
+//Controllo validazione ed output
 $(function () {
   $('#form-campagna-ins').parsley().on('field:validated', function() {
     var ok = $('.parsley-error').length === 0;

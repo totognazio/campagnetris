@@ -16,14 +16,11 @@ else{
     $sprints = $funzione->get_sprints();
 }
 
-
-
+//$dati[] = array('id' => 0,'text' => '');
 foreach ($sprints as $key => $row) {
     $dati[] = array(
         'id' => $row['id'],
         'text' => $row['name'],
-        //'data_inizio' => $row['data_inizio'],
-        //'data_fine' => $row['data_fine'],
     );
 }
 echo json_encode(array("results"=>$dati));

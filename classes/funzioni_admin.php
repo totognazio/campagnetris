@@ -88,7 +88,7 @@ class funzioni_admin {
             return 0;
     }
 
-    function get_type($id) {
+    function get_type_by_stack($id) {
         $query3 = "SELECT campaign_types.id,campaign_types.NAME as tipo_nome FROM campaign_types 
     left join campaign_stacks on campaign_stacks.id=campaign_types.campaign_stack_id
     where campaign_stacks.id=$id";
@@ -100,6 +100,17 @@ class funzioni_admin {
             $r['id'] = $obj3['id'];
             $r['name'] = $obj3['tipo_nome'];
             $list[] = $r;
+        }
+        return $list;
+    }
+
+    function get_type($id) {
+        $query3 = "SELECT * FROM campaign_types where campaign_types.id=$id";
+//echo $query3;
+        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+        $list = array();
+        while ($obj3 = $result3->fetch_array(MYSQLI_ASSOC)) {
+            $list[] = $obj3;
         }
         return $list;
     }
@@ -124,7 +135,7 @@ class funzioni_admin {
     
 
 	
-    function get_type_label2($id) {
+    function get_type_label($id) {
         $query3 = "SELECT campaign_types.id,campaign_types.NAME as tipo_nome,campaign_types.label as tipo_label FROM campaign_types 
     
     where campaign_types.id=$id";
@@ -140,11 +151,12 @@ class funzioni_admin {
         }
         return $r['label'];
     }
-        function get_type_label($id) {
-        $query3 = "SELECT campaign_types.id,campaign_types.NAME as tipo_nome,campaign_types.label as tipo_label FROM campaign_types 
     
-    where campaign_types.id=$id";
-//echo $query3;
+    
+ 
+    function get_channel_label($id) {
+        $query3 = "SELECT channels.id,channels.NAME as tipo_nome,channels.label as tipo_label FROM channels where channels.id=$id";
+echo $query3;
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $list = array();
         $r = array();
@@ -154,14 +166,24 @@ class funzioni_admin {
             $r['label'] = $obj3['tipo_label'];
             $list[] = $r;
         }
+        return $r['label'];
+    }
+
+    function get_channel($id) {
+        $query3 = "SELECT * FROM channels where channels.id=$id";
+//echo $query3;
+        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+        $list = array();
+        while ($obj3 = $result3->fetch_array(MYSQLI_ASSOC)) {
+            $list[] = $obj3;
+        }
         return $list;
     }
+
+    function get_stack_label($id) {
+        $query3 = "SELECT campaign_stacks.id,campaign_stacks.NAME as tipo_nome,campaign_stacks.label as tipo_label FROM campaign_stacks 
     
- 
-    function get_channel_label2($id) {
-        $query3 = "SELECT channels.id,channels.NAME as tipo_nome,channels.label as tipo_label FROM channels 
-    
-    where channels.id=$id";
+    where campaign_stacks.id=$id";
 //echo $query3;
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $list = array();
@@ -175,7 +197,7 @@ class funzioni_admin {
         return $r['label'];
     }
 
-    function get_stack_label($id) {
+    function get_stack($id) {
         $query3 = "SELECT campaign_stacks.id,campaign_stacks.NAME as tipo_nome,campaign_stacks.label as tipo_label FROM campaign_stacks 
     
     where campaign_stacks.id=$id";
@@ -293,6 +315,19 @@ class funzioni_admin {
         $r = array();
         while ($obj3 = $result3->fetch_array(MYSQLI_ASSOC)) {
             $r[$obj3['id']] = $obj3;
+         
+        }
+        return $r;
+    }
+
+    function get_sprint($id) {
+
+        $query3 = "SELECT * FROM `sprints` WHERE id=$id";   
+//echo $query3;
+        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+        $r = array();
+        while ($obj3 = $result3->fetch_array(MYSQLI_ASSOC)) {
+            $r = $obj3;
          
         }
         return $r;
