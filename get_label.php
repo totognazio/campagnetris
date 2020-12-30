@@ -1,6 +1,6 @@
 <?php
 
-include_once 'funzioni_admin.php';
+include_once 'classes/funzioni_admin.php';
 $funzioni_admin = new funzioni_admin();
 $dati = array();
 

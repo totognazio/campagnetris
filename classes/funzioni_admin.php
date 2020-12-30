@@ -280,8 +280,14 @@ class funzioni_admin {
         return $list;
     }
     
-    function get_sprints() {
-        $query3 = "SELECT * FROM `sprints`";
+    function get_sprints($startDate=null,$endDate=null) {
+        if(isset($startDate) && isset($endDate)){
+            $query3 = "SELECT * FROM `sprints` WHERE (`data_inizio` <= '".$endDate."' AND (`data_fine` >= '".$startDate."' ))";
+        }
+        else{
+            $query3 = "SELECT * FROM `sprints`";
+        } 
+        
 //echo $query3;
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $r = array();

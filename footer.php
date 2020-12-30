@@ -105,6 +105,7 @@ $(document).ready(function () {
 
 
     });
+
     $('#channels').multiselect({
     enableClickableOptGroups: true,
             enableCollapsibleOptGroups: true,
@@ -209,6 +210,7 @@ $(document).ready(function () {
             campagnTable();
             }
     });
+
     
     
 
@@ -364,14 +366,7 @@ $('#mod_invio').on('select2:select', function () {
 
 });
 
-$('#sprints').select2({
-          placeholder: " Select a Sprint",
-          allowClear: true        
-        });
-$('#sprints').on('select2:select', function () {
-    var selected_sprints = $('#sprints').val();
-    console.log('sprints  '+ selected_sprints);
-});
+
 
 $('#cate_ins').select2({
           placeholder: " Select"         
@@ -552,6 +547,21 @@ function  campagnTable() {
         select_startDate = picker.startDate.format('YYYY-MM-DD');        
         select_endDate = picker.endDate.format('YYYY-MM-DD');
         console.log('select_startDate inn' + select_startDate);
+
+        $('#sprints').select2({
+            ajax: ({
+                url: "get_sprints.php",
+                dataType: 'json',
+                delay: 10,
+                  method: "POST",
+                  data: {startDate: select_startDate, endDate: select_endDate},
+                  //dataType:"html",    
+                  success: function (data)
+                  {
+                      console.log('data eccoliii '+ JSON.stringify(data));
+                  }
+                })
+        });
         campagnTable();
     });
     $('#reportrange_right').on('cancel.daterangepicker', function(ev, picker) {
@@ -563,7 +573,38 @@ function  campagnTable() {
         $('#reportrange_right').data('daterangepicker').remove();
     });
     
-    
+ 
+        $('#sprints').select2({
+          placeholder: " Select a Sprint",
+          allowClear: true,   
+                       
+          ajax: ({
+          url: "get_sprints.php",
+          dataType: 'json',
+          delay: 10,
+            method: "POST",
+            data: {startDate: select_startDate, endDate: select_endDate},
+            //dataType:"html",    
+            success: function (data)
+            {
+                 console.log('data eccoliii '+ JSON.stringify(data));
+            }
+          })
+        
+        }
+    );
+
+
+
+
+
+    $('#sprints').on('select2:select', function () {
+        var selected_sprints = $('#sprints').val();  
+         console.log('sprints  '+ selected_sprints);
+        //campagnTable();
+    });
+
+
     });
     
 

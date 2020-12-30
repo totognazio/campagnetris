@@ -62,11 +62,11 @@ $form->head_page("Pianificazione Campagne", "Filtro");
                      <div class="col-md-2 col-sm-2 col-xs-12">
                                 <h4>Sprint</h4>
                              <select id="sprints" name="sprints" class="select2_single form-control">        
-                              <option value=""></option>
+                              
                             <?php 
-                            foreach ($sprints as $key => $value) {
-                                echo '<option value="'.$key.'">'.$value['name'].'</option>';
-                            }                                                  
+                            //foreach ($sprints as $key => $value) {
+                            //    echo '<option value="'.$key.'">'.$value['name'].'</option>';
+                            //}                                                  
                             ?>  
                           </select>
                     </div>       

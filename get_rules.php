@@ -1,6 +1,6 @@
 <?php
 
-include_once 'campaign_class.php';
+include_once 'classes/campaign_class.php';
 $campaign = new campaign_class();
 $dati = array();
 

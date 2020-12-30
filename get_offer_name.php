@@ -1,6 +1,6 @@
 <?php
 
-include_once 'funzioni_admin.php';
+include_once 'classes/funzioni_admin.php';
 $campaign = new funzioni_admin();
 $dati = array();
 
