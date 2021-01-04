@@ -619,23 +619,42 @@ function  campagnTable() {
 
     <!-- bootstrap-daterangepicker -->
     <script>
+
       $(document).ready(function() {
-        $('#data_fine').daterangepicker({
+        //$('#days').val(14);
+
+        $('#data_fine').daterangepicker({          
           singleDatePicker: true,
           calender_style: "picker_4",
-          format: 'YYYY-MM-DD'
+          format: 'YYYY-MM-DD',
+          locale: {
+                    format: "YYYY-MM-DD"
+          }
         }, function(start, end, label) {
-          console.log(start.toISOString(), end.toISOString(), label);
+          console.log("new data_fine  ",end.toISOString(), label);
+          var rangedays = moment(end.toISOString()).diff($('#data_inizio').val(),'days');
+          console.log('rande sss '+ rangedays);
+          $('#days').val(rangedays);
         });
         
         $('#data_inizio').daterangepicker({
           singleDatePicker: true,
           calender_style: "picker_4",
-          format: 'YYYY-MM-DD'
-        }, function(start, end, label) {
-          console.log(start.toISOString(), end.toISOString(), label);
+          format: 'YYYY-MM-DD',
+          minDate: $('#data_inizio').val(),
+          locale: {
+                    format: "YYYY-MM-DD"
+          }
+        }, function(start, end, label) {          
+          console.log("new data_inizio  ",end.toISOString(), label);
+          var rangedays = moment($('#data_fine').val()).diff(end.toISOString(),'days');
+          console.log('randeinizio '+ rangedays);
+          $('#days').val(rangedays+1);
+
         });
       });
+
+
     </script>
     <!-- /bootstrap-daterangepicker -->
 
@@ -657,7 +676,7 @@ function  campagnTable() {
         $("body").tooltip({ selector: '[data-toggle=tooltip]' });
          
        
-        $('#data_inizio_campagna').daterangepicker({            
+        $('#data_inizio_campagna').daterangepicker({                    
           singleDatePicker: true,
           singleClasses: "picker_3",
                 locale: {

@@ -6,6 +6,7 @@
                 }
  </style>
 <?php
+//print_r($_POST);
 
 include_once './classes/funzioni_admin.php';
 $funzioni_admin = new funzioni_admin();
@@ -45,9 +46,21 @@ if (isset($_POST['azione'])) {
 
         if (isset($_POST['channel_id']))
             $channel_id = $_POST['channel_id'];
-        //var_dump($_POST);
+         
+        $days = Null;
+                if (isset($_POST['days']))
+                    $days = $_POST['days'];
+$data_inizio = Null;                
+                    if (isset($_POST['data_inizio']))
+                    $data_inizio = $_POST['data_inizio'];                
+                $data_fine = Null;
+                    if (isset($_POST['data_fine']))
+                    $data_fine = $_POST['data_fine'];        
+        
+          
+            //var_dump($_POST);
         if (!empty($new_name))
-            $funzioni_admin->update_name($table_name, $id, $new_name, $color, $elimina, $label, $description);
+            $funzioni_admin->update_name($table_name, $id, $new_name, $color, $elimina, $label, $description, $days,$data_inizio,$data_fine);
         else
             echo '<script type="text/javascript">alert("Attenzione! Campo vuoto");</script>';
     }
@@ -79,10 +92,10 @@ if (isset($_POST['azione'])) {
             }
             $data_inizio = $_POST['data_inizio'];
             $data_fine =  $_POST['data_fine'];
-            if (empty($new_name) || empty($stack_id))
+            if (empty($new_name))
                 echo '<script type="text/javascript">alert("Attenzione! Nome campo non valorizzato.");</script>';
             else //if ($funzioni_admin->check_new_name($table_name, $new_name))
-                $funzioni_admin->insert_new_campaigntype($new_name, $data_inizio, $data_fine);
+                $funzioni_admin->insert_new_sprints($new_name, $days,$data_inizio, $data_fine);
         }
         elseif ($table_name == 'campaign_states') {
             if (isset($_POST['new_name']) && !empty($_POST['new_name']))
@@ -155,7 +168,7 @@ switch ($table_name) {
         break;
     case "squads": $select_squads = 'style="background-color:#6F7D94;color: #FFF;" break';
         break;
-    case "squads": $select_sprints = 'style="background-color:#6F7D94;color: #FFF;" break';
+    case "sprints": $select_sprints = 'style="background-color:#6F7D94;color: #FFF;" break';
         break;
     case "campaign_stacks": $select_campaign_stacks = 'style="background-color:#6F7D94;color: #FFF;" break';
         break;
@@ -177,7 +190,7 @@ switch ($table_name) {
 ?>
 
 <script language="JavaScript" type="text/javascript">
-<!--  
+
     function seleziona(riga) {
         riga.className = "selezionata";
     }
@@ -251,12 +264,6 @@ switch ($table_name) {
 
             <div class="clearfix"></div>
 
-    <?php
-    if ($table_name == 'offers')
-        echo '<div class="finestra" style="width:90%;  min-height:400px; padding:5px;">';
-    else
-        echo '<div class="finestra" style="width:40%;  min-height:400px; padding:5px;">';
-    ?>
                 <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -614,3 +621,27 @@ switch ($table_name) {
 
 
 
+<script>
+          //calcolo data inizio e fine del nuovo sprint in ADD
+          $.ajax({
+            url: "get_lastDataSprint.php",
+            method: "POST",
+            //data: {sprint: selected_sprint},
+            //dataType:"html",    
+            success: function (data)
+            {
+                console.log('dataaa ', JSON.stringify(data));
+                console.log('dataaa parse ', JSON.parse(data).data_fine);
+              var new_inizio = moment(JSON.parse(data).data_fine,"YYYY-MM-DD").add(1, 'day').format("YYYY-MM-DD");
+              var new_fine = moment(JSON.parse(data).data_fine,"YYYY-MM-DD").add(15, 'day').format("YYYY-MM-DD");
+              console.log('eccolaaa ', moment(JSON.parse(data).data_fine,"YYYY-MM-DD").add(1, 'day').format("YYYY-MM-DD")); 
+              $('#data_inizio').val(new_inizio);
+              $('#data_fine').val(new_fine);
+              $('#days').val("14");
+            
+            
+            }
+          })
+
+      
+</script>

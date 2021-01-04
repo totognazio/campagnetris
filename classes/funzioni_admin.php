@@ -332,6 +332,19 @@ echo $query3;
         }
         return $r;
     }
+
+    function get_lastDataSprint() {
+
+        $query3 = "SELECT * FROM `sprints` order by `id` DESC limit 1";   
+//echo $query3;
+        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+        $r = array();
+        while ($obj3 = $result3->fetch_array(MYSQLI_ASSOC)) {
+            $r = $obj3;
+         
+        }
+        return $r;
+    }
     
     function get_allTable($table) {
         $query3 = "SELECT * FROM `$table`";
@@ -357,7 +370,7 @@ echo $query3;
     }
 
     function get_list_id($nome_tabella) {
-        $query3 = "SELECT id,name FROM $nome_tabella ";
+        $query3 = "SELECT id,name FROM $nome_tabella  order by id DESC";
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $list = array();
         $r = array();
@@ -441,7 +454,7 @@ echo $query3;
         return $list;
     }
 
-    function update_name($nome_tabella, $id, $new_value, $color = NULL, $elimina = NULL, $label = NULL, $description = NULL) {
+    function update_name($nome_tabella, $id, $new_value, $color = NULL, $elimina = NULL, $label = NULL, $description = NULL, $days=Null,$data_inizio=Null,$data_fine=Null) {
         //$query3 = "UPDATE `$nome_tabella` SET `name` = '$new_value' WHERE `$nome_tabella`.`id` = $id";
         if ($nome_tabella == "campaign_states") {
             $query3 = "UPDATE `$nome_tabella` SET `name` = '$new_value',`colore` ='$color',`elimina` ='$elimina'  WHERE `$nome_tabella`.`id` = $id";
@@ -449,7 +462,11 @@ echo $query3;
             $query3 = "UPDATE `$nome_tabella` SET `name` = '$new_value',`label` = '$label',`description` ='$description'  WHERE `$nome_tabella`.`id` = $id";
         } elseif ($nome_tabella == 'campaign_modalities' || $nome_tabella == 'campaign_categories' || $nome_tabella == 'campaign_cat_sott' || $nome_tabella == 'campaign_titolo_sottotitolo' || $nome_tabella == "campaign_types" || $nome_tabella == 'campaign_stacks' || $nome_tabella == 'channels' || $nome_tabella == 'segments') {
             $query3 = "UPDATE `$nome_tabella` SET `name` = '$new_value',`label` = '$label'  WHERE `$nome_tabella`.`id` = $id";
-        } else {
+        } 
+        elseif($nome_tabella == "sprints"){
+            $query3 = "UPDATE `$nome_tabella` SET `name` = '$new_value',`days` = '$days', `data_inizio`='$data_inizio',`data_fine`='$data_fine'  WHERE `$nome_tabella`.`id` = $id";
+        }
+        else {
             $query3 = "UPDATE `$nome_tabella` SET `name` = '$new_value' WHERE `$nome_tabella`.`id` = $id";
         }
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
@@ -491,6 +508,12 @@ echo $query3;
         $query3 = "INSERT INTO `senders`(`id`, `name`, `channel_id`) VALUES ( NULL, '$name', '$channel_id')";
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
 
+        return $result3;
+    }
+
+    function insert_new_sprints($name, $days, $data_inizio, $data_fine) {        
+        $query3 = "INSERT INTO `sprints`(`id`, `name`, `days`, `data_inizio`, `data_fine`) VALUES (NULL,'$name','$days','$data_inizio','$data_fine')";
+        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         return $result3;
     }
 
