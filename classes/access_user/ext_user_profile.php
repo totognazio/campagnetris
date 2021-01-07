@@ -84,10 +84,10 @@ class Users_profile extends Access_user {
 	function get_language($user, $pw) {
 		$sql = sprintf("SELECT up.language AS lang FROM %s AS u, %s AS up WHERE u.login = %s AND u.pw = '%s' AND u.id = up.users_id ", $this->table_name, $this->profile_tbl_name, $this->ins_string($user), md5($pw));
 		$result = mysqli_query($this->mysqli,$sql);
-		if (mysql_num_rows($result) == 0) {
+		if (mysqli_num_rows($result) == 0) {
 			return;
 		} else {
-			$lang = mysql_result($result, 0, "lang");
+			$lang = mysqli_fetch_assoc($this->db,$result)["lang"];
 			if ($lang != "") {
 				$this->language = $lang;
 			} else {
@@ -112,7 +112,7 @@ class Users_profile extends Access_user {
 				$this->ins_string($field2), $this->ins_string($field3), $this->ins_string($field4));
 		}	
 		if (mysqli_query($this->mysqli,$sql) or die (mysqli_error($this->mysqli))) {
-			$this->profile_id = (empty($_SESSION['is_rec'])) ? mysql_insert_id() : $ident;
+			$this->profile_id = (empty($_SESSION['is_rec'])) ? mysqli_insert_id($this->db) : $ident;
 			$this->the_msg = $this->extra_text(2);
 		} else {
 			$this->the_msg = $this->extra_text(3);
@@ -173,7 +173,7 @@ class Users_profile extends Access_user {
         $menu .= "  <option value=\"\"";
 		$menu .= (!isset($_REQUEST['country'])) ? " selected" : "";
 		$menu .= ">...\n";
-    	while ($obj = mysql_fetch_object($res_countries)) {
+    	while ($obj = mysqli_fetch_object($this->db,$res_countries)) {
 			$menu .= "  <option value=\"".$obj->iso."\"";
 			if (isset($this->country) && !isset($_REQUEST['country'])) {
 				$menu .= ($obj->iso == $this->country) ? " selected" : "";
@@ -183,7 +183,7 @@ class Users_profile extends Access_user {
 			$menu .= ">".$obj->name."</option>\n";
     	}
 		$menu .= "</select><br>\n";
-		mysql_free_result($res_countries);
+		mysqli_free_result($this->db,$res_countries);
 		return $menu;
 	}
 	function create_form_field($formelement, $label, $length = 25, $required = false, $disabled = false, $euro_date = false) {
@@ -230,7 +230,7 @@ class Users_profile extends Access_user {
 			$ins_password = $this->user_pw;
 			$update_pw = false;
 		}
-                /*
+    
 		if (trim($new_mail) <> $this->user_email) {
 			if  ($this->check_email($new_mail)) {
 				$this->user_email = $new_mail;
@@ -248,8 +248,7 @@ class Users_profile extends Access_user {
 			$update_email = false;
 			$new_mail = "";
 		}
-                 * 
-                 */
+              
 		$upd_sql = sprintf("UPDATE %s SET pw = %s, lastname = %s,  firstname = %s, tmp_mail = %s WHERE id = %d", 
 			$this->table_name,
 			$this->ins_string($ins_password),

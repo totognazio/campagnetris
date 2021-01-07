@@ -127,18 +127,17 @@ $error = $new_member->the_msg; // error message
                   <div class="x_content"> 
 
                     <br />
-            <form class="form-horizontal form-label-left" name="form1" method="post" action="index.php?page=register">
-                
+            <form class="form-horizontal form-label-left name="form1" method="post" action="index.php?page=register">
                     <div class="form-group">
                    
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Cognome</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
                         <input class="form-control" id="cognome" name="cognome" type="text" class="text" value="<?php echo (isset($_POST['cognome'])) ? $_POST['cognome'] : ""; ?>" tabindex="2" onfocus="seleziona_campo('cognome');" onblur="deseleziona_campo('cognome');"/>
                         </div>
                     </div>      
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Nome</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
                         <input class="form-control" id="nome" name="nome" type="text" class="text" value="<?php echo (isset($_POST['nome'])) ? $_POST['nome'] : ""; ?>" tabindex="3" onfocus="seleziona_campo('nome');" onblur="deseleziona_campo('nome');"/>
                         </div>
                    </div>   
@@ -148,17 +147,17 @@ $error = $new_member->the_msg; // error message
                 <div class="form-group"> 
                          
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Username</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
                         <input class="form-control" id="login" type="text" name="login" class="text"  value="<?php echo (isset($_POST['login'])) ? $_POST['login'] : ""; ?>" onfocus="seleziona_campo('login');" onblur="deseleziona_campo('login');"/>
                         <span class="required">*</span>(min. 6 chars.) <br>
                         </div>
-                        </div>
+                </div>
 
                   
                  
                         <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Password</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
                         <input class="form-control" id="password" type="password" name="password" class="text"  value="<?php echo (isset($_POST['password'])) ? $_POST['password'] : ""; ?>" onfocus="seleziona_campo('password');" onblur="deseleziona_campo('password');"/>
                         <span class="required">*</span>(min. 6 chars.) <br>
                         </div>
@@ -166,13 +165,13 @@ $error = $new_member->the_msg; // error message
                
                    <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Conferma Password</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12"><input class="form-control" id="confirm" type="password" name="confirm" class="text" value="<?php echo (isset($_POST['confirm'])) ? $_POST['confirm'] : ""; ?>" onfocus="seleziona_campo('confirm');" onblur="deseleziona_campo('confirm');"/>
+                        <div class="col-md-6 col-sm-6 col-xs-12"><input class="form-control" id="confirm" type="password" name="confirm" class="text" value="<?php echo (isset($_POST['confirm'])) ? $_POST['confirm'] : ""; ?>" onfocus="seleziona_campo('confirm');" onblur="deseleziona_campo('confirm');"/>
                         <span class="required">*</span><br>
                         </div>
                         </div>
  <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">E-mail</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
                         <input class="form-control" id="email" type="text" name="email" class="text"  size="25" value="<?php echo (isset($_POST['email'])) ? $_POST['email'] : ""; ?>" onfocus="seleziona_campo('email');" onblur="deseleziona_campo('email');">
                             <span class="required">*</span><br>
                            </div> 
@@ -181,7 +180,7 @@ $error = $new_member->the_msg; // error message
                     <br>
                <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Maillist</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
                         <input  id="maillist" name="maillist" type="checkbox" value="1"   tabindex="8" /></span>
                         </div>
                 </div>
@@ -190,7 +189,7 @@ $error = $new_member->the_msg; // error message
                     <label class="control-label col-md-3 col-sm-3 col-xs-12"   id="ruolo">Ruolo:
                        <span class="required">*</span>
                     </label>
-                   <div class="col-md-9 col-sm-9 col-xs-12">
+                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <select class="form-control"  id="selectRuolo" name="selectRuolo"  tabindex="6" onfocus="seleziona_campo('selectRuolo');" onblur="deseleziona_campo('selectRuolo');"/>    
                     <option> </option>
     <?php
@@ -213,7 +212,7 @@ $error = $new_member->the_msg; // error message
                         <span class="required">*</span>
                     </label>
 
-                        <div class="col-md-9 col-sm-9 col-xs-12">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
                     <select class="form-control" id="selectStato" name="selectStato"  tabindex="7" onfocus="seleziona_campo('selectStato');" onblur="deseleziona_campo('selectStato');"/>      
                     <option  selected="selected" value="n" >Disattivo</option>
                     <option   value="y">Attivo</option>  
@@ -226,7 +225,7 @@ $error = $new_member->the_msg; // error message
                     <label class="control-label col-md-3 col-sm-3 col-xs-12"   id="dipartimento">Stack:
                         <span class="required">*</span>
                     </label>
-                     <div class="col-md-9 col-sm-9 col-xs-12">
+                     <div class="col-md-6 col-sm-6 col-xs-12">
                     <select class="form-control" id="selectStack" name="selectStack"  tabindex="6" onfocus="seleziona_campo('selectStack');" onblur="deseleziona_campo('selectStack');"/>
 
     <?php
@@ -247,15 +246,10 @@ $error = $new_member->the_msg; // error message
                 <div class="col-md-6 col-md-offset-3">
                    
                     <input class="btn btn-primary" id="annulla" name="annulla"  tabindex="12" type="button" value="Annulla" onclick="javascript:window.location.href = ''"/>
-                    <input class="btn btn-primary" id="submit" name="submit"  tabindex="13" type="submit" value="Submit" />
+                    <input class="btn btn-success" id="submit" name="submit"  tabindex="13" type="submit" value="Submit" />
                     <input type="hidden" id="modificaUtente" name="azione" value="aggiungi" />
                 </div>
-     
-                <div>
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12"  id="campoObbligatorio">
-                        <a class="btn btn-primary" href="<?php $_SERVER['PHP_SELF'] ?>">Insert New</a>
-                    </label>
-                </div>  
+
             </div>  
 
             </form>

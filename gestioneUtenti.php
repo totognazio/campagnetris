@@ -85,7 +85,7 @@ if (isset($_POST['modificaUtente']) && $_POST['modificaUtente'] == "1") {
 
             <div class="clearfix"></div>
 
-            <div class="row">
+                <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
@@ -98,10 +98,10 @@ if (isset($_POST['modificaUtente']) && $_POST['modificaUtente'] == "1") {
                     </ul>
                     <div class="clearfix"></div>
                   </div>
-                  <div class="x_content"> 
+                  <div class="x_content" id="content"> 
                       
                       
-<div class="content" id="content">
+
     <script language="JavaScript" type="text/javascript">
         function seleziona(riga) {
             riga.className = "selezionata";
@@ -148,66 +148,69 @@ if (isset($_POST['modificaUtente']) && $_POST['modificaUtente'] == "1") {
             if (!empty($_POST['idUtente'])) {
                 $user_id = $_POST['idUtente'];
                 $utente = $funzioni_admin->user_get_info($user_id);
-                //print_r($utente);
+                print_r($utente);
             }
             ?>
 
-            <div class="finestra" style="width:400px; min-height:400px; padding:5px;">
-                <div class="wufoo">
-                    <div class="info">
-                        <h2>Modifica Utente</h2>
-                        <div></div>
-                    </div>
-                </div>
-                <form id="form" name="form"  enctype="multipart/form-data" action="./index.php?page=gestioneUtenti" method="post" onsubmit="return controllaform()">
+
+                <form id="form" name="form"  class="form-horizontal form-label-left" enctype="multipart/form-data" action="./index.php?page=gestioneUtenti" method="post" data-parsley-validate onsubmit="return controllaform()">
                     <div class="left" style="margin-left: 20px; margin:10px;  width:90%; min-height:20px;">
                         <label class="intestazione"  id="datianagrafici">Dati anagrafici:
                         </label>
                     </div>
-                    <div class="left" style="margin-left: 20px; margin:10px;  width:40%; min-height:30px;">
-                        <span class="" style="margin-top:10px; display:block;"><label>Cognome</label>
-                            <input id="cognome" name="cognome" type="text" class="text" value="<?php echo $utente['lastname']; ?>" tabindex="2" onfocus="seleziona_campo('cognome');" onblur="deseleziona_campo('cognome');"/>
-                        </span>
-                    </div>
-                    <div class="left" style="margin-left: 20px; margin:10px;  width:40%; min-height:30px;">
-                        <span class="" style="margin-top:10px; display:block;"><label>Nome</label>
-                            <input id="nome" name="nome" type="text" class="text" value="<?php echo $utente['firstname']; ?>" tabindex="3" onfocus="seleziona_campo('nome');" onblur="deseleziona_campo('nome');"/>
-                        </span>
-                    </div>
-                    <div class="left" style="margin-left: 20px; margin:10px;  width:40%; min-height:120px;">
-                        <label class="intestazione"  id="datiaccesso">Dati d'accesso:
-                            <span id="req_2" class="req">*</span>
-                        </label>
-                        <span class="" style="margin-top:10px; display:block;">
-                            <label>login</label>
-                            <input id="login" name="login" type="text" class="text"  value="<?php echo $utente['login']; ?>" tabindex="4"  onfocus="seleziona_campo('login');" onblur="deseleziona_campo('login');"/>
-                            <span id="req_1" class="req">* </span>(min. 6 chars.)  <br>
-                        </span>
-                        <span class="" style="margin-top:10px; display:block;">
-                            <label>New Password</label>
-                            <input id="password" name="password" type="password" class="text" value="" tabindex="5" onfocus="seleziona_campo('password');" onblur="deseleziona_campo('password');"/>
-                            <span id="req_1" class="req">* </span>(min. 4 chars.) <br>
-                        </span>
-                        <span class="" style="margin-top:10px; display:block;">
-                            <label>E-mail</label>
-                            <input id="email" type="text" name="email" class="text"  size="25" value="<?php echo $utente['email']; ?>" onfocus="seleziona_campo('email');" onblur="deseleziona_campo('email');">
-                            <span id="req_1" class="req">* </span><br>
-                        </span>
-                        <br>
-                        <span class="" style="margin-top:10px; display:block;">
-                            <label>Maillist</label>
-                            <input id="maillist" name="maillist" type="checkbox" value="1" <?php
-        if ($utente['maillist'] == 1)
-            echo 'checked="checked"';
-        else
-            echo '';
-            ?>   tabindex="8" /></span>
-                    
-                        <label class="intestazione" style=""  id="ruolo">Ruolo:
-                            <span id="req_3" class="req">*</span>
-                        </label>
+          <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="login">Cognome </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input class="form-control col-md-7 col-xs-12" id="cognome" name="cognome" type="text"  size="10" value="<?php echo $utente['lastname'];  ?>" style="font-weight:bold;"  tabindex="2" onfocus="seleziona_campo('cognome');" onblur="deseleziona_campo('cognome');"/>
+                </div>
+	    </div>
+      <div class="form-group">
+      		<label class="control-label col-md-3 col-sm-3 col-xs-12" for="login">Nome </label>
+		<div class="col-md-6 col-sm-6 col-xs-12">
+                    <input class="form-control col-md-7 col-xs-12" id="nome" name="nome" type="text"  size="10" value="<?php echo $utente['firstname'];  ?>" style="font-weight:bold;"  tabindex="3" onfocus="seleziona_campo('nome');" onblur="deseleziona_campo('nome');"/>
+                </div>
+	  </div>
+    
 
-                        <select id="selectRuolo" name="selectRuolo" style="margin-top:10px;" tabindex="6" onfocus="seleziona_campo('selectRuolo');" onblur="deseleziona_campo('selectRuolo');">          
+                    <div class="left" style="margin-left: 20px; margin:10px;  width:90%; min-height:20px;">
+                        <label class="intestazione"   id="datiaccesso" >Dati d'accesso:
+                        <span id="req_2" class="req">*</span>
+                        </label>
+                    </div>
+            <div class="form-group">
+      		<label class="control-label col-md-3 col-sm-3 col-xs-12" for="login">Login <span class="required">*</span></label>
+		<div class="col-md-6 col-sm-6 col-xs-12">
+                    <input class="form-control col-md-7 col-xs-12" id="login" name="login"type="text"  size="10" value="<?php echo $utente['login'];  ?>" style="font-weight:bold;"  placeholder="(min. 6 chars.)" required="required" tabindex="4"  onfocus="seleziona_campo('login');" onblur="deseleziona_campo('login');"/>
+                </div>
+	  </div>              
+                    
+            <div class="form-group">
+      		<label class="control-label col-md-3 col-sm-3 col-xs-12" for="login">New Password <span class="required">*</span></label>
+		<div class="col-md-6 col-sm-6 col-xs-12">
+                    <input class="form-control col-md-7 col-xs-12" id="password" name="password" type="password"  size="10" value="" style="font-weight:bold;"  placeholder="(min. 6 chars.)" data-parsley-trigger="change" data-parsley-min="6" required="required" tabindex="5" onfocus="seleziona_campo('password');" onblur="deseleziona_campo('password');"/>
+                </div>
+	  </div>  
+                  <div class="form-group">
+      		<label class="control-label col-md-3 col-sm-3 col-xs-12" >E mail <span class="required">*</span></label>
+		<div class="col-md-6 col-sm-6 col-xs-12">                    
+               <input type="email" id="email" class="form-control col-md-7 col-xs-12" name="email" value="<?php echo $utente['email']; ?>"  data-parsley-trigger="change" required />
+                </div>
+	  </div>  
+      <br>
+        <div class="form-group">
+      		<label class="control-label col-md-3 col-sm-3 col-xs-12">Maillist </label>
+            
+            <input class="flat" id="maillist" name="maillist" type="checkbox" value="1" <?php
+                if ($utente['maillist'] == 1)
+                    echo 'checked="checked"';
+                else
+                    echo '';
+                    ?>/>
+            </div><br> 
+            <div class="form-group">
+	      		<label class="control-label col-md-3 col-sm-3 col-xs-12" >Ruolo <span class="required">*</span></label>
+		<div class="col-md-6 col-sm-6 col-xs-12">
+                            <select class="select2_single form-control" id="selectRuolo" name="selectRuolo">          
                             <?php
                             $ruolo = $funzioni_admin->get_list_id("job_roles");
 
@@ -221,9 +224,15 @@ if (isset($_POST['modificaUtente']) && $_POST['modificaUtente'] == "1") {
                             ?>
 
                         </select>
-                        <label class="intestazione" style="margin-top:10px;"  id="stato">Stato:
-                            <span id="req_4" class="req">*</span>
-                        </label>
+                    
+                </div>
+	  </div>  
+                    
+   
+   
+                                          <div class="form-group">
+      		<label class="control-label col-md-3 col-sm-3 col-xs-12" >Stato <span class="required">*</span></label>
+		<div class="col-md-6 col-sm-6 col-xs-12">
 
                         <?php
                         $selected_attivo = $selected_sidattivo = $selected_sospeso = '';
@@ -234,15 +243,17 @@ if (isset($_POST['modificaUtente']) && $_POST['modificaUtente'] == "1") {
                         elseif (( trim(strtolower($utente['active'])) == 'b'))
                             $selected_sospeso = 'selected="selected"';
                         ?>                      
-                        <select id="selectStato" name="selectStato" style="margin-top:10px;" tabindex="7" onfocus="seleziona_campo('selectStato');" onblur="deseleziona_campo('selectStato');">
+                        <select class="select2_single form-control" id="selectStato" name="selectStato">
                             <option <?php echo $selected_attivo; ?> value="y"   >Attivo</option>
                             <option <?php echo $selected_sidattivo; ?> value="n" >Disattivo</option>
                         </select>
+                     </div>
+	  </div>                
 
-                        <label class="intestazione" style="margin-top:10px;"  id="dipartimento">Squad:
-                            <span id="req_4" class="req">*</span>
-                        </label>
-                        <select id="selectDipartimento" name="selectDipartimento" style="margin-top:10px;" tabindex="6" onfocus="seleziona_campo('selectDipartimento');" onblur="deseleziona_campo('selectDipartimento');">
+                                                                  <div class="form-group">
+      		<label class="control-label col-md-3 col-sm-3 col-xs-12" >Squad <span class="required">*</span></label>
+		<div class="col-md-6 col-sm-6 col-xs-12">
+                        <select class="select2_single form-control" id="selectDipartimento" name="selectDipartimento">
                             <?php
                             $dep = $funzioni_admin->get_list_id("squads");
 
@@ -257,22 +268,22 @@ if (isset($_POST['modificaUtente']) && $_POST['modificaUtente'] == "1") {
 
                         </select>
                     </div>
-                    <div  style="margin: 0 auto;  text-align:center;clear:both"> 
-                        <input id="annulla" name="annulla" class="" tabindex="12" type="button" value="Annulla" onclick="javascript:window.location.href = 'index.php?page=gestioneUtenti&table=users'"/>
-                        <input id="salva" name="salva" class="" tabindex="13" type="submit" value="Salva" />
+</div>
+
+                      <br>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                        <input id="annulla" name="annulla" class="btn btn-primary" tabindex="12" type="button" value="Annulla" onclick="javascript:window.location.href = 'index.php?page=gestioneUtenti&table=users'"/>
+                        <input id="salva" name="salva" class="btn btn-success" tabindex="13" type="submit" value="Modifica" />
                         <input type="hidden" id="modificaUtente" name="modificaUtente" value="1" />
                         <input type="hidden" id="idUtente" name="idUtente" value="<?php echo $utente['id']; ?>" />
-                    </div>
+                        </div>
+                      </div>
 
-                    <div>
-                        <label class="" id="campoObbligatorio">
-                            <span id="req_5" class="req">*</span>
-                            Campo obbligatorio
-                        </label>
-                    </div>
-
+<div class="ln_solid"></div><br>
                 </form>
             </div>
+            
             <?php
         }
     }
@@ -311,7 +322,8 @@ if (isset($_POST['modificaUtente']) && $_POST['modificaUtente'] == "1") {
             echo "</div><br />";
         }
         ?>
-        <br><br><br>
+        <br>
+    
         <table id="datatable-fixed-header" class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable-fixed-header_info">
             <thead>
        

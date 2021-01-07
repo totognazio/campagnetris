@@ -16,9 +16,9 @@ class Admin_user extends Access_user {
 		} else {
 			$sql = sprintf("SELECT id, login, email, access_level, active FROM %s WHERE id = %d", $this->table_name, intval($for_user));
 		}
-		$result = mysql_query($sql);
-		if (mysql_num_rows($result) == 1) {
-			$obj = mysql_fetch_object($result);
+		$result = mysqli_query($this->link_db,$sql);
+		if (mysqli_num_rows($result) == 1) {
+			$obj = mysqli_fetch_object($result);
 			$this->user_id = $obj->id;
 			$this->user_name = $obj->login;
 			$this->old_user_email = $obj->email;
@@ -30,7 +30,7 @@ class Admin_user extends Access_user {
 				$this->user_found = false;
 				$this->the_msg = "It's not allowed to change your own data!";
 			}
-			mysql_free_result($result);
+			mysqli_free_result($result);
 		} else {
 			$this->the_msg = "Sorry, no data for this loginname!";
 		}	
@@ -46,7 +46,7 @@ class Admin_user extends Access_user {
 				$sql .= ($def_pass != "") ? sprintf(", pw = '%s'", md5($def_pass)) : "";
 				$sql .= " WHERE id = %d";
 				$sql_compl = sprintf($sql, $this->table_name, $new_level, $new_email, $active, $user_id);
-				if (mysql_query($sql_compl)) {
+				if (mysqli_query($this->db,$sql_compl)) {
 					$this->the_msg = "Data is modified for user with id#<b>".$user_id."</b>";
 					if ($confirmation == "yes") {
 						if ($this->send_confirmation($user_id)) {
@@ -81,7 +81,7 @@ class Admin_user extends Access_user {
 				$sql .= ($def_pass != "") ? sprintf(", pw = '%s'", md5($def_pass)) : "";
 				$sql .= " WHERE id = %d";
 				$sql_compl = sprintf($sql, $this->table_name, $new_level, $new_email, $active, $user_id);
-				if (mysql_query($sql_compl)) {
+				if (mysqli_query($this->db,$sql_compl)) {
 					$this->the_msg = "Data is modified for user with id#<b>".$user_id."</b>";
 					if ($confirmation == "yes") {
 						if ($this->send_confirmation($user_id)) {

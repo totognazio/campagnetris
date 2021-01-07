@@ -135,7 +135,7 @@ class Access_user {
                 $sql = sprintf("SELECT COUNT(*) AS test FROM %s WHERE BINARY login = %s AND pw = %s AND active = 'y'", $this->table_name, $this->ins_string($this->user), $this->ins_string($this->user_pw));
         }
         //$result = mysql_query($sql) or die(mysql_error());
-        $result = mysqli_query($this->mysqli,$sql) or die(mysql_error());
+        $result = mysqli_query($this->mysqli,$sql) or die(mysqli_error($this->db));
         if (mysqli_fetch_assoc($result)["test"] == 1) {
             return true;
         } else {
@@ -465,7 +465,7 @@ class Access_user {
         $this->id = mysqli_fetch_assoc($res_info)["id"];
         $this->user_full_name = mysqli_fetch_assoc($res_info)["lastname"];
         $this->user_firstname = mysqli_fetch_assoc($res_info)["firstname"];
-    $this->user_email = mysqli_fetch_assoc($res_info)["email"];
+        $this->user_email = mysqli_fetch_assoc($res_info)["email"];
 
 #$this->user_info = mysql_result($res_info, 0, "extra_info");
 #$this->user_email = mysql_result($res_info, 0, "email"); 
@@ -507,7 +507,7 @@ class Access_user {
     function check_ExternalUser($user_id_coded) {
         $id_external = $this->uncoded_ExternalUserId($user_id_coded);
         $sql = sprintf("SELECT COUNT(*) AS test FROM %s WHERE id_external = %s ", $this->table_name, $id_external);
-        $result = mysqli_query($this->mysqli,$sql) or die(mysql_error());
+        $result = mysqli_query($this->mysqli,$sql) or die(mysqli_error($this->db));
         if (mysqli_fetch_assoc($result)["test"] == 1) {
             return true;
         } else {
@@ -522,7 +522,7 @@ class Access_user {
         //echo '$email_external '.$email_external;
         $sql = sprintf("SELECT COUNT(*) AS test FROM %s WHERE email = '%s' ", $this->table_name, $email_external);
         #echo $sql; 
-        $result = mysqli_query($this->mysqli,$sql) or die(mysql_error());
+        $result = mysqli_query($this->mysqli,$sql) or die(mysqli_error($this->db));
         if (mysqli_fetch_assoc($result)["test"] == 1) {
             #echo 'test OK ';
             return true;
@@ -777,7 +777,7 @@ class Access_user {
                     } else {
                         $sql = sprintf("INSERT INTO %s (id, login, pw, lastname, extra_info, email, access_level, active) VALUES (NULL, %s, %s, %s, %s, %s, %d, 'n')", $this->table_name, $this->ins_string($first_login), $this->ins_string(md5($first_password)), $this->ins_string($first_name), $this->ins_string($first_info), $this->ins_string($this->user_email), DEFAULT_ACCESS_LEVEL);
 #var_dump($sql);
-                        $ins_res = mysqli_query($this->mysqli,$sql) or die(mysql_error());
+                        $ins_res = mysqli_query($this->mysqli,$sql) or die(mysqli_error($this->db));
                         if ($ins_res) {
                             $this->id = mysqli_insert_id($this->mysqli) ;
                             $this->user_pw = md5($first_password);
@@ -824,7 +824,7 @@ class Access_user {
 
 #$sql = sprintf("INSERT INTO %s (id, login, pw, lastname, extra_info, email, access_level, active) VALUES (NULL, %s, %s, %s, %s, %s, %d, 'n')", $this->table_name, $this->ins_string($first_login), $this->ins_string(md5($first_password)), $this->ins_string($cognome), $this->ins_string($first_info), $this->ins_string($this->user_email), DEFAULT_ACCESS_LEVEL);
 #var_dump($sql);
-                    $ins_res = mysqli_query($this->mysqli,$sql) or die(mysql_error());
+                    $ins_res = mysqli_query($this->mysqli,$sql) or die(mysqli_error($this->db));
                     if ($ins_res) {
                         $this->id = mysqli_insert_id($this->mysqli) ;
                         $this->user_pw = md5($first_password);
