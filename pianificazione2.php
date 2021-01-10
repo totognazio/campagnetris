@@ -43,9 +43,13 @@ $form->head_page("Pianificazione Campagne", "Filtro");
 //print_r($_POST); 
                 
                 if (isset($result)) {
-                    echo "<div class=\"info\">";
-                    echo "<h2 style=\"color: #ff0000\">" . $result . "</h2>";
-                    echo "</div>";
+                    //echo "<div class=\"info\">";
+                    //echo "<h2 style=\"color: #ff0000\">" . $result . "</h2>";
+                    //echo "</div>";
+                    echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <strong>'. $result .'</strong></div>';
                 }
               
 

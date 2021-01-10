@@ -160,12 +160,12 @@
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12">Escludi Sa/Dom<span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                
+               
                 <select <?php echo $disabled_value;?> id="escludi_sab_dom" name="escludi_sab_dom"  class="select2_single form-control"  style="width: 100%"   required="required">        
-                    <option <?php if($modifica and $id_campaign['escludi_sab_dom']=='0'){echo ' selected';} ?> value="0">No</option>
-                    <option <?php if($modifica and $id_campaign['escludi_sab_dom']=='1'){echo ' selected';} ?> value="1">Sabato</option>
-                    <option <?php if($modifica and $id_campaign['escludi_sab_dom']=='2'){echo ' selected';} ?> value="2" >Domenica</option>
-                    <option <?php if($modifica and $id_campaign['escludi_sab_dom']=='3'){echo ' selected';} ?>value="3" >Sabato & Domenica</option>
+                    <option <?php if($modifica and intval($id_campaign['escludi_sab_dom'])==0){echo ' selected ';} ?> value="0">No</option>
+                    <option <?php if($modifica and intval($id_campaign['escludi_sab_dom'])==1){echo ' selected ';} ?> value="1">Sabato</option>
+                    <option <?php if($modifica and intval($id_campaign['escludi_sab_dom'])==2){echo ' selected ';} ?> value="2" >Domenica</option>
+                    <option <?php if($modifica and intval($id_campaign['escludi_sab_dom'])==3){echo ' selected ';} ?>value="3" >Sabato & Domenica</option>
 
                 </select>
             </div>

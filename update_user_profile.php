@@ -1,5 +1,5 @@
 <script language="JavaScript" type="text/javascript">
-<!--  
+
 function seleziona(riga){
      riga.className="selezionata";
 } 
@@ -23,7 +23,7 @@ function deseleziona_campo(campo){
      campoSelezionato=document.getElementById(campo);
      campoSelezionato.style.background= "white";
 }
--->
+
 </script>
 <?php 
 //include_once (__DIR__.'/classes/socmanager_class.php');
@@ -163,7 +163,7 @@ if (isset($_POST['Submit'])) {
 	  <div class="form-group">
 		<label class="control-label col-md-3 col-sm-3 col-xs-12" for="password">Password:<span class="required">*</span></label>
 		<div class="col-md-6 col-sm-6 col-xs-12">
-                <input class="form-control col-md-7 col-xs-12" id="password" name="password" type="password" value="" size="6" placeholder="* (min. 6 chars.)">
+                <input class="form-control col-md-7 col-xs-12" id="password" name="password" type="password" value="" data-parsley-minlength="6" data-parsley-trigger="change"  required="required" size="6" placeholder="* (min. 6 chars.)">
 		
                 </div>
 	  </div>
@@ -171,7 +171,7 @@ if (isset($_POST['Submit'])) {
 		<label class="control-label col-md-3 col-sm-3 col-xs-12" for="confirm">Confirm password:<span class="required">*</span></label>
 		<div class="col-md-6 col-sm-6 col-xs-12">
                     
-                    <input class="form-control col-md-7 col-xs-12" id="confirm" name="confirm" type="password" value="" size="6" placeholder="* (min. 6 chars.)">
+                    <input class="form-control col-md-7 col-xs-12" id="confirm" name="confirm" type="password" value="" size="6" data-parsley-minlength="6" data-parsley-trigger="change"  required="required" placeholder="* (min. 6 chars.)">
 		
                 </div>
 	  </div>

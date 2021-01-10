@@ -612,7 +612,7 @@ echo $query3;
     }
 
     function users_get_list($nome_tabella) {
-        $query3 = "SELECT users.id, `lastname`, `firstname`, `login`, `job_role_id`, `squad_id`, `active`, `leggi`, `inserisci`, `modifica`, `cancella`  , job_roles.name  as ruolo, squads.vendor as dipartimento FROM `users` left join squads on `squad_id`=squads.id left join job_roles on `job_role_id`=job_roles.id ORDER BY `users`.`lastname` ASC";
+        $query3 = "SELECT users.id, `lastname`, `firstname`, `login`, `job_role_id`, `squad_id`, `active`, `leggi`, `inserisci`, `modifica`, `cancella`  , job_roles.name  as ruolo, squads.vendor as squad FROM `users` left join squads on `squad_id`=squads.id left join job_roles on `job_role_id`=job_roles.id ORDER BY `users`.`lastname` ASC";
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
 
         while ($row = mysqli_fetch_assoc($result3)) {
@@ -633,7 +633,7 @@ echo $query3;
     }
 
     function users_get_list_where_old($where) {
-        $query3 = "SELECT users.id, `lastname`, `firstname`, `login`, `job_role_id`, `squad_id`, `active`, `leggi`, `inserisci`, `modifica`, `cancella` ,maillist , job_roles.name  as ruolo, squads.vendor as dipartimento FROM `users` left join squads on `squad_id`=squads.id left join job_roles on `job_role_id`=job_roles.id $where ORDER BY `users`.`lastname` ASC";
+        $query3 = "SELECT users.id, `lastname`, `firstname`, `login`, `job_role_id`, `squad_id`, `active`, `leggi`, `inserisci`, `modifica`, `cancella` ,maillist , job_roles.name  as ruolo, squads.vendor as squad FROM `users` left join squads on `squad_id`=squads.id left join job_roles on `job_role_id`=job_roles.id $where ORDER BY `users`.`lastname` ASC";
         #$query3 = "SELECT * From `users` $where ORDER BY `users`.`lastname` ASC";
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
 
@@ -646,7 +646,7 @@ echo $query3;
     
     function users_get_list_where($where) {
 
-        $query3 = "SELECT users.id, `lastname`, `firstname`, `login`, `job_role_id`, `email`, `squad_id`, `active`, `leggi`, `inserisci`, `modifica`, `cancella` ,maillist , job_roles.name as ruolo, squads.name as dipartimento FROM `users` left join squads on `squad_id`=squads.id left join job_roles on `job_role_id`=job_roles.id $where ORDER BY `users`.`lastname` ASC"; 
+        $query3 = "SELECT users.id, `lastname`, `firstname`, `login`, `job_role_id`, `email`, `squad_id`, `active`, `leggi`, `inserisci`, `modifica`, `cancella` ,maillist , job_roles.name as ruolo, squads.name as squad FROM `users` left join squads on `squad_id`=squads.id left join job_roles on `job_role_id`=job_roles.id $where ORDER BY `users`.`lastname` ASC"; 
 
 
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
@@ -666,7 +666,7 @@ echo $query3;
     }
 
     function user_update($query) {
-        #$query3 = "UPDATE `users` SET `lastname`=".$_POST['cognome'].",`firstname`=".$_POST['nome'].",`login`=".$_POST['username'].",`job_role_id`=".$_POST['selectRuolo'].",`squad_id`=".$_POST['selectDipartimento'].",`active`=".$_POST['selectStato'].",`leggi`=Yes,`inserisci`=".$_POST['inserisci'].",`modifica`=".$_POST['modifica'].",`cancella`=".$_POST['cancella'].",`email`='xxx',`tmp_mail`=xxx,`pw`=".md5($_POST['password']).",`access_level`=1 WHERE `id`=".$_POST['idUtente']." ";
+        #$query3 = "UPDATE `users` SET `lastname`=".$_POST['cognome'].",`firstname`=".$_POST['nome'].",`login`=".$_POST['username'].",`job_role_id`=".$_POST['selectRuolo'].",`squad_id`=".$_POST['selectsquad'].",`active`=".$_POST['selectStato'].",`leggi`=Yes,`inserisci`=".$_POST['inserisci'].",`modifica`=".$_POST['modifica'].",`cancella`=".$_POST['cancella'].",`email`='xxx',`tmp_mail`=xxx,`pw`=".md5($_POST['password']).",`access_level`=1 WHERE `id`=".$_POST['idUtente']." ";
         #$query3 = "UPDATE `users` SET `name` = '$new_value' WHERE `$nome_tabella`.`id` = $id";
         $result3 = $this->mysqli->query($query) or die($query . " - " . $this->mysqli->error);
         #var_dump($result3);

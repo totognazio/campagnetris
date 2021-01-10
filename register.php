@@ -181,9 +181,10 @@ $error = $new_member->the_msg; // error message
                <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Maillist</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input  id="maillist" name="maillist" type="checkbox" value="1"   tabindex="8" /></span>
+                        <input  class="flat" id="maillist" name="maillist" type="checkbox" value="1"   tabindex="8" /></span>
                         </div>
                 </div>
+                <br>
                 
                 <div class="form-group"> 
                     <label class="control-label col-md-3 col-sm-3 col-xs-12"   id="ruolo">Ruolo:

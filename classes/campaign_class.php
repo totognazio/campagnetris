@@ -1538,6 +1538,8 @@ LEFT JOIN users ON `user_id` = users.id
         $tot_volume['totale'] = $tot_volume['totale'] + $row['volume'];
         $volume_giorno = $this->day_volume($row);        
         $daterange = $this->daterange();
+        //print_r($volume_giorno);
+        //print_r($daterange);
 
         foreach($daterange as $key=>$daytimestamp){
                
@@ -1854,16 +1856,30 @@ function nomeCampagna($row) {
         $volume = array();
         foreach($daterange as $date){
             
-            if($row['escludi_sab_dom']){
-                    //con esclusione di sabato e  domenica
-                    if(($row['durata_campagna'] > $count) and ($date->format('N')<6)){
+            if($row['escludi_sab_dom']==0){
+                    //da lunedi a domenica tutti i giorni
+                    //if(($row['durata_campagna'] > $count) and ($date->format('N')<6)){
                        $volume[date_timestamp_get($date)]  = $volume_giornaliero[$count];
                        $count++;
-                    }
+                    //}
             }
-            else{
-                //con esclusione della domenica
-                if(($row['durata_campagna'] > $count) and ($date->format('N')<=6)){
+            elseif($row['escludi_sab_dom']==1){
+                //con esclusione del sabato
+                if($date->format('N')<>6){
+                   $volume[date_timestamp_get($date)]  = $volume_giornaliero[$count];
+                   $count++;
+                }
+            }
+            elseif($row['escludi_sab_dom']==2){
+                //con esclusione del domenica
+                if($date->format('N')<>7){
+                   $volume[date_timestamp_get($date)]  = $volume_giornaliero[$count];
+                   $count++;
+                }
+            }
+            elseif($row['escludi_sab_dom']==3){
+                //con esclusione del sabato e dom
+                if($date->format('N')<6){
                    $volume[date_timestamp_get($date)]  = $volume_giornaliero[$count];
                    $count++;
                 }
@@ -1893,7 +1909,17 @@ function nomeCampagna($row) {
     function bgcolor($daytimestamp) {
         $bgcolor = " ";
         if (date('D', $daytimestamp) === "Sun") {
+            //$bgcolor = " bgcolor=\"lightgray\"";
             $bgcolor = " bgcolor=\"gray\"";
+        }
+
+        return $bgcolor;
+    }
+
+    function bordercolor($daytimestamp) {
+        $bgcolor = " ";
+        if (date('D', $daytimestamp) === "Sun") {
+            $bgcolor = " bodercolor=\"red\"";
         }
 
         return $bgcolor;

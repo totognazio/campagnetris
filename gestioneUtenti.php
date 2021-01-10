@@ -11,6 +11,7 @@
 include_once './classes/funzioni_admin.php';
 $funzioni_admin = new funzioni_admin();
 $funzioni_access = new Access_user;
+
 if (isset($_POST['modificaUtente']) && $_POST['modificaUtente'] == "1") {
 
     if (isset($_POST['inserisci']))
@@ -57,11 +58,33 @@ if (isset($_POST['modificaUtente']) && $_POST['modificaUtente'] == "1") {
 #if (isset($_POST['username']) && !empty($_POST['username'])) $funzioni_admin->check_new_username ($_POST['username']);
 #$login = $_POST['username']
     $access_level = $funzioni_admin->access_level($inserisci, $modifica, $cancella);
-    $update_sql = "UPDATE `users` SET $cognome $nome `job_role_id`='" . $_POST['selectRuolo'] . "',`login`='" . $_POST['login'] . "',`squad_id`='" . $_POST['selectDipartimento'] . "',`active`='" . $_POST['selectStato'] . "',`leggi`='Yes',`inserisci`='" . $inserisci . "',`modifica`='" . $modifica . "',`cancella`='" . $cancella . "' $email $update_pw ,`access_level`='" . $access_level . "' $maillist WHERE `id`='" . $_POST['idUtente'] . "'";
+    $update_sql = "UPDATE `users` SET $cognome $nome `job_role_id`='" . $_POST['selectRuolo'] . "',`login`='" . $_POST['login'] . "',`squad_id`='" . $_POST['selectSquad'] . "',`active`='" . $_POST['selectStato'] . "',`leggi`='Yes',`inserisci`='" . $inserisci . "',`modifica`='" . $modifica . "',`cancella`='" . $cancella . "' $email $update_pw ,`access_level`='" . $access_level . "' $maillist WHERE `id`='" . $_POST['idUtente'] . "'";
     $result = $funzioni_admin->user_update($update_sql);
     if ($result > 0)
         $stringa_risultato = "L'aggiornamento è avvenuto correttamente";
 }
+if (isset($_POST['creautente']) && $_POST['creautente'] == "1") {
+    $inserisci = isset($_POST['inserisci']) ? $_POST['inserisci'] : 'No';
+    $modifica = isset($_POST['modifica']) ? $_POST['modifica'] : 'No';
+    $cancella = isset($_POST['cancella']) ? $_POST['cancella'] : 'No';
+
+    $levello_accesso = $funzioni_admin->access_level($inserisci, $modifica, $cancella);
+
+
+    $name = trim($_POST['nome']);
+    $cognome = trim($_POST['cognome']);
+
+
+    if (isset($_POST['maillist']))
+        $maillist = intval($_POST['maillist']);
+    else
+        $maillist = 0;
+ #echo'eccomi qua-----'.$levello_accesso;
+    $funzioni_access->register_newuser($_POST['login'], $_POST['password'], $_POST['confirm'], $cognome, $_POST['email'], $name, $_POST['selectRuolo'], $_POST['selectSquad'], $_POST['selectStato'], $inserisci, $modifica, $cancella, $levello_accesso, $maillist);
+    $stringa_risultato = $funzioni_access->the_msg; 
+} 
+
+
 ?>
 <!-- page content -->
         <div class="right_col" role="main">
@@ -142,75 +165,85 @@ if (isset($_POST['modificaUtente']) && $_POST['modificaUtente'] == "1") {
         }
     </script>
     <?php
-    if (isset($_GET['function'])) {
+    //print_r($_POST);
+    if (isset($_POST['action']) && ($_POST['action']=="updateUser" OR $_POST['action']=="newuser") ) {
 
-        if ($_GET['function'] == "updateUser") {
+        if ($_POST['action'] == "updateUser") {
             if (!empty($_POST['idUtente'])) {
                 $user_id = $_POST['idUtente'];
                 $utente = $funzioni_admin->user_get_info($user_id);
-                print_r($utente);
+                //print_r($utente);
             }
-            ?>
+        }
+        elseif($_POST['action']=="newuser"){
+                $utente = null;
+            }
+        
+    
+    ?>
 
+                <form id="form" name="form"  class="form-horizontal form-label-left" enctype="multipart/form-data" action="./index.php?page=gestioneUtenti" method="post" data-parsley-validate >
 
-                <form id="form" name="form"  class="form-horizontal form-label-left" enctype="multipart/form-data" action="./index.php?page=gestioneUtenti" method="post" data-parsley-validate onsubmit="return controllaform()">
-                    <div class="left" style="margin-left: 20px; margin:10px;  width:90%; min-height:20px;">
-                        <label class="intestazione"  id="datianagrafici">Dati anagrafici:
-                        </label>
-                    </div>
           <div class="form-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="login">Cognome </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input class="form-control col-md-7 col-xs-12" id="cognome" name="cognome" type="text"  size="10" value="<?php echo $utente['lastname'];  ?>" style="font-weight:bold;"  tabindex="2" onfocus="seleziona_campo('cognome');" onblur="deseleziona_campo('cognome');"/>
+                            <input class="form-control col-md-7 col-xs-12" id="cognome" name="cognome" type="text"  size="10" value="<?php echo $utente['lastname'];  ?>" style="font-weight:bold;"  />
                 </div>
 	    </div>
       <div class="form-group">
       		<label class="control-label col-md-3 col-sm-3 col-xs-12" for="login">Nome </label>
 		<div class="col-md-6 col-sm-6 col-xs-12">
-                    <input class="form-control col-md-7 col-xs-12" id="nome" name="nome" type="text"  size="10" value="<?php echo $utente['firstname'];  ?>" style="font-weight:bold;"  tabindex="3" onfocus="seleziona_campo('nome');" onblur="deseleziona_campo('nome');"/>
+                    <input class="form-control col-md-7 col-xs-12" id="nome" name="nome" type="text"  size="10" value="<?php echo $utente['firstname'];  ?>" style="font-weight:bold;"  />
                 </div>
 	  </div>
     
-
-                    <div class="left" style="margin-left: 20px; margin:10px;  width:90%; min-height:20px;">
-                        <label class="intestazione"   id="datiaccesso" >Dati d'accesso:
-                        <span id="req_2" class="req">*</span>
-                        </label>
-                    </div>
             <div class="form-group">
       		<label class="control-label col-md-3 col-sm-3 col-xs-12" for="login">Login <span class="required">*</span></label>
 		<div class="col-md-6 col-sm-6 col-xs-12">
-                    <input class="form-control col-md-7 col-xs-12" id="login" name="login"type="text"  size="10" value="<?php echo $utente['login'];  ?>" style="font-weight:bold;"  placeholder="(min. 6 chars.)" required="required" tabindex="4"  onfocus="seleziona_campo('login');" onblur="deseleziona_campo('login');"/>
+                    <input class="form-control col-md-7 col-xs-12" id="login" name="login"type="text"  size="10" value="<?php echo $utente['login'];  ?>" style="font-weight:bold;"  placeholder="(min. 6 chars.)" required="required" />
                 </div>
 	  </div>              
                     
             <div class="form-group">
       		<label class="control-label col-md-3 col-sm-3 col-xs-12" for="login">New Password <span class="required">*</span></label>
 		<div class="col-md-6 col-sm-6 col-xs-12">
-                    <input class="form-control col-md-7 col-xs-12" id="password" name="password" type="password"  size="10" value="" style="font-weight:bold;"  placeholder="(min. 6 chars.)" data-parsley-trigger="change" data-parsley-min="6" required="required" tabindex="5" onfocus="seleziona_campo('password');" onblur="deseleziona_campo('password');"/>
+                    <input class="form-control col-md-7 col-xs-12" id="password" name="password" type="password"  size="10" value="" style="font-weight:bold;"  placeholder="(min. 6 chars.)" data-parsley-minlength="6" data-parsley-trigger="change"  />
                 </div>
 	  </div>  
+       <?php
+       if(isset($_POST['action']) && $_POST['action']=='newuser'){ ?>
+                <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Conferma Password <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12"><input class="form-control" id="confirm" type="password" name="confirm" data-parsley-equalto="#password"  value="" />                        
+                        </div>
+                </div>
+       <?php } ?>
+
+
                   <div class="form-group">
       		<label class="control-label col-md-3 col-sm-3 col-xs-12" >E mail <span class="required">*</span></label>
 		<div class="col-md-6 col-sm-6 col-xs-12">                    
-               <input type="email" id="email" class="form-control col-md-7 col-xs-12" name="email" value="<?php echo $utente['email']; ?>"  data-parsley-trigger="change" required />
+               <input type="email" id="email" class="form-control col-md-7 col-xs-12" name="email" value="<?php echo $utente['email']; ?>"  required="required" />
                 </div>
 	  </div>  
       <br>
         <div class="form-group">
       		<label class="control-label col-md-3 col-sm-3 col-xs-12">Maillist </label>
-            
+            <div class="col-md-6 col-sm-6 col-xs-12">
             <input class="flat" id="maillist" name="maillist" type="checkbox" value="1" <?php
                 if ($utente['maillist'] == 1)
                     echo 'checked="checked"';
                 else
                     echo '';
                     ?>/>
-            </div><br> 
+              </div>      
+            </div>                          
+            <br> 
             <div class="form-group">
 	      		<label class="control-label col-md-3 col-sm-3 col-xs-12" >Ruolo <span class="required">*</span></label>
 		<div class="col-md-6 col-sm-6 col-xs-12">
-                            <select class="select2_single form-control" id="selectRuolo" name="selectRuolo">          
+                            <select class="select2_single form-control" id="selectRuolo" name="selectRuolo" required="required"> 
+                                <option></option>         
                             <?php
                             $ruolo = $funzioni_admin->get_list_id("job_roles");
 
@@ -243,7 +276,8 @@ if (isset($_POST['modificaUtente']) && $_POST['modificaUtente'] == "1") {
                         elseif (( trim(strtolower($utente['active'])) == 'b'))
                             $selected_sospeso = 'selected="selected"';
                         ?>                      
-                        <select class="select2_single form-control" id="selectStato" name="selectStato">
+                        <select class="select2_single form-control" id="selectStato" name="selectStato" required="required">
+                            <option></option>
                             <option <?php echo $selected_attivo; ?> value="y"   >Attivo</option>
                             <option <?php echo $selected_sidattivo; ?> value="n" >Disattivo</option>
                         </select>
@@ -253,7 +287,8 @@ if (isset($_POST['modificaUtente']) && $_POST['modificaUtente'] == "1") {
                                                                   <div class="form-group">
       		<label class="control-label col-md-3 col-sm-3 col-xs-12" >Squad <span class="required">*</span></label>
 		<div class="col-md-6 col-sm-6 col-xs-12">
-                        <select class="select2_single form-control" id="selectDipartimento" name="selectDipartimento">
+                        <select class="select2_single form-control" id="selectSquad" name="selectSquad" required="required">
+                            <option></option>   
                             <?php
                             $dep = $funzioni_admin->get_list_id("squads");
 
@@ -274,9 +309,19 @@ if (isset($_POST['modificaUtente']) && $_POST['modificaUtente'] == "1") {
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                         <input id="annulla" name="annulla" class="btn btn-primary" tabindex="12" type="button" value="Annulla" onclick="javascript:window.location.href = 'index.php?page=gestioneUtenti&table=users'"/>
+                   <?php
+                   //echo"eccolo";
+                   //print_r($utente);
+                    if (isset($_POST['action']) && ($_POST['action']=="updateUser")) { ?>
                         <input id="salva" name="salva" class="btn btn-success" tabindex="13" type="submit" value="Modifica" />
                         <input type="hidden" id="modificaUtente" name="modificaUtente" value="1" />
-                        <input type="hidden" id="idUtente" name="idUtente" value="<?php echo $utente['id']; ?>" />
+                       <input type="hidden" id="idUtente" name="idUtente" value="<?php echo $utente['id']; ?>" />
+                    <?php } ?>   
+                    <?php
+                    if (isset($_POST['action']) && ($_POST['action']=="newuser")) { ?>
+                        <input id="salva" name="salva" class="btn btn-success" tabindex="13" type="submit" value="Crea nuovo Utente" />
+                        <input type="hidden" id="creautente" name="creautente" value="1" />
+                    <?php } ?> 
                         </div>
                       </div>
 
@@ -286,7 +331,7 @@ if (isset($_POST['modificaUtente']) && $_POST['modificaUtente'] == "1") {
             
             <?php
         }
-    }
+    
     ?>
     <?php
     if (isset($_POST['azione']) && $_POST['azione'] == "disattiva") {
@@ -317,9 +362,13 @@ if (isset($_POST['modificaUtente']) && $_POST['modificaUtente'] == "1") {
 
         <?php
         if (isset($stringa_risultato)) {
-            echo "<div class=\"info\" style=\"margin-bottom: 20px;\">";
-            echo "<h2 style=\"color: #ff0000\">" . $stringa_risultato . "</h2>";
-            echo "</div><br />";
+
+            echo '<div class="alert alert-info alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <strong>'. $stringa_risultato .'</strong></div>';
+
+
         }
         ?>
         <br>
@@ -328,7 +377,7 @@ if (isset($_POST['modificaUtente']) && $_POST['modificaUtente'] == "1") {
             <thead>
        
             <tr style="height:15px; font-weight: bold; background: url(images/wbg.gif) repeat-x 0px -1px;">
-                <td align="center"  width="2$">N.</td>
+                <td align="center"  width="2%">N.</td>
                 <td align="center" width="15%">Surname</td>
                 <td align="center"  width="15%">Name</td>
                 <td align="center"  width="15%">Login</td>
@@ -338,7 +387,8 @@ if (isset($_POST['modificaUtente']) && $_POST['modificaUtente'] == "1") {
                 <td align="center"  width="15%">Status</td>
                 <td align="center"  width="2%">Maillist</td>
                 <td align="center"  colspan="2"  width="4%">
-                    <form name="inserisciUtente" action="./index.php?page=register"  method="post" style="margin:0px;">
+                    <form name="inserisciUtente" action="./index.php?page=gestioneUtenti"  method="post" style="margin:0px;">
+                        <input type="hidden" name="action" value="newuser" />
                         <input alt="Aggiungi Utente" title="Aggiungi nuovo utente" type="image" src="images/Inserisci.png" style="margin:0px"/>
                     </form>
                 </td>
@@ -376,7 +426,7 @@ if (isset($_POST['modificaUtente']) && $_POST['modificaUtente'] == "1") {
                 echo "<td>" . $value['login'] . "</td>";
                 echo "<td>" . $value['email'] . "</td>";
                 echo "<td>" . $value['ruolo'] . "</td>";
-                echo "<td>" . $value['dipartimento'] . "</td>";
+                echo "<td>" . $value['squad'] . "</td>";
                 echo "<td $style>" . $stato . "</td>";
                 if($value['maillist']==1){
                     $testo="X";
@@ -392,8 +442,9 @@ if (isset($_POST['modificaUtente']) && $_POST['modificaUtente'] == "1") {
                 //echo "<td>" . $value['inserisci'] . "</td>";
                 //echo "<td>".$value['modifica']."</td>";
                 //echo "<td>" . $value['cancella'] . "</td>";
-                echo"<td align=\"center\"><form name=\"modificaUtente0\" id=\"modificaUtente0\" action=\"./index.php?page=gestioneUtenti&function=updateUser\" method=\"post\" style=\"margin:0px;\">
+                echo"<td align=\"center\"><form name=\"modificaUtente0\" id=\"modificaUtente0\" action=\"./index.php?page=gestioneUtenti\" method=\"post\" style=\"margin:0px;\">
                                <input alt=\"Modifica\" title=\"Modifica utente\" type=\"image\" src=\"images/Modifica.png\" /> 
+                               <input type=\"hidden\"  name=\"action\" value=\"updateUser\" /> 
                                <input type=\"hidden\"  name=\"idUtente\" value=\"" . $value['id'] . "\" /> 
                           </form>
                     </td>

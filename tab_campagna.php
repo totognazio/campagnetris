@@ -196,10 +196,12 @@
                         </div>
                              </div> 
                                                    
-                      </span>   
-                    <span class="left"  id="span_cod_campagna"  style="margin-top:10px; width:90%; display:none;">
-                            <label id="label_cod_campagna">Cod_Campagna</label>
-                            <input id="cod_campagna" name="cod_campagna" type="text" class="text grande" 
+                      </span>  
+                     <br>  
+                    <div class="form-group"  id="span_cod_campagna" style="display:none;" >                    
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" id="label_cod_campagna">Cod_Campagna</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="cod_campagna" name="cod_campagna" type="text" class="form-control col-md-7 col-xs-12"
                             <?php
                             if($action_duplica)
                                 echo "value=\"\"";
@@ -211,11 +213,14 @@
                             if ($readonly)
                                 echo $readonly_value;
                             ?>
-                                   tabindex="1" maxlength="100" onfocus="seleziona('cod_campagna');" onblur="deseleziona('cod_campagna');"/>
-                        </span>
-                        <span class="left"  id="span_cod_comunicazione"  style="margin-top:10px; width:90%; display:none;">
-                            <label id="label_cod_comunicazione">Cod_Comunicazione</label>
-                            <input id="cod_comunicazione" name="cod_comunicazione" type="text" class="text grande" 
+                            />
+                            </div>
+                    </div>
+                    <br>
+                        <div class="form-group"   id="span_cod_comunicazione"  style="display:none;">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" id="label_cod_comunicazione">Cod_Comunicazione</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="cod_comunicazione" name="cod_comunicazione" type="text" class="form-control col-md-7 col-xs-12"
                             <?php
                             if($action_duplica)
                                 echo "value=\"\"";
@@ -227,11 +232,16 @@
                             if ($readonly)
                                 echo $readonly_value;
                             ?>
-                                   tabindex="1" maxlength="100" onfocus="seleziona('cod_comunicazione');" onblur="deseleziona('cod_comunicazione');"/>
-                        </span>
+                            />
+                        </div>
+                        </div>
+                        <br>
                       
-                        <span class="left"  id="span_state"  style="margin-top:10px; width:90%; display:none;">
-                            <label>Stato<span id="req_6" class="req">*</span></label>
+                        <div class="form-group"  id="span_state"  style="display:none;">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Stato  <span class="required">*</span></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                        
+                            
                             <?php
                             if (isset($id_campaign['ordinamento_stato'])) {
                                 if (($id_campaign['ordinamento_stato'] < 2) && ($page_protect->get_job_role() == 2)) {
@@ -245,17 +255,17 @@
                                 $javascript = "  tabindex=\"7\" onfocus=\"seleziona('selectStato');\" onblur=\"deseleziona('selectStato');\" ";
                                 if ($readonly)
                                     $javascript = $javascript . $disabled_value;
-                                $style = " style=\"width:150px;\" ";
+                                $style = "";
                                 if ($modifica)
                                     $campaign_state_id = $id_campaign['campaign_state_id'];
                                 else
                                     $campaign_state_id = "";
-                                $funzioni_admin->stampa_select('campaign_state_id', $lista_field, $lista_name, $javascript, $style, $campaign_state_id);
+                                $funzioni_admin->stampa_select2('campaign_state_id', $lista_field, $lista_name, $javascript, $style, $campaign_state_id);
                             }
                             ?>
 
-                        </span>
-
+                        </div>
+                    </div>
                         </div> 
 
 <script>
@@ -302,7 +312,20 @@
             });
         });
 
-
+<?php
+if ($modifica) {
+    ?>
+    document.getElementById("span_state").style.display = "inline";
+<?php    
+}
+    
+if ($modifica_codici) {
+    ?>
+            document.getElementById("span_cod_comunicazione").style.display = "inline";
+            document.getElementById("span_cod_campagna").style.display = "inline";
+    <?php
+}
+?>
         
 
   })      

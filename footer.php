@@ -449,7 +449,7 @@ function  campagnTable() {
             //console.log('eccoloooo ' + data);
             //alert('ciao '+data);
             $('#datatable-pianificazione').DataTable( {
-                    scrollY:        "350px",
+                    scrollY:        true,
                     scrollX:        true,
                     scrollCollapse: true,
                     paging:         false,
@@ -463,7 +463,6 @@ function  campagnTable() {
                                     
                                   ]
                     
-                               
             } );
             
             $('#datatable-pianificazione').DataTable().columns.adjust().responsive.recalc();

@@ -659,9 +659,9 @@ class Access_user {
         }
     }
     
-
+/*
     function update_user2($id_user, $new_password, $new_confirm, $new_name, $new_info, $new_mail, $nome, $job_role_id, $ruolo, $squad_id, $active, $inserisci, $modifica, $cancella, $access_level, $maillist) {
-        $update_sql = "UPDATE `users` SET $cognome $nome `job_role_id`='" . $_POST['selectRuolo'] . "',`squad_id`='" . $_POST['selectDipartimento'] . "',`active`='" . $_POST['selectStato'] . "',`leggi`='Yes',`inserisci`='" . $inserisci . "',`modifica`='" . $modifica . "',`cancella`='" . $cancella . "' $update_pw ,`access_level`='" . $access_level . "' $maillist WHERE `id`='" . $_POST['idUtente'] . "'";
+        $update_sql = "UPDATE `users` SET $cognome $nome `job_role_id`='" . $_POST['selectRuolo'] . "',`squad_id`='" . $_POST['selectStack'] . "',`active`='" . $_POST['selectStato'] . "',`leggi`='Yes',`inserisci`='" . $inserisci . "',`modifica`='" . $modifica . "',`cancella`='" . $cancella . "' $update_pw ,`access_level`='" . $access_level . "' $maillist WHERE `id`='" . $_POST['idUtente'] . "'";
         if ($new_password != "") {
             if ($this->check_new_password($new_password, $new_confirm)) {
                 $ins_password = md5($new_password);
@@ -690,7 +690,7 @@ class Access_user {
             $update_email = false;
             $new_mail = "";
         }
-        $update_sql = "UPDATE `users` SET $cognome $nome `job_role_id`='" . $_POST['selectRuolo'] . "',`squad_id`='" . $_POST['selectDipartimento'] . "',`active`='" . $_POST['selectStato'] . "',`leggi`='Yes',`inserisci`='" . $inserisci . "',`modifica`='" . $modifica . "',`cancella`='" . $cancella . "' $update_pw ,`access_level`='" . $access_level . "' $maillist WHERE `id`='" . $_POST['idUtente'] . "'";
+        $update_sql = "UPDATE `users` SET $cognome $nome `job_role_id`='" . $_POST['selectRuolo'] . "',`squad_id`='" . $_POST['selectStack'] . "',`active`='" . $_POST['selectStato'] . "',`leggi`='Yes',`inserisci`='" . $inserisci . "',`modifica`='" . $modifica . "',`cancella`='" . $cancella . "' $update_pw ,`access_level`='" . $access_level . "' $maillist WHERE `id`='" . $_POST['idUtente'] . "'";
         $upd_sql = sprintf("UPDATE %s SET pw = %s, lastname = %s, firstname = %s, job_role_id=%d, squad_id=%d, active=%s, leggi='Yes', inserisci=%s, modifica=%s, cancella=%s, access_level=%d, maillist=%d, tmp_mail = %s WHERE id = %d", $this->table_name, $this->ins_string($ins_password), $this->ins_string($new_name), $this->ins_string($new_info), $this->ins_string($new_mail), $this->id);
 #var_dump($upd_sql);
         $upd_res = mysqli_query($this->mysqli,$upd_sql);
@@ -716,7 +716,7 @@ class Access_user {
             $this->the_msg = $this->messages(15);
         }
     }
-
+*/
     function check_new_password($pass, $pw_conform) {
         if ($pass == $pw_conform) {
             if (strlen($pass) >= PW_LENGTH) {
@@ -800,9 +800,9 @@ class Access_user {
         }
     }
 
-    function register_newuser($first_login, $first_password, $confirm_password, $cognome, $first_email, $nome, $ruolo, $dipartimento, $stato, $inserisci, $modifica, $cancella, $levello_accesso, $maillist) {
-#register_newuser          ($_POST['login'], $_POST['password'], $_POST['confirm'], $cognome, $_POST['email'], $name, $_POST['selectRuolo'], $_POST['selectDipartimento'], $_POST['selectStato'], 'Yes', $inserisci, $modifica, $cancella, $levello_accesso);            
-#register_user2($_POST['login'], $_POST['password'], $_POST['confirm'], $cognome, $_POST['info'], $_POST['email'], $nome, $_POST['selectRuolo'], $_POST['selectDipartimento'], $_POST['selectStato'], 'Yes', $inserisci, $modifica, $cancella, $levello_accesso)
+    function register_newuser($first_login, $first_password, $confirm_password, $cognome, $first_email, $nome, $ruolo, $stack, $stato, $inserisci, $modifica, $cancella, $levello_accesso, $maillist) {
+#register_newuser          ($_POST['login'], $_POST['password'], $_POST['confirm'], $cognome, $_POST['email'], $name, $_POST['selectRuolo'], $_POST['selectStack'], $_POST['selectStato'], 'Yes', $inserisci, $modifica, $cancella, $levello_accesso);            
+#register_user2($_POST['login'], $_POST['password'], $_POST['confirm'], $cognome, $_POST['info'], $_POST['email'], $nome, $_POST['selectRuolo'], $_POST['selectStack'], $_POST['selectStato'], 'Yes', $inserisci, $modifica, $cancella, $levello_accesso)
         if ($this->check_new_password($first_password, $confirm_password)) {
             if (strlen($first_login) >= LOGIN_LENGTH) {
                 //if ($this->check_email($first_email)) {
@@ -820,7 +820,7 @@ class Access_user {
                     $sql = "INSERT INTO `users` ("
                             . "`id`, `lastname`, `firstname`, `login`, `job_role_id`, `squad_id`, "
                             . "`active`, `leggi`, `inserisci`, `modifica`, `cancella`, `email`, `tmp_mail`, `pw`, `access_level`,`maillist`)"
-                            . " VALUES (NULL, '" . $cognome . "', '" . $nome . "', " . $this->ins_string($first_login) . ", '" . $_POST['selectRuolo'] . "', '" . $_POST['selectDipartimento'] . "', '" . $_POST['selectStato'] . "', 'Yes', '" . $inserisci . "', '" . $modifica . "', '" . $cancella . "', " . $this->ins_string($this->user_email) . ", '', " . $this->ins_string(md5($first_password)) . ", '" . $levello_accesso . "', '" . $maillist . "')";
+                            . " VALUES (NULL, '" . $cognome . "', '" . $nome . "', " . $this->ins_string($first_login) . ", '" . $ruolo . "', '" . $stack . "', '" . $stato . "', 'Yes', '" . $inserisci . "', '" . $modifica . "', '" . $cancella . "', " . $this->ins_string($this->user_email) . ", '', " . $this->ins_string(md5($first_password)) . ", '" . $levello_accesso . "', '" . $maillist . "')";
 
 #$sql = sprintf("INSERT INTO %s (id, login, pw, lastname, extra_info, email, access_level, active) VALUES (NULL, %s, %s, %s, %s, %s, %d, 'n')", $this->table_name, $this->ins_string($first_login), $this->ins_string(md5($first_password)), $this->ins_string($cognome), $this->ins_string($first_info), $this->ins_string($this->user_email), DEFAULT_ACCESS_LEVEL);
 #var_dump($sql);
@@ -828,11 +828,14 @@ class Access_user {
                     if ($ins_res) {
                         $this->id = mysqli_insert_id($this->mysqli) ;
                         $this->user_pw = md5($first_password);
+                        
+                        //if (true) {
                         if (strlen($this->user_email) > 0) {
                             if ($this->send_mail($this->user_email, 37, 39, $this->send_copy)) {
                                 $this->the_msg = $this->messages(13);
                             } else {
-                                mysqli_query($this->mysqli,sprintf("DELETE FROM %s WHERE id = %d", $this->table_name, $this->id));
+                                echo "access_user_class.php riga 837 --> rimuovere commento alla riga DELETE mysql";
+                                //mysqli_query($this->mysqli,sprintf("DELETE FROM %s WHERE id = %d", $this->table_name, $this->id));
                                 //echo sprintf("DELETE FROM %s WHERE id = %d", $this->table_name, $this->id);
                                 $this->the_msg = $this->messages(14);
                             }
