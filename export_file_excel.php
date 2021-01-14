@@ -10,11 +10,28 @@ require_once './Excel/reader.php';
 include_once './classes/upload_class.php';
 include_once './classes/funzioni_admin.php';
 include_once './classes/funzioni.php'; 
+include_once './classes/campaign_class.php';
 
 
 #print_r($_POST);
 
 $gestore = new Class_lsoc();
+
+if ($_GET['funzione'] == "export_pianificazione"){
+
+    $campaign = new campaign_class();
+
+    $filter = $_SESSION['filter'];
+
+    #echo'prima del render campagne dopo il get_filter';
+
+    $list = $campaign->getCampaigns($filter); 
+    $tot_volume = $campaign->tot_volume();
+
+    $list_day = $campaign->daterange();
+    $gestore->export_pianificazione($list, $tot_volume, $list_day);
+}
+
 
 
 //OLD 

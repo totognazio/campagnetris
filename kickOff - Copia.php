@@ -286,7 +286,7 @@ $rand=  rand();
                     $selectStato_default = $_POST['selectStato'];
                 } else
                     $selectStato_default = "";
-                $funzioni_admin->stampa_select2('selectStato', $lista_field, $lista_name, $javascript, $style, $selectStato_default);
+                $funzioni_admin->stampa_select('selectStato', $lista_field, $lista_name, $javascript, $style, $selectStato_default);
                 ?>
 
             </div>
@@ -316,7 +316,7 @@ $rand=  rand();
                 $lista_name = array_column($list, 'name');
                 $javascript = "  tabindex=\"7\" onfocus=\"seleziona('selectNuovoStato');\" onblur=\"deseleziona('selectNuovoStato');\" ";
                 $style = " style=\"width:150px;\" ";
-                $funzioni_admin->stampa_select2('selectNuovoStato', $lista_field, $lista_name, $javascript, $style);
+                $funzioni_admin->stampa_select('selectNuovoStato', $lista_field, $lista_name, $javascript, $style);
                 if (isset($_POST['sel1']) && isset($_POST['sel3'])) {
                     echo "<input type=\"hidden\" id=\"sel1\" name=\"sel1\" value=\"" . $_POST['sel1'] . "\" />";
                     echo "<input type=\"hidden\" id=\"sel3\" name=\"sel3\" value=\"" . $_POST['sel3'] . "\" />";
@@ -331,7 +331,7 @@ $rand=  rand();
             </div>
 
 
-            <table class="table table-striped table-bordered dataTable no-footer nowrap" role="grid" aria-describedby="datatable-fixed-header_info">
+            <table class="bordo tabella">
                 <tr style="height:25px; font-weight: bold; background: url('./images/wbg.gif') repeat-x 0px -1px;">
                     <td align="center" width="1%"><input type="checkbox" name="checkboxTot" id="checkboxTot" onclick="selectAll(295);" /></td>
                     <td align="center" width="1%">N.</td>

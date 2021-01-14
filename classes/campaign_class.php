@@ -1470,8 +1470,8 @@ LEFT JOIN users ON `user_id` = users.id
               
                         <thead>
                             <tr>
-                            <th><small>Azione</small></th>
-                            <th><small>n°</small></th>
+                            <th class="not-export-col"><small>Azione</small></th>
+                            <th><small>Sprint</small></th>
                             <th><small>Stack</small></th>                            
                             <th><small>Squad</small></th>
                             <th><small>Nome campagna</small></th>
@@ -1516,7 +1516,7 @@ LEFT JOIN users ON `user_id` = users.id
                     <button class="btn btn-sm btn-default" type="submit" onclick="manageCamp('.$row['id'].',\'duplica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone" ></i></button>
                     <button class="btn btn-sm btn-danger" type="submit" onclick="manageCamp('.$row['id'].',\'elimina\','.$permission.','.$stato_elimina.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></button>                    
                 '.  "</td>";
-        $string .= "<td><small>$riga</small></td>";
+        $string .= "<td><small>".$this->sprint_find($row['data_inizio'])."</small></td>";
         $string .= "<td><small>".$row['stacks_nome']."</small></td>";
         $string .= "<td><small>".$row['squads_nome']."</small></td>";
         $string .= "<td><small>".'
@@ -1532,7 +1532,7 @@ LEFT JOIN users ON `user_id` = users.id
         $string .= "<td><small>".$row['cod_comunicazione']."</small></td>";
         $string .= "<td><small>".$row['channel_nome']."</small></td>";
         $string .= "<td><small>".$row['data_inizio']."</small></td>";      
-        $string .= "<td><small>".$row['campaign_stato_nome']."</small></td>";
+        $string .= "<td class=\"stato\"><small>".$row['campaign_stato_nome']."</small></td>";
         $string .= "<td><small><strong>".$this->round_volume($row['volume'])."</strong></small></td>";
         
         $tot_volume['totale'] = $tot_volume['totale'] + $row['volume'];
@@ -1544,7 +1544,7 @@ LEFT JOIN users ON `user_id` = users.id
         foreach($daterange as $key=>$daytimestamp){
                
                 if(array_key_exists($daytimestamp, $volume_giorno)){                   
-                    $string .= "<td bgcolor=\"".$row['colore']."\"><small><strong><font color=\"black\">".$this->round_volume($volume_giorno[$daytimestamp])."<font></strong><small></td>";                    
+                    $string .= "<td  class=\"valore\" bgcolor=\"".$row['colore']."\"><small><strong><font color=\"black\">".$this->round_volume($volume_giorno[$daytimestamp])."<font></strong><small></td>";                    
                     
                     $tot_volume[$daytimestamp] =  $tot_volume[$daytimestamp] + $volume_giorno[$daytimestamp];
                 } 
@@ -1735,7 +1735,13 @@ LEFT JOIN users ON `user_id` = users.id
 
 function countDaysFromFilter(){
         
+        //$filter_view = $_POST;
+    if(isset($_POST["startDate"])){
         $filter_view = $_POST;
+    }
+    else{
+        $filter_view = $_SESSION['filter'];
+    }
 
         $startDate = $filter_view["startDate"];
         $endDate = $filter_view["endDate"];
@@ -1747,7 +1753,13 @@ function countDaysFromFilter(){
     }
     
 function datePeriod(){    
-    $filter_view = $_POST;
+    //$filter_view = $_POST;
+    if(isset($_POST["startDate"])){
+        $filter_view = $_POST;
+    }
+    else{
+        $filter_view = $_SESSION['filter'];
+    }
 
    $begin = new DateTime($filter_view["startDate"]);
    $end = new DateTime($filter_view["endDate"]);
@@ -1762,7 +1774,12 @@ function datePeriod(){
 }
 
 function daterange(){    
-    $filter_view = $_POST;
+    if(isset($_POST["startDate"])){
+        $filter_view = $_POST;
+    }
+    else{
+        $filter_view = $_SESSION['filter'];
+    }
 
    $begin = new DateTime($filter_view["startDate"]);
    $end = new DateTime($filter_view["endDate"]);
@@ -1782,9 +1799,14 @@ function daterange(){
    
 }
 
-function tot_volume(){    
-    $filter_view = $_POST;
-
+function tot_volume(){   
+    if(isset($_POST["startDate"])){
+        $filter_view = $_POST;
+    }
+    else{
+        $filter_view = $_SESSION['filter'];
+    }
+    
    $begin = new DateTime($filter_view["startDate"]);
    $end = new DateTime($filter_view["endDate"]);
    $end = $end->modify( '+1 day' );
@@ -1801,6 +1823,30 @@ function tot_volume(){
    return $tot_volume;
    
 }
+
+
+function tot_volume2(){   
+
+        $filter_view = $_SESSION['filter'];
+    
+    
+   $begin = new DateTime($filter_view["startDate"]);
+   $end = new DateTime($filter_view["endDate"]);
+   $end = $end->modify( '+1 day' );
+
+   $interval = new DateInterval('P1D');
+   $daterange = new DatePeriod($begin, $interval ,$end);
+   $day_list = array();
+   foreach($daterange as $date){
+
+       $tot_volume[date_timestamp_get($date)] = 0;
+       
+   }
+   
+   return $tot_volume;
+   
+}
+
     
 //////////////////////////////////////////////////////////////////////
 //PARA: Date Should In YYYY-MM-DD Format
@@ -1902,9 +1948,28 @@ function nomeCampagna($row) {
             $m = number_format(round($r / 1000, 0), 0, ',', '.');
         }
         return $m;
+        //return round($r/1000);
         
     }
-    
+
+ function sprint_find($startDate) {
+        
+        if(isset($startDate)){
+            $query3 = "SELECT * FROM `sprints` WHERE `data_inizio`<='".$startDate."' ORDER BY id DESC LIMIT 0, 1";
+        }
+        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+        /*
+        $r = array();
+        while ($obj3 = $result3->fetch_array(MYSQLI_ASSOC)) {
+            $r[$obj3['id']] = $obj3;
+
+         
+        }
+        */
+        $obj3 = $result3->fetch_array(MYSQLI_ASSOC);
+        return $obj3['name'];
+    }
+        
     
     function bgcolor($daytimestamp) {
         $bgcolor = " ";

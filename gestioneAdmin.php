@@ -287,8 +287,8 @@ switch ($table_name) {
             <?php if ($table_name == 'campaign_types') echo '<td>Stack</td>'; ?>
             <?php if ($table_name == 'senders') echo '<td>Channel</td>'; ?>
 
-            <td align="center" width="10%">Nome</td>
-            <?php if ($table_name == 'offers' || $table_name == 'campaign_types' || $table_name == 'campaign_cat_sott' || $table_name == 'campaign_titolo_sottotitolo' || $table_name == 'campaign_stacks' || $table_name == 'channels' || $table_name == 'segments' || $table_name == 'campaign_categories' || $table_name == 'campaign_modalities') echo '<td>Label</td>'; ?>
+            <td align="center">Nome</td>
+            <?php if ($table_name == 'offers' || $table_name == 'campaign_types' || $table_name == 'campaign_cat_sott' || $table_name == 'campaign_titolo_sottotitolo' || $table_name == 'campaign_stacks' || $table_name == 'channels' || $table_name == 'segments' || $table_name == 'campaign_categories' || $table_name == 'campaign_modalities') echo '<td align="center">Label</td>'; ?>
             <?php if ($table_name == 'offers') echo '<td>Description</td>'; ?>
 
 
@@ -546,7 +546,7 @@ switch ($table_name) {
                                 echo "<td align=\"center\">" . $riga . "</td>";
                                 echo "<td><input type=\"text\" size=\"30\" id=\"new_value\" name=\"new_value\" value=\"" . $value['name'] . "\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
                                 $label = $funzioni_admin->get_nome_campo($table_name, "id", $value['id'], "label");
-                                echo "<td><input type=\"text\"   size=\"10\" id=\"label\" name=\"label\" value=\"" . $label . "\" onfocus=\"seleziona_campo('label');\" onblur=\"deseleziona_campo('label');\"/></td>";
+                                echo "<td align=\"center\"><input type=\"text\"   size=\"10\" id=\"label\" name=\"label\" value=\"" . $label . "\" onfocus=\"seleziona_campo('label');\" onblur=\"deseleziona_campo('label');\"/></td>";
                             }
                 } else {
                     echo "<td align=\"center\">" . $riga . "</td>";

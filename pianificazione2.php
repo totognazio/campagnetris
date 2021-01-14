@@ -128,14 +128,33 @@ $form->head_page("Pianificazione Campagne", "Filtro");
 <?php 
 $form->close_row();
 $form->open_row("Campagne", "Filtrate");
-?>
-<!--button add new campaign -->
-                <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaNew"> 
-                            <input type="hidden" name="azione" value="new" />  
-                            <input type="hidden" name="id" value="0" />                                                              
-                </form> 
-<button class="btn btn btn-xs btn-success" type="submit" onclick="manageCamp('','new');" data-placement="top" data-toggle="tooltip" data-original-title="Inserisci nuova Campagna"><i class="fa fa-plus-square"></i> Nuova Campagna</button>
-<!--button add new campaign -->
+
+
+$livello_accesso = $page_protect->get_job_role();
+if ($livello_accesso > 1) {
+    ?>
+                <!--button add new campaign -->
+                <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaNew">
+                            <input type="hidden" name="azione" value="new" />
+                            <input type="hidden" name="id" value="0" />
+                </form>
+                
+                <?php }
+if ($livello_accesso > 0) {
+    ?>
+                <form action="index.php?page=export_file_excel&funzione=export_pianificazione" method="post" id="exportpianificazione">
+
+                </form>
+                <!--button Excel -->
+<?php }
+if ($livello_accesso > 1) {
+    ?>
+<button class="btn btn btn-xs btn-warning" type="submit" onclick="manageCamp('','new');" data-placement="top" data-toggle="tooltip" data-original-title="Inserisci nuova Campagna"><i class="fa fa-plus-square"></i> Nuova Campagna</button>
+<?php } 
+if ($livello_accesso > 0) {
+    ?>
+<button class="btn btn btn-xs btn-success" type="submit" onclick="document.getElementById('exportpianificazione').submit(); " data-placement="top" data-toggle="tooltip" data-original-title="Export Pianificazione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>
+<?php }?>
 <div class="col-md-12 col-sm-12 col-xs-12" id="content_response">
 
 
