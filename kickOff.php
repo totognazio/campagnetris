@@ -197,8 +197,6 @@ $rand=  rand();
         }
 
     }
-
--->
 </script>
 
         <!-- page content -->
