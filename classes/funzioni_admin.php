@@ -77,6 +77,36 @@ class funzioni_admin {
         echo "</select>";
     }
 
+
+
+    function string_select2($nome_var, $lista_field, $lista_name, $javascript = "", $style = "", $selectStato_default = "", $campo_nome = "") {
+        $string = '';
+        if(!empty($campo_nome)){
+            $nome_campo = $campo_nome;}
+            else {
+                $nome_campo = $nome_var;
+            }
+        $string =  "<select id=\"$nome_var\" class=\"select2_single form-control\" name=\"$nome_campo\" $javascript $style >";
+        $string .= "<option value=\"\"></option>";
+        $contatore = 0;
+        if (count($lista_field) == count($lista_name)) {
+            foreach ($lista_field as $key => $value) {
+                $selected = "";
+                if ($selectStato_default != "") {
+                    if ($selectStato_default == $value) {
+                        $selected = " selected=\"selected\" ";
+                    }
+                }
+
+                $string .= "<option value=\"" . $value . "\"  $selected>" . $lista_name[$contatore] . "</option>";
+                $contatore++;
+            }
+        }
+        $string .= "</select>";
+
+        return $string;
+    }
+
     function get_id($nome_tabella, $valore_campo, $nome_campo = "name") {
         $query3 = "SELECT id as risultato FROM $nome_tabella  WHERE $nome_campo='$valore_campo'";
 //echo $query3;

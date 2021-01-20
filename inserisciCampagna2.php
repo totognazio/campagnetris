@@ -185,7 +185,8 @@ $cat_sott = $funzione->get_allTable('campaign_cat_sott');
         
                    
                   <div class="x_content">                     
-<?php print_r($_POST); ?>
+<?php print_r($_POST); 
+print_r($id_campaign['addcanale']);?>
 <!--inizio mega Form inserimento-->   
 <div class="bs-callout bs-callout-warning hidden">
   <h3><strong>Errore di validazione !!!   :(</strong></h3>
@@ -378,8 +379,8 @@ $('.add-contact').click(function (e) {
     $.ajax({
         url: "addTabCanale.php",
                 method: "POST",
-                data: {tab_id: id, campaign_id: id},
-                //dataType:"html",    
+                data: {readonly: <?php if($readonly){echo 1;} else{echo 0;}?>, tab_id: id, campaign_id: <?php if(isset($azione)) echo $id; else {echo 0;}?>, disabled_value: <?php if(!empty($disabled_value)) echo $disabled_value; else {echo 0;}?> , modifica: <?php echo $modifica; ?>},
+                dataType:"html",    
                 success: function (data)
                 {
                     //console.log('eccoli data' + JSON.stringify(data));

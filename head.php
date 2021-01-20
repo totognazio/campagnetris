@@ -36,7 +36,9 @@
     <!-- Custom Theme Style -->
     <link href="build/css/custom.min.css" rel="stylesheet"> 
     <!-- bootstrap-daterangepicker -->
-  <link href="vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">    
+  <link href="vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">   
+  
+   
  <!--<style> 
 .loader {
     display: none;

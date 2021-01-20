@@ -1,5 +1,13 @@
 <!-- footer content -->
+<?php 
+  //print_r($_SERVER['REQUEST_URI']); 
+  $datatable = 'pianificazione';
+  if(isset($_GET['page']) && $_GET['page']=='gestioneCampagne2'){
+    $datatable = 'gestione';
+  }
 
+
+?>
 <footer>
   <div class="pull-right">
 
@@ -50,6 +58,10 @@
 <script src="./vendors/datatables.net-responsive/js/buttons.print.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.colVis.min.js"></script>
 <script src="./node_modules/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>
+
+<script type="text/javascript" src="./node_modules/xlsx/dist/shim.min.js"></script>
+<script src="./node_modules/xlsx/xlsx.mini.js"></script>
+
 <!-- bootstrap-daterangepicker -->
 <script src="vendors/moment/min/moment.min.js"></script>
 <script src="vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
@@ -77,7 +89,7 @@
     var selected_typologies = $('#typologies').val();
     var selected_sprint;
 
-    $('#stacks').multiselect({
+  $('#stacks').multiselect({
       enableClickableOptGroups: true,
       enableCollapsibleOptGroups: true,
       enableFiltering: true,
@@ -428,6 +440,8 @@
     });
 
 
+    
+
 
     function campagnTable() {
       console.log('startdate in camp ' + select_startDate);
@@ -447,35 +461,33 @@
           selected_squads: selected_squads,
           selected_states: selected_states,
           selected_channels: selected_channels,
-          selected_typologies: selected_typologies
+          selected_typologies: selected_typologies,
+          datatable: '<?php echo $datatable; ?>'
         },
         //dataType:"html",    
         success: function(data) {
           $("#content_response").fadeOut();
           $("#content_response").fadeIn();
           $("#content_response").html(data);
-          //console.log('Submission was successful.');
-          //console.log('eccoloooo ' + data);
-          //alert('ciao '+data);
-        var table_pianificazione = $('#datatable-pianificazione').DataTable({
+
+            var table_pianificazione = $('#datatable-pianificazione').DataTable({
             scrollY: true,
             scrollX: true,
             scrollCollapse: true,
             paging: false,
             dom: 'Bfrtip',
-              buttons: [{
+            buttons: [{
               extend: 'excelHtml5',
               className: 'btn-xs btn-success',
-              text: '<i class="fa fa-file-excel-o"></i> Export',
+              text: '<i class="fa fa-file-excel-o"></i> Export', 
               //text: '<button class="btn btn btn-xs btn-success"  data-placement="top" data-toggle="tooltip" data-original-title="Export Pianificazione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>',
               titleAttr: 'Export Pianificazione',
               title: 'Pianificazione_Campagne_'+select_startDate+'_'+select_endDate,
               exportOptions: {
-                //columns: ':visible(:not(.not-export-col))'
-                columns: ':not(.not-export-col)'
-              },
-
-                customize: function ( xlsx ) {
+              columns: ':not(.not-export-col)',
+    
+              },              
+              customize: function ( xlsx ) {
                       var sheet = xlsx.xl.worksheets['sheet1.xml'];
                       var row = 0;
                       var num_columns = $('#datatable-pianificazione thead th').length;
@@ -483,15 +495,29 @@
                     var start = moment(select_startDate);
                     var end = moment(select_endDate);
                     var num_columns = $('#datatable-pianificazione thead th').length + moment.duration(end.diff(start)).asDays();
+                    var cols = $('col', sheet);
 
                                        
                     console.log("---- column i: " + num_columns);
 
                 // Loop over the cells in column `J`
                 $('row c[r^="J"]', sheet).each( function (row) {
+                //for ( i=2; i < rows.length; i++ ) {  
                     // Get the value
                     if ( $('is t', this).text() == 'DRAFT' ) {
                         $(this).attr( 's', '39' );
+                        for ( i=11; i < cols.length; i++ ) {  
+                          //$( cols [i] ).attr('width', 10 ); 
+                          console.log('riga ' + row);
+                          
+                          //$( cols [i] ).attr('s', '42' ); 
+                          //$('row:eq('+row+') c', sheet).attr( 's', '39' );
+                          if($(table_pianificazione.cell(row, i).node()).hasClass('valore')){
+                                  console.log('colonna numero draft ' + i);
+                                  //$('row:eq('+(row)+') c', sheet).eq(i).attr('s', '39');
+                                  $('row:eq('+row+') c['+i+']', sheet).attr( 's', '39' );
+                          } 
+                        }
                     }
                     else if ( $('is t', this).text() == 'ESEGUITA' ) {
                         $(this).attr( 's', '42' );
@@ -509,113 +535,64 @@
 
 
 
-                      $('row', sheet).each(function(x) {
-                        if (x >0) row++;     
-                        //$('row:first c', sheet).attr( 's', '42' );                   
-                        for(var i=10; i<num_columns; i++) {
-                              
-                              console.log("---- riga   : x" + x + ' row ' + row );
-                              //var value = $('is t', this).text();
-                              //var cell_address = {c:C, r:R};
-                              //var value = xlsx.utils.encode_cell({c:i, r:x});
-                              //console.log("quiiiiii- column  : " + i + ' row ' + row + ' value ' + value);
-
-                              //if(i>10 && $(table_pianificazione.cell(row, i).node()).hasClass('valore')){
-                                    //console.log("quiiiiii- column  : " + i + ' row ' + row);
-                                    //$('row:nth-child('+(x)+') c', sheet).eq(i).attr('s', '39');
-                                    //$(table_pianificazione.cell(':eq('+3+')', 10)).attr('s', '39');
-                                  //}
-                                    //$('row:nth-child('+(x)+') c', sheet).eq(i).attr('s', '39');
-                                    
+                      $('row', sheet).each(function(row) {                
                          
-              //if ($(output_table.cell(':eq('+row+')', i).node()).hasClass('sig-w')) 
-                              //console.log(table_pianificazione.row(':eq('+row+')').data());
-                              
-                                if($(table_pianificazione.cell(':eq('+x+')', i).node()).hasClass('valore') && ($('c[r=J'+x+'] t', sheet).text() === 'PIANIFICATA') ){
-                                  console.log('pianificata cella valore ['+i+','+x+']');
-                                  $('row:nth-child('+(x)+') c', sheet).attr('s', '20');
-                                  //$('row:nth-child('+(row)+') c', sheet).eq(i-1).attr('s', '20');
-                                }
-                                else if($(table_pianificazione.cell(':eq('+x+')', i).node()).hasClass('valore') && ($('c[r=J'+x+'] t', sheet).text() === 'DRAFT') ){
-                                  console.log('draft cella valore ['+i+','+row+']');
-                                  $('row:nth-child('+(x)+') c', sheet).attr('s', '39');
-                                  //$('row:nth-child('+(row)+') c', sheet).eq(i-1).attr('s', '39');
-                                }
-                                else if($(table_pianificazione.cell(':eq('+x+')', i).node()).hasClass('valore') && ($('c[r=J'+x+'] t', sheet).text() === 'ESEGUITA') ){
-                                  console.log('draft cella valore ['+i+','+row+']');
-                                  $('row:nth-child('+(x)+') c', sheet).attr('s', '42');
-                                  //$('row:nth-child('+(row)+') c', sheet).eq(i-1).attr('s', '39');
-                                }
-                                
-                                
-                                //$(this).attr( 's', '37' );
-                                //$(table_pianificazione.cell(':eq('+row+')', 10).attr('s', '39'));
-                     /*         
-                              else if ($('c[r=J'+x+'] t', sheet).text() === 'ESEGUITA') {
-                                if(i>10 && $(table_pianificazione.cell(':eq('+row+')', i).node()).hasClass('valore')){
-                                  console.log('eseguita cella valore ['+i+','+row+']');
-                                  //$('row:nth-child('+(x+1)+') c', sheet).eq(i-1).attr('s', '12');
+                          
+                          if($('c[r=J'+row+'] t', sheet).text() === 'DRAFT'){
+                          $('row:eq('+(row+1)+') c', sheet).eq(i-1).attr('s', '39')  
+                            for(var i=11; i<num_columns; i++) {  
+                              //console.log("---- riga Draft    row " + row );
+                              if($(table_pianificazione.cell(row, i).node()).hasClass('valore')){
+                                  //$('row:eq('+(row+1)+') c', sheet).eq(i-1).attr('s', '39');
+                              }  
 
-                                }
-                                //$('row:nth-child('+(x)+') c', sheet).eq(i).attr('s', '12');
-                                //$(this).attr( 's', '12' );
-                                //$(table_pianificazione.cell(':eq('+row+')', 10).attr('s', '39'));
-                              }
-                              else if ($('c[r=J'+x+'] t', sheet).text() === 'DRAFT') {
-                                //console.log('ecollo il data cella ' + $(table_pianificazione.cell(':eq('+row+')', i)));
-                                if(i>10 && $(table_pianificazione.cell(':eq('+row+')', i).node()).hasClass('valore')){
-                                  console.log('draft cella valore ['+i+','+row+']');
-                                  //$('row:nth-child('+(x+1)+') c', sheet).eq(i-1).attr('s', '39');
-                                      //$('row:nth-child('+(x)+') c', sheet).eq(i).attr('s', '39');
-                                }
-                                    
-                                    //$(this).attr( 's', '39' );
-                                //$(table_pianificazione.cell(':eq('+row+')', 10).attr('s', '39'));
-                              }
-                              else if ($('c[r=J'+x+'] t', sheet).text() === 'RICHIESTA') {
-                                if(i>10 && $(table_pianificazione.cell(':eq('+row+')', i).node()).hasClass('valore')){
-                                    console.log('draft cella valore ['+i+','+row+']');
-                                    //$('row:nth-child('+(x+1)+') c', sheet).eq(i-1).attr('s', '42');
-                                      //$('row:nth-child('+(x)+') c', sheet).eq(i).attr('s', '39');
-                                }
-                              }
-                           */             
-              
                           }
+                        
+                        }
 
                         
                           //console.log(table_pianificazione.row(':eq('+row+')').data());
-                          if ($(table_pianificazione.cell(':eq('+row+')', 10).node()).hasClass('stato')) {
-                            console.log(' stato colonna YES')
+                          //if ($(table_pianificazione.cell(':eq('+row+')', 10).node()).hasClass('stato')) {
+                          //  console.log(' stato colonna YES')
                             //$('row:nth-child('+(x+1)+') c', sheet).attr('s', '41');
-                          }
+                          //}
 
                           
     
                     });
                 }
 
-            }],
-            "formatNumber": function ( toFormat ) {
+            },
+            'copy', 'excel', 'pdf', 'colvis' ],
+            language: {
+                thousands: "."
+              },
+              formatNumber: function ( toFormat ) {
                 return toFormat.toString().replace(
                   /\B(?=(\d{3})+(?!\d))/g, "."
                 );
               },
-            "ordering": false,
-            "columnDefs": [{
-                "orderable": false,
-                "targets": 0
+              ordering: true,
+              columnDefs: [
+                {      
+                  targets: 0,
+                  searchable: false,
+                  //orderable: false,
+                  width: 110,
               },
               {
-                "orderable": false,
-                "targets": 1
+                  targets: '_all',
+                  searchable: true,
+                  //orderable: true,
+                  //width: 10,
               }
-
-            ]
+            ],
 
           });
 
-          $('#datatable-pianificazione').DataTable().columns.adjust().responsive.recalc();
+    
+
+          table_pianificazione.columns.adjust().responsive.recalc();
           $('.loader').hide();
         },
         error: function(data) {
@@ -844,6 +821,8 @@
     });
 
   });
+
+
 </script>
 
 

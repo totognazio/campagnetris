@@ -35,7 +35,7 @@ $stacks = $funzione->get_list_select('campaign_stacks');
 //print_r($stacks);
 $typlogies = $funzione->get_list_select('campaign_types');
 $squads = $funzione->get_list_select('squads');
-$states = $funzione->get_list_select('campaign_states');
+$states = $funzione->get_list_select('campaign_states'); 
 $sprints = $funzione->get_sprints();
 // print_r($sprints);
 $form->head_page("Pianificazione Campagne", "Filtro");
@@ -54,7 +54,7 @@ $form->head_page("Pianificazione Campagne", "Filtro");
               
 
 ?>
-                    <br>
+ <br>
                   <div class="well" style="overflow: auto">
                                 
                       <div class="col-md-6 col-sm-6 col-xs-12"><h4>Date Range</h4>
@@ -127,7 +127,7 @@ $form->head_page("Pianificazione Campagne", "Filtro");
                     
 <?php 
 $form->close_row();
-$form->open_row("Campagne", "Filtrate");
+$form->open_row("Lista Campagne", "Filtrate");
 
 
 $livello_accesso = $page_protect->get_job_role();
@@ -153,7 +153,7 @@ if ($livello_accesso > 1) {
 <?php } 
 if ($livello_accesso > 0) {
     ?>
-<button class="btn btn btn-xs btn-success" type="submit" onclick="document.getElementById('exportpianificazione').submit(); " data-placement="top" data-toggle="tooltip" data-original-title="Export Pianificazione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>
+<button class="btn btn btn-xs btn-success" id="createXLSX"  data-placement="top" data-toggle="tooltip" data-original-title="Export Pianificazione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>
 <?php }?>
 <div class="col-md-12 col-sm-12 col-xs-12" id="content_response">
 
@@ -163,6 +163,16 @@ if ($livello_accesso > 0) {
 <?php $form->close_page(); ?> 
 
 <script>
+var btn = document.getElementById("createXLSX");
+var fileName = "test";
+var fileType = "xlsx";
+btn.addEventListener("click", function () {
+  var table = document.getElementById("datatable-pianificazione");
+  var wb = XLSX.utils.table_to_book(table, { sheet: "Sheet JS", type:'binary', raw: true});
+  return XLSX.writeFile(wb, null || fileName + "." + (fileType || "xlsx"));
+});
+
+
     function conferma(stato, permesso_elimina) {
         if (permesso_elimina == 0) {
             alert("Non hai i permessi per eliminare la campagna!");

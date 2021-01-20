@@ -8,14 +8,30 @@ include_once (__DIR__.'/classes/campaign_class.php');
 
 $campaign = new campaign_class();
 
+if(isset($_POST['datatable'])){
+    $datatable = $_POST['datatable'];
+} 
+else{
+    print_r($_POST);
+    exit('ERROR DATATABLE ABSENT!!!');
+}   
+
 $filter = $campaign->getFilter();
 
 #echo'prima del render campagne dopo il get_filter';
 #print_r($filter);
-$list = $campaign->getCampaigns($filter); 
+if($datatable=='pianificazione'){
+    $list = $campaign->getCampaigns($filter); 
+}
+else if($datatable=='gestione'){
+    $list = $campaign->getCampaignsGestione($filter); 
+}
 
-if(count($list)>0){
+if(count($list)>0  && $datatable=='pianificazione'){
     $campaign->tablePianificazione($list);
+}
+else if(count($list)>0  && $datatable=='gestione'){
+    $campaign->tableGestione($list);
 }
 else{
     echo ' Nessun Campagna !!!';

@@ -354,10 +354,10 @@
             <?php #print_r($stacks); ?>
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <label>Categoria & Sottocategoria</label>
-                <select id="cat_sott_ins" style="width: 100%" name="category_id" class="select2_single form-control" <?php echo $required_pos_field ?> <?php echo $disabled_value; ?>>        
+                <select id="cat_sott_ins" style="width: 100%" name="cat_sott_id" class="select2_single form-control" <?php echo $required_pos_field ?> <?php echo $disabled_value; ?>>        
                     <?php                               
                     foreach ($cat_sott as $key => $value) {
-                        if($modifica and $id_campaign['category_id']==$value['id']){$selected = ' selected';}
+                        if($modifica and $id_campaign['cat_sott_id']==$value['id']){$selected = ' selected';}
                         else{$selected = '';}
                         echo '<option '. $selected. ' value="' . $value['id'] .'">'  . $value['name'] . ' - ' . $value['label'] . '</option>';
                     }
