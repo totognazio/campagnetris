@@ -11,7 +11,7 @@ $rand=  rand();
     <script type="text/javascript" src="calendario/funzioniCalendario.js<?php echo "?".$rand; ?>"></script>
     <link rel="stylesheet" type="text/css" media="all" href="calendario/skins/aqua/theme.css " title="Aqua" />
 <script language="JavaScript" type="text/javascript">
-<!--  
+
     function seleziona(riga) {
         riga.className = "selezionata";
     }
