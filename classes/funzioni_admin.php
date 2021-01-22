@@ -186,17 +186,18 @@ class funzioni_admin {
  
     function get_channel_label($id) {
         $query3 = "SELECT channels.id,channels.NAME as tipo_nome,channels.label as tipo_label FROM channels where channels.id=$id";
-echo $query3;
+//echo $query3;
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
-        $list = array();
-        $r = array();
-        while ($obj3 = $result3->fetch_array(MYSQLI_ASSOC)) {
-            $r['id'] = $obj3['id'];
-            $r['name'] = $obj3['tipo_nome'];
-            $r['label'] = $obj3['tipo_label'];
-            $list[] = $r;
-        }
-        return $r['label'];
+        //$list = array();
+        //$r = array();
+        //while ($obj3 = $result3->fetch_array(MYSQLI_ASSOC)) {
+            //$r['id'] = $obj3['id'];
+            //$r['name'] = $obj3['tipo_nome'];
+            //$r['label'] = $obj3['tipo_label'];
+            //$list[] = $r;
+        //}
+        $obj3 = $result3->fetch_array(MYSQLI_ASSOC);
+        return $obj3['tipo_label'];
     }
 
     function get_channel($id) {
@@ -424,6 +425,7 @@ echo $query3;
         }
         return $list;
     }
+
 
     function get_list_state_id($nome_tabella, $ordinamento) {
         $query3 = "SELECT id,name FROM $nome_tabella where ordinamento<=$ordinamento";

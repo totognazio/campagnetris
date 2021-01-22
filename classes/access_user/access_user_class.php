@@ -283,23 +283,22 @@ class Access_user {
         }
         return $ip;
     }
-
+/*
     function log($utente) {
         $funzioni_admin = new funzioni_admin();
         $id_user = $funzioni_admin->get_id("users", $utente, "login");
         $ip = $this->get_ip();
-        $sql = "INSERT INTO " . $this->log_table
-                . " (id_user, inizio_sessione, ip)"
-                . " VALUES ('$id_user', '" . time()
-                . "', '" . $ip . "')";
+        $sql = 'INSERT INTO ' . $this->log_table('id_user', 'inizio_sessione', 'ip') VALUES ($id_user, time(), ''. $ip . '')';
 //debug_to_console($log_sql);
         $result = mysqli_query($this->mysqli,$sql) or die(mysqli_error($this->mysqli));
-        if (mysqli_fetch_assoc($result)["test"] == 1) {
+        $test = mysqli_fetch_assoc($result);
+        if ($test["test"] == 1) {
             return true;
         } else {
             return false;
         }
     }
+    */
 
     function set_user($goto_page) {
         $_SESSION['user'] = $this->user;
@@ -360,7 +359,7 @@ class Access_user {
             $this->user_pw = md5($password);
             if ($this->check_user()) {
                 $this->login_saver();
-                $this->log($this->user);
+                //$this->log($this->user);
                 if ($this->count_visit) {
                     $this->reg_visit($user, $this->user_pw);
                 }
@@ -746,8 +745,9 @@ class Access_user {
         } else {
             $type = "";
         }
-        $value = (!get_magic_quotes_gpc()) ? addslashes($value) : $value;
-        switch ($type) {
+        //$value = (!get_magic_quotes_gpc()) ? addslashes($value) : $value;
+        $value = addslashes($value);
+        switch ($type) { 
             case "int":
                 $value = ($value != "") ? intval($value) : NULL;
                 break;

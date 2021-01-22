@@ -1085,7 +1085,7 @@ function rcopy($src, $dst) {
   else if (file_exists($src)) copy($src, $dst);
 }
 
-    function update($record, $id_campagne) {
+function update($record, $id_campagne) {
 //print_r($record);
         $send_email = 0;
         $id_state = $this->get_state($id_campagne);
@@ -1116,8 +1116,16 @@ function rcopy($src, $dst) {
                             $valore_inviato = substr($record[$value], 0, -1);
                         else
                             $valore_inviato = $record[$value];
+
                         $lista_variabili = $lista_variabili . "`" . $value . "`='" . $this->mysqli->real_escape_string(addslashes($valore_inviato)) . "',";
-                    } else {
+                    } 
+                    elseif ($value == "addcanale") {
+                        $valore_inviato = json_encode($record[$value], JSON_FORCE_OBJECT);
+                        //$lista_variabili = $lista_variabili . "`" . $value . "`,";
+                        //$lista_valori = $lista_valori . "'" . $this->mysqli->real_escape_string($valore_inviato) . "',";
+                        $lista_variabili = $lista_variabili . "`" . $value . "`='" . $this->mysqli->real_escape_string($valore_inviato) . "',";
+                    }  
+                    else {
                         if ($value == "campaign_state_id") {
                             //if (($this->get_state_eliminabile($id_campagne) > 0) && ($valore_inviato != $id_state)) {
                             if ($valore_inviato == $this->get_state_invio_email()) {
@@ -1441,6 +1449,7 @@ LEFT JOIN users ON `user_id` = users.id
         ,squads.NAME AS squads_nome
         ,senders.NAME AS sender_nome
         ,channels.NAME AS channel_nome
+        ,channels.label AS channel_label
         ,campaign_states.NAME AS campaign_stato_nome
         ,campaign_states.colore AS colore
         ,campaign_states.elimina AS elimina
@@ -1586,6 +1595,7 @@ LEFT JOIN users ON `user_id` = users.id
     //print_r($list);              
      foreach ($list as $key => $row) {
         $stato_elimina = $row['elimina'];
+        //echo $this->tableChannelLabel($row);
         $permission = $page_protect->check_permission($row['squad_id']); 
         $string .= "<tr><td>".'   
                         <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaModifica'.$row['id'].'"> 
@@ -1620,7 +1630,8 @@ LEFT JOIN users ON `user_id` = users.id
         $string .= "<td><small>".$row['tipo_nome']."</small></td>";
         $string .= "<td><small>".$row['cod_campagna']."</small></td>";
         $string .= "<td><small>".$row['cod_comunicazione']."</small></td>";
-        $string .= "<td><small>".$row['channel_nome']."</small></td>";
+        //$string .= "<td><small>".$row['channel_label']."</small></td>";
+        $string .= "<td><small>".$this->tableChannelLabel($row)."</small></td>";
         $string .= "<td><small>".$row['data_inizio']."</small></td>";      
         $string .= "<td class=\"stato\"><small>".$row['campaign_stato_nome']."</small></td>";
         $string .= "<td><small><strong>".$this->round_volume($row['volume'])."</strong></small></td>";
@@ -1670,8 +1681,25 @@ LEFT JOIN users ON `user_id` = users.id
  
     }
 
+    function tableChannelLabel($row) { 
+        $string = $row['channel_label'];
+        if(!empty($row['addcanale'])){
+            $funzione = new funzioni_admin();            
+            $addcanale = json_decode($row['addcanale'], true);
+            foreach($addcanale as $key => $value ){
+                //print_r($value['channel_id']);
+                //exit();
+                $string .= '/'.$funzione->get_channel_label($value['channel_id']);  
+            }
+            return $string;
+        }
+        else{
+            return $string;
+        }
 
- function tableGestione($list) {   
+    }
+
+ function tableGestione($list) {    
     //print_r($list);
     ?>                                                    
                     <!--<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">

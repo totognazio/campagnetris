@@ -185,8 +185,6 @@ $cat_sott = $funzione->get_allTable('campaign_cat_sott');
         
                    
                   <div class="x_content">                     
-<?php print_r($_POST); 
-print_r($id_campaign['addcanale']);?>
 <!--inizio mega Form inserimento-->   
 <div class="bs-callout bs-callout-warning hidden">
   <h3><strong>Errore di validazione !!!   :(</strong></h3>
@@ -196,15 +194,16 @@ print_r($id_campaign['addcanale']);?>
 <div class="bs-callout bs-callout-info hidden">
   <h4>Yay!</h4>
   <p>Everything seems to be ok :)</p>
-</div>            
+</div>   
+<?php print_r($_POST); ?>    
 <form id="form-campagna-ins"  data-parsley-validate="" class="form-horizontal form-label-left" enctype="multipart/form-data" action="<?php echo $back_url; ?>" method="post">  
                 <input type="hidden" name="azione" value="<?php echo $_POST['azione']; ?>">
                 <input type="hidden" name="user_id" id="user_id" value="<?php echo $page_protect->id; ?>"> 
                 <input type="hidden" name="id_upload" id="fileid" value="<?php echo $id_upload; ?>">  
-                <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                <div id="myTab" class="" role="tabpanel" data-example-id="togglable-tabs">
                        
-                      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Campagna</a>
+                      <ul  class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" class="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Campagna</a>
                         </li>
                         <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Criteri</a>
                         </li>
@@ -218,8 +217,6 @@ print_r($id_campaign['addcanale']);?>
                       </ul>
                            
                       <div id="myTabContent" class="tab-content">
-
-     
                                 <!-- Tab Campagna-->
                            <?php  include_once 'tab_campagna.php'; ?>                   
                                 <!-- Tab Criteri-->   
@@ -231,7 +228,7 @@ print_r($id_campaign['addcanale']);?>
                                <!-- Tab Canale-->  
                            <?php  #include_once 'tab_canale2.php'; ?>
      
-                      </div>
+                      </div> 
                       
                         <br>
                                              
@@ -392,6 +389,37 @@ $('.add-contact').click(function (e) {
 });
 
 $(document).ready(function() {  
+
+ <?php 
+ //trigger ADD Canale 
+ if (isset($azione) && ($azione=='duplica' || $azione=='modifica')) {
+
+    if(!empty($id_campaign['addcanale'])){
+        $addcanale = json_decode($id_campaign['addcanale'],true);
+
+        foreach($addcanale as $canale){?>
+                $('.add-contact').trigger("click");
+        <?php    
+        } 
+        ?>
+        this.preventDefault();
+        $('.tab_content1').trigger("click");
+        <?php
+    }  
+ }
+
+ ?>
+         
+    //$('.nav-tabs a[href="#tab_content1"]').tab('show');
+    //$('.myTab li:eq(0) a').tab('show');
+    //$("#tab_content1").tab('hide');   
+    //$("#tab_content1").tab('show'); 
+    //$('.tab_content1').trigger("click");
+     
+    //sistemo il tab attivo
+    //$('ul.mytab').tab();
+    //$( "#myTab").tab( "option", "active", 1);
+
 
     $('#mod_invio').select2({
           placeholder: "Select Modalità SMS"
@@ -890,6 +918,7 @@ function controllaform() {
                 Errore = Errore + "- Canale\n";
             }
 <?php
+/*
 $lista_ext1 = $campaign->get_channel_ext1();
 if ($lista_ext1) {
     foreach ($lista_ext1 as $key => $value) {
@@ -939,6 +968,7 @@ if ($lista_ext2) {
         <?php
     }
 }
+*/
 ?>
 /*
             if ((document.getElementById('trial_campagna').checked)) {

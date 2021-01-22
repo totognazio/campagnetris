@@ -221,9 +221,9 @@ if (isset($_POST['creautente']) && $_POST['creautente'] == "1") {
 
 
                   <div class="form-group">
-      		<label class="control-label col-md-3 col-sm-3 col-xs-12" >E mail <span class="required">*</span></label>
+      		<label class="control-label col-md-3 col-sm-3 col-xs-12" >E mail </label>
 		<div class="col-md-6 col-sm-6 col-xs-12">                    
-               <input type="email" id="email" class="form-control col-md-7 col-xs-12" name="email" value="<?php echo $utente['email']; ?>"  required="required" />
+               <input type="email" id="email" class="form-control col-md-7 col-xs-12" name="email" value="<?php echo $utente['email']; ?>"  />
                 </div>
 	  </div>  
       <br>

@@ -50,5 +50,9 @@
 </style>-->   
     
 <!-- jQuery -->
-<script src="vendors/jquery/dist/jquery.min.js"></script>    
+<script src="vendors/jquery/dist/jquery.min.js"></script>   
+
+
+
+
   </head>
