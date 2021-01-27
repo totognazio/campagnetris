@@ -4,6 +4,9 @@
                 background-color: lightgreen;
                 color: black;
                 }
+                body {
+                    overflow-y: auto;
+                }
  </style>  
  
 
@@ -24,7 +27,6 @@ $hello_name = ($page_protect->user_full_name != "") ? $page_protect->user_full_n
 if (isset($_GET['action']) && $_GET['action'] == "log_out") {
     $page_protect->log_out(); // the method to log off
 }
-
 //rename("file/5fd3a759daa6e","file/19572");
 //copy ("file/5fd3a405b8b32","file/19573");
 //unlink("file/5fd3a405b8b32");
@@ -38,7 +40,7 @@ $squads = $funzione->get_list_select('squads');
 $states = $funzione->get_list_select('campaign_states'); 
 $sprints = $funzione->get_sprints();
 // print_r($sprints);
-$form->head_page("Pianificazione Campagne", "Filtro");
+$form->head_page_compat("Pianificazione Campagne", "Filtro");
 //print_r($_SESSION);  
 //print_r($_POST); 
                 
@@ -52,11 +54,9 @@ $form->head_page("Pianificazione Campagne", "Filtro");
                     <strong>'. $result .'</strong></div>';
                 }
               
-
 ?>
  <br>
-                  <div class="well" style="overflow: auto">
-                                
+                  <!--<div class="well" style="overflow: auto">-->                                                
                       <div class="col-md-6 col-sm-6 col-xs-12"><h4>Date Range</h4>
                         <div id="reportrange_right" class="pull-left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                           <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
@@ -74,7 +74,7 @@ $form->head_page("Pianificazione Campagne", "Filtro");
                             ?>  
                           </select>
                     </div>       
-                     </div>          
+                            
                 
                     <div class="col-md-12">
                             <div class="col-md-2 col-sm-2 col-xs-12">
@@ -120,9 +120,7 @@ $form->head_page("Pianificazione Campagne", "Filtro");
                                 </select>
                             </div>
                             </div>
-               
- 
-                    <br><br>
+            
 <div class="loader"></div>                       
                     
 <?php 

@@ -200,9 +200,9 @@ $cat_sott = $funzione->get_allTable('campaign_cat_sott');
                 <input type="hidden" name="azione" value="<?php echo $_POST['azione']; ?>">
                 <input type="hidden" name="user_id" id="user_id" value="<?php echo $page_protect->id; ?>"> 
                 <input type="hidden" name="id_upload" id="fileid" value="<?php echo $id_upload; ?>">  
-                <div id="myTab" class="" role="tabpanel" data-example-id="togglable-tabs">
+                <div  class="" role="tabpanel" data-example-id="togglable-tabs">
                        
-                      <ul  class="nav nav-tabs bar_tabs" role="tablist">
+                      <ul  id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                         <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" class="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Campagna</a>
                         </li>
                         <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Criteri</a>
@@ -399,11 +399,12 @@ $(document).ready(function() {
 
         foreach($addcanale as $canale){?>
                 $('.add-contact').trigger("click");
+                $('#myTab a:first').tab('show');
         <?php    
         } 
         ?>
-        this.preventDefault();
-        $('.tab_content1').trigger("click");
+
+            
         <?php
     }  
  }

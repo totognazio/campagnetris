@@ -6,12 +6,12 @@
         
     <div class="col-md-12 col-sm-6 col-xs-12"> 
           <div class="col-md-6 col-sm-6 col-xs-12">
-              <label style="width:100%;">Call Guide
+              <label style="width:100%;">Call Guide 
               <img id="infoRedemption" title="Indicare le azioni che il cliente dovr&agrave; eseguire per essere considerato redeemer (esempio: il cliente dovr&agrave; attivare una opzione in un range temporale). 
                                  Non &egrave; considerata redemption il click di un link da parte di un cliente." alt="Criteri Redemption" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
               </label>
 
-                <textarea id="redemption" name="redemption" class="form-control" rows="10" <?php if ($readonly){echo $disabled_value;}?> onkeyup="checklength(0, 1000, 'redemption', 'charRedemption', '');" required="required" ><?php if ($modifica){echo stripslashes($id_campaign['redemption']); }?></textarea>
+                <textarea id="redemption" name="redemption" class="form-control" rows="10" <?php if ($readonly){echo $disabled_value;}?> onkeyup="checklength(0, 1000, 'redemption', 'charRedemption', '');" ><?php if ($modifica){echo stripslashes($id_campaign['redemption']); }?></textarea>
                 <label style="width:100%;"><input type="text" name="charRedemption" id="charRedemption" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="4" value="1000" onfocus="this.blur()" /></label>
               </div> 
             <div class="col-md-3 col-sm-6 col-xs-12">
@@ -30,8 +30,7 @@
                                     else {$value_0_selected = " selected";}                                    
                                 } 
                                 ?> 
-                     <select id="select_control_group" name="control_group" <?php if ($readonly){echo $disabled_value;} ?> class="select2_single form-control" style="width:100%" required="required" >                                                                 
-                         <option value=""></option>       
+                     <select id="select_control_group" name="control_group" <?php if ($readonly){echo $disabled_value;} ?> class="select2_single form-control" style="width:100%" required="required" >                                                                                                 
                          <option value="0" <?php echo $value_0_selected; ?>>No</option>
                          <option value="1" <?php echo $value_1_selected; ?>>Si</option>
                     </select>                     

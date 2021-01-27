@@ -10,9 +10,9 @@ if ($page_protect->get_job_role() >= 2) {
         
         <div class="col-md-12">
         <div class="col-md-2 col-sm-6 col-xs-12">
-            <label>Stato:</label><span class="required">*</span>
+            <label>Stato </label><span class="required">*</span>
             <p style="padding: 5px;">
-                <input type="checkbox" name="attivi" id="attivi" 
+                <input type="checkbox" name="attivi" id="attivi" data-parsley-errors-container="#checkbox-errors" 
                  <?php
                                 if ($modifica) {
                                     if ($id_campaign['attivi'] == 1){
@@ -57,12 +57,13 @@ if ($page_protect->get_job_role() >= 2) {
                                 ?>
                        value="1" class="flat" /> Disattivi
                 <br />
+                <div id="checkbox-errors"></div>
             <p>
         </div>     
         <div class="col-md-2 col-sm-6 col-xs-12">
-            <label>Tipo Offerta:</label><span class="required">*</span>
+            <label>Tipo Offerta </label><span class="required">*</span>
             <p style="padding: 5px;">
-                <input type="checkbox" name="consumer" id="consumer"  data-parsley-multiple="consumer" required 
+                <input type="checkbox" name="consumer" id="consumer"  data-parsley-multiple="consumer" required data-parsley-errors-container="#checkbox-errors5"
                                                 <?php
                                 if ($modifica) {
                                     if ($id_campaign['consumer'] == 1){
@@ -106,12 +107,13 @@ if ($page_protect->get_job_role() >= 2) {
                                 ?>  
                        value="1" class="flat" /> MicroBusiness
                 <br />
+                <div id="checkbox-errors5"></div>
             <p>     
         </div>
         <div class="col-md-2 col-sm-6 col-xs-12">
-            <label>Tipo Contratto:</label><span class="required">*</span>
+            <label>Tipo Contratto </label><span class="required">*</span>
             <p style="padding: 5px;">
-                <input type="checkbox" name="prepagato" id="prepagato" data-parsley-multiple="tipo_contratto" required   
+                <input type="checkbox" name="prepagato" id="prepagato" data-parsley-multiple="tipo_contratto" required  data-parsley-errors-container="#checkbox-errors4"  
                                                                                                             <?php
                                 if ($modifica) {
                                     if ($id_campaign['prepagato'] == 1){
@@ -154,10 +156,11 @@ if ($page_protect->get_job_role() >= 2) {
                                 ?>  
                        value="1" class="flat" /> MicroBusiness
                 <br />
+                <div id="checkbox-errors4"></div>
             <p>     
         </div>
         <div class="col-md-2 col-sm-6 col-xs-12">
-            <label>Consenso:</label>
+            <label>Consenso </label>
             <p style="padding: 5px;">
                 <input type="checkbox" name="cons_profilazione" id="cons_profilazione" 
                                <?php
@@ -233,12 +236,13 @@ if ($page_protect->get_job_role() >= 2) {
                                 ?> 
                        value="1" class="flat" /> Trasferimento dati a terzi (solo Tre TBC)
                 <br />
-            <p>     
+                
+            </p>     
         </div>
         <div class="col-md-2 col-sm-6 col-xs-12">
-            <label>Mercato:</label><span class="required">*</span>
+            <label>Mercato </label><span class="required">*</span>
             <p style="padding: 5px;">
-                <input type="checkbox" name="voce" id="voce" data-parsley-multiple="mercato" required        
+                <input type="checkbox" name="voce" id="voce" data-parsley-multiple="mercato" required data-parsley-errors-container="#checkbox-errors2"        
                     <?php
                                 if ($modifica) {
                                     if ($id_campaign['voce'] == 1){
@@ -274,12 +278,13 @@ if ($page_protect->get_job_role() >= 2) {
                                 ?> 
                        value="1" class="flat" /> Fissso
                 <br />
-            <p>     
+                <div id="checkbox-errors2"></div>
+            </p>     
         </div>
-                <div class="col-md-2 col-sm-6 col-xs-12">
-            <label>Frodatori:</label><span class="required">*</span>
+        <div class="col-md-2 col-sm-6 col-xs-12">
+            <label>Frodatori </label><span class="required">*</span>
             <p style="padding: 5px;">
-                <input type="checkbox" name="no_frodi" id="no_frodi" data-parsley-multiple="frodatori" required  
+                <input type="checkbox" name="no_frodi" id="no_frodi" data-parsley-multiple="frodatori" required data-parsley-errors-container="#checkbox-errors1" 
                                                                   <?php
                                 if ($modifica) {
                                     if ($id_campaign['no_frodi'] == 1){
@@ -303,17 +308,21 @@ if ($page_protect->get_job_role() >= 2) {
                                 echo $disabled_value;}
                                 ?> 
                        value="1" class="flat" /> Altri Filtri
+                       
                 <br />
 
-            <p>     
+            </p>  
+            <div id="checkbox-errors1"></div>  
+        
         </div>
        </div>     
         <div class="col-md-12">
         <div class="col-md-2 col-sm-6 col-xs-12">
-            <label>Segmento:</label><span class="required">*</span>
+            <label>Segmento </label>
             <p style="padding: 5px;">
              <?php 
-                 $require_first = 'required';             
+                 //$require_first = 'required';  
+                 $require_first = '';            
                             if ($modifica){$segment_id = $id_campaign['segment_id'];}
                             else {$segment_id = 0;}                            
                             foreach ($segments as $key => $value) {                                
@@ -327,13 +336,26 @@ if ($page_protect->get_job_role() >= 2) {
                                                        
               ?>  
 
-
-            <p>     
+            </p>     
         </div>
+                    <form id="demo-form" data-parsley-validate>
+            <div  class="col-md-6 col-sm-12 col-xs-12">
+              <label for="message">Altri Criteri (2000 chars max) </label><span class="required">*</span>
+                                <?php
+                                $value = "";
+                                if ($modifica) {
+                                    $value = $id_campaign['altri_criteri'];                                    
+                                } 
+                                if ($readonly){
+                                echo $disabled_value;}
+                                ?>               
+              <textarea id="altri_criteri" required="required" class="form-control" rows="15" name="altri_criteri" <?php if ($readonly){echo $disabled_value;}?> data-parsley-trigger="keyup"  data-parsley-maxlength="2000" data-parsley-maxlength-message="Attenzione!! E' stata raggiunta la lunghezza massima..." data-parsley-validation-threshold="10"><?php echo stripslashes($value);?></textarea>  
+            </div>                       
+            </form>
                                    
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                         <label >Indicatore Dinamico  <span class="required">*</span></label>    
-                          <input type="text" id="indicatore_dinamico" name="indicatore_dinamico"  required="required" class="form-control col-md-7 col-xs-12" 
+                         <label >Indicatore Dinamico </label>    
+                          <input type="text" id="indicatore_dinamico" name="indicatore_dinamico"  class="form-control col-md-7 col-xs-12" 
                                 <?php
                                 $value = "";
                                 if ($modifica) {
@@ -343,21 +365,9 @@ if ($page_protect->get_job_role() >= 2) {
                                 echo $disabled_value;}
                                 ?>                                                                              
                          value="<?php echo $value;?>">
+                         <div id="checkbox-errors5"></div> 
                         </div>  
-            <form id="demo-form" data-parsley-validate>
-            <div  class="col-md-6 col-sm-12 col-xs-12">
-              <label for="message">Altri Criteri (2000 chars max) :</label>
-                                <?php
-                                $value = "";
-                                if ($modifica) {
-                                    $value = $id_campaign['altri_criteri'];                                    
-                                } 
-                                if ($readonly){
-                                echo $disabled_value;}
-                                ?>               
-              <textarea id="altri_criteri" required="required" class="form-control" name="altri_criteri" <?php if ($readonly){echo $disabled_value;}?> data-parsley-trigger="keyup"  data-parsley-maxlength="2000" data-parsley-maxlength-message="Attenzione!! E' stata raggiunta la lunghezza massima..." data-parsley-validation-threshold="10"><?php echo stripslashes($value);?></textarea>  
-            </div>                       
-            </form>
+
      
           
        </div>

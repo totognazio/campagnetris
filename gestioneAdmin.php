@@ -5,7 +5,8 @@
                 color: black;
                 }
  </style>
-<?php
+ 
+<?php  
 //print_r($_POST);
 
 include_once './classes/funzioni_admin.php';
@@ -50,7 +51,7 @@ if (isset($_POST['azione'])) {
         $days = Null;
                 if (isset($_POST['days']))
                     $days = $_POST['days'];
-$data_inizio = Null;                
+        $data_inizio = Null;                
                     if (isset($_POST['data_inizio']))
                     $data_inizio = $_POST['data_inizio'];                
                 $data_fine = Null;
@@ -75,11 +76,15 @@ $data_inizio = Null;
                 $new_name = $_POST['new_name'];
                 $label = $_POST['label'];
             }
-            $stack_id = $_POST['gruppo_id'];
-            if (empty($new_name) || empty($stack_id))
-                echo '<script type="text/javascript">alert("Attenzione! Nome campo non valorizzato.");</script>';
-            else //if ($funzioni_admin->check_new_name($table_name, $new_name))
-                $funzioni_admin->insert_new_campaigntype($new_name, $stack_id, $label);
+            //$stack_id = $_POST['gruppo_id'];
+            //if (empty($new_name) || empty($stack_id))
+            if (empty($new_name)){
+                echo '<script type="text/javascript">alert("Attenzione! Nome campo non valorizzato.");</script>';    
+            }                
+            else {//if ($funzioni_admin->check_new_name($table_name, $new_name))
+                //$funzioni_admin->insert_new_campaigntype($new_name, $stack_id, $label);
+                $funzioni_admin->insert_new_campaigntype($new_name, $label);
+            }
         }
         elseif ($table_name == 'sprints') {
             if (isset($_POST['new_name']) && !empty($_POST['new_name'])) {
@@ -284,19 +289,19 @@ switch ($table_name) {
     <table id="datatable-fixed-header" class="table table-striped table-bordered dataTable no-footer nowrap" role="grid" aria-describedby="datatable-fixed-header_info">
         <tr style="height:25px; font-weight: bold; background: url(images/wbg.gif) repeat-x 0px -1px;">
             <td align="center" width="1%">N.</td>
-            <?php if ($table_name == 'campaign_types') echo '<td>Stack</td>'; ?>
-            <?php if ($table_name == 'senders') echo '<td>Channel</td>'; ?>
+            <?php #if ($table_name == 'campaign_types') #echo '<td align="center">Stack</td>'; ?>
+            <?php if ($table_name == 'senders') echo '<td align="center">Channel</td>'; ?>
 
             <td align="center">Nome</td>
-            <?php if ($table_name == 'offers' || $table_name == 'campaign_types' || $table_name == 'campaign_cat_sott' || $table_name == 'campaign_titolo_sottotitolo' || $table_name == 'campaign_stacks' || $table_name == 'channels' || $table_name == 'segments' || $table_name == 'campaign_categories' || $table_name == 'campaign_modalities') echo '<td align="center">Label</td>'; ?>
-            <?php if ($table_name == 'offers') echo '<td>Description</td>'; ?>
+            <?php if ($table_name == 'offers' || $table_name == 'campaign_types' || $table_name == 'campaign_cat_sott' || $table_name == 'campaign_titolo_sottotitolo' || $table_name == 'campaign_stacks' || $table_name == 'channels' || $table_name == 'segments' || $table_name == 'campaign_categories' || $table_name == 'campaign_modalities'|| $table_name == 'squads') echo '<td align="center">Label</td>'; ?>
+            <?php if ($table_name == 'offers') echo '< align="center">Description</td>'; ?>
 
 
-            <?php if ($table_name == 'campaign_states') echo '<td>Colore</td>'; ?>
-            <?php if ($table_name == 'campaign_states') echo '<td>Eliminabile</td>'; ?>
-            <?php if ($table_name == 'sprints') echo '<td>Giorni</td>'; ?>
-            <?php if ($table_name == 'sprints') echo '<td>Data Inizio</td>'; ?>
-            <?php if ($table_name == 'sprints') echo '<td>Data Fine</td>'; ?>
+            <?php if ($table_name == 'campaign_states') echo '<td align="center">Colore</td>'; ?>
+            <?php if ($table_name == 'campaign_states') echo '<td align="center">Eliminabile</td>'; ?>
+            <?php if ($table_name == 'sprints') echo '<td  align="center">Giorni</td>'; ?>
+            <?php if ($table_name == 'sprints') echo '<td align="center">Data Inizio</td>'; ?>
+            <?php if ($table_name == 'sprints') echo '<td align="center">Data Fine</td>'; ?>
             <td align="center" colspan="2" width="2%">
                 <form name="inserisciListaPreview" action="./index.php?page=gestioneAdmin" method="post" style="margin:0px;">
                     <input alt="Aggiungi nuovo elemento" title="Aggiungi nuovo elemento" type="image" src="images/Inserisci.png" style="margin:0px"/>
@@ -317,26 +322,31 @@ switch ($table_name) {
         <?php
 #$table_name = 'campaign_stacks';
         if ($table_name == 'campaign_types') {
-            $list = $funzioni_admin->get_all_list($table_name, 'ORDER BY `campaign_types`.`campaign_stack_id` ASC');
+            //$list = $funzioni_admin->get_all_list($table_name, 'ORDER BY `campaign_types`.`campaign_stack_id` ASC');
+            $list = $funzioni_admin->get_all_list($table_name, 'ORDER BY `campaign_types`.`name` ASC');
             $riga = 0;
 
             if (!empty($_POST) && $_POST['azione'] == 'aggiungi') {
-                echo "<tr  id=\"" . $riga++ . "\"  style=\"height:25px;\" onmouseover=\"seleziona(this);\"  onmouseout=\"deseleziona(this);\" >";
+                echo "<tr  id=\"" . $riga++ . "\"  style=\"height:25px;\" onmouseover=\"seleziona_campo(this);\"  onmouseout=\"deseleziona_campo(this);\" >";
                 echo "<form action=\"./index.php?page=gestioneAdmin\" method=\"post\" style=\"margin:0px;\">";
 
 
-                $gruppo = $funzioni_admin->get_list_id("campaign_stacks");
-                $option_list = "<option value=\"\" ></option>";
-                foreach ($gruppo as $key => $value) {
+                //$gruppo = $funzioni_admin->get_list_id("campaign_stacks");
+                //$option_list = "<option value=\"\" ></option>";
+                //foreach ($gruppo as $key => $value) {
 
-                    $option_list = $option_list . "<option value=\"" . $value['id'] . "\" >" . $value['name'] . "</option>";
-                }
+                  //  $option_list = $option_list . "<option value=\"" . $value['id'] . "\" >" . $value['name'] . "</option>";
+                //}
 
+                echo "<td align=\"center\">" . $riga . "</td>"                
+                . "<td align=\"center\"><input type=\"text\" size=\"15\" id=\"new_value\" name=\"new_name\" value=\"\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
+                
 
-                echo "<td align=\"center\">" . $riga . "</td>"
-                . "<td><select name=\"gruppo_id\" id=\"new_value1\" onfocus=\"seleziona_campo('new_value1');\" onblur=\"deseleziona_campo('new_value1');\">" . $option_list . "</select></td>"
-                . "<td><input type=\"text\" size=\"15\" id=\"new_value\" name=\"new_name\" value=\"\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
-                echo "<td><input type=\"text\"   size=\"10\" id=\"label\" name=\"label\"  onfocus=\"seleziona_campo('label');\" onblur=\"deseleziona_campo('label');\"/></td>";
+                // echo "<td align=\"center\">" . $riga . "</td>"
+               // . "<td align=\"center\"><select name=\"gruppo_id\" id=\"new_value1\" onfocus=\"seleziona_campo('new_value1');\" onblur=\"deseleziona_campo('new_value1');\">" . $option_list . "</select></td>"
+               // . "<td align=\"center\"><input type=\"text\" size=\"15\" id=\"new_value\" name=\"new_name\" value=\"\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
+                
+                echo "<td align=\"center\"><input type=\"text\"   size=\"10\" id=\"label\" name=\"label\"  onfocus=\"seleziona_campo('label');\" onblur=\"deseleziona_campo('label');\"/></td>";
 
                 echo "<td align=\"center\"><input alt=\"Conferma\" title=\"Conferma\" type=\"image\" src=\"images/inserisci.jpg\" /></td>";
                 echo "<input type=\"hidden\"  name=\"azione\" value=\"insert_new\" />";
@@ -350,20 +360,20 @@ switch ($table_name) {
             #print_r($list);
             foreach ($list as $key => $value) {
                 //echo "\n". $value['id'] ." ". $value['name'] . "\n";
-                $group_name = $funzioni_admin->get_list_id_where('campaign_stacks', 'id=' . $value['campaign_stack_id']);
+                //$group_name = $funzioni_admin->get_list_id_where('campaign_stacks', 'id=' . $value['campaign_stack_id']);
                 #print_r($group_name);
-                echo "<tr  id=\"" . $riga++ . "\"  style=\"height:25px;\" onmouseover=\"seleziona(this);\"  onmouseout=\"deseleziona(this);\" >";
+                echo "<tr  id=\"" . $riga++ . "\"  style=\"height:25px;\" onmouseover=\"seleziona_campo(this);\"  onmouseout=\"deseleziona_campo(this);\" >";
                 echo "<form name=\"modificaListaPreview0\" id=\"modificaListaPreview0\" action=\"./index.php?page=gestioneAdmin\" method=\"post\" style=\"margin:0px;\">";
 
                 if (!empty($_POST) && $_POST['azione'] == 'modifica' && $_POST['id'] == $value['id'])
                     echo "<td align=\"center\">" . $riga . "</td>"
-                    . "<td>" . $group_name[0]['name'] . "</td>"
-                    . "<td><input type=\"text\"  id=\"new_value\" name=\"new_value\" value=\"" . $value['name'] . "\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>"
-                    . "<td><input type=\"text\"  id=\"label\" name=\"label\" value=\"" . $value['label'] . "\" onfocus=\"seleziona_campo('label');\" onblur=\"deseleziona_campo('label');\"/></td>";
+                    //. "<td align=\"center\">" . $group_name[0]['name'] . "</td>"
+                    . "<td align=\"center\"><input type=\"text\"  id=\"new_value\" name=\"new_value\" value=\"" . $value['name'] . "\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>"
+                    . "<td align=\"center\"><input type=\"text\"  id=\"label\" name=\"label\" value=\"" . $value['label'] . "\" onfocus=\"seleziona_campo('label');\" onblur=\"deseleziona_campo('label');\"/></td>";
                 else
                     echo "<td align=\"center\">" . $riga . "</td>"
-                    . "<td>" . $group_name[0]['name'] . "</td>"
-                    . "<td>" . $value['name'] . "</td>" . "<td>"
+                    //. "<td align=\"center\">" . $group_name[0]['name'] . "</td>"
+                    . "<td align=\"center\">" . $value['name'] . "</td>" . "<td align=\"center\">"
                     . $value['label'] . "</td>";
 
                 echo "<td align=\"center\">";
@@ -389,7 +399,7 @@ switch ($table_name) {
             $list = $funzioni_admin->get_all_list($table_name, 'ORDER BY `senders`.`channel_id` ASC');
             $riga = 0;
             if (!empty($_POST) && $_POST['azione'] == 'aggiungi') {
-                echo "<tr  id=\"" . $riga++ . "\"  style=\"height:25px;\" onmouseover=\"seleziona(this);\"  onmouseout=\"deseleziona(this);\" >";
+                echo "<tr  id=\"" . $riga++ . "\"  style=\"height:25px;\" onmouseover=\"seleziona_campo(this);\"  onmouseout=\"deseleziona_campo(this);\" >";
                 echo "<form action=\"./index.php?page=gestioneAdmin\" method=\"post\" style=\"margin:0px;\">";
 
 
@@ -402,8 +412,8 @@ switch ($table_name) {
 
 
                 echo "<td align=\"center\">" . $riga . "</td>"
-                . "<td><select name=\"channel_id\" id=\"new_value1\" onfocus=\"seleziona_campo('new_value1');\" onblur=\"deseleziona_campo('new_value1');\">" . $option_list . "</select></td>"
-                . "<td><input type=\"text\"  id=\"new_value\" name=\"new_name\" value=\"\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
+                . "<td align=\"center\"><select name=\"channel_id\" id=\"new_value1\" onfocus=\"seleziona_campo('new_value1');\" onblur=\"deseleziona_campo('new_value1');\">" . $option_list . "</select></td>"
+                . "<td align=\"center\"><input type=\"text\"  id=\"new_value\" name=\"new_name\" value=\"\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
 
 
                 echo "<td align=\"center\"><input alt=\"Conferma\" title=\"Conferma\" type=\"image\" src=\"images/inserisci.jpg\" /></td>";
@@ -420,17 +430,17 @@ switch ($table_name) {
                 //echo "\n". $value['id'] ." ". $value['name'] . "\n";
                 $group_name = $funzioni_admin->get_list_id_where('channels', 'id=' . $value['channel_id']);
                 #print_r($group_name);
-                echo "<tr  id=\"" . $riga++ . "\"  style=\"height:25px;\" onmouseover=\"seleziona(this);\"  onmouseout=\"deseleziona(this);\" >";
+                echo "<tr  id=\"" . $riga++ . "\"  style=\"height:25px;\" onmouseover=\"seleziona_campo(this);\"  onmouseout=\"deseleziona_campo(this);\" >";
                 echo "<form name=\"modificaListaPreview0\" id=\"modificaListaPreview0\" action=\"./index.php?page=gestioneAdmin\" method=\"post\" style=\"margin:0px;\">";
 
                 if (!empty($_POST) && $_POST['azione'] == 'modifica' && $_POST['id'] == $value['id'])
                     echo "<td align=\"center\">" . $riga . "</td>"
-                    . "<td>" . $group_name[0]['name'] . "</td>"
-                    . "<td><input type=\"text\" size=\"15\" id=\"new_value\" name=\"new_value\" value=\"" . $value['name'] . "\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
+                    . "<td align=\"center\">" . $group_name[0]['name'] . "</td>"
+                    . "<td align=\"center\"><input type=\"text\" size=\"15\" id=\"new_value\" name=\"new_value\" value=\"" . $value['name'] . "\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
                 else
                     echo "<td align=\"center\">" . $riga . "</td>"
-                    . "<td>" . $group_name[0]['name'] . "</td>"
-                    . "<td>" . $value['name'] . "</td>";
+                    . "<td align=\"center\">" . $group_name[0]['name'] . "</td>"
+                    . "<td align=\"center\">" . $value['name'] . "</td>";
 
                 echo "<td align=\"center\">";
                 if (!empty($_POST) && $_POST['azione'] == 'modifica' && $_POST['id'] == $value['id']) {
@@ -455,40 +465,40 @@ switch ($table_name) {
             $list = $funzioni_admin->get_list_id($table_name);
             $riga = 0;
             if (!empty($_POST) && $_POST['azione'] == 'aggiungi') {
-                echo "<tr  id=\"" . $riga++ . "\"  style=\"height:25px;\" onmouseover=\"seleziona(this);\"  onmouseout=\"deseleziona(this);\" >";
+                echo "<tr  id=\"" . $riga++ . "\"  style=\"height:25px;\" onmouseover=\"seleziona_campo(this);\"  onmouseout=\"deseleziona_campo(this);\" >";
                 echo "<form action=\"./index.php?page=gestioneAdmin\" method=\"post\" style=\"margin:0px;\">";
 
                 if ($table_name == 'campaign_states') {
                     echo "<td align=\"center\">" . $riga . "</td>"
-                    . "<td><input type=\"text\"  id=\"new_value\" name=\"new_name\" value=\"\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
-                    echo "<td><input type=\"text\"  class=\"color-picker\" size=\"6\" id=\"color\" name=\"color\" value=\"\" onfocus=\"seleziona_campo('color');\" onblur=\"deseleziona_campo('color');\"/>";
+                    . "<td align=\"center\"><input type=\"text\"  id=\"new_value\" name=\"new_name\" value=\"\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
+                    echo "<td align=\"center\"><input type=\"text\"  class=\"color-picker\" size=\"6\" id=\"color\" name=\"color\" value=\"\" onfocus=\"seleziona_campo('color');\" onblur=\"deseleziona_campo('color');\"/>";
                     echo "</td>";
-                    echo "<td><input type=\"text\" size=\"2\" id=\"elimina\" name=\"elimina\" value=\"\" onfocus=\"seleziona_campo('elimina');\" onblur=\"deseleziona_campo('elimina');\"/></td>";
+                    echo "<td align=\"center\"><input type=\"text\" size=\"2\" id=\"elimina\" name=\"elimina\" value=\"\" onfocus=\"seleziona_campo('elimina');\" onblur=\"deseleziona_campo('elimina');\"/></td>";
                 } 
                 
                 elseif ($table_name == 'sprints') {
                     echo "<td align=\"center\">" . $riga . "</td>"
-                    . "<td><input  type=\"text\" size=\"10\" id=\"new_value\" name=\"new_name\" value=\"\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
-                    echo "<td><input type=\"text\"  size=\"6\" id=\"days\" name=\"days\" value=\"\" onfocus=\"seleziona_campo('days');\" onblur=\"deseleziona_campo('days');\"/>";
+                    . "<td align=\"center\"><input  type=\"text\" size=\"10\" id=\"new_value\" name=\"new_name\" value=\"\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
+                    echo "<td align=\"center\"><input type=\"text\"  size=\"6\" id=\"days\" name=\"days\" value=\"\" onfocus=\"seleziona_campo('days');\" onblur=\"deseleziona_campo('days');\"/>";
                     echo "</td>";
-                    echo "<td><input class=\"date-picker form-control\" required=\"required\" type=\"text\"  size=\"6\" id=\"data_inizio\" name=\"data_inizio\" value=\"\" onfocus=\"seleziona_campo('data_inizio');\" onblur=\"deseleziona_campo('data_inizio');\"/>";
+                    echo "<td align=\"center\"><input class=\"date-picker form-control\" required=\"required\" type=\"text\"  size=\"6\" id=\"data_inizio\" name=\"data_inizio\" value=\"\" onfocus=\"seleziona_campo('data_inizio');\" onblur=\"deseleziona_campo('data_inizio');\"/>";
 
                     echo "</td>";
-                    echo "<td><input class=\"date-picker form-control\" required=\"required\" type=\"text\"  size=\"6\" id=\"data_fine\" name=\"data_fine\" value=\"\" onfocus=\"seleziona_campo('data_fine');\" onblur=\"deseleziona_campo('data_fine');\"/>";
+                    echo "<td align=\"center\"><input class=\"date-picker form-control\" required=\"required\" type=\"text\"  size=\"6\" id=\"data_fine\" name=\"data_fine\" value=\"\" onfocus=\"seleziona_campo('data_fine');\" onblur=\"deseleziona_campo('data_fine');\"/>";
                     echo "</td>";                    
                 }
                 elseif ($table_name == 'offers') {
                     echo "<td align=\"center\">" . $riga . "</td>"
-                    . "<td><input type=\"text\" size=\"30\" id=\"new_value\" name=\"new_name\"  onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
-                    echo "<td><input type=\"text\"   size=\"30\" id=\"label\" name=\"label\"  onfocus=\"seleziona_campo('label');\" onblur=\"deseleziona_campo('label');\"/></td>";
-                    echo "<td><textarea name=\"description\" cols=\"60\" rows=\"5\"  onfocus=\"seleziona_campo('description');\" onblur=\"deseleziona_campo('description');\"></textarea>";
-                } elseif ($table_name == 'campaign_cat_sott' || $table_name == 'campaign_titolo_sottotitolo' || $table_name == 'campaign_modalities' || $table_name == 'campaign_categories' || $table_name == 'campaign_stacks' || $table_name == 'channels' || $table_name == 'segments') {
+                    . "<td align=\"center\"><input type=\"text\" size=\"30\" id=\"new_value\" name=\"new_name\"  onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
+                    echo "<td align=\"center\"><input type=\"text\"   size=\"30\" id=\"label\" name=\"label\"  onfocus=\"seleziona_campo('label');\" onblur=\"deseleziona_campo('label');\"/></td>";
+                    echo "<td align=\"center\"><textarea name=\"description\" cols=\"60\" rows=\"5\"  onfocus=\"seleziona_campo('description');\" onblur=\"deseleziona_campo('description');\"></textarea>";
+                } elseif ($table_name == 'campaign_cat_sott' || $table_name == 'campaign_titolo_sottotitolo' || $table_name == 'campaign_modalities' || $table_name == 'campaign_categories' || $table_name == 'campaign_stacks' || $table_name == 'channels' || $table_name == 'segments' || $table_name == 'squads') {
                     echo "<td align=\"center\">" . $riga . "</td>"
-                    . "<td><input type=\"text\"  id=\"new_value\" name=\"new_name\" value=\"\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
-                    echo "<td><input type=\"text\"   id=\"label\" name=\"label\"  onfocus=\"seleziona_campo('label');\" onblur=\"deseleziona_campo('label');\"/></td>";
+                    . "<td align=\"center\"><input type=\"text\"  id=\"new_value\" name=\"new_name\" value=\"\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
+                    echo "<td align=\"center\"><input type=\"text\"   id=\"label\" name=\"label\"  onfocus=\"seleziona_campo('label');\" onblur=\"deseleziona_campo('label');\"/></td>";
                 } else {
                     echo "<td align=\"center\">" . $riga . "</td>"
-                    . "<td><input type=\"text\"  id=\"new_value\" name=\"new_name\" value=\"\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
+                    . "<td align=\"center\"><input type=\"text\"  id=\"new_value\" name=\"new_name\" value=\"\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
                 }
 
                 echo "<td align=\"center\">";
@@ -503,54 +513,54 @@ switch ($table_name) {
             }
             foreach ($list as $key => $value) {
                 //echo "\n". $value['id'] ." ". $value['name'] . "\n";
-                echo "<tr  id=\"" . $riga++ . "\"  style=\"height:25px;\" onmouseover=\"seleziona(this);\"  onmouseout=\"deseleziona(this);\" >";
+                echo "<tr  id=\"" . $riga++ . "\"  style=\"height:25px;\" onmouseover=\"seleziona_campo(this);\"  onmouseout=\"deseleziona_campo(this);\" >";
                 echo "<form name=\"modificaListaPreview0\" id=\"modificaListaPreview0\" action=\"./index.php?page=gestioneAdmin\" method=\"post\" style=\"margin:0px;\">";
 
                 if (!empty($_POST) && $_POST['azione'] == 'modifica' && $_POST['id'] == $value['id']) {
 
                             if ($table_name == 'campaign_states') {
                                 echo "<td align=\"center\">" . $riga . "</td>"
-                                . "<td><input type=\"text\" size=\"13\" id=\"new_value\" name=\"new_value\" value=\"" . $value['name'] . "\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
+                                . "<td align=\"center\"><input type=\"text\" size=\"13\" id=\"new_value\" name=\"new_value\" value=\"" . $value['name'] . "\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
                                 $colore = $funzioni_admin->get_nome_campo($table_name, "name", $value['name'], "colore");
                                 $elimina = $funzioni_admin->get_nome_campo($table_name, "name", $value['name'], "elimina");
-                                echo "<td><input type=\"text\"  class=\"color-picker\" size=\"6\" id=\"color\" name=\"color\" value=\"" . $colore . "\" onfocus=\"seleziona_campo('color');\" onblur=\"deseleziona_campo('color');\"/></td>";
-                                echo "<td><input type=\"text\" size=\"2\" id=\"elimina\" name=\"elimina\" value=\"" . $elimina . "\" onfocus=\"seleziona_campo('elimina');\" onblur=\"deseleziona_campo('elimina');\"/></td>";
+                                echo "<td align=\"center\"><input type=\"text\"  class=\"color-picker\" size=\"6\" id=\"color\" name=\"color\" value=\"" . $colore . "\" onfocus=\"seleziona_campo('color');\" onblur=\"deseleziona_campo('color');\"/></td>";
+                                echo "<td align=\"center\"><input type=\"text\" size=\"2\" id=\"elimina\" name=\"elimina\" value=\"" . $elimina . "\" onfocus=\"seleziona_campo('elimina');\" onblur=\"deseleziona_campo('elimina');\"/></td>";
                             }  
                             elseif ($table_name == 'sprints') {
                                 echo "<td align=\"center\">" . $riga . "</td>"
-                                . "<td><input type=\"text\" size=\"10\" id=\"new_value\" name=\"new_value\" value=\"" . $value['name'] . "\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
+                                . "<td align=\"center\"><input type=\"text\" size=\"10\" id=\"new_value\" name=\"new_value\" value=\"" . $value['name'] . "\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
                                 $days = $funzioni_admin->get_nome_campo($table_name, "id", $value['id'], "days");
                                 $data_inizio = $funzioni_admin->get_nome_campo($table_name, "id", $value['id'], "data_inizio");
                                 $data_fine = $funzioni_admin->get_nome_campo($table_name, "id", $value['id'], "data_fine");
-                                echo "<td><input type=\"text\" size=\"2\" id=\"days\" name=\"days\" value=\"" . $days . "\" onfocus=\"seleziona_campo('days');\" onblur=\"deseleziona_campo('days');\"/></td>";                        
-                                echo "<td>"
+                                echo "<td align=\"center\"><input type=\"text\" size=\"2\" id=\"days\" name=\"days\" value=\"" . $days . "\" onfocus=\"seleziona_campo('days');\" onblur=\"deseleziona_campo('days');\"/></td>";                        
+                                echo "<td align=\"center\">"
                                 . "<input class=\"date-picker form-control\" required=\"required\" type=\"text\" size=\"8\" id=\"data_inizio\" name=\"data_inizio\" value=\"" . $data_inizio . "\" onfocus=\"seleziona_campo('data_inizio');\" onblur=\"deseleziona_campo('data_inizio');\"/>";
 
 
                                 echo '</td>';
-                                echo "<td><input class=\"date-picker form-control\" required=\"required\" type=\"text\" size=\"8\" id=\"data_fine\" name=\"data_fine\" value=\"" . $data_fine . "\" onfocus=\"seleziona_campo('data_fine');\" onblur=\"deseleziona_campo('data_fine');\"/></td>";
+                                echo "<td align=\"center\"><input class=\"date-picker form-control\" required=\"required\" type=\"text\" size=\"8\" id=\"data_fine\" name=\"data_fine\" value=\"" . $data_fine . "\" onfocus=\"seleziona_campo('data_fine');\" onblur=\"deseleziona_campo('data_fine');\"/></td>";
                             }
 
                             elseif ($table_name == 'offers') {
                                 echo "<td align=\"center\">" . $riga . "</td>"
-                                . "<td><input type=\"text\" size=\"30\" id=\"new_value\" name=\"new_value\" value=\"" . $value['name'] . "\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
+                                . "<td align=\"center\"><input type=\"text\" size=\"30\" id=\"new_value\" name=\"new_value\" value=\"" . $value['name'] . "\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
                                 $description = $funzioni_admin->get_nome_campo($table_name, "id", $value['id'], "description");
                                 $label = $funzioni_admin->get_nome_campo($table_name, "id", $value['id'], "label");
-                                echo "<td><input type=\"text\"   size=\"30\" id=\"label\" name=\"label\" value=\"" . $label . "\" onfocus=\"seleziona_campo('label');\" onblur=\"deseleziona_campo('label');\"/></td>";
-                                echo "<td><textarea name=\"description\" cols=\"60\" rows=\"5\"  onfocus=\"seleziona_campo('description');\" onblur=\"deseleziona_campo('description');\">$description</textarea>";
-                            } elseif ($table_name == 'job_roles' || $table_name == 'squads') {
+                                echo "<td align=\"center\"><input type=\"text\"   size=\"30\" id=\"label\" name=\"label\" value=\"" . $label . "\" onfocus=\"seleziona_campo('label');\" onblur=\"deseleziona_campo('label');\"/></td>";
+                                echo "<td align=\"center\"><textarea name=\"description\" cols=\"60\" rows=\"5\"  onfocus=\"seleziona_campo('description');\" onblur=\"deseleziona_campo('description');\">$description</textarea>";
+                            } elseif ($table_name == 'job_roles') {
                                 echo "<td align=\"center\">" . $riga . "</td>";
-                                echo "<td><input type=\"text\" size=\"30\" id=\"new_value\" name=\"new_value\" value=\"" . $value['name'] . "\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
+                                echo "<td align=\"center\"><input type=\"text\" size=\"30\" id=\"new_value\" name=\"new_value\" value=\"" . $value['name'] . "\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
                             } else {
 
                                 echo "<td align=\"center\">" . $riga . "</td>";
-                                echo "<td><input type=\"text\" size=\"30\" id=\"new_value\" name=\"new_value\" value=\"" . $value['name'] . "\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
+                                echo "<td align=\"center\"><input type=\"text\" size=\"30\" id=\"new_value\" name=\"new_value\" value=\"" . $value['name'] . "\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
                                 $label = $funzioni_admin->get_nome_campo($table_name, "id", $value['id'], "label");
                                 echo "<td align=\"center\"><input type=\"text\"   size=\"10\" id=\"label\" name=\"label\" value=\"" . $label . "\" onfocus=\"seleziona_campo('label');\" onblur=\"deseleziona_campo('label');\"/></td>";
                             }
                 } else {
                     echo "<td align=\"center\">" . $riga . "</td>";
-                    echo "<td>" . $value['name'] . "</td>";
+                    echo "<td align=\"center\">" . $value['name'] . "</td>";
                     if ($table_name == 'campaign_states') {
                         $colore = $funzioni_admin->get_nome_campo($table_name, "name", $value['name'], "colore");
                         $elimina = $funzioni_admin->get_nome_campo($table_name, "name", $value['name'], "elimina");
@@ -571,7 +581,7 @@ switch ($table_name) {
                         echo "<td align=\"center\"   >" . $data_inizio . "</td>";
                         echo "<td align=\"center\">" . $data_fine . "</td>";
                     }
-                    if ($table_name == 'campaign_categories' || $table_name == 'campaign_modalities' || $table_name == 'campaign_titolo_sottotitolo' || $table_name == 'campaign_cat_sott' || $table_name == 'campaign_stacks' || $table_name == 'channels' || $table_name == 'segments') {
+                    if ($table_name == 'campaign_categories' || $table_name == 'campaign_modalities' || $table_name == 'campaign_titolo_sottotitolo' || $table_name == 'campaign_cat_sott' || $table_name == 'campaign_stacks' || $table_name == 'channels' || $table_name == 'segments'|| $table_name == 'squads') {
                         $label = $funzioni_admin->get_nome_campo($table_name, "name", $value['name'], "label");
                         echo "<td align=\"center\"   >" . $label . "</td>";
                     }
@@ -621,8 +631,13 @@ switch ($table_name) {
 
 
 
-<script>
-          //calcolo data inizio e fine del nuovo sprint in ADD
+          
+<?php 
+//calcolo data inizio e fine del nuovo sprint in ADD
+if(isset($_POST['azione']) and $_POST['azione']=='aggiungi'){
+
+    ?>
+    <script>
           $.ajax({
             url: "get_lastDataSprint.php",
             method: "POST",
@@ -633,15 +648,71 @@ switch ($table_name) {
                 console.log('dataaa ', JSON.stringify(data));
                 console.log('dataaa parse ', JSON.parse(data).data_fine);
               var new_inizio = moment(JSON.parse(data).data_fine,"YYYY-MM-DD").add(1, 'day').format("YYYY-MM-DD");
-              var new_fine = moment(JSON.parse(data).data_fine,"YYYY-MM-DD").add(15, 'day').format("YYYY-MM-DD");
-              console.log('eccolaaa ', moment(JSON.parse(data).data_fine,"YYYY-MM-DD").add(1, 'day').format("YYYY-MM-DD")); 
+              var new_fine = moment(JSON.parse(data).data_fine,"YYYY-MM-DD").add(14, 'day').format("YYYY-MM-DD");
+              console.log('eccolaaa add sprint', moment(JSON.parse(data).data_fine,"YYYY-MM-DD").add(1, 'day').format("YYYY-MM-DD")); 
               $('#data_inizio').val(new_inizio);
               $('#data_fine').val(new_fine);
               $('#days').val("14");
             
             
             }
-          })
+          })      
+    </script>
+<?php
 
-      
+}
+?>
+
+<!-- bootstrap-daterangepicker -->
+<script>
+  $(document).ready(function() {
+    //$('#days').val(14);
+
+    $('#data_fine').daterangepicker({
+      singleDatePicker: true,
+      calender_style: "picker_4",
+      format: 'YYYY-MM-DD',
+      locale: {
+        format: "YYYY-MM-DD",
+        applyLabel: 'Submit',
+        cancelLabel: 'Clear',
+        fromLabel: 'From',
+        toLabel: 'To',
+        customRangeLabel: 'Custom',
+        daysOfWeek: ['Do', 'Lu', 'Ma', 'Me', 'Gi', 'Ve', 'Sa'],
+        monthNames: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
+        firstDay: 1        
+      }
+    }, function(start, end, label) {
+      console.log("new data_fine  ", end.toISOString(), label);
+      var rangedays = moment(end.toISOString()).diff($('#data_inizio').val(), 'days');
+      console.log('rande sss ' + rangedays);
+      $('#days').val(rangedays);
+    });
+
+    $('#data_inizio').daterangepicker({
+      singleDatePicker: true,
+      calender_style: "picker_4",
+      format: 'YYYY-MM-DD',
+      minDate: $('#data_inizio').val(),
+      locale: {
+        format: "YYYY-MM-DD",
+        applyLabel: 'Submit',
+        cancelLabel: 'Clear',
+        fromLabel: 'From',
+        toLabel: 'To',
+        customRangeLabel: 'Custom',
+        daysOfWeek: ['Do', 'Lu', 'Ma', 'Me', 'Gi', 'Ve', 'Sa'],
+        monthNames: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
+        firstDay: 1        
+      }
+    }, function(start, end, label) {
+      console.log("new data_inizio  ", end.toISOString(), label);
+      var rangedays = moment($('#data_fine').val()).diff(end.toISOString(), 'days');
+      console.log('randeinizio ' + rangedays);
+      $('#days').val(rangedays + 1);
+
+    });
+  });
 </script>
+<!-- /bootstrap-daterangepicker -->

@@ -44,10 +44,10 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12">Titolo & Sottotitolo  <span class="required">*</span></label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Titolo & Sottotitolo </label>
             <?php #print_r($stacks); ?>
             <div class="col-md-6 col-sm-6 col-xs-12">                              
-                <select  id="tit_sott_ins" style="width: 100%" name="tit_sott_id" class="select2_single form-control" required="required" <?php echo $disabled_value;?>>        
+                <select  id="tit_sott_ins" style="width: 100%" name="tit_sott_id" class="select2_single form-control" <?php echo $disabled_value;?>>        
                     <option value=""></option>
                     <?php
                     foreach ($tit_sott as $key => $value) {                        

@@ -31,5 +31,14 @@ if (isset($_GET['stack_id'])) {
             'etichetta' => $row['label']);
     }
 }
+if (isset($_GET['squad_id'])) {
+    $id = intval($_GET['squad_id']);
+    $lista = $funzioni_admin->get_squad($id);
+    foreach ($lista as $key => $row) {
+        $dati[] = array(
+            'valore' => $row['id'],
+            'etichetta' => $row['label']);
+    }
+}
 echo json_encode($dati);
 ?>

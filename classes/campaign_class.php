@@ -28,7 +28,7 @@ class campaign_class  {
         $mysqli = $this->connect_dbli();
         $this->filter_view = array();
         $this->radici_list = array('channel' => 'channels', 'stack' => 'campaign_stacks', 'state' => 'campaign_states', 'squad' => 'squads', 'type' => 'campaign_types');
-        $this->lista_parametri_campagna = array("nome_campagna", "pref_nome_campagna", "cod_comunicazione", "cod_campagna", "stack_id", "type_id", "squad_id", "user_id", "segment_id", "optimization", "priority", "data_inizio_validita_offerta", "data_fine_validita_offerta", "leva", "descrizione_leva", "campaign_state_id", "lista_preview", "lista_civetta", "control_group", "perc_control_group", "channel_id", "channel_type", "mod_invio", "sender_id", "storic", "testo_sms", "link", "sms_duration", "tipoMonitoring", "data_inizio", "volumeGiornaliero1", "volumeGiornaliero2", "volumeGiornaliero3", "volumeGiornaliero4", "volumeGiornaliero5", "volumeGiornaliero6", "volumeGiornaliero7", "data_fine", "escludi_sab_dom", "durata_campagna", "trial_campagna", "data_trial", "volume_trial", "perc_scostamento", "volume", "attivi", "sospesi", "disattivi", "consumer", "business", "microbusiness", "prepagato", "postpagato", "contratto_microbusiness", "cons_profilazione", "cons_commerciale", "cons_terze_parti", "cons_geolocalizzazione", "cons_enrichment", "cons_trasferimentidati", "voce", "dati", "fisso", "no_frodi", "altri_filtri", "etf", "vip", "dipendenti", "trial", "parlanti_ultimo", "profilo_rischio_ga", "profilo_rischio_standard", "profilo_rischio_high_risk", "altri_criteri", "data_inserimento", "redemption", "storicizza", "offer_id", "modality_id", "category_id", "tit_sott_id", "descrizione_target", "leva_offerta", "descrizione_offerta", "indicatore_dinamico", "tipo_leva", "opzione_leva", "id_taglio", "id_news", "note_operative","cat_sott_id","addcanale");
+        $this->lista_parametri_campagna = array("nome_campagna", "pref_nome_campagna", "cod_comunicazione", "cod_campagna", "stack_id", "type_id", "squad_id", "user_id", "segment_id", "optimization", "priority", "data_inizio_validita_offerta", "data_fine_validita_offerta", "leva", "descrizione_leva", "campaign_state_id", "lista_preview", "lista_civetta", "control_group", "perc_control_group", "channel_id", "channel_type", "mod_invio", "sender_id", "storic", "testo_sms", "link", "sms_duration", "tipoMonitoring", "data_inizio", "volumeGiornaliero1", "volumeGiornaliero2", "volumeGiornaliero3", "volumeGiornaliero4", "volumeGiornaliero5", "volumeGiornaliero6", "volumeGiornaliero7", "data_fine", "escludi_sab_dom", "durata_campagna", "trial_campagna", "data_trial", "volume_trial", "perc_scostamento", "volume", "attivi", "sospesi", "disattivi", "consumer", "business", "microbusiness", "prepagato", "postpagato", "contratto_microbusiness", "cons_profilazione", "cons_commerciale", "cons_terze_parti", "cons_geolocalizzazione", "cons_enrichment", "cons_trasferimentidati", "voce", "dati", "fisso", "no_frodi", "altri_filtri", "etf", "vip", "dipendenti", "trial", "parlanti_ultimo", "profilo_rischio_ga", "profilo_rischio_standard", "profilo_rischio_high_risk", "altri_criteri", "data_inserimento", "redemption", "storicizza", "offer_id", "modality_id", "category_id", "tit_sott_id", "descrizione_target", "leva_offerta", "descrizione_offerta", "indicatore_dinamico", "tipo_leva", "opzione_leva", "id_taglio", "id_news", "note_operative","cat_sott_id","addcanale","note_camp");
         $this->lista_rules = array(
             'attivi'
             , 'sospesi'
@@ -1610,11 +1610,14 @@ LEFT JOIN users ON `user_id` = users.id
                             <input type="hidden" name="id" value="'.$row['id'].'" />
                             <input type="hidden" name="azione" value="elimina" />                                                                
                         </form>
-            
-                    <button class="btn btn-sm btn-primary" type="submit" onclick="manageCamp('.$row['id'].', \'modifica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Modifica" title="Modifica"><i class="fa fa-edit" ></i></button>
-                    <button class="btn btn-sm btn-default" type="submit" onclick="manageCamp('.$row['id'].',\'duplica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone" ></i></button>
-                    <button class="btn btn-sm btn-danger" type="submit" onclick="manageCamp('.$row['id'].',\'elimina\','.$permission.','.$stato_elimina.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></button>                    
+        <a href="#" onclick="manageCamp('.$row['id'].', \'modifica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Modifica" title="Modifica"><i class="fa fa-pencil-square-o"></i></a>        
+        <a href="#" onclick="manageCamp('.$row['id'].', \'modifica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone"></i></a>                       
+        <a href="#" onclick="manageCamp('.$row['id'].', \'elimina\','.$permission.','.$stato_elimina.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></a>    
+                    
                 '.  "</td>";
+                    //<button class="btn btn-xs btn-primary" type="submit" onclick="manageCamp('.$row['id'].', \'modifica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Modifica" title="Modifica"><i class="fa fa-edit" ></i></button>
+                    //<button class="btn btn-xs btn-default" type="submit" onclick="manageCamp('.$row['id'].',\'duplica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone" ></i></button>
+                    //<button class="btn btn-xs btn-danger" type="submit" onclick="manageCamp('.$row['id'].',\'elimina\','.$permission.','.$stato_elimina.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></button>                                
         
         $string .= "<td><small>".$row['stacks_nome']."</small></td>";
         $string .= "<td><small>".$this->sprint_find($row['data_inizio'])."</small></td>";
@@ -2174,8 +2177,8 @@ function nomeCampagna($row) {
         } else {
             $m = number_format(round($r / 1000, 0), 0, ',', '.');
         }
-        //return $m;
-        return round($r/1000);
+        return $m;
+        //return round($r/1000);
         
     }
 

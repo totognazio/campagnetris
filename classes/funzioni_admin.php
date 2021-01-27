@@ -134,6 +134,20 @@ class funzioni_admin {
         return $list;
     }
 
+    function get_types() {
+        $query3 = "SELECT campaign_types.id,campaign_types.NAME as tipo_nome FROM campaign_types ORDER BY name ASC";
+//echo $query3;
+        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+        $list = array();
+        $r = array();
+        while ($obj3 = $result3->fetch_array(MYSQLI_ASSOC)) {
+            $r['id'] = $obj3['id'];
+            $r['name'] = $obj3['tipo_nome'];
+            $list[] = $r;
+        }
+        return $list;
+    }
+
     function get_type($id) {
         $query3 = "SELECT * FROM campaign_types where campaign_types.id=$id";
 //echo $query3;
@@ -232,6 +246,21 @@ class funzioni_admin {
         $query3 = "SELECT campaign_stacks.id,campaign_stacks.NAME as tipo_nome,campaign_stacks.label as tipo_label FROM campaign_stacks 
     
     where campaign_stacks.id=$id";
+//echo $query3;
+        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+        $list = array();
+        $r = array();
+        while ($obj3 = $result3->fetch_array(MYSQLI_ASSOC)) {
+            $r['id'] = $obj3['id'];
+            $r['name'] = $obj3['tipo_nome'];
+            $r['label'] = $obj3['tipo_label'];
+            $list[] = $r;
+        }
+        return $list;
+    }
+    
+    function get_squad($id) {
+        $query3 = "SELECT squads.id,squads.NAME as tipo_nome,squads.label as tipo_label FROM squads where squads.id=$id";
 //echo $query3;
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $list = array();
@@ -401,7 +430,7 @@ class funzioni_admin {
     }
 
     function get_list_id($nome_tabella) {
-        $query3 = "SELECT id,name FROM $nome_tabella  order by id DESC";
+        $query3 = "SELECT id,name FROM $nome_tabella  order by name ASC";
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $list = array();
         $r = array();
@@ -414,7 +443,7 @@ class funzioni_admin {
     }
     
     function get_list_select($nome_tabella) {
-        $query3 = "SELECT id,name FROM $nome_tabella ";
+        $query3 = "SELECT id,name FROM $nome_tabella ORDER BY name ASC";
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $list = array();
         #$r = array();
@@ -492,7 +521,7 @@ class funzioni_admin {
             $query3 = "UPDATE `$nome_tabella` SET `name` = '$new_value',`colore` ='$color',`elimina` ='$elimina'  WHERE `$nome_tabella`.`id` = $id";
         } elseif ($nome_tabella == "offers") {
             $query3 = "UPDATE `$nome_tabella` SET `name` = '$new_value',`label` = '$label',`description` ='$description'  WHERE `$nome_tabella`.`id` = $id";
-        } elseif ($nome_tabella == 'campaign_modalities' || $nome_tabella == 'campaign_categories' || $nome_tabella == 'campaign_cat_sott' || $nome_tabella == 'campaign_titolo_sottotitolo' || $nome_tabella == "campaign_types" || $nome_tabella == 'campaign_stacks' || $nome_tabella == 'channels' || $nome_tabella == 'segments') {
+        } elseif ($nome_tabella == 'campaign_modalities' || $nome_tabella == 'campaign_categories' || $nome_tabella == 'campaign_cat_sott' || $nome_tabella == 'campaign_titolo_sottotitolo' || $nome_tabella == "campaign_types" || $nome_tabella == 'campaign_stacks' || $nome_tabella == 'channels' || $nome_tabella == 'segments'|| $nome_tabella == 'squads') {
             $query3 = "UPDATE `$nome_tabella` SET `name` = '$new_value',`label` = '$label'  WHERE `$nome_tabella`.`id` = $id";
         } 
         elseif($nome_tabella == "sprints"){
@@ -501,13 +530,14 @@ class funzioni_admin {
         else {
             $query3 = "UPDATE `$nome_tabella` SET `name` = '$new_value' WHERE `$nome_tabella`.`id` = $id";
         }
-        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
-
+        $error = '<script type="text/javascript">alert("Attenzione!! Campo Nome già esistente!!");</script>';
+        $result3 = $this->mysqli->query($query3) or die($error. $this->mysqli->error);
+ 
         return $result3;
     }
 
     function delete_name($nome_tabella, $id) {
-        $query3 = "DELETE FROM `$nome_tabella` WHERE `id` = $id";
+        $query3 = "DELETE FROM `$nome_tabella` WHERE `id` = $id"; 
 
         $result3 = $this->mysqli->query($query3) or
                 die("<script type=\"text/javascript\">alert(\"Eliminazione non consentita! L'item è relazionato con dati presenti sul DB - \");</script>");
@@ -528,9 +558,16 @@ class funzioni_admin {
 
         return $result3;
     }
-
+/*
     function insert_new_campaigntype($name, $id_stack, $label) {
         $query3 = "INSERT INTO `campaign_types`(`id`, `name`, `campaign_stack_id`,label) VALUES ( NULL, '$name', '$id_stack','$label')";
+        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+
+        return $result3;
+    }
+    */
+    function insert_new_campaigntype($name, $label) {
+        $query3 = "INSERT INTO `campaign_types`(`id`, `name`,label) VALUES ( NULL, '$name', '$label')";
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
 
         return $result3;
@@ -545,14 +582,15 @@ class funzioni_admin {
 
     function insert_new_sprints($name, $days, $data_inizio, $data_fine) {        
         $query3 = "INSERT INTO `sprints`(`id`, `name`, `days`, `data_inizio`, `data_fine`) VALUES (NULL,'$name','$days','$data_inizio','$data_fine')";
-        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+        $error = '<script type="text/javascript">alert("Attenzione! Nome Sprint già presente!!");</script>';
+        $result3 = $this->mysqli->query($query3) or die($error . " - " . $this->mysqli->error);
         return $result3;
     }
 
     function insert_new_campaignstatus($name, $color, $elimina) {
         $query3 = "INSERT INTO `campaign_states`(`id`, `name`, `colore`, `elimina`) VALUES ( NULL, '$name', '$color', '$elimina')";
         //echo $query3;
-        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+        $result3 = $this->mysqli->query($query3) or die($this->mysqli->error);
 
         return $result3;
     }

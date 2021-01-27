@@ -5,8 +5,6 @@
   if(isset($_GET['page']) && $_GET['page']=='gestioneCampagne2'){
     $datatable = 'gestione';
   }
-
-
 ?>
 <footer>
   <div class="pull-right">
@@ -23,7 +21,6 @@
 </div>
 <!-- my JS -->
 <script src="javascript_controlla_form_insert.js"></script>
-
 <!-- Bootstrap -->
 <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- FastClick -->
@@ -32,8 +29,6 @@
 <script src="vendors/nprogress/nprogress.js"></script>
 <!-- Include the plugin multiselect -->
 <script type="text/javascript" src="node_modules/bootstrap-multiselect/dist/js/bootstrap-multiselect.js"></script>
-
-
 <!-- Datatables -->
 <script src="./vendors/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="./vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
@@ -470,8 +465,8 @@
           $("#content_response").fadeIn();
           $("#content_response").html(data);
 
-            var table_pianificazione = $('#datatable-pianificazione').DataTable({
-            scrollY: true,
+        var table_pianificazione = $('#datatable-pianificazione').DataTable({
+            scrollY: "300px",
             scrollX: true,
             scrollCollapse: true,
             paging: false,
@@ -481,8 +476,21 @@
               className: 'btn-xs btn-success',
               text: '<i class="fa fa-file-excel-o"></i> Export', 
               //text: '<button class="btn btn btn-xs btn-success"  data-placement="top" data-toggle="tooltip" data-original-title="Export Pianificazione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>',
-              titleAttr: 'Export Pianificazione',
-              title: 'Pianificazione_Campagne_'+select_startDate+'_'+select_endDate,
+              <?php 
+              if($datatable=='pianificazione'){
+              
+                  echo 'titleAttr: \'Export Pianificazione\',';
+                  echo 'title: \'Pianificazione_Campagne_\'+select_startDate+\'_\'+select_endDate,';
+                 
+              }
+              elseif($datatable=='gestione'){ 
+              
+                  echo 'titleAttr: \'Export Gestione\',';
+                  echo 'title: \'Gestione_Campagne_\'+select_startDate+\'_\'+select_endDate,';
+                
+              }
+              ?>
+              
               exportOptions: {
               columns: ':not(.not-export-col)',
     
@@ -563,7 +571,7 @@
                 }
 
             },
-            'copy', 'excel', 'pdf', 'colvis' ],
+            'colvis' ],
             language: {
                 thousands: "."
               },
@@ -577,8 +585,12 @@
                 {      
                   targets: 0,
                   searchable: false,
-                  //orderable: false,
-                  width: 110,
+                  orderable: false,
+                  width: 35,
+              },
+              {      
+                  targets: 5,
+                  width: 95,
               },
               {
                   targets: '_all',
@@ -589,9 +601,14 @@
             ],
 
           });
-
+          $('#table_pianificazione').dataTable( {
+              'drawCallback': function () {
+                      //$( 'table_pianificazione tbody tr td' ).css( 'padding', '0px 0px 0px 0px' );
+                      $( 'table_pianificazione tbody tr td' ).css( 'height', '5px');
+                  }
+                  
+          } );
     
-
           table_pianificazione.columns.adjust().responsive.recalc();
           $('.loader').hide();
         },
@@ -602,6 +619,7 @@
       });
     }
 
+    
     // bootstrap-daterangepicker     
     moment.locale('it');
     moment().format('LL');
@@ -641,6 +659,7 @@
       ranges: {
         'Oggi': [moment(), moment()],
         'Ieri': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Domani': [moment().add(1, 'days'), moment().add(1, 'days')],
         'Ultimi 7 giorni': [moment().subtract(6, 'days'), moment()],
         'Ultimi 30 giorni': [moment().subtract(29, 'days'), moment()],
         'Settimana corrente': [moment().startOf('isoWeek'), moment().endOf('isoWeek')],
@@ -684,7 +703,7 @@
       select_startDate = picker.startDate.format('YYYY-MM-DD');
       select_endDate = picker.endDate.format('YYYY-MM-DD');
       console.log('select_startDate inn' + select_startDate);
-
+      
 
       $('#sprints').select2('val', ' ');
       $('#sprints').select2({
@@ -722,7 +741,7 @@
       ajax: ({
         url: "get_sprints.php",
         dataType: 'json',
-        delay: 10,
+        //delay: 10,
         method: "POST",
         data: {
           startDate: select_startDate,
@@ -730,7 +749,7 @@
         },
         //dataType:"html",    
         success: function(data) {
-          console.log('data eccoliii ' + JSON.stringify(data));
+          console.log('data eccoliii ' + JSON.stringify(data)); 
         }
       })
 
@@ -751,44 +770,6 @@
 
   });
 </script>
-
-<!-- bootstrap-daterangepicker -->
-<script>
-  $(document).ready(function() {
-    //$('#days').val(14);
-
-    $('#data_fine').daterangepicker({
-      singleDatePicker: true,
-      calender_style: "picker_4",
-      format: 'YYYY-MM-DD',
-      locale: {
-        format: "YYYY-MM-DD"
-      }
-    }, function(start, end, label) {
-      console.log("new data_fine  ", end.toISOString(), label);
-      var rangedays = moment(end.toISOString()).diff($('#data_inizio').val(), 'days');
-      console.log('rande sss ' + rangedays);
-      $('#days').val(rangedays);
-    });
-
-    $('#data_inizio').daterangepicker({
-      singleDatePicker: true,
-      calender_style: "picker_4",
-      format: 'YYYY-MM-DD',
-      minDate: $('#data_inizio').val(),
-      locale: {
-        format: "YYYY-MM-DD"
-      }
-    }, function(start, end, label) {
-      console.log("new data_inizio  ", end.toISOString(), label);
-      var rangedays = moment($('#data_fine').val()).diff(end.toISOString(), 'days');
-      console.log('randeinizio ' + rangedays);
-      $('#days').val(rangedays + 1);
-
-    });
-  });
-</script>
-<!-- /bootstrap-daterangepicker -->
 
 
 <!-- Autosize -->
@@ -817,13 +798,28 @@
         format: "DD/MM/YYYY"
       }
     }, function(start, end, label) {
-      console.log(start.toISOString(), end.toISOString(), label);
+          console.log(start.toISOString(), end.toISOString(), label);
+          if (document.getElementById('nomecampagna').value.length > 0) {
+            const pref_nome_campagna = document.getElementById('nomecampagna').value;
+            const myarr = pref_nome_campagna.split("_");
+            //if (myarr[0].value.length > 0)
+            data_label = myarr[0];
+            //if (myarr[1].value.length > 0)
+            squad_label = "_" + myarr[1];
+            channel_label = "_" + myarr[2];
+            //if (myarr[2].value.length > 0)
+            type_label = "_" + myarr[3];
+            note_lable = "_" + myarr[4];
+
+        }
+      
+      document.getElementById('nomecampagna').value = moment(start.toISOString()).format('YYYYMMDD') + squad_label + channel_label + type_label + note_lable;
     });
 
   });
 
 
-</script>
+</script>  
 
 
 
