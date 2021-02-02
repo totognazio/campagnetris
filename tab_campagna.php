@@ -61,11 +61,18 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipologia <span class="required">*</span></label>                     
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <select id="type_ins" name="type_id" class="select2_single form-control"  required="required" <?php echo $disabled_value;?>>
+                          <option value=""></option>
                                <?php   
-                                if(isset($id_campaign['type_id'])){
-                                   echo '<option selected value="'.$id_campaign['type_id'].'">'.$id_campaign['tipo_nome'].'</option>'; 
-                                }                                
-                                ?>
+                                foreach ($typlogies as $key => $value) {
+                                if($modifica && $id_campaign['type_id']==$key){
+                                   echo '<option selected value="'.$key.'">'.$value.'</option>'; 
+                                }
+                                else {
+                                    echo '<option value="'.$key.'">'.$value.'</option>';
+                                }
+                              
+                            }                                                  
+                            ?>                                      
                           </select>
                         </div>
                       </div>  
@@ -73,7 +80,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="note_camp">Note
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" id="note_camp" name="note_camp"  class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['note_camp'])){ echo $id_campaign['note_camp']; } ?>" <?php echo $disabled_value;?>>
+                            <input type="text" id="note_camp" name="note_camp"  class="form-control col-md-7 col-xs-12" placeholder="alfanumerico (parte del nome campagna)" value="<?php if(isset($id_campaign['note_camp'])){ echo $id_campaign['note_camp']; } ?>" <?php echo $disabled_value;?>>
                         </div>
                       </div>
 
@@ -275,28 +282,37 @@
                         </div> 
 
 <script>
-    var group_label = "_";
+    
     var channel_label = "_";
+    var squad_label = "_";
     var type_label = "_";
-    var offer_label = "_";
-    var segment_label = "_";
     var data_label = "";
+    var note_label = "";
+    
     
   $(document).ready(function () {
-
-
+    <?php
+    if (isset($azione) && ($azione=='new')){
+        ?>
+            document.getElementById('nomecampagna').value = moment().format('YYYYMMDD');
+    <?php        
+    }
+    ?>    
+       
        $('#squad_ins').on('select2:select', function () {  
             if (document.getElementById('nomecampagna').value.length > 0) {
             var pref_nome_campagna = document.getElementById('nomecampagna').value;
             var myarr = pref_nome_campagna.split("_");
             //if (myarr[0].value.length > 0)
             data_label = myarr[0];
-            //if (myarr[1].value.length > 0)
-            squad_label = "_" + myarr[1];
-            channel_label = "_" + myarr[2];
-            //if (myarr[2].value.length > 0)
-            type_label = "_" + myarr[3];
-            note_lable = "_" + myarr[4];
+            if (myarr[1])
+                squad_label = "_" + myarr[1];
+            if (myarr[2])    
+             channel_label = "_" + myarr[2];
+            if (myarr[3])
+             type_label = "_" + myarr[3];
+            if (myarr[4]) 
+                note_label = "_" + myarr[4];
     
         }
             $.getJSON("get_label.php", {squad_id: $(this).val()}, function (dati) {
@@ -304,36 +320,20 @@
                 document.getElementById('nomecampagna').value = data_label + squad_label + channel_label + type_label + note_label;
             });
         }); 
-        $('#channel_ins').on('select2:select', function () {  
+
+        $('#type_ins').on('select2:select', function () {
             if (document.getElementById('nomecampagna').value.length > 0) {
             var pref_nome_campagna = document.getElementById('nomecampagna').value;
             var myarr = pref_nome_campagna.split("_");
             data_label = myarr[0];
-            //if (myarr[1].value.length > 0)
-            squad_label = "_" + myarr[1];
-            channel_label = "_" + myarr[2];
-            //if (myarr[2].value.length > 0)
-            type_label = "_" + myarr[3];
-            note_lable = "_" + myarr[4];
-    
-        }
-            $.getJSON("get_label.php", {channel_id: $(this).val()}, function (dati) {
-                channel_label = "_" + dati[0].etichetta;
-                document.getElementById('nomecampagna').value = data_label + squad_label + channel_label + type_label + note_label;
-            });
-        });
-        $('#type_ins').on('select2:select', function () {
-                    if (document.getElementById('nomecampagna').value.length > 0) {
-            var pref_nome_campagna = document.getElementById('nomecampagna').value;
-            var myarr = pref_nome_campagna.split("_");
-            //if (myarr[0].value.length > 0)
-            data_label = myarr[0];
-            //if (myarr[1].value.length > 0)
-            squad_label = "_" + myarr[1];
-            channel_label = "_" + myarr[2];
-            //if (myarr[2].value.length > 0)
-            type_label = "_" + myarr[3];
-            note_lable = "_" + myarr[4];
+            if (myarr[1])
+                squad_label = "_" + myarr[1];
+            if (myarr[2])    
+             channel_label = "_" + myarr[2];
+            if (myarr[3])
+             type_label = "_" + myarr[3];
+            if (myarr[4]) 
+                note_label = "_" + myarr[4];
     
         }
             $.getJSON("get_label.php", {type_id: $(this).val()}, function (dati) {
@@ -345,14 +345,15 @@
             if (document.getElementById('nomecampagna').value.length > 0) {
             var pref_nome_campagna = document.getElementById('nomecampagna').value;
             var myarr = pref_nome_campagna.split("_");
-            //if (myarr[0].value.length > 0)
             data_label = myarr[0];
-            //if (myarr[1].value.length > 0)
-            squad_label = "_" + myarr[1];
-            channel_label = "_" + myarr[2];
-            //if (myarr[2].value.length > 0)
-            type_label = "_" + myarr[3];
-            note_lable = "_" + myarr[4];
+            if (myarr[1])
+                squad_label = "_" + myarr[1];
+            if (myarr[2])    
+             channel_label = "_" + myarr[2];
+            if (myarr[3])
+             type_label = "_" + myarr[3];
+            if (myarr[4]) 
+                note_label = "_" + myarr[4];
     
         }
                 note_label = '_'+document.getElementById('note_camp').value;     

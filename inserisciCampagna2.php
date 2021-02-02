@@ -146,12 +146,14 @@ $tit_sott = $funzione->get_allTable('campaign_titolo_sottotitolo');
 //print_r($tit_sott);
 $cat_sott = $funzione->get_allTable('campaign_cat_sott');
 
+//print_r($_POST);
+
 ?>
         <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
-              <div class="title_left">
-                <h3><?php echo $title; ?><small><?php echo $nome_campagna; ?></small></h3>
+              <div class="title_center">
+                <h3><?php echo $title; ?> - <?php echo $nome_campagna; ?></h3>
               </div>
 
               <div class="title_right">
@@ -191,10 +193,11 @@ $cat_sott = $funzione->get_allTable('campaign_cat_sott');
   <p><strong> Verifica il corretto inserimento dei campi evidenziati in rosso in tutte le schede</strong></p>
 </div>
 
+<!--
 <div class="bs-callout bs-callout-info hidden">
   <h4>Yay!</h4>
   <p>Everything seems to be ok :)</p>
-</div>   
+</div>   -->
 <?php print_r($_POST); ?>    
 <form id="form-campagna-ins"  data-parsley-validate="" class="form-horizontal form-label-left" enctype="multipart/form-data" action="<?php echo $back_url; ?>" method="post">  
                 <input type="hidden" name="azione" value="<?php echo $_POST['azione']; ?>">

@@ -1,6 +1,6 @@
 <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
     <br/>
-    <div class="col-md-9 col-sm-6 col-xs-12">
+    <div class="col-md-8 col-sm-6 col-xs-12">
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12">Canale  <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -10,15 +10,59 @@
                             $lista_field = array_column($list, 'id');
                             $lista_name = array_column($list, 'name');
                             $javascript = $disabled_value.' required="required" ';
-                            $display_sms =  ' style="display: none;"';
-                            $required_sms_field = '';
+                            $display_sms =  ' style="display: none;"';                        
+                            $required_sms_field = '';                            
                             $required_pos_field = '';
                             $display_pos =  ' style="display: none;"';
+                            $display_40400 =  ' style="display: none;"';
+                            $required_400 = '';
                             $style = " style=\"width:100%;\" ";
+                            $display_app_inbound = ' style="display: none;"';
+                            $display_app_outbound = ' style="display: none;"';
+                            $display_icm = ' style="display: none;"';
+                            $display_dealer = ' style="display: none;"';
+                            $display_spai = ' style="display: none;"';
+                            $display_waston = ' style="display: none;"';
+                            $display_ivr_inbound = ' style="display: none;"';
+                            $display_ivr_outbound = ' style="display: none;"';
+                            $display_jakala = ' style="display: none;"';
+                            $display_mfh = ' style="display: none;"';
+                            $required_app_inbound = ''; 
+                            $required_app_outbound = ''; 
+                            $required_dealer = ''; 
+                            $required_mfh = ''; 
+                            $required_waston = '';                         
+                            $required_icm = ''; 
+                            $required_ivr_inbound = ''; 
+                            $required_ivr_outbound = '';
+                            $required_jakala = '';                              
+
                             if ($modifica){
                                 $valore_channel_id = $id_campaign['channel_id'];
-                                if($valore_channel_id==1 or $valore_channel_id==12){$display_sms =  ''; $required_sms_field =  ' required="required" ';}
-                                if($valore_channel_id==13){$display_pos =  ''; $required_pos_field =  ' required="required" ';}    
+                                //sms sms_long
+                                if($valore_channel_id==12){$display_sms =  ''; $required_sms_field =  ' required="required" ';}
+                                //CRM Da POS
+                                if($valore_channel_id==13){$display_pos =  ''; $display_guide2=''; $required_callguide2 = ' required="required" '; $required_pos_field =  ' required="required" ';} 
+                                //40400
+                                if($valore_channel_id==10){$display_40400 =  ''; $required_400 = ' required="required" ';}  
+                                //App Inbound
+                                if($valore_channel_id==15){$display_app_inbound =  ''; $required_app_inbound = ' required="required" ';}  
+                                //App Outbound
+                                if($valore_channel_id==16){$display_app_outbound =  ''; $required_app_outbound = ' required="required" ';}                                 
+                                //Dealer
+                                if($valore_channel_id==33){$display_dealer =  ''; $required_dealer = ' required="required" ';}                                  
+                                //ICM
+                                if($valore_channel_id==21){$display_icm =  ''; $required_icm = ' required="required" ';} 
+                                //IVR Inbound
+                                if($valore_channel_id==22){$display_ivr_inbound =  ''; $required_ivr_inbound = ' required="required" ';} 
+                                //IVR Outbound
+                                if($valore_channel_id==23){$display_ivr_outbound =  ''; $required_ivr_outbound = ' required="required" ';} 
+                                //Jakala
+                                if($valore_channel_id==24){$display_jakala =  ''; $required_jakala = ' required="required" ';}                                                                                                                                 
+                                //MFH
+                                if($valore_channel_id==31){$display_mfh =  ''; $required_mfh = ' required="required" ';}  
+                                //Waston
+                                if($valore_channel_id==29){$display_waston =  ''; $required_waston = ' required="required" ';}                                   
                             }
                             else{
                                 $valore_channel_id = "";}
@@ -86,25 +130,34 @@
                 </select>
             </div>
         </div>  
-        <span id="monoleva" <?php echo $display_mono; ?>>  
+        <span id="monoleva" <?php echo $display_mono; ?>>
+        <!--  
             <div class="form-group">
 
                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Opzione  <span class="required">*</span></label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    <select id="opzione_leva" name="opzione_leva" class="select2_single form-control" <?php echo $disabled_value;?>>       
-                        <option <?php if($modifica and $id_campaign['opzione_leva']=='0'){echo ' selected';} ?> value=""></option>
-                        <option <?php if($modifica and $id_campaign['opzione_leva']=='Ropz'){echo ' selected';} ?> value="Ropz">Ropz</option>
-                        <option <?php if($modifica and $id_campaign['opzione_leva']=='Popz'){echo ' selected';} ?>value="Ropz">Popz</option>
+                    <select id="opzione_leva" name="opzione_leva" class="select2_single form-control" <?php //echo $disabled_value;?>>       
+                        <option <?php //if($modifica and $id_campaign['opzione_leva']=='0'){echo ' selected';} ?> value=""></option>
+                        <option <?php //if($modifica and $id_campaign['opzione_leva']=='Ropz'){echo ' selected';} ?> value="Ropz">Ropz</option>
+                        <option <?php //if($modifica and $id_campaign['opzione_leva']=='Popz'){echo ' selected';} ?>value="Ropz">Popz</option>
 
                     </select>
                 </div>
 
             </div> 
+            -->
             <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="id_taglio">ID Taglio
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="id_taglio">Codice Ropz.
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input  <?php echo $disabled_value; ?>type="text" id="id_taglio" name="id_taglio" value="<?php if(isset($id_campaign['id_taglio'])){$form->input_value($modifica, $id_campaign['id_taglio']);} ?>"   placeholder="testo libero" class="form-control col-md-7 col-xs-12">
+                    <input  <?php echo $disabled_value; ?>type="text" id="cod_ropz" name="cod_ropz" value="<?php if(isset($id_campaign['cod_ropz'])){$form->input_value($modifica, $id_campaign['cod_ropz']);} ?>"   placeholder=" campo alfanumerico" class="form-control col-md-7 col-xs-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="id_taglio">Codice Popz.
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input  <?php echo $disabled_value; ?>type="text" id="cod_opz" name="cod_opz" value="<?php if(isset($id_campaign['cod_opz'])){$form->input_value($modifica, $id_campaign['cod_opz']);} ?>"   placeholder=" campo alfanumerico" class="form-control col-md-7 col-xs-12">
                 </div>
             </div>
 
@@ -113,7 +166,7 @@
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="id_news">ID News
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input <?php echo $disabled_value;?> type="text" id="id_news" name="id_news"  class="form-control col-md-7 col-xs-12" placeholder="testo libero" value="<?php if(isset($id_campaign['id_taglio'])){echo $id_campaign['id_news'];}?>">
+                    <input <?php echo $disabled_value;?> type="text" id="id_news" name="id_news"  class="form-control col-md-7 col-xs-12" placeholder=" campo alfanumerico" value="<?php if(isset($id_campaign['id_news'])){echo $id_campaign['id_news'];}?>">
                 </div>
             </div>    
 
@@ -142,7 +195,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="note">Note Operative
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input <?php if ($readonly){echo $disabled_value;}?>type="text" id="note_operative" name="note_operative"  placeholder="testo libero" class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['note_operative'])){echo $id_campaign['note_operative']; }?>">
+                <input <?php if ($readonly){echo $disabled_value;}?>type="text" id="note_operative" name="note_operative"  placeholder="campo alfanumerico" class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['note_operative'])){echo $id_campaign['note_operative']; }?>">
             </div>
         </div>
 
@@ -258,12 +311,7 @@
             </div>
         </div>                            
 
-    
-    
-    
-    
-    
-    </div>  
+</div>  
 
     <span id="sms_field" <?php echo $display_sms; ?> data-parsley-check-children="7" data-parsley-validate-if-empty="">  
         <div class="col-md-3 col-sm-6 col-xs-12">
@@ -347,12 +395,12 @@
                           <input type="text" id="sms_duration" name="sms_duration"  class="form-control col-md-7 col-xs-12" value="<?php if($modifica){echo $id_campaign['sms_duration'];}else{echo'2';}?>" <?php echo $required_sms_field; ?> <?php echo $disabled_value; ?>>
                         <img id="info" title="Numero di giorni in cui la rete tenter&agrave; l'invio dell'sms. Range da 1 a 7 giorni." alt="Durata SMS" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
   
-        </div>
+        </div> 
 
         </span>   
         <span id="pos_field" <?php echo $display_pos; ?>> 
             <?php #print_r($stacks); ?>
-            <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="col-md-4 col-sm-6 col-xs-12">
                 <label>Categoria & Sottocategoria</label>
                 <select id="cat_sott_ins" style="width: 100%" name="cat_sott_id" class="select2_single form-control" <?php echo $required_pos_field ?> <?php echo $disabled_value; ?>>        
                     <?php                               
@@ -364,15 +412,195 @@
                     ?>  
                 </select>
             </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">      
+                <label  class="control-label">Giorni di Validità</label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_pos" name="day_val_pos"  min="1" max="31" <?php echo $required_pos_field ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['day_val_pos'])){echo $id_campaign['day_val_pos']; }?>">                         
+            </div>
+            <div  class="col-md-4 col-sm-6 col-xs-12" >
+                <label class="control-label">Call Guide (4000 chars max)
+                <img  title="Indicare le azioni che il cliente dovr&agrave; eseguire per essere considerato redeemer (esempio: il cliente dovr&agrave; attivare una opzione in un range temporale). 
+                                    Non &egrave; considerata redemption il click di un link da parte di un cliente." alt="Criteri Redemption" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
+                </label>
 
-        </span>  
+                    <textarea id="callguide_icm" name="callguide_icm" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" <?php echo $required_callguide_icm; ?> <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica){echo stripslashes($id_campaign['callguide_icm']); }?></textarea>
+                    
+        </div>
+
+        </span> 
+    <span id="span_40400" <?php echo $display_40400; ?>>
+        <div class="col-md-4 col-sm-6 col-xs-12">      
+                <label>Alias Attivazione</label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="text" id="alias_attiv" name="alias_attiv"  <?php echo $required_400 ?> placeholder="alfanumerico"  class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['alias_attiv'])){echo $id_campaign['alias_attiv']; }?>">
+                <br><br>
+                <label  class="control-label" for="day_val">Giorni di Validità</label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val" name="day_val"  min="1" max="31"  <?php echo $required_400 ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['day_val'])){echo $id_campaign['day_val']; }?>">
+                <br><br>
+                <label  class="control-label" for="note">SMS Presa in carico</label>
+                <textarea <?php if ($readonly){echo $disabled_value;}?> rows="2" id="sms_incarico" name="sms_incarico"  <?php echo $required_400 ?> placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" ><?php if(isset($id_campaign['sms_incarico'])){echo $id_campaign['sms_incarico']; }?></textarea>
+                <br><br>
+                <label class="control-label" for="sms_target">SMS Non in Tanget</label>            
+                <textarea <?php if ($readonly){echo $disabled_value;}?> rows="2" id="sms_target" name="sms_target"   <?php echo $required_400 ?> placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" ><?php if(isset($id_campaign['sms_target'])){echo $id_campaign['sms_target']; }?></textarea>
+                <br><br>
+                <label class="control-label" for="sms_adesione">SMS Adesione già Avvenuta</label>
+                <textarea <?php if ($readonly){echo $disabled_value;}?> rows="2" id="sms_adesione" name="sms_adesione"    <?php echo $required_400 ?>placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" ><?php if(isset($id_campaign['sms_adesione'])){echo $id_campaign['sms_adesione']; }?></textarea>
+                <br><br>
+                <label class="control-label" for="sms_adesione">SMS Non Disponibile</label>
+                <textarea <?php if ($readonly){echo $disabled_value;}?> rows="2" id="sms_nondisponibile" name="sms_nondisponibile"   <?php echo $required_400 ?>placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" ><?php if(isset($id_campaign['sms_nondisponibile'])){echo $id_campaign['sms_nondisponibile']; }?></textarea>
+        </div>
+    </span> 
+    <span id="span_app_inbound" <?php echo $display_app_inbound; ?>>
+        <div class="col-md-4 col-sm-6 col-xs-12">      
+                <label  class="control-label">Giorni di Validità</label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_app_inbound" name="day_val_app_inbound"  min="1" max="31" <?php echo $required_app_inbound ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['day_val_app_inbound'])){echo $id_campaign['day_val_app_inbound']; }?>">
+                <br><br>
+                <label  class="control-label">Priorità</label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="prior_app_inbound" name="prior_app_inbound"  min="0" max="9"  <?php echo $required_app_inbound ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['prior_app_inbound'])){echo $id_campaign['prior_app_inbound']; }?>">
+                <br><br>                                
+        </div>
+        <div  class="col-md-4 col-sm-6 col-xs-12" >
+                <label class="control-label">Call Guide (4000 chars max)
+                <img  title="Indicare le azioni che il cliente dovr&agrave; eseguire per essere considerato redeemer (esempio: il cliente dovr&agrave; attivare una opzione in un range temporale). 
+                                    Non &egrave; considerata redemption il click di un link da parte di un cliente." alt="Criteri Redemption" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
+                </label>
+
+                    <textarea id="callguide_app_inbound" name="callguide_app_inbound" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" <?php echo $required_callguide_app_inbound; ?> <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica){echo stripslashes($id_campaign['callguide_app_inbound']); }?></textarea>
+                    
+        </div> 
+    </span>
+    <span id="span_app_outbound" <?php echo $display_app_outbound; ?>>
+        <div class="col-md-4 col-sm-6 col-xs-12">      
+                <label  class="control-label">Giorni di Validità</label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_app_outbound" name="day_val_app_outbound"  min="1" max="31" <?php echo $required_app_outbound ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['day_val_app_outbound'])){echo $id_campaign['day_val_app_outbound']; }?>">
+                <br><br>
+                <label  class="control-label">Priorità</label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="prior_app_outbound" name="prior_app_outbound"  min="0" max="9"  <?php echo $required_app_outbound ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['prior_app_outbound'])){echo $id_campaign['prior_app_outbound']; }?>">
+                <br><br>                                
+        </div>
+    </span>   
+    <span id="span_dealer" <?php echo $display_dealer; ?>>
+        <div class="col-md-4 col-sm-6 col-xs-12">      
+                <label  class="control-label">Cod. iniziativa</label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa" name="Cod_iniziativa"  min="1"  <?php echo $required_dealer ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['Cod_iniziativa'])){echo $id_campaign['Cod_iniziativa']; }?>">
+                <br><br>                             
+        </div>
+    </span>
+    <span id="span_icm" <?php echo $display_icm; ?>>
+        <div class="col-md-4 col-sm-6 col-xs-12">      
+                <label  class="control-label">Giorni di Validità</label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_icm" name="day_val_icm"  min="1" max="31" <?php echo $required_icm ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['day_val_icm'])){echo $id_campaign['day_val_icm']; }?>">
+                <br><br>                             
+        </div>
+        <div  class="col-md-6 col-sm-6 col-xs-12" >
+                <label class="control-label">Call Guide (4000 chars max)
+                <img  title="Indicare le azioni che il cliente dovr&agrave; eseguire per essere considerato redeemer (esempio: il cliente dovr&agrave; attivare una opzione in un range temporale). 
+                                    Non &egrave; considerata redemption il click di un link da parte di un cliente." alt="Criteri Redemption" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
+                </label>
+
+                    <textarea id="callguide_icm" name="callguide_icm" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" <?php echo $required_icm; ?> <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica){echo stripslashes($id_campaign['callguide_icm']); }?></textarea>
+                    
+        </div>
+    </span>
+    <span id="span_ivr_inbound" <?php echo $display_ivr_inbound; ?>>
+        <div class="col-md-4 col-sm-6 col-xs-12">      
+                <label  class="control-label">Giorni di Validità</label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_ivr_inbound" name="day_val_ivr_inbound"  min="1" max="31" <?php echo $required_ivr_inbound ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['day_val_ivr_inbound'])){echo $id_campaign['day_val_ivr_inbound']; }?>">
+                <br><br>                             
+        </div>
+    </span>
+    <span id="span_ivr_outbound" <?php echo $display_ivr_outbound; ?>>
+        <div class="col-md-4 col-sm-6 col-xs-12">      
+                <label  class="control-label">Giorni di Validità</label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_ivr_outbound" name="day_val_ivr_outbound"  min="1" max="31" <?php echo $required_ivr_outbound ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['day_val_ivr_outbound'])){echo $id_campaign['day_val_ivr_outbound']; }?>">
+                <br><br>                             
+        </div>
+    </span>
+    <span id="span_jakala" <?php echo $display_jakala; ?>>
+        <div class="col-md-4 col-sm-6 col-xs-12">      
+                <label  class="control-label">Data invio JAKALA</label>
+                <input id="data_invio_jakala" <?php if ($readonly){echo $disabled_value;}?> type="text" class="form-control has-feedback-left"  placeholder="Data Invio Jakala" aria-describedby="inputSuccessJakala" required="required" name="data_invio_jakala" value="<?php if(isset($id_campaign['data_invio_jakala'])){echo date('d/m/Y', strtotime($id_campaign['data_invio_jakala']));}?>">
+                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                <span id="inputSuccessJakala" class="sr-only">(success)</span>                             
+        </div>
+    </span>
+    <span id="span_spai" <?php echo $display_spai; ?>>
+        <div class="col-md-4 col-sm-6 col-xs-12">      
+                <label  class="control-label">Data invio SPAI</label>
+                <input id="data_invio_spai" <?php if ($readonly){echo $disabled_value;}?> type="text" class="form-control has-feedback-left"  placeholder="Data Invio Spai" aria-describedby="inputSuccessSpai" required="required" name="data_invio_spai" value="<?php if(isset($id_campaign['data_invio_spia'])){echo date('d/m/Y', strtotime($id_campaign['data_invio_spai']));}?>">
+                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                <span id="inputSuccessSpai" class="sr-only">(success)</span>                             
+        </div>
+    </span>    
+    <span id="span_mfh" <?php echo $display_mfh; ?>>
+        <div class="col-md-4 col-sm-6 col-xs-12">      
+                <label  class="control-label">Tipologia MFH</label>
+                <select  id="type_mfh" name="type_mfh" class="select2_single form-control" <?php echo $required_mfh ?> <?php echo $disabled_value;?>>        
+                    <option value=""></option>
+                    <option <?php if($modifica and $id_campaign['type_mfh']=='ACCREDITI'){ echo ' selected';}?> value="ACCREDITI">ACCREDITI</option>
+                    <option <?php if($modifica and $id_campaign['type_mfh']=='ATTIVAZIONI'){ echo ' selected';}?> value="ATTIVAZIONI">ATTIVAZIONI</option>
+                    <option <?php if($modifica and $id_campaign['type_mfh']=='CAMBIO PIANO'){ echo ' selected';}?> value="CAMBIO PIANO">CAMBIO PIANO</option>
+                    <option <?php if($modifica and $id_campaign['type_mfh']=='PROROGA'){ echo ' selected';}?> value="PROROGA">PROROGA</option>
+                    <option <?php if($modifica and $id_campaign['type_mfh']=='RINNOVO SIM'){ echo ' selected';}?> value="RINNOVO SIM">RINNOVO SIM</option>
+                </select>                           
+        </div>
+    </span>
+    <span id="span_waston" <?php echo $display_waston; ?>>
+        <div class="col-md-4 col-sm-6 col-xs-12">      
+                <label  class="control-label">Tipologia Waston</label>
+                <select  id="type_waston" name="type_waston" class="select2_single form-control" <?php echo $required_waston ?> <?php echo $disabled_value;?>>        
+                    <option value=""></option>
+                    <option <?php if($modifica and $id_campaign['type_mfh']=='ACCREDITI'){ echo ' selected';}?> value="ACCREDITI">ACCREDITI</option>
+                    <option <?php if($modifica and $id_campaign['type_mfh']=='ATTIVAZIONI'){ echo ' selected';}?> value="ATTIVAZIONI">ATTIVAZIONI</option>
+                    <option <?php if($modifica and $id_campaign['type_mfh']=='CAMBIO PIANO'){ echo ' selected';}?> value="CAMBIO PIANO">CAMBIO PIANO</option>
+                    <option <?php if($modifica and $id_campaign['type_mfh']=='PROROGA'){ echo ' selected';}?> value="PROROGA">PROROGA</option>
+                    <option <?php if($modifica and $id_campaign['type_mfh']=='RINNOVO SIM'){ echo ' selected';}?> value="RINNOVO SIM">RINNOVO SIM</option>
+                </select>                           
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">      
+                <label  class="control-label">Tipologia Contatto Waston</label>
+                <select  id="contact_waston" name="contact_waston" class="select2_single form-control" <?php echo $required_waston ?> <?php echo $disabled_value;?>>        
+                    <option value=""></option>
+                    <option <?php if($modifica and $id_campaign['contact_waston']=='ACCREDITI'){ echo ' selected';}?> value="ACCREDITI">ACCREDITI</option>
+                    <option <?php if($modifica and $id_campaign['contact_waston']=='ATTIVAZIONI'){ echo ' selected';}?> value="ATTIVAZIONI">ATTIVAZIONI</option>
+                    <option <?php if($modifica and $id_campaign['contact_waston']=='CAMBIO PIANO'){ echo ' selected';}?> value="CAMBIO PIANO">CAMBIO PIANO</option>
+                    <option <?php if($modifica and $id_campaign['contact_waston']=='PROROGA'){ echo ' selected';}?> value="PROROGA">PROROGA</option>
+                    <option <?php if($modifica and $id_campaign['contact_waston']=='RINNOVO SIM'){ echo ' selected';}?> value="RINNOVO SIM">RINNOVO SIM</option>
+                </select>                           
+        </div>
+    </span>
+
 </div>                    
 
 
 
 <script>
 $(document).ready(function() {  
+    
+    //gestione nome campagna
+    $('#channel_ins').on('select2:select', function () {  
+            console.log ('eccociii '+ $('#channel_ins :selected').text());
+            
+            if (document.getElementById('nomecampagna').value.length > 0) {
+            var pref_nome_campagna = document.getElementById('nomecampagna').value;
+            var myarr = pref_nome_campagna.split("_");
+            data_label = myarr[0];
+            //if (myarr[1].value.length > 0)
+            squad_label = "_" + myarr[1];
+            channel_label = "_" + myarr[2];
+            //if (myarr[2].value.length > 0)
+            type_label = "_" + myarr[3];
+            note_lable = "_" + myarr[4];
+    
+        }
+            $.getJSON("get_label.php", {channel_id: $(this).val()}, function (dati) {
+                channel_label = "_" + dati[0].etichetta;
+                document.getElementById('nomecampagna').value = data_label + squad_label + channel_label + type_label + note_label;
+            });
+        });
+      
+        
+ 
 
+//gestione upload file
 var myDropzoneCanale = new Dropzone(
         '#dropzone-canale',
         {          
@@ -462,8 +690,145 @@ var myDropzoneCanale = new Dropzone(
                     }
         });
 
+    $('#data_invio_jakala').daterangepicker({
+      singleDatePicker: true,
+      singleClasses: "picker_3",
+      locale: {
+        format: "DD/MM/YYYY"
+      }
+    });
+
+    $('#data_invio_spai').daterangepicker({
+      singleDatePicker: true,
+      singleClasses: "picker_3",
+      locale: {
+        format: "DD/MM/YYYY"
+      }
+    });
+
+    $('#channel_ins').on('select2:select', function() {
+      var selected_channel_id = $('#channel_ins').val();
+        alert($('#channel_ins').val());
+        $('#cat_sott_ins').attr('required', false);
+        $('#sms_duration').attr('required', false);
+        $('#tipoMonitoring').attr('required', false);
+        $('#link').attr('required', false);
+        $('#mod_invio').attr('required', false);
+        $('#testo_sms').attr('required', false);
+        $('#storicizza_ins').attr('required', false);
+        $('#senders_ins').attr('required', false);
+        $('#callguide2').attr('required', false);
+        $('#alias_attiv').attr('required', false);
+        $('#day_val').attr('required', false);
+        $('#sms_incarico').attr('required', false);
+        $('#sms_target').attr('required', false);
+        $('#sms_adesione').attr('required', false);
+        $('#sms_nondisponibile').attr('required', false); 
+      $(this).parsley().validate();
+
+      if (selected_channel_id === '12') {
+        $('#sms_field').show();
+        $('#sms_duration').attr('required', true)
+        $('#tipoMonitoring').attr('required', true)
+        $('#link').attr('required', true)
+        $('#mod_invio').attr('required', true)
+        $('#testo_sms').attr('required', true)
+        $('#storicizza_ins').attr('required', true)
+        $('#senders_ins').attr('required', true)
+
+        $('#pos_field').hide();
+        $('#span_call_guide2').hide();
+
+        $.ajax({
+          url: "selectSender_1.php",
+          method: "POST",
+          data: {
+            channel_id: selected_channel_id
+          },
+          dataType: "html",
+          success: function(data) {
+            console.log('eccoli data' + JSON.stringify(data));
+            console.log('eccoli2 data' + data);
+            $("#senders_ins").fadeOut();
+            $("#senders_ins").fadeIn();
+            $("#senders_ins").html(data);
+            //$("#selected_senders") = data;
+
+          }
+
+        });
+
+      } else if (selected_channel_id === '13') {//CRM DA POS
+        $('#pos_field').show();
+        $('#span_call_guide2').show();
+        $('#sms_field').hide();
+        $('#span_40400').hide();
+        $('#span_app_inbound').hide();
+        $('#span_app_outbound').hide();
+        $('#span_dealer').hide();
+        $('#span_icm').hide();
+        $('#span_ivr_inbound').hide();
+        $('#span_ivr_outbound').hide();
+        $('#span_jakala').hide();
+        $('#span_spai').hide();
+        $('#span_mfh').hide();
+        $('#span_waston').hide();
+        $('#cat_sott_ins').attr('required', true)
+        $('#callguide2').attr('required', true)
+        $.ajax({
+          url: "select_Cat_Sott.php",
+          method: "POST",
+          data: {
+            channel_id: selected_channel_id
+          },
+          dataType: "html",
+          success: function(data) {
+            $("#cat_sott_ins").fadeOut();
+            $("#cat_sott_ins").fadeIn();
+            $("#cat_sott_ins").html(data);
+
+          }
+
+        });
+        } 
+        else if (selected_channel_id === '14') {// 40400
+            $('#span_40400').show();
+            $('#pos_field').hide();
+            $('#span_call_guide2').hide();
+            $('#sms_field').hide();
+          
+          $('#callguide2').attr('required', true);
+          $('#alias_attiv').attr('required', true);
+          $('#day_val').attr('required', true);
+          $('#sms_incarico').attr('required', true);
+          $('#sms_target').attr('required', true);
+          $('#sms_adesione').attr('required', true);
+          $('#sms_nondisponibile').attr('required', true); 
+      } 
+      else if (selected_channel_id === '21') {//canale ICM
+        $('#pos_field').hide();
+        $('#span_40400').hide();
+        
+      }
+      else if (selected_channel_id === '15') {//canale APP INBOUND
+        $('#pos_field').hide();
+        $('#span_40400').hide();
+        $('#span_call_guide2').show();
+      }
+      else {
+        $('#sms_field').hide();
+        $('#pos_field').hide();
+        $('#span_40400').hide();
+        $('#span_call_guide2').hide();
+      }
+      console.log('channel_id  ' + selected_channel_id);
+
+    });
+
 
 });
+
+
 
 
 

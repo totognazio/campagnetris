@@ -5,15 +5,30 @@
    
         
     <div class="col-md-12 col-sm-6 col-xs-12"> 
-          <div class="col-md-6 col-sm-6 col-xs-12">
-              <label style="width:100%;">Call Guide 
-              <img id="infoRedemption" title="Indicare le azioni che il cliente dovr&agrave; eseguire per essere considerato redeemer (esempio: il cliente dovr&agrave; attivare una opzione in un range temporale). 
-                                 Non &egrave; considerata redemption il click di un link da parte di un cliente." alt="Criteri Redemption" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
-              </label>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                   <label>Call Guide  <span class="required">*</span>
+                   <img id="infoCallGiude" title="Da impostare su SI soltanto se si vuole inserire la Call Guide nell'apposita area di testo" alt="Call Guide flag" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
+                   </label>
+                                <?php
+                                $value_2_selected = "";
+                                $value_3_selected = "";
+                                $display_guide = ' style="display:none;"';
+                                if ($modifica) {
+                                    if($id_campaign['control_guide']==1){
+                                        $value_3_selected = " selected";
+                                        $display_guide = '';
+                                    }
+                                    else {$value_2_selected = " selected";}                                    
+                                } 
+                                ?> 
+                     <select id="control_guide" name="control_guide" <?php if ($readonly){echo $disabled_value;} ?> class="select2_single form-control" style="width:100%" required="required" >                                                                                                 
+                         <option value="0" <?php echo $value_2_selected; ?>>No</option>
+                         <option value="1" <?php echo $value_3_selected; ?>>Si</option>
+                    </select>                     
+          
+              
+            </div> 
 
-                <textarea id="redemption" name="redemption" class="form-control" rows="10" <?php if ($readonly){echo $disabled_value;}?> onkeyup="checklength(0, 1000, 'redemption', 'charRedemption', '');" ><?php if ($modifica){echo stripslashes($id_campaign['redemption']); }?></textarea>
-                <label style="width:100%;"><input type="text" name="charRedemption" id="charRedemption" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="4" value="1000" onfocus="this.blur()" /></label>
-              </div> 
             <div class="col-md-3 col-sm-6 col-xs-12">
                    <label>Control Group  <span class="required">*</span>
                    <img id="infoControlGroup" title="Da impostare su SI soltanto se si vuole isolare e monitorare una percentuale del target su cui non verr&agrave; effettuata la campagna." alt="Control Group" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
@@ -21,22 +36,43 @@
                                 <?php
                                 $value_0_selected = "";
                                 $value_1_selected = "";
+                                $value_2_selected = "";
                                 $display = ' style="display:none;"';
+                                $display_num = ' style="display:none;"';
                                 if ($modifica) {
                                     if($id_campaign['control_group']==1){
                                         $value_1_selected = " selected";
                                         $display = '';
                                     }
+                                    elseif($id_campaign['control_group']==2){
+                                        $value_2_selected = " selected";
+                                        $display = ' style="display:none;"';
+                                        $display_num = '';
+                                    }
                                     else {$value_0_selected = " selected";}                                    
                                 } 
                                 ?> 
-                     <select id="select_control_group" name="control_group" <?php if ($readonly){echo $disabled_value;} ?> class="select2_single form-control" style="width:100%" required="required" >                                                                                                 
+                     <select id="control_group" name="control_group" <?php if ($readonly){echo $disabled_value;} ?> class="select2_single form-control" style="width:100%" required="required" >                                                                                                 
                          <option value="0" <?php echo $value_0_selected; ?>>No</option>
-                         <option value="1" <?php echo $value_1_selected; ?>>Si</option>
+                         <option value="1" <?php echo $value_1_selected; ?>>Si (Percentuale)</option>
+                         <option value="2" <?php echo $value_2_selected; ?>>Si (Volume)</option>
                     </select>                     
           
               
-            </div>                      
+            </div>  
+ </div>  
+<div class="col-md-12 col-sm-6 col-xs-12"><br> 
+        <span id="div_call_guide" <?php echo $display_guide; ?>>           
+            <div  class="col-md-6 col-sm-6 col-xs-12" >
+                <label style="width:100%;">Call Guide 
+                <img id="infoRedemption" title="Indicare le azioni che il cliente dovr&agrave; eseguire per essere considerato redeemer (esempio: il cliente dovr&agrave; attivare una opzione in un range temporale). 
+                                    Non &egrave; considerata redemption il click di un link da parte di un cliente." alt="Criteri Redemption" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
+                </label>
+
+                    <textarea id="redemption" name="redemption" class="form-control" rows="10" <?php if ($readonly){echo $disabled_value;}?> onkeyup="checklength(0, 1000, 'redemption', 'charRedemption', '');" ><?php if ($modifica){echo stripslashes($id_campaign['redemption']); }?></textarea>
+                    <label style="width:100%;"><input type="text" name="charRedemption" id="charRedemption" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="4" value="1000" onfocus="this.blur()" /></label>
+            </div> 
+        </span>                    
             <span id="spanControlGroup" name="spanControlGroup" <?php echo $display; ?>>
                 <div class="col-md-3 col-sm-6 col-xs-12">
                             <label>Percentuale di Controllo<span id="req_13" class="req">*</span></label>
@@ -47,10 +83,23 @@
                             if ($readonly){echo $readonly_value;}
                             ?>
                             tabindex="16" onkeydown="return onKeyNumeric(event);" onfocus="seleziona('perc_control_group');" onblur="deseleziona('perc_control_group');" />%
-           </div>
+                </div>
             </span>
-               </div>       
-            <div class="col-md-12 col-sm-6 col-xs-12">  
+            <span id="spanControlNumerico" name="spanControlNumerico" <?php echo $display_num; ?>>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                            <label>Volume <span class="required">*</span></label>
+                            <input class="form-control col-md-2 col-sm-3 col-xs-12" id="numeric_control_group" name="numeric_control_group" <?php if ($readonly){echo $disabled_value;} ?> style="text-align:right" type="number" min="0" max="99999999999" maxlength="14"
+                            <?php
+                            if ($modifica){echo "value=\"" . $id_campaign['numeric_control_group'] . "\"";}
+                            else{echo "value=\"0\"";}
+                            if ($readonly){echo $readonly_value;}
+                            ?>
+                            />
+                </div>
+            </span>
+</div>      
+                   
+            <div class="col-md-12 col-sm-6 col-xs-12"><br><br> 
                 <label style="width:100%;">File Upload
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">             
@@ -164,19 +213,46 @@ var myDropzoneProfile = new Dropzone(
         });
 
 
-$('#select_control_group').select2({
+$('#control_group').select2({
+        placeholder: "Select"
+});    
+    
+$('#control_group').on('select2:select', function () {    
+    const selected_group = $('#control_group').val();
+    console.log('controllo gruppo '+ selected_group);
+    $(this).parsley().validate();
+    if(selected_group === '1'){
+           $("#spanControlGroup").fadeOut(); 
+           $("#spanControlNumerico").fadeOut(); 
+           $("#spanControlGroup").fadeIn();
+              
+    }
+    else if(selected_group === '2'){
+       $("#spanControlNumerico").fadeOut();  
+       $("#spanControlGroup").fadeOut();  
+       $("#spanControlNumerico").fadeIn();         
+    }
+    else if(selected_group === '0'){
+       $("#spanControlGroup").fadeOut();
+       $("#spanControlNumerico").fadeOut();  
+    }
+
+    });
+
+$('#control_guide').select2({
           placeholder: "Select"
         });    
     
-$('#select_control_group').on('select2:select', function () {    
-    var selected = $('#select_control_group').val();
+$('#control_guide').on('select2:select', function () {    
+    const selected = $('#control_guide').val();
+    console.log('controllo guide '+ selected);
     $(this).parsley().validate();
     if(selected === '1'){
            //$("#spanLabelLinkTesto").fadeOut();
-           $("#spanControlGroup").fadeIn();  
+           $("#div_call_guide").fadeIn();  
     }
     else if(selected === '0'){
-       $("#spanControlGroup").fadeOut(); 
+       $("#div_call_guide").fadeOut(); 
     }
 
     });

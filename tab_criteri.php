@@ -352,22 +352,32 @@ if ($page_protect->get_job_role() >= 2) {
               <textarea id="altri_criteri" required="required" class="form-control" rows="15" name="altri_criteri" <?php if ($readonly){echo $disabled_value;}?> data-parsley-trigger="keyup"  data-parsley-maxlength="2000" data-parsley-maxlength-message="Attenzione!! E' stata raggiunta la lunghezza massima..." data-parsley-validation-threshold="10"><?php echo stripslashes($value);?></textarea>  
             </div>                       
             </form>
-                                   
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                         <label >Indicatore Dinamico </label>    
-                          <input type="text" id="indicatore_dinamico" name="indicatore_dinamico"  class="form-control col-md-7 col-xs-12" 
-                                <?php
-                                $value = "";
-                                if ($modifica) {
-                                    $value = $id_campaign['indicatore_dinamico'];                                    
-                                } 
-                                if ($readonly){
-                                echo $disabled_value;}
-                                ?>                                                                              
-                         value="<?php echo $value;?>">
-                         <div id="checkbox-errors5"></div> 
-                        </div>  
 
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label>Indicatore Dinamico <span class="required">*</span>
+                        <img id="infoInd" title="bla bla bla on verr&agrave; effettuata la campagna." alt="Control Group" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
+                        </label>
+                                        <?php
+                                        $value_0_selected = "";
+                                        $value_1_selected = "";
+                                        //$display = ' style="display:none;"';
+                                        if ($modifica) {
+                                            if($id_campaign['indicatore_dinamico']==1){
+                                                $value_1_selected = " selected";
+                                                //$display = '';
+                                            }
+                                            else {$value_0_selected = " selected";}                                    
+                                        } 
+                                        ?> 
+                            <select id="select_control_indic" name="indicatore_dinamico" <?php if ($readonly){echo $disabled_value;} ?> class="select2_single form-control" style="width:100%" required="required" >                                                                                                 
+                                <option value="0" <?php echo $value_0_selected; ?>>No</option>
+                                <option value="1" <?php echo $value_1_selected; ?>>Si</option>
+                            </select>  
+                            <div id="checkbox-errors5"></div>                    
+                        
+                    </div>  
+                                   
+ 
      
           
        </div>

@@ -136,6 +136,7 @@ if ($livello_accesso > 1) {
                             <input type="hidden" name="azione" value="new" />
                             <input type="hidden" name="id" value="0" />
                 </form>
+                <div style="margin-left: 10px;">
                 
                 <?php }
 if ($livello_accesso > 0) {
@@ -153,6 +154,7 @@ if ($livello_accesso > 0) {
     ?>
 <button class="btn btn btn-xs btn-success" id="createXLSX"  data-placement="top" data-toggle="tooltip" data-original-title="Export Pianificazione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>
 <?php }?>
+</div>
 <div class="col-md-12 col-sm-12 col-xs-12" id="content_response">
 
 

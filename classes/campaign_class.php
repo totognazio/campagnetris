@@ -28,7 +28,7 @@ class campaign_class  {
         $mysqli = $this->connect_dbli();
         $this->filter_view = array();
         $this->radici_list = array('channel' => 'channels', 'stack' => 'campaign_stacks', 'state' => 'campaign_states', 'squad' => 'squads', 'type' => 'campaign_types');
-        $this->lista_parametri_campagna = array("nome_campagna", "pref_nome_campagna", "cod_comunicazione", "cod_campagna", "stack_id", "type_id", "squad_id", "user_id", "segment_id", "optimization", "priority", "data_inizio_validita_offerta", "data_fine_validita_offerta", "leva", "descrizione_leva", "campaign_state_id", "lista_preview", "lista_civetta", "control_group", "perc_control_group", "channel_id", "channel_type", "mod_invio", "sender_id", "storic", "testo_sms", "link", "sms_duration", "tipoMonitoring", "data_inizio", "volumeGiornaliero1", "volumeGiornaliero2", "volumeGiornaliero3", "volumeGiornaliero4", "volumeGiornaliero5", "volumeGiornaliero6", "volumeGiornaliero7", "data_fine", "escludi_sab_dom", "durata_campagna", "trial_campagna", "data_trial", "volume_trial", "perc_scostamento", "volume", "attivi", "sospesi", "disattivi", "consumer", "business", "microbusiness", "prepagato", "postpagato", "contratto_microbusiness", "cons_profilazione", "cons_commerciale", "cons_terze_parti", "cons_geolocalizzazione", "cons_enrichment", "cons_trasferimentidati", "voce", "dati", "fisso", "no_frodi", "altri_filtri", "etf", "vip", "dipendenti", "trial", "parlanti_ultimo", "profilo_rischio_ga", "profilo_rischio_standard", "profilo_rischio_high_risk", "altri_criteri", "data_inserimento", "redemption", "storicizza", "offer_id", "modality_id", "category_id", "tit_sott_id", "descrizione_target", "leva_offerta", "descrizione_offerta", "indicatore_dinamico", "tipo_leva", "opzione_leva", "id_taglio", "id_news", "note_operative","cat_sott_id","addcanale","note_camp");
+        $this->lista_parametri_campagna = array("nome_campagna", "pref_nome_campagna", "cod_comunicazione", "cod_campagna", "stack_id", "type_id", "squad_id", "user_id", "segment_id", "optimization", "priority", "data_inizio_validita_offerta", "data_fine_validita_offerta", "leva", "descrizione_leva", "campaign_state_id", "lista_preview", "lista_civetta", "control_group", "perc_control_group", "channel_id", "channel_type", "mod_invio", "sender_id", "storic", "testo_sms", "link", "sms_duration", "tipoMonitoring", "data_inizio", "volumeGiornaliero1", "volumeGiornaliero2", "volumeGiornaliero3", "volumeGiornaliero4", "volumeGiornaliero5", "volumeGiornaliero6", "volumeGiornaliero7", "data_fine", "escludi_sab_dom", "durata_campagna", "trial_campagna", "data_trial", "volume_trial", "perc_scostamento", "volume", "attivi", "sospesi", "disattivi", "consumer", "business", "microbusiness", "prepagato", "postpagato", "contratto_microbusiness", "cons_profilazione", "cons_commerciale", "cons_terze_parti", "cons_geolocalizzazione", "cons_enrichment", "cons_trasferimentidati", "voce", "dati", "fisso", "no_frodi", "altri_filtri", "etf", "vip", "dipendenti", "trial", "parlanti_ultimo", "profilo_rischio_ga", "profilo_rischio_standard", "profilo_rischio_high_risk", "altri_criteri", "data_inserimento", "redemption", "storicizza", "offer_id", "modality_id", "category_id", "tit_sott_id", "descrizione_target", "leva_offerta", "descrizione_offerta", "indicatore_dinamico", "tipo_leva", "cod_ropz", "cod_opz", "id_news", "note_operative","cat_sott_id","addcanale","note_camp","alias_attiv","day_val","sms_incarico","sms_target","sms_adesione","sms_nondisponibile","control_guide");
         $this->lista_rules = array(
             'attivi'
             , 'sospesi'
@@ -1567,8 +1567,9 @@ LEFT JOIN users ON `user_id` = users.id
                     <table id="datatable-pianificazione" class="display compact table-bordered table-striped  nowrap table-hover no-margin" cellspacing="0"> -->   
               <table id="datatable-pianificazione" class="display compact table-bordered table-striped table-hover no-margin" cellspacing="0" cellpadding="0" defer>
                         <thead>
-                            <tr>
-                            <th class="not-export-col"><small>Azione</small></th>                            
+                            <tr>                            
+                            <th class="not-export-col"><small>Azione</small></th> 
+                            <th class="not-export-col"><small>N.</small></th>                            
                             <th><small>Stack</small></th>  
                             <th><small>Sprint</small></th>                          
                             <th><small>Squad</small></th>
@@ -1619,7 +1620,7 @@ LEFT JOIN users ON `user_id` = users.id
                     //<button class="btn btn-xs btn-default" type="submit" onclick="manageCamp('.$row['id'].',\'duplica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone" ></i></button>
                     //<button class="btn btn-xs btn-danger" type="submit" onclick="manageCamp('.$row['id'].',\'elimina\','.$permission.','.$stato_elimina.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></button>                                
         
-        $string .= "<td><small>".$row['stacks_nome']."</small></td>";
+        $string .= "<td><small>$riga</small></td><td><small>".$row['stacks_nome']."</small></td>";
         $string .= "<td><small>".$this->sprint_find($row['data_inizio'])."</small></td>";
         $string .= "<td><small>".$row['squads_nome']."</small></td>";
         $string .= "<td><small>".'
@@ -1627,7 +1628,7 @@ LEFT JOIN users ON `user_id` = users.id
                             <input type="hidden" name="id" value="'.$row['id'].'" />
                             <input type="hidden" name="azione" value="open" />                                                                
                         </form>
-                        <a href="#" data-placement="bottom" data-toggle="tooltip" title="Open" onclick="manageCamp('.$row['id'].', \'open\');">'.$this->nomeCampagna($row).'</a>
+                        <a href="#" data-placement="bottom" data-toggle="tooltip" title="Open" onclick="manageCamp('.$row['id'].', \'open\');">'.$row['pref_nome_campagna'].'</a>
                 '
                 . "</small></td>";
         $string .= "<td><small>".$row['tipo_nome']."</small></td>";
@@ -1660,7 +1661,8 @@ LEFT JOIN users ON `user_id` = users.id
         $riga++; 
      }
      
-        $string .= "<tr><td><strong>Totale >>> </strong></td><td></td><td></td>";
+        $string .= "<tr><td><strong></strong></td><td><small>$riga</small></td><td></td>";
+        $string .= "<td></td>";
         $string .= "<td></td>";
         $string .= "<td></td>";
         $string .= "<td></td>";
@@ -1777,7 +1779,7 @@ LEFT JOIN users ON `user_id` = users.id
                             <input type="hidden" name="id" value="'.$row['id'].'" />
                             <input type="hidden" name="azione" value="open" />                                                                
                         </form>
-                        <a href="#" data-placement="bottom" data-toggle="tooltip" title="Open" onclick="manageCamp('.$row['id'].', \'open\');">'.$this->nomeCampagna($row).'</a>
+                        <a href="#" data-placement="bottom" data-toggle="tooltip" title="Open" onclick="manageCamp('.$row['id'].', \'open\');">'.$row['pref_nome_campagna'].'</a>
                 '
                 . "</small></td>";
         $string .= "<td><small>".$row['cod_campagna']."</small></td>";        
@@ -1786,9 +1788,9 @@ LEFT JOIN users ON `user_id` = users.id
         $string .= "<td><small>".$row['priority']."</small></td>";
         $string .= "<td><small>".$row['category_nome']."</small></td>";
         $string .= "<td><small>".$row['descrizione_offerta']."</small></td>";
-        $string .= "<td><small>".$row['id_taglio']."</small></td>";
+        $string .= "<td><small>".$row['cod_ropz']."</small></td>";
         $string .= "<td><small>".$row['id_news']."</small></td>";
-        $string .= "<td><small>".$row['opzione_leva']."</small></td>";
+        $string .= "<td><small>".$row['cod_opz']."</small></td>";
         $string .= "<td><small>".$row['cod_comunicazione']."</small></td>";
         $string .= "<td><small>".$row['channel_nome']."</small></td>";
         $string .= "<td><small>".$row['cat_sott_nome']."</small></td>";

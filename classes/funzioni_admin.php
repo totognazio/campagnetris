@@ -423,7 +423,7 @@ class funzioni_admin {
 //echo 'eccolo '.$query3;
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $obj3 = $result3->fetch_array(MYSQLI_ASSOC);
-        if (isset($obj3['risultato']))
+        if (isset($obj3['risultato'])) 
             return $obj3['risultato'];
         else
             return 0;
@@ -441,7 +441,7 @@ class funzioni_admin {
         }
         return $list;
     }
-    
+     
     function get_list_select($nome_tabella) {
         $query3 = "SELECT id,name FROM $nome_tabella ORDER BY name ASC";
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);

@@ -39,26 +39,30 @@ if (isset($_POST['tab_id'])) {
         print_r(json_decode($id_campaign['addcanale']), true); 
         $addcanale_sotred = json_decode($id_campaign['addcanale'],true)[$id_canale];
         
-        //recuperare i calori della campagna da modificare
+        //recuperare i valori della campagna da modificare
     }
  
    
     
 }
-
-                            $list = $funzione->get_list_id('channels');
-                            $lista_field = array_column($list, 'id');
-                            $lista_name = array_column($list, 'name');
-                            $javascript = $disabled_value.' required="required" ';
-                            $display_sms =  ' style="display: none;"';
+$list = $funzione->get_list_id('channels');
+$lista_field = array_column($list, 'id');
+$lista_name = array_column($list, 'name');
+$javascript = $disabled_value.' required="required" ';
+$display_sms =  ' style="display: none;"';
                             $required_sms_field = '';
                             $required_pos_field = '';
                             $display_pos =  ' style="display: none;"';
+                            $display_40400 =  ' style="display: none;"';
                             $style = " style=\"width:100%;\" ";
                             if ($modifica){
-                                $valore_channel_id = $addcanale_sotred['channel_id'];
+                                $valore_channel_id = $id_campaign['channel_id'];
+                                //sms sms_long
                                 if($valore_channel_id==1 or $valore_channel_id==12){$display_sms =  ''; $required_sms_field =  ' required="required" ';}
-                                if($valore_channel_id==13){$display_pos =  ''; $required_pos_field =  ' required="required" ';}    
+                                //POS
+                                if($valore_channel_id==13){$display_pos =  ''; $required_pos_field =  ' required="required" ';} 
+                                //40400
+                                if($valore_channel_id==14){$display_40400 =  ''; }    
                             }
                             else{
                                 $valore_channel_id = "";
@@ -199,6 +203,48 @@ $string .='<span id="sms_field'.$id_canale.'" '.$display_sms.' data-parsley-chec
             </div>
 
         </span></div>
+
+    <span id="span_40400'.$id_canale.'" '.$display_40400.'> 
+        <div class="col-md-4 col-sm-6 col-xs-12">      
+                <label class="control-label" for="alias_attiv">Alias Attivazione</label>
+                <input ';
+                if ($readonly){$string .= $disabled_value;}
+                $string .= 'type="text" id="alias_attiv" name="alias_attiv"  placeholder="alfanumerico"  class="form-control col-md-7 col-xs-12" value="';
+                if(isset($id_campaign['alias_attiv'])){$string .= $id_campaign['alias_attiv']; }
+                $string .= '">
+                <br><br><br><br>
+                <label  class="control-label" for="day_val">Giorni di Validità</label>
+                <input ';
+                if ($readonly){$string .=  $disabled_value;}
+                $string .= 'type="number" id="day_val" name="day_val"  min="1" max="31" placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="';
+                if($modifica and isset($addcanale_sotred['day_val'])) {$string .= $addcanale_sotred['day_val']; }
+                $string .= '"><br><br><br><br><label  class="control-label" for="note">SMS Presa in carico</label><textarea';
+                if ($readonly){$string .= $disabled_value;}
+                $string .= ' rows="2" id="sms_incarico" name="sms_incarico"  placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" >';
+                if($modifica and isset($addcanale_sotred['sms_incarico'])){$string .= $addcanale_sotred['sms_incarico']; }
+                $string .= '</textarea>
+                <br><br>
+                <label class="control-label" for="sms_target">SMS Non in Tanget</label>            
+                <textarea ';
+                if ($readonly){$string .= $disabled_value;}
+                $string .= ' rows="2" id="sms_target" name="sms_target"  placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" >';
+                if($modifica and isset($addcanale_sotred['sms_target'])){$string .= $addcanale_sotred['sms_target']; }
+                $string .= '</textarea>
+                <br><br>
+                <label class="control-label" for="sms_adesione">SMS Adesione già Avvenuta</label>
+                <textarea ';
+                if ($readonly){$string .= $disabled_value;}
+                $string .= ' rows="2" id="sms_adesione" name="sms_adesione"  placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" > ';
+                if($modifica and isset($addcanale_sotred['sms_adesione'])){$string .=  $addcanale_sotred['sms_adesione']; }
+                $string .= '</textarea>
+                <br><br>
+                <label class="control-label" for="sms_adesione">SMS Non Disponibile</label>
+                <textarea ';if ($readonly){$string .=  $disabled_value;}
+                $string .= ' rows="2" id="sms_nondisponibile" name="sms_nondisponibile"  placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" >';
+                if($modifica and isset($addcanale_sotred['sms_adesione'])){$string .=  $addcanale_sotred['sms_adesione']; }
+                $string .= '</textarea>
+        </div>
+ </span> 
     ';  
 
 $string .= '<script>
@@ -207,7 +253,9 @@ $string .= '<script>
     });
     
     $(\'#channel_ins'.$id_canale.'\').on(\'select2:select\', function() {
+      console.log(\'channel_id'.$id_canale.'  \' + selected_channel_id'.$id_canale.');
       var selected_channel_id'.$id_canale.' = $(\'#channel_ins'.$id_canale.'\').val();
+      const canale_text_id = $(\'#channel_ins :selected'.$id_canale.'\').text();
       $(\'#cat_sott_ins'.$id_canale.'\').attr(\'required\', false);
       $(\'#sms_duration'.$id_canale.'\').attr(\'required\', false);
       $(\'#tipoMonitoring'.$id_canale.'\').attr(\'required\', false);
@@ -270,12 +318,17 @@ $string .= '<script>
           }
 
         });
-      } else {
+      } 
+      else if(canale_text===\'40400\'){
+                $(\'#span_40400'.$id_canale.'\').show();
+      
+      }
+      else {
         $(\'#sms_field'.$id_canale.'\').hide();
         $(\'#pos_field'.$id_canale.'\').hide();
+        $(\'#span_40400'.$id_canale.'\').hide();
       }
-      console.log(\'channel_id'.$id_canale.'  \' + selected_channel_id'.$id_canale.');
-
+      
     });
 
     </script>

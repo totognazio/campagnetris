@@ -229,7 +229,7 @@
     $('#stack_ins').on('select2:select', function() {
       var selected_stacks = $('#stack_ins').val();
       console.log('stack  ' + selected_stacks);
-
+/*
       $.ajax({
         url: "selectStack.php",
         method: "POST",
@@ -245,6 +245,7 @@
         }
 
       });
+      */
       $(this).parsley().validate();
     });
 
@@ -262,75 +263,17 @@
       placeholder: "Select"
       // allowClear: true
     });
-    $('#channel_ins').on('select2:select', function() {
-      var selected_channel_id = $('#channel_ins').val();
-      $('#cat_sott_ins').attr('required', false);
-      $('#sms_duration').attr('required', false);
-      $('#tipoMonitoring').attr('required', false);
-      $('#link').attr('required', false);
-      $('#mod_invio').attr('required', false);
-      $('#testo_sms').attr('required', false);
-      $('#storicizza_ins').attr('required', false);
-      $('#senders_ins').attr('required', false);
+    $('#cat_sott_ins').select2({
+      placeholder: "Select"
+      // allowClear: true
+    });
+    $('#cat_sott_ins').on('select2:select', function() {
+      var selected_stacks = $('#cat_sott_ins').val();
       $(this).parsley().validate();
-
-      if (selected_channel_id === '1' || selected_channel_id === '12') {
-        $('#sms_field').show();
-        $('#sms_duration').attr('required', true)
-        $('#tipoMonitoring').attr('required', true)
-        $('#link').attr('required', true)
-        $('#mod_invio').attr('required', true)
-        $('#testo_sms').attr('required', true)
-        $('#storicizza_ins').attr('required', true)
-        $('#senders_ins').attr('required', true)
-
-        $('#pos_field').hide();
-        $.ajax({
-          url: "selectSender_1.php",
-          method: "POST",
-          data: {
-            channel_id: selected_channel_id
-          },
-          dataType: "html",
-          success: function(data) {
-            console.log('eccoli data' + JSON.stringify(data));
-            console.log('eccoli2 data' + data);
-            $("#senders_ins").fadeOut();
-            $("#senders_ins").fadeIn();
-            $("#senders_ins").html(data);
-            //$("#selected_senders") = data;
-
-          }
-
-        });
-
-      } else if (selected_channel_id === '13') {
-        $('#pos_field').show();
-        $('#cat_sott_ins').attr('required', true)
-        $('#sms_field').hide();
-
-        $.ajax({
-          url: "select_Cat_Sott.php",
-          method: "POST",
-          data: {
-            channel_id: selected_channel_id
-          },
-          dataType: "html",
-          success: function(data) {
-            $("#cat_sott_ins").fadeOut();
-            $("#cat_sott_ins").fadeIn();
-            $("#cat_sott_ins").html(data);
-
-          }
-
-        });
-      } else {
-        $('#sms_field').hide();
-        $('#pos_field').hide();
-      }
-      console.log('channel_id  ' + selected_channel_id);
+      console.log('cat_sott_ins  ' + selected_stacks);
 
     });
+
 
 
     $('#tit_sott_ins').select2({
@@ -343,16 +286,7 @@
       console.log('tit_sott_ins  ' + selected_stacks);
     });
 
-    $('#cat_sott_ins').select2({
-      placeholder: "Select"
-      // allowClear: true
-    });
-    $('#cat_sott_ins').on('select2:select', function() {
-      var selected_stacks = $('#cat_sott_ins').val();
-      $(this).parsley().validate();
-      console.log('cat_sott_ins  ' + selected_stacks);
 
-    });
 
 
     $('#moda_ins').select2({
@@ -471,12 +405,15 @@
             scrollCollapse: true,
             paging: false,
             dom: 'Bfrtip',
-            buttons: [{
+            buttons: [
+              /*
+              {
+              
               extend: 'excelHtml5',
               className: 'btn-xs btn-success',
               text: '<i class="fa fa-file-excel-o"></i> Export', 
-              //text: '<button class="btn btn btn-xs btn-success"  data-placement="top" data-toggle="tooltip" data-original-title="Export Pianificazione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>',
-              <?php 
+              
+              <php
               if($datatable=='pianificazione'){
               
                   echo 'titleAttr: \'Export Pianificazione\',';
@@ -571,7 +508,10 @@
                 }
 
             },
-            'colvis' ],
+            */
+
+          
+          ],
             language: {
                 thousands: "."
               },
@@ -580,25 +520,100 @@
                   /\B(?=(\d{3})+(?!\d))/g, "."
                 );
               },
-              ordering: true,
+              //ordering: true,
               columnDefs: [
-                {      
+                { 
+                  orderable: false,     
                   targets: 0,
-                  searchable: false,
-                  orderable: false,
+                  searchable: false,                  
                   width: 35,
               },
               {      
+                  targets: 1,
+                  searchable: false,                  
+                  orderable: false,
+                  visible: false,
+              },
+                            {      
+                  targets: 1,
+                  searchable: true,
+                  //width: 95,
+                  orderable: true,
+              },
+                            {      
+                  targets: 2,
+                  searchable: true,
+                  //width: 95,
+                  orderable: true,
+              },
+                            {      
+                  targets: 3,
+                  searchable: true,
+                  //width: 95,
+                  orderable: true,
+              },
+                            {      
+                  targets: 4,
+                  searchable: true,
+                  //width: 95,
+                  orderable: true,
+              },
+              {      
                   targets: 5,
+                  searchable: true,
                   width: 95,
+                  orderable: true,
+              },
+                            {      
+                  targets: 6,
+                  searchable: true,
+                  //width: 95,
+                  orderable: true,
+              },
+                            {      
+                  targets: 7,
+                  searchable: true,
+                  //width: 95,
+                  orderable: true,
+              },
+                            {      
+                  targets: 8,
+                  searchable: true,
+                  //width: 95,
+                  orderable: true,
+              },
+                            {      
+                  targets: 9,
+                  searchable: true,
+                  //width: 95,
+                  orderable: true,
+              },
+                                          {      
+                  targets: 10,
+                  searchable: true,
+                  //width: 95,
+                  orderable: true,
+              },
+                                          {      
+                  targets: 11,
+                  searchable: true,
+                  //width: 95,
+                  orderable: true,
+              },
+                                                   {      
+                  targets: 12,
+                  searchable: true,
+                  //width: 95,
+                  orderable: true,
               },
               {
                   targets: '_all',
                   searchable: true,
-                  //orderable: true,
+                  orderable: <?php if($datatable=="pianificazione") {echo "false,";} elseif($datatable=="gestione"){echo "true,";}?>
                   //width: 10,
-              }
+              },              
             ],
+            order: [1, 'asc'],
 
           });
           $('#table_pianificazione').dataTable( {
@@ -802,18 +817,22 @@
           if (document.getElementById('nomecampagna').value.length > 0) {
             const pref_nome_campagna = document.getElementById('nomecampagna').value;
             const myarr = pref_nome_campagna.split("_");
-            //if (myarr[0].value.length > 0)
             data_label = myarr[0];
-            //if (myarr[1].value.length > 0)
-            squad_label = "_" + myarr[1];
-            channel_label = "_" + myarr[2];
-            //if (myarr[2].value.length > 0)
-            type_label = "_" + myarr[3];
-            note_lable = "_" + myarr[4];
-
+            if (myarr[1])
+                squad_label = "_" + myarr[1];
+            if (myarr[2])    
+             channel_label = "_" + myarr[2];
+            if (myarr[3])
+             type_label = "_" + myarr[3];
+            if (myarr[4]) 
+                note_label = "_" + myarr[4];
+            document.getElementById('nomecampagna').value = moment(start.toISOString()).format('YYYYMMDD') + squad_label + channel_label + type_label + note_label;
+        }
+        else{
+            document.getElementById('nomecampagna').value = moment(start.toISOString()).format('YYYYMMDD');
         }
       
-      document.getElementById('nomecampagna').value = moment(start.toISOString()).format('YYYYMMDD') + squad_label + channel_label + type_label + note_lable;
+      
     });
 
   });

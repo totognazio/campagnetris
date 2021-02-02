@@ -1,7 +1,7 @@
 <style type="text/css">
             
                 tr:hover {
-                background-color: lightgrey;
+                background-color: lightgrey; 
                 color: black;
                 }
  </style>
@@ -9,7 +9,7 @@
 <?php  
 //print_r($_POST);
 
-include_once './classes/funzioni_admin.php';
+include_once './classes/funzioni_admin.php'; 
 $funzioni_admin = new funzioni_admin();
 
 if (isset($_GET['table']))
