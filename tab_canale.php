@@ -22,7 +22,7 @@
                             $display_icm = ' style="display: none;"';
                             $display_dealer = ' style="display: none;"';
                             $display_spai = ' style="display: none;"';
-                            $display_waston = ' style="display: none;"';
+                            $display_watson = ' style="display: none;"';
                             $display_ivr_inbound = ' style="display: none;"';
                             $display_ivr_outbound = ' style="display: none;"';
                             $display_jakala = ' style="display: none;"';
@@ -31,7 +31,7 @@
                             $required_app_outbound = ''; 
                             $required_dealer = ''; 
                             $required_mfh = ''; 
-                            $required_waston = '';                         
+                            $required_watson = '';                         
                             $required_icm = ''; 
                             $required_ivr_inbound = ''; 
                             $required_ivr_outbound = '';
@@ -61,8 +61,8 @@
                                 if($valore_channel_id==24){$display_jakala =  ''; $required_jakala = ' required="required" ';}                                                                                                                                 
                                 //MFH
                                 if($valore_channel_id==31){$display_mfh =  ''; $required_mfh = ' required="required" ';}  
-                                //Waston
-                                if($valore_channel_id==29){$display_waston =  ''; $required_waston = ' required="required" ';}                                   
+                                //watson
+                                if($valore_channel_id==29){$display_watson =  ''; $required_watson = ' required="required" ';}                                   
                             }
                             else{
                                 $valore_channel_id = "";}
@@ -543,27 +543,27 @@
                 </select>                           
         </div>
     </span>
-    <span id="span_waston" <?php echo $display_waston; ?>>
+    <span id="span_watson" <?php echo $display_watson; ?>>
         <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Tipologia Waston</label>
-                <select  id="type_waston" name="type_waston" class="select2_single form-control" <?php echo $required_waston ?> <?php echo $disabled_value;?>>        
+                <label  class="control-label">Tipologia Campagna Watson</label>
+                <select  id="type_watson" name="type_watson" class="select2_single form-control" <?php echo $required_watson ?> <?php echo $disabled_value;?>>        
                     <option value=""></option>
-                    <option <?php if($modifica and $id_campaign['type_mfh']=='ACCREDITI'){ echo ' selected';}?> value="ACCREDITI">ACCREDITI</option>
-                    <option <?php if($modifica and $id_campaign['type_mfh']=='ATTIVAZIONI'){ echo ' selected';}?> value="ATTIVAZIONI">ATTIVAZIONI</option>
-                    <option <?php if($modifica and $id_campaign['type_mfh']=='CAMBIO PIANO'){ echo ' selected';}?> value="CAMBIO PIANO">CAMBIO PIANO</option>
-                    <option <?php if($modifica and $id_campaign['type_mfh']=='PROROGA'){ echo ' selected';}?> value="PROROGA">PROROGA</option>
-                    <option <?php if($modifica and $id_campaign['type_mfh']=='RINNOVO SIM'){ echo ' selected';}?> value="RINNOVO SIM">RINNOVO SIM</option>
+                    <option <?php if($modifica and $id_campaign['type_watson']=='Add On'){ echo ' selected';}?> value="Add On">Add On</option>
+                    <option <?php if($modifica and $id_campaign['type_watson']=='Cambio Offerta su CredRes'){ echo ' selected';}?> value="Cambio Offerta su CredRes">Cambio Offerta su CredRes</option>
+                    <option <?php if($modifica and $id_campaign['type_watson']=='Cambio Piano con MDP'){ echo ' selected';}?> value="Cambio Piano con MDP">Cambio Piano con MDP</option>
+                    <option <?php if($modifica and $id_campaign['type_watson']=='Cross Selling'){ echo ' selected';}?> value="Cross Selling">Cross Selling</option>
+                    <option <?php if($modifica and $id_campaign['type_watson']=='Migrazione verso Fibra'){ echo ' selected';}?> value="Migrazione verso Fibra">Migrazione verso Fibra</option>
+                    <option <?php if($modifica and $id_campaign['type_watson']=='Offerta Linea Fissa'){ echo ' selected';}?> value="Offerta Linea Fissa">Offerta Linea Fissa</option>
+                    <option <?php if($modifica and $id_campaign['type_watson']=='Rivincolo cliente in scadenza'){ echo ' selected';}?> value="Rivincolo cliente in scadenza">Rivincolo cliente in scadenza</option>
                 </select>                           
         </div>
         <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Tipologia Contatto Waston</label>
-                <select  id="contact_waston" name="contact_waston" class="select2_single form-control" <?php echo $required_waston ?> <?php echo $disabled_value;?>>        
+                <label  class="control-label">Tipologia Contatto Watson</label>
+                <select  id="contact_watson" name="contact_watson" class="select2_single form-control" <?php echo $required_watson ?> <?php echo $disabled_value;?>>        
                     <option value=""></option>
-                    <option <?php if($modifica and $id_campaign['contact_waston']=='ACCREDITI'){ echo ' selected';}?> value="ACCREDITI">ACCREDITI</option>
-                    <option <?php if($modifica and $id_campaign['contact_waston']=='ATTIVAZIONI'){ echo ' selected';}?> value="ATTIVAZIONI">ATTIVAZIONI</option>
-                    <option <?php if($modifica and $id_campaign['contact_waston']=='CAMBIO PIANO'){ echo ' selected';}?> value="CAMBIO PIANO">CAMBIO PIANO</option>
-                    <option <?php if($modifica and $id_campaign['contact_waston']=='PROROGA'){ echo ' selected';}?> value="PROROGA">PROROGA</option>
-                    <option <?php if($modifica and $id_campaign['contact_waston']=='RINNOVO SIM'){ echo ' selected';}?> value="RINNOVO SIM">RINNOVO SIM</option>
+                    <option <?php if($modifica and $id_campaign['type_watson']=='Provisioning Automatico'){ echo ' selected';}?> value="Provisioning Automatico">Provisioning Automatico</option>
+                    <option <?php if($modifica and $id_campaign['type_watson']=='Reinstradamento su Operatore'){ echo ' selected';}?> value="Reinstradamento su Operatore">Reinstradamento su Operatore</option>
+                    <option <?php if($modifica and $id_campaign['type_watson']=='Tripletta CRM'){ echo ' selected';}?> value="Tripletta CRM">Tripletta CRM</option>
                 </select>                           
         </div>
     </span>
@@ -664,14 +664,14 @@ var myDropzoneCanale = new Dropzone(
                 });
 
 
-                        this.on("processing", function (file) {
+                this.on("processing", function (file) {
                         });
-                        this.on("maxfilesexceeded",
+                this.on("maxfilesexceeded",
                             function (file) {
                                 this.removeAllFiles();
                                 this.addFile(file);
                             });
-                   this.on("success",
+                this.on("success",
                             function (file, responseText) {
                                 var filename = file.name; 
                                 var a = document.createElement('a');
@@ -708,7 +708,7 @@ var myDropzoneCanale = new Dropzone(
 
     $('#channel_ins').on('select2:select', function() {
       var selected_channel_id = $('#channel_ins').val();
-        alert($('#channel_ins').val());
+        //alert($('#channel_ins').val());
         $('#cat_sott_ins').attr('required', false);
         $('#sms_duration').attr('required', false);
         $('#tipoMonitoring').attr('required', false);
@@ -759,22 +759,20 @@ var myDropzoneCanale = new Dropzone(
         });
 
       } else if (selected_channel_id === '13') {//CRM DA POS
-        $('#pos_field').show();
-        $('#span_call_guide2').show();
-        $('#sms_field').hide();
-        $('#span_40400').hide();
-        $('#span_app_inbound').hide();
-        $('#span_app_outbound').hide();
-        $('#span_dealer').hide();
-        $('#span_icm').hide();
-        $('#span_ivr_inbound').hide();
-        $('#span_ivr_outbound').hide();
-        $('#span_jakala').hide();
-        $('#span_spai').hide();
-        $('#span_mfh').hide();
-        $('#span_waston').hide();
+            $('#sms_field').hide();
+            $('#span_40400').hide();
+            $('#span_spai').hide();
+            $('#span_mfh').hide();
+            $('#span_jakala').hide();
+            $('#span_ivr_inbound').hide();
+            $('#span_ivr_outbound').hide();
+            $('#span_dealer').hide();
+            $('#span_app_outbound').hide();
+            $('#span_icm').hide();
+            $('#span_watson').hide();
+            $('#pos_field').show();
+
         $('#cat_sott_ins').attr('required', true)
-        $('#callguide2').attr('required', true)
         $.ajax({
           url: "select_Cat_Sott.php",
           method: "POST",
@@ -792,10 +790,19 @@ var myDropzoneCanale = new Dropzone(
         });
         } 
         else if (selected_channel_id === '14') {// 40400
-            $('#span_40400').show();
-            $('#pos_field').hide();
-            $('#span_call_guide2').hide();
             $('#sms_field').hide();
+            $('#pos_field').hide();
+            $('#span_spai').hide();
+            $('#span_mfh').hide();
+            $('#span_jakala').hide();
+            $('#span_ivr_inbound').hide();
+            $('#span_ivr_outbound').hide();
+            $('#span_dealer').hide();
+            $('#span_app_outbound').hide();
+            $('#span_icm').hide();
+            $('#span_watson').hide();
+            $('#span_40400').show();
+
           
           $('#callguide2').attr('required', true);
           $('#alias_attiv').attr('required', true);
@@ -806,20 +813,168 @@ var myDropzoneCanale = new Dropzone(
           $('#sms_nondisponibile').attr('required', true); 
       } 
       else if (selected_channel_id === '21') {//canale ICM
+        $('#sms_field').hide();
         $('#pos_field').hide();
         $('#span_40400').hide();
-        
+        $('#span_spai').hide();
+        $('#span_mfh').hide();
+        $('#span_jakala').hide();
+        $('#span_ivr_inbound').hide();
+        $('#span_ivr_outbound').hide();
+        $('#span_dealer').hide();
+        $('#span_app_outbound').hide();
+        $('#span_watson').hide();
+        $('#span_icm').show();         
       }
       else if (selected_channel_id === '15') {//canale APP INBOUND
+        $('#sms_field').hide();
         $('#pos_field').hide();
         $('#span_40400').hide();
-        $('#span_call_guide2').show();
+        $('#span_spai').hide();
+        $('#span_mfh').hide();
+        $('#span_jakala').hide();
+        $('#span_ivr_inbound').hide();
+        $('#span_ivr_outbound').hide();
+        $('#span_dealer').hide();
+        $('#span_app_outbound').hide();
+        $('#span_icm').hide();
+        $('#span_watson').hide();
+        $('#span_app_inbound').show();
+      }
+      else if (selected_channel_id === '16') {//canale APP OUTBOUND
+        $('#sms_field').hide();
+        $('#pos_field').hide();
+        $('#span_40400').hide();
+        $('#span_spai').hide();
+        $('#span_mfh').hide();
+        $('#span_jakala').hide();
+        $('#span_ivr_inbound').hide();
+        $('#span_ivr_outbound').hide();
+        $('#span_dealer').hide();
+        $('#span_app_inbound').hide();
+        $('#span_icm').hide();
+        $('#span_watson').hide();
+        $('#span_app_outbound').show();
+      }
+      else if (selected_channel_id === '33') {//canale DEALER
+        $('#sms_field').hide();
+        $('#pos_field').hide();
+        $('#span_40400').hide();
+        $('#span_spai').hide();
+        $('#span_mfh').hide();
+        $('#span_jakala').hide();
+        $('#span_ivr_inbound').hide();
+        $('#span_ivr_outbound').hide();
+        $('#span_app_inbound').hide();
+        $('#span_app_outbound').hide();
+        $('#span_icm').hide();
+        $('#span_watson').hide();
+        $('#span_dealer').show();
+      }
+     else if (selected_channel_id === '22') {//canale IVR INBOUND
+        $('#sms_field').hide();
+        $('#pos_field').hide();
+        $('#span_40400').hide();
+        $('#span_spai').hide();
+        $('#span_mfh').hide();
+        $('#span_jakala').hide();
+        $('#span_ivr_outbound').hide();
+        $('#span_dealer').hide();
+        $('#span_app_inbound').hide();
+        $('#span_app_outbound').hide();
+        $('#span_icm').hide();
+        $('#span_watson').hide();
+        $('#span_ivr_inbound').show();
+      }
+      else if (selected_channel_id === '23') {//canale IVR OUTBOUND
+        $('#sms_field').hide();
+        $('#pos_field').hide();
+        $('#span_40400').hide();
+        $('#span_spai').hide();
+        $('#span_mfh').hide();
+        $('#span_jakala').hide();
+        $('#span_ivr_inbound').hide();
+        $('#span_dealer').hide();
+        $('#span_app_inbound').hide();
+        $('#span_app_outbound').hide();
+        $('#span_icm').hide();
+        $('#span_watson').hide();
+        $('#span_ivr_outbound').show();
+      }
+      else if (selected_channel_id === '24') {//canale JAKALA
+        $('#sms_field').hide();
+        $('#pos_field').hide();
+        $('#span_40400').hide();
+        $('#span_spai').hide();
+        $('#span_mfh').hide();
+        $('#span_ivr_inbound').hide();
+        $('#span_ivr_outbound').hide();
+        $('#span_dealer').hide();
+        $('#span_app_inbound').hide();
+        $('#span_app_outbound').hide();
+        $('#span_icm').hide();
+        $('#span_watson').hide();
+        $('#span_jakala').show();
+      }
+      else if (selected_channel_id === '31') {//canale MFH
+        $('#sms_field').hide();
+        $('#pos_field').hide();
+        $('#span_40400').hide();
+        $('#span_spai').hide();
+        $('#span_jakala').hide();
+        $('#span_ivr_inbound').hide();
+        $('#span_ivr_outbound').hide();
+        $('#span_dealer').hide();
+        $('#span_app_inbound').hide();
+        $('#span_app_outbound').hide();
+        $('#span_icm').hide();
+        $('#span_watson').hide();
+        $('#span_mfh').show();
+      }
+      else if (selected_channel_id === '35') {//canale SPAI
+        $('#sms_field').hide();
+        $('#pos_field').hide();
+        $('#span_40400').hide();
+        $('#span_mfh').hide();
+        $('#span_jakala').hide();
+        $('#span_ivr_inbound').hide();
+        $('#span_ivr_outbound').hide();
+        $('#span_dealer').hide();
+        $('#span_app_inbound').hide();
+        $('#span_app_outbound').hide();
+        $('#span_icm').hide();
+        $('#span_watson').hide();
+        $('#span_spai').show();
+      }
+     else if (selected_channel_id === '29') {//canale watson
+        $('#sms_field').hide();
+        $('#pos_field').hide();
+        $('#span_40400').hide();
+        $('#span_spai').hide();
+        $('#span_mfh').hide();
+        $('#span_jakala').hide();
+        $('#span_ivr_inbound').hide();
+        $('#span_ivr_outbound').hide();
+        $('#span_dealer').hide();
+        $('#span_app_inbound').hide();
+        $('#span_app_outbound').hide();
+        $('#span_icm').hide();
+        $('#span_watson').show();
       }
       else {
         $('#sms_field').hide();
         $('#pos_field').hide();
         $('#span_40400').hide();
-        $('#span_call_guide2').hide();
+        $('#span_spai').hide();
+        $('#span_mfh').hide();
+        $('#span_jakala').hide();
+        $('#span_ivr_inbound').hide();
+        $('#span_ivr_outbound').hide();
+        $('#span_dealer').hide();
+        $('#span_app_inbound').hide();
+        $('#span_app_outbound').hide();
+        $('#span_icm').hide();
+        $('#span_watson').hide();
       }
       console.log('channel_id  ' + selected_channel_id);
 

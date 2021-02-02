@@ -7,11 +7,7 @@ $campaign = new campaign_class();
 $channels = $funzione->get_list_select('channels');
 $tit_sott = $funzione->get_allTable('campaign_titolo_sottotitolo');
 $cat_sott = $funzione->get_allTable('campaign_cat_sott');
-
 $id_campaign = array();
-
-
-
 //$dati = array();
 //$string = '<option value=""></option>';
 if (isset($_POST['tab_id'])) { 
