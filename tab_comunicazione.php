@@ -75,14 +75,14 @@
         </span>                    
             <span id="spanControlGroup" name="spanControlGroup" <?php echo $display; ?>>
                 <div class="col-md-3 col-sm-6 col-xs-12">
-                            <label>Percentuale di Controllo<span id="req_13" class="req">*</span></label>
-                            <input class="form-control col-md-2 col-sm-3 col-xs-12" id="perc_control_group" name="perc_control_group" <?php if ($readonly){echo $disabled_value;} ?> style="text-align:right" type="text"  maxlength="2"
+                            <label>Percentuale di Controllo (%)<span class="required">*</span></label>
+                            <input class="form-control col-md-2 col-sm-3 col-xs-12" id="perc_control_group" name="perc_control_group" <?php if ($readonly){echo $disabled_value;} ?> style="text-align:right" type="number"
                             <?php
                             if ($modifica){echo "value=\"" . $id_campaign['perc_control_group'] . "\"";}
-                            else{echo "value=\"0\"";}
+                            //else{echo "value=\"0\"";}
                             if ($readonly){echo $readonly_value;}
                             ?>
-                            tabindex="16" onkeydown="return onKeyNumeric(event);" onfocus="seleziona('perc_control_group');" onblur="deseleziona('perc_control_group');" />%
+                             data-parsley-trigger="keyup" min="0" max="100" data-parsley-minlength="1" data-parsley-maxlength="3" />
                 </div>
             </span>
             <span id="spanControlNumerico" name="spanControlNumerico" <?php echo $display_num; ?>>

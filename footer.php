@@ -509,7 +509,12 @@
 
             },
             */
-
+                          {              
+              extend: 'colvis',
+              className: 'btn-xs btn-primary',
+              text: '<i class="fa fa-table"></i> Vista Colonne', 
+              titleAttr: 'Selezione le colonne da visualizzare', 
+            }
           
           ],
             language: {

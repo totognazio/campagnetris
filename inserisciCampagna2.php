@@ -67,7 +67,8 @@ if (isset($_POST['azione'])) {
 if ( isset($azione) && $azione=='modifica') {
     $id_campaign = $campaign->get_list_campaign(" where campaigns.id=" . intval($id))->fetch_array();
     $title = "Modifica della Campagna ";
-    $nome_campagna = $campaign->name_camp($id_campaign);
+    //$nome_campagna = $campaign->name_camp($id_campaign);
+    $nome_campagna = $id_campaign['pref_nome_campagna'];
     $modifica = true;
     $id_upload = $id_campaign['id'];
     $squad_id = $id_campaign['squad_id'];
@@ -99,12 +100,14 @@ if ( isset($azione) && $azione=='modifica') {
     $disabled_value = " disabled=\"disabled\"  ";
     $display_none = " display:none; ";
     $title = "Visualizzazione Campagna ";
-    $nome_campagna = $campaign->name_camp($id_campaign);
+    //$nome_campagna = $campaign->name_camp($id_campaign);
+    $nome_campagna = $id_campaign['pref_nome_campagna'];
 
 } elseif ( isset($azione) && $azione=='duplica') {    
     $title = "Duplicazione Campagna ";
     $id_campaign = $campaign->get_list_campaign(" where campaigns.id=" . intval($id))->fetch_array();
-    $nome_campagna = $campaign->name_camp($id_campaign);
+    //$nome_campagna = $campaign->name_camp($id_campaign);
+    $nome_campagna = $id_campaign['pref_nome_campagna'];
     // print_r($id_campaign);
     $action_duplica = true;
     $modifica = true;
@@ -145,6 +148,8 @@ $segments = $funzione->get_list_select('segments');
 $tit_sott = $funzione->get_allTable('campaign_titolo_sottotitolo');
 //print_r($tit_sott);
 $cat_sott = $funzione->get_allTable('campaign_cat_sott');
+$sender = $funzione->get_allTable('senders');
+
 
 //print_r($_POST);
 
@@ -379,11 +384,11 @@ $('.add-contact').click(function (e) {
     $.ajax({
         url: "addTabCanale.php",
                 method: "POST",
-                data: {readonly: <?php if($readonly){echo 1;} else{echo 0;}?>, tab_id: id, campaign_id: <?php if(isset($azione)) echo $id; else {echo 0;}?>, disabled_value: <?php if(!empty($disabled_value)) echo $disabled_value; else {echo 0;}?> , modifica: <?php echo $modifica; ?>},
+                data: {readonly: <?php if($readonly){echo 1;} else{echo 0;}?>, tab_id: id, campaign_id: <?php if(isset($azione)) {echo $id;} else {echo 0;}?>, disabled_value: <?php if(!empty($disabled_value)) echo $disabled_value; else {echo 0;}?> , modifica: <?php echo $modifica; ?>},
                 dataType:"html",    
                 success: function (data)
                 {
-                    //console.log('eccoli data' + JSON.stringify(data));
+                    console.log('eccoli data' + JSON.stringify(data));
                     $('.tab-content').append(data);   
                     $('.nav-tabs li:nth-child(' + id + ') a').click();
                 }
@@ -397,7 +402,7 @@ $(document).ready(function() {
  //trigger ADD Canale 
  if (isset($azione) && ($azione=='duplica' || $azione=='modifica')) {
 
-    if(!empty($id_campaign['addcanale'])){
+    if(!empty($id_campaign['addcanale'] and isset(json_decode($id_campaign['addcanale'],true)[1]))){
         $addcanale = json_decode($id_campaign['addcanale'],true);
 
         foreach($addcanale as $canale){?>
