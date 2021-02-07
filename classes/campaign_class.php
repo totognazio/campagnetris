@@ -1690,11 +1690,13 @@ LEFT JOIN users ON `user_id` = users.id
         $string = $row['channel_label'];
         if(isset(json_decode($row['addcanale'],true)[1])){
             $funzione = new funzioni_admin();            
-            $addcanale = json_decode($row['addcanale'], true);
+            $addcanale = json_decode($row['addcanale'], true);            
             foreach($addcanale as $key => $value ){
                 //print_r($value['channel_id']);
-                //exit();
-                $string .= '/'.$funzione->get_channel_label($value['channel_id']);  
+                if($key>0){
+                    $string .= '/'.$funzione->get_channel_label($value['channel_id']);  
+                }
+                
             }
             return $string;
         }

@@ -11,6 +11,7 @@ input:focus {
 <link href="vendors/dropzone/dist/min/dropzone.min.css" rel="stylesheet">
 <!-- Dropzone.js -->
 <script src="vendors/dropzone/dist/dropzone.js"></script>
+
 <script type="text/javascript">
         // Immediately after the js include
         Dropzone.autoDiscover = false;     
@@ -378,21 +379,27 @@ $('.add-contact').click(function (e) {
     var id = $(".nav-tabs").children().length; //think about it ;)
     var tab_name = 'Canale ' + (id-3);
     //var tab_content = 'contact_' + id;
-    
-    $(this).closest('li').before('<li><a href="#contact_' + id + '">' + tab_name + ' </a><span style="cursor:pointer;position:absolute;right: 6px;top: 8px;color: red;">x</span></li>'); 
+    if(id<10){
+            $(this).closest('li').before('<li><a href="#contact_' + id + '">' + tab_name + ' </a><span style="cursor:pointer;position:absolute;right: 6px;top: 8px;color: red;">x</span></li>'); 
 
-    $.ajax({
-        url: "addTabCanale.php",
-                method: "POST",
-                data: {readonly: <?php if($readonly){echo 1;} else{echo 0;}?>, tab_id: id, campaign_id: <?php if(isset($azione)) {echo $id;} else {echo 0;}?>, disabled_value: <?php if(!empty($disabled_value)) echo $disabled_value; else {echo 0;}?> , modifica: <?php echo $modifica; ?>},
-                dataType:"html",    
-                success: function (data)
-                {
-                    console.log('eccoli data' + JSON.stringify(data));
-                    $('.tab-content').append(data);   
-                    $('.nav-tabs li:nth-child(' + id + ') a').click();
-                }
-    });  
+            $.ajax({
+                url: "addTabCanale.php",
+                        method: "POST",
+                        data: {readonly: <?php if($readonly){echo 1;} else{echo 0;}?>, tab_id: id, campaign_id: <?php if(isset($azione)) echo $id; else {echo 0;}?>, disabled_value: <?php if(!empty($disabled_value)) echo $disabled_value; else {echo "''";}?> , modifica: <?php echo $modifica; ?>},
+                        dataType:"html",    
+                        success: function (data)
+                        {
+                            console.log('eccoli data' + JSON.stringify(data));
+                            $('.tab-content').append(data);   
+                            $('.nav-tabs li:nth-child(' + id + ') a').click();
+                        }
+            }); 
+
+    }
+    else{
+        alert('E\' stato raggiunto il limite massimo di canali per una campagna!!!')
+    }
+ 
     
 });
 
@@ -402,10 +409,11 @@ $(document).ready(function() {
  //trigger ADD Canale 
  if (isset($azione) && ($azione=='duplica' || $azione=='modifica')) {
 
-    if(!empty($id_campaign['addcanale'] and isset(json_decode($id_campaign['addcanale'],true)[1]))){
+    if(isset(json_decode($id_campaign['addcanale'],true)[1])){
         $addcanale = json_decode($id_campaign['addcanale'],true);
 
-        foreach($addcanale as $canale){?>
+        for($i=1;  $i<count($addcanale); $i++){?>
+        //foreach($addcanale as $canale){?>
                 $('.add-contact').trigger("click");
                 $('#myTab a:first').tab('show');
         <?php    
@@ -430,23 +438,23 @@ $(document).ready(function() {
     //$( "#myTab").tab( "option", "active", 1);
 
 
-    $('#mod_invio').select2({
+$('#mod_invio').select2({
           placeholder: "Select Modalità SMS"
         });    
     
 $('#mod_invio').on('select2:select', function () {
-    var selected_modsms = $('#mod_invio').val();
+    const selected_modsms = $('#mod_invio').val();
     
     if(selected_modsms === 'Interattivo'){
            $("#spanLabelLinkTesto").fadeOut();
            $("#spanLabelLinkTesto").fadeIn();  
            $('#link').attr('required', true);  
     }
-    else if (selected_modsms === 'Standard') {
+    else {
        $("#spanLabelLinkTesto").fadeOut(); 
        $('#link').attr('required', false);  
     }
-    console.log('selected_modsms  '+ selected_modsms);   
+    //console.log('selected_modsms  '+ selected_modsms);   
     });
  
 

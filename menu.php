@@ -19,6 +19,8 @@ if (stripos($_SERVER['REQUEST_URI'],'campaign_stacks') !== false) { $stacksmenu 
 if (stripos($_SERVER['REQUEST_URI'],'squads') !== false) { $squadsmenu = ' class="current-page"';$adminmenu=' class="active"';$ul_admin=' style="display: block;"';} else{$squadsmenu='';$adminmenu='';$ul_admin='';}
 if (stripos($_SERVER['REQUEST_URI'],'channels') !== false) { $channelsmenu = ' class="current-page"';$adminmenu=' class="active"';$ul_admin=' style="display: block;"';} else{$channelsmenu='';$adminmenu='';$ul_admin='';}
 if (stripos($_SERVER['REQUEST_URI'],'segments') !== false) { $segmentsmenu = ' class="current-page"';$adminmenu=' class="active"';$ul_admin=' style="display: block;"';} else{$segmentsmenu='';$adminmenu='';$ul_admin='';}
+if (stripos($_SERVER['REQUEST_URI'],'senders') !== false) { $sendersmenu = ' class="current-page"';$adminmenu=' class="active"';$ul_admin=' style="display: block;"';} else{$sendersmenu='';$adminmenu='';$ul_admin='';}
+
 if (stripos($_SERVER['REQUEST_URI'],'sprints') !== false) { $sprintsmenu = ' class="current-page"';$adminmenu=' class="active"';$ul_admin=' style="display: block;"';} else{$sprintsmenu='';$adminmenu='';$ul_admin='';}
 if (stripos($_SERVER['REQUEST_URI'],'campaign_categories') !== false) { $categoriesmenu = ' class="current-page"';$adminmenu=' class="active"';$ul_admin=' style="display: block;"';} else{$categoriesmenu='';$adminmenu='';$ul_admin='';}
 if (stripos($_SERVER['REQUEST_URI'],'campaign_modalities') !== false) { $modalitiesmenu = ' class="current-page"';$adminmenu=' class="active"';$ul_admin=' style="display: block;"';} else{$modalitiesmenu='';$adminmenu='';$ul_admin='';}
@@ -69,6 +71,7 @@ if (stripos($_SERVER['REQUEST_URI'],'campaign_cat_sott') !== false) { $cat_sottm
                             <li <?php echo $channelsmenu;?>><a href="index.php?page=gestioneAdmin&amp;table=channels"> Channels</a></li>
                                  
                             <li <?php echo $segmentsmenu;?>><a href="index.php?page=gestioneAdmin&amp;table=segments"> Segments</a></li>
+                            <!--<li <?php #echo $sendersmenu;?>><a href="index.php?page=gestioneAdmin&amp;table=senders"> Senders</a></li>-->
                             <li <?php echo $sprintsmenu;?>><a href="index.php?page=gestioneAdmin&amp;table=sprints"> Sprints</a></li>
                             <li <?php echo $categoriesmenu;?>><a href="index.php?page=gestioneAdmin&amp;table=campaign_categories"> Campaign Categories</a></li> 
                             <li <?php echo $modalitiesmenu;?>><a href="index.php?page=gestioneAdmin&amp;table=campaign_modalities"> Campaign Modalities</a></li>

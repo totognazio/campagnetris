@@ -325,8 +325,7 @@
                        <label style="margin-top:20px">Storicizzazione Legale  <span class="required">*</span></label>
                         <?php #print_r($stacks); ?>
                        
-                            <select id="storicizza_ins" name="addcanale[0][storicizza]" class="select2_single form-control" style="width:100%"  <?php echo $required_sms; ?> <?php echo $disabled_value;?>>      
-                                <option value=""></option>
+                            <select id="storicizza_ins" name="addcanale[0][storicizza]" class="select2_single form-control" style="width:100%"  <?php echo $required_sms; ?> <?php echo $disabled_value;?>>
                                 <option <?php if($modifica and $canale['storicizza']=='0'){echo ' selected';} ?> value="0">No</option>
                                 <option <?php if($modifica and $canale['storicizza']=='1'){echo ' selected';} ?> value="1">Si</option>
                                 
@@ -335,8 +334,7 @@
                      <label style="margin-top:20px">Notifica Consegna  <span class="required">*</span></label>
                         <?php #print_r($stacks); ?>
                        
-                            <select id="notif_consegna" name="addcanale[0][notif_consegna]" class="select2_single form-control" style="width:100%"  <?php echo $required_sms; ?> <?php echo $disabled_value;?>>      
-                                <option value=""></option>
+                            <select id="notif_consegna" name="addcanale[0][notif_consegna]" class="select2_single form-control" style="width:100%"  <?php echo $required_sms; ?> <?php echo $disabled_value;?>>                                
                                 <option <?php if($modifica and $canale['notif_consegna']=='0'){echo ' selected';} ?> value="0">No</option>
                                 <option <?php if($modifica and $canale['notif_consegna']=='1'){echo ' selected';} ?> value="1">Si</option>
                                 
@@ -345,7 +343,7 @@
                          
           
             
-              <label style="margin-top:20px" for="message">Test SMS </label>
+              <label style="margin-top:20px" for="message">Testo SMS </label>
               <textarea id="testo_sms" <?php echo $disabled_value; ?><?php echo $required_sms; ?> class="form-control" name="addcanale[0][testo_sms]" onkeyup="checklength(0, 640, 'testo_sms', 'charTesto', 'numero_sms')" ><?php if($modifica){echo $canale['testo_sms'];}else{echo'';}?></textarea>  
               <label style="width:100%;"><small>Numeri caratteri utilizzati</small><input type="text" name="addcanale[0][charTesto]" id="charTesto" value="" class="text" value="" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>
               <label style="width:100%;"><small>Numero SMS</small><input type="text" name="addcanale[0][numero_sms]" id="numero_sms" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>                  
@@ -354,8 +352,9 @@
                           <label>Modalità Invio  <span class="required">*</span></label>                       
                             <select id="mod_invio" name="addcanale[0][mod_invio]" class="select2_single form-control" style="width:100%"  <?php echo $required_sms; ?> <?php echo $disabled_value;?>>      
                                 <option value=""></option>
-                                <option value="Interattivo"<?php if($modifica and $canale['mod_invio']=='Interattivo'){ echo ' selected ';} ?>>Interattivo</option>
-                                <option <?php if($modifica and $canale['mod_invio']=='Standard'){echo ' selected';} ?> value="Standard">Standard</option>
+                                <option value="Interattivo" <?php if($modifica and $canale['mod_invio']=='Interattivo'){ echo ' selected ';} ?>>Interattivo</option>
+                                <option value="Standard" <?php if($modifica and $canale['mod_invio']=='Standard'){echo ' selected';} ?>>Standard</option>
+                                <option value="MST" <?php if($modifica and $canale['mod_invio']=='MST'){echo ' selected ';} ?>>MST</option>
 
                           </select>
                         <?php if($modifica and $canale['mod_invio']=='Interattivo'){ ?>
@@ -424,7 +423,7 @@
                 <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_pos" name="addcanale[0][day_val_pos]"  min="1" max="31" <?php echo $required_pos ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['day_val_pos'])){echo $canale['day_val_pos']; }?>">                         
             </div>
             <div  class="col-md-4 col-sm-6 col-xs-12" >
-                <label class="control-label">Call Guideddd (4000 chars max)
+                <label class="control-label">Call Guide (4000 chars max)
                 <img  title="Indicare le azioni che il cliente dovr&agrave; eseguire per essere considerato redeemer (esempio: il cliente dovr&agrave; attivare una opzione in un range temporale). 
                                     Non &egrave; considerata redemption il click di un link da parte di un cliente." alt="Criteri Redemption" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
                 </label>
@@ -932,6 +931,7 @@ var myDropzoneCanale = new Dropzone(
 
         });
         } 
+        
         else if (selected_channel_id === '14') {// 40400
             $('#sms_field').hide();
             $('#pos_field').hide();

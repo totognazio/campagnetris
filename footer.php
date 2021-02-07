@@ -73,6 +73,7 @@
 <script src="node_modules/parsleyjs/dist/i18n/it.js"></script>
 <script src="node_modules/parsleyjs/dist/i18n/it.extra.js"></script>
 
+
 <!-- Initialize the plugin: -->
 <script type="text/javascript">
   $(document).ready(function() {
@@ -298,18 +299,7 @@
       console.log('moda_ins  ' + selected_moda);
 
     });
-
-    $('#mod_invio').select2({
-      placeholder: " Select"
-    });
-    $('#mod_invio').on('select2:select', function() {
-      var selected_mod_invio = $('#mod_invio').val();
-      $(this).parsley().validate();
-      console.log('mod_invio  ' + selected_moda);
-
-    });
-
-
+    
 
     $('#cate_ins').select2({
       placeholder: " Select"

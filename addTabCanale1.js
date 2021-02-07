@@ -1,6 +1,6 @@
 const id_tab = document.getElementById('tab_id').value;
 
-alert('canala id add ' + id_tab);
+//alert('canala id add ' + id_tab);
 
 $( '#mod_invio1').select2({
           placeholder: "Select Modalità SMS"
@@ -685,7 +685,7 @@ $( '#mod_invio1').on( 'select2:select ', function () {
         //#span_watson
         $( '#type_watson1').attr( 'required', false);
         $( '#contact_watson1').attr( 'required', false);
-      }        
+      }
       else if (selected_channel_id1===  '31') {//canale MFH
             $( '#span_404001').hide();
             $( '#span_spai1').hide();
@@ -747,67 +747,67 @@ $( '#mod_invio1').on( 'select2:select ', function () {
         $( '#type_watson1').attr( 'required', false);
         $( '#contact_watson1').attr( 'required', false);
       }
-      else if (selected_channel_id === '33') {//canale DEALER
-        $('#sms_field').hide();
-        $('#pos_field').hide();
-        $('#span_40400').hide();
-        $('#span_spai').hide();
-        $('#span_mfh').hide();
-        $('#span_jakala').hide();
-        $('#span_ivr_inbound').hide();
-        $('#span_ivr_outbound').hide();
-        $('#span_app_inbound').hide();
-        $('#span_app_outbound').hide();
-        $('#span_icm').hide();
-        $('#span_watson').hide();
-        $('#span_dealer').show();
+      else if (selected_channel_id1===  '33') {//canale DEALER
+            $( '#span_404001').hide();
+            $( '#span_spai1').hide();
+            $( '#span_mfh1').hide();
+            $( '#span_jakala1').hide();
+            $( '#span_ivr_inbound1').hide();
+            $( '#span_ivr_outbound1').hide();
+            $( '#span_dealer1').show();
+            $( '#span_app_outbound1').hide();
+            $( '#span_app_inbound1').hide();
+            $( '#span_icm1').hide();
+            $( '#span_watson1').hide();
+            $( '#pos_field1').hide();
+            $( '#sms_field1').hide();
 
-                //sms
-        $('#senders_ins').attr('required', false);
-        $('#storicizza_ins').attr('required', false);
-        $('#notif_consegna').attr('required', false);
-        $('#testo_sms').attr('required', false);
-        $('#mod_invio').attr('required', false);
-        $('#link').attr('required', false);
-        $('#tipoMonitoring').attr('required', false);
-        $('#sms_duration').attr('required', false);
+                            //sms
+        $( '#senders_ins1').attr( 'required', false);
+        $( '#storicizza_ins1').attr( 'required', false);
+        $( '#notif_consegna1').attr( 'required', false);
+        $( '#testo_sms1').attr( 'required', false);
+        $( '#mod_invio1').attr( 'required', false);
+        $( '#link1').attr( 'required', false);
+        $( '#tipoMonitoring1').attr( 'required', false);
+        $( '#sms_duration1').attr( 'required', false);
         //pos
-        $('#cat_sott_ins').attr('required', false);
-        $('#day_val_pos').attr('required', false);
-        $('#callguide_pos').attr('required', false);
+        $( '#cat_sott_ins1').attr( 'required', false);
+        $( '#day_val_pos1').attr( 'required', false);
+        $( '#callguide_pos1').attr( 'required', false);
         //#span_40400
-        $('#alias_attiv').attr('required', false);
-        $('#day_val').attr('required', false);
-        $('#sms_incarico').attr('required', false);
-        $('#sms_target').attr('required', false);
-        $('#sms_adesione').attr('required', false);
-        $('#sms_nondisponibile').attr('required', false);
+        $( '#alias_attiv1').attr( 'required', false);
+        $( '#day_val1').attr( 'required', false);
+        $( '#sms_incarico1').attr( 'required', false);
+        $( '#sms_target1').attr( 'required', false);
+        $( '#sms_adesione1').attr( 'required', false);
+        $( '#sms_nondisponibile1').attr( 'required', false);
         //#span_app_inbound
-        $('#day_val_app_inbound').attr('required', false);
-        $('#prior_app_inbound').attr('required', false);
-        $('#callguide_app_inbound').attr('required', false);
+        $( '#day_val_app_inbound1').attr( 'required', false);
+        $( '#prior_app_inbound1').attr( 'required', false);
+        $( '#callguide_app_inbound1').attr( 'required', false);
         //#span_app_outbound
-        $('#day_val_app_outbound').attr('required', false);
-        $('#prior_app_outbound').attr('required', false);
+        $( '#day_val_app_outbound1').attr( 'required', false);
+        $( '#prior_app_outbound1').attr( 'required', false);
         //#span_dealer
-        $('#Cod_iniziativa').attr('required', true);
+        $( '#Cod_iniziativa1').attr( 'required', true);
         //#span_icm
-        $('#day_val_icm').attr('required', false);
-        $('#callguide_icm').attr('required', false);
+        $( '#day_val_icm1').attr( 'required', false);
+        $( '#callguide_icm1').attr( 'required', false);
         //#span_ivr_inbound
-        $('#day_val_ivr_inbound').attr('required', false);
+        $( '#day_val_ivr_inbound1').attr( 'required', false);
         //#span_ivr_outbound
-        $('#day_val_ivr_outbound').attr('required', false);
+        $( '#day_val_ivr_outbound1').attr( 'required', false);
         //#span_jakala
-        $('#data_invio_jakala').attr('required', false);
+        $( '#data_invio_jakala1').attr( 'required', false);
         //#span_spai
-        $('#data_invio_spai').attr('required', false);
+        $( '#data_invio_spai1').attr( 'required', false);
         //#span_mfh
-        $('#type_mfh').attr('required', false);
+        $( '#type_mfh1').attr( 'required', false);
         //#span_watson
-        $('#type_watson').attr('required', false);
-        $('#contact_watson').attr('required', false);
-      }  
+        $( '#type_watson1').attr( 'required', false);
+        $( '#contact_watson1').attr( 'required', false);
+      }   
       else if (selected_channel_id1===  '35') {//canale SPAI
             $( '#span_404001').hide();
             $( '#span_spai1').show();
