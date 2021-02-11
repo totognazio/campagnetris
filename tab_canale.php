@@ -343,14 +343,14 @@
                          
           
             
-              <label style="margin-top:20px" for="message">Testo SMS </label>
-              <textarea id="testo_sms" <?php echo $disabled_value; ?><?php echo $required_sms; ?> class="form-control" name="addcanale[0][testo_sms]" onkeyup="checklength(0, 640, 'testo_sms', 'charTesto', 'numero_sms')" ><?php if($modifica){echo $canale['testo_sms'];}else{echo'';}?></textarea>  
+              <label style="margin-top:20px" for="message">Testo SMS<span class="required">*</span></label>
+              <textarea id="testo_sms" <?php echo $disabled_value; ?><?php echo $required_sms; ?> class="form-control" name="addcanale[0][testo_sms]" 	data-parsley-pattern="/^[a-zA-Z0-9-#/()%&\[\]{}!,.?£$@$' ]+$/gi" data-parsley-pattern-message="Caratteri come '€' ' ’ ' ed altri caratteri speciali non sono accettati come testo SMS !!" onkeyup="checklength(0, 640, 'testo_sms', 'charTesto', 'numero_sms')" ><?php if($modifica){echo $canale['testo_sms'];}else{echo'';}?></textarea>  
               <label style="width:100%;"><small>Numeri caratteri utilizzati</small><input type="text" name="addcanale[0][charTesto]" id="charTesto" value="" class="text" value="" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>
               <label style="width:100%;"><small>Numero SMS</small><input type="text" name="addcanale[0][numero_sms]" id="numero_sms" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>                  
                      
      
                           <label>Modalità Invio  <span class="required">*</span></label>                       
-                            <select id="mod_invio" name="addcanale[0][mod_invio]" class="select2_single form-control" style="width:100%"  <?php echo $required_sms; ?> <?php echo $disabled_value;?>>      
+                            <select id="mod_invio" name="addcanale[0][mod_invio]" class="select2_single form-control" style="width:100%" <?php echo $required_sms; ?> <?php echo $disabled_value;?>>      
                                 <option value=""></option>
                                 <option value="Interattivo" <?php if($modifica and $canale['mod_invio']=='Interattivo'){ echo ' selected ';} ?>>Interattivo</option>
                                 <option value="Standard" <?php if($modifica and $canale['mod_invio']=='Standard'){echo ' selected';} ?>>Standard</option>
@@ -359,17 +359,19 @@
                           </select>
                         <?php if($modifica and $canale['mod_invio']=='Interattivo'){ ?>
                             <script> 
-                                $('#spanLabelLinkTesto').show();
-                                $('#link').attr('required', true);                                                                   
+                                $('#spanLabelLinkTesto').show();                                
+                                $('#link').attr('required', true);
+                                $('#tipoMonitoring').attr('required', true);                                                                
                             </script>
                         <?php } 
                          else { ?>
                             <script> 
-                                $('#spanLabelLinkTesto').hide();
-                                $('#link').attr('required', false);                                                                   
+                                $('#spanLabelLinkTesto').hide();            
+                                $('#link').attr('required', false);
+                                $('#tipoMonitoring').attr('required', false);                                                                 
                             </script>
                         <?php } ?>  
-                        <span id="spanLabelLinkTesto">
+                        <span id="spanLabelLinkTesto" style="display: none;">
                             <label style="margin-top:20px" id="labelLinkTesto">Link<span id="req_19" class="req">*</span></label>
                             <input  id="link" name="addcanale[0][link]" type="url" class="form-control col-md-7 col-xs-12"  data-parsley-type='url' maxlength="400" data-parsley-maxlength='400' 
                             <?php
@@ -386,20 +388,20 @@
                             onkeyup="checklength(0, 255, 'link', 'charLink', ''); checklengthTotal('charLink','charTesto','numero_totale');"/>
                             <label style="width:100%;"><small>Numero</small><input type="text" name="addcanale[0][charLink]" id="charLink" class="text" readonly="readonly"  size="3" value="255" placeholder="max 255"onfocus="this.blur()" /></label>   
                             <label style="width:100%;"><small>Totale (SMS+Link)</small><input type="text" name="addcanale[0][numero_totale]" id="numero_totale" value="" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>                  
-                        </span>   
+                          
                           <br>
                        <label style="margin-top:20px">Tipo Monitoring  <span class="required">*</span></label>
-                        <?php #print_r($stacks); ?>
-                       
-                            <select id="tipoMonitoring" name="addcanale[0][tipoMonitoring]" class="select2_single form-control" style="width:100%" <?php echo $required_sms; ?> <?php echo $disabled_value; ?>>      
+                        <?php #print_r($stacks); ?>                       
+                            <select id="tipoMonitoring" name="addcanale[0][tipoMonitoring]" class="select2_single form-control" style="width:100%"  <?php echo $disabled_value; ?>>      
                                 <option value=""></option>
                                 <option <?php if($modifica and $canale['tipoMonitoring']=='1'){echo ' selected';}?> value="1">ADV Tracking tool</option>
                                 <option <?php if($modifica and $canale['tipoMonitoring']=='2'){echo ' selected';}?> value="2">Orphan page</option>
                                 <option <?php if($modifica and $canale['tipoMonitoring']=='3'){echo ' selected';}?> value="3">No monitoring</option>
                           </select>
-                       <label style="margin-top:20px">Durata SMS  <span class="required">*</span></label>
-                          <input type="text" id="sms_duration" name="addcanale[0][sms_duration]"  class="form-control col-md-7 col-xs-12" value="<?php if($modifica){echo $canale['sms_duration'];}else{echo'2';}?>" <?php echo $required_sms; ?> <?php echo $disabled_value; ?>>
-                        <img id="info" title="Numero di giorni in cui la rete tenter&agrave; l'invio dell'sms. Range da 1 a 7 giorni." alt="Durata SMS" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
+                      </span>     
+                       <label style="margin-top:20px">Validità SMS  <span class="required">*</span></label>
+                          <input type="number" id="sms_duration" name="addcanale[0][sms_duration]"  class="form-control col-md-7 col-xs-12" placeholder="numerico min 1 a max 7" min="1" max="7" data-parsley-trigger="keyup" value="<?php if($modifica){echo $canale['sms_duration'];}else{echo'2';}?>" <?php echo $required_sms; ?> <?php echo $disabled_value; ?>>
+                        
   
         </div> 
 
@@ -423,10 +425,7 @@
                 <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_pos" name="addcanale[0][day_val_pos]"  min="1" max="31" <?php echo $required_pos ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['day_val_pos'])){echo $canale['day_val_pos']; }?>">                         
             </div>
             <div  class="col-md-4 col-sm-6 col-xs-12" >
-                <label class="control-label">Call Guide (4000 chars max)
-                <img  title="Indicare le azioni che il cliente dovr&agrave; eseguire per essere considerato redeemer (esempio: il cliente dovr&agrave; attivare una opzione in un range temporale). 
-                                    Non &egrave; considerata redemption il click di un link da parte di un cliente." alt="Criteri Redemption" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
-                </label>
+                <label class="control-label">Call Guide (4000 chars max)</label>
                 <textarea id="callguide_pos" name="addcanale[0][callguide_pos]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" <?php echo $required_pos; ?> <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica and (isset($canale['callguide_pos']))){echo stripslashes($canale['callguide_pos']); }?></textarea>                    
             </div>
 
@@ -462,10 +461,7 @@
                 <br><br>                                
         </div>
         <div  class="col-md-4 col-sm-6 col-xs-12" >
-                <label class="control-label">Call Guide (4000 chars max)
-                <img  title="Indicare le azioni che il cliente dovr&agrave; eseguire per essere considerato redeemer (esempio: il cliente dovr&agrave; attivare una opzione in un range temporale). 
-                                    Non &egrave; considerata redemption il click di un link da parte di un cliente." alt="Criteri Redemption" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
-                </label>
+                <label class="control-label">Call Guide (4000 chars max)</label>
 
                     <textarea id="callguide_app_inbound" name="addcanale[0][callguide_app_inbound]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" <?php echo $required_app_inbound; ?> <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica){echo stripslashes($canale['callguide_app_inbound']); }?></textarea>
                     
@@ -484,23 +480,19 @@
     <span id="span_dealer" <?php echo $display_dealer; ?>>
         <div class="col-md-4 col-sm-6 col-xs-12">      
                 <label  class="control-label">Cod. iniziativa</label>
-                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa" name="addcanale[0][Cod_iniziativa]"  min="1"  <?php echo $required_dealer ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa'])){echo $canale['Cod_iniziativa']; }?>">
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa" name="addcanale[0][Cod_iniziativa]"   <?php echo $required_dealer; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa'])){echo $canale['Cod_iniziativa']; }?>">
                 <br><br>                             
         </div>
     </span>
     <span id="span_icm" <?php echo $display_icm; ?>>
         <div class="col-md-4 col-sm-6 col-xs-12">      
                 <label  class="control-label">Giorni di Validità</label>
-                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_icm" name="addcanale[0][day_val_icm]"  min="1" max="31" <?php echo $required_icm ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['day_val_icm'])){echo $canale['day_val_icm']; }?>">
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_icm" name="addcanale[0][day_val_icm]"  min="1" max="31" <?php echo $required_icm; ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['day_val_icm'])){echo $canale['day_val_icm']; }?>">
                 <br><br>                             
         </div>
         <div  class="col-md-6 col-sm-6 col-xs-12" >
-                <label class="control-label">Call Guide (4000 chars max)
-                <img  title="Indicare le azioni che il cliente dovr&agrave; eseguire per essere considerato redeemer (esempio: il cliente dovr&agrave; attivare una opzione in un range temporale). 
-                                    Non &egrave; considerata redemption il click di un link da parte di un cliente." alt="Criteri Redemption" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
-                </label>
-
-                    <textarea id="callguide_icm" name="addcanale[0][callguide_icm]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" <?php echo $required_icm; ?> <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica){echo stripslashes($canale['callguide_icm']); }?></textarea>
+                <label class="control-label">Call Guide (4000 chars max)</label>
+                <textarea id="callguide_icm" name="addcanale[0][callguide_icm]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" <?php echo $required_icm; ?> <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica){echo stripslashes($canale['callguide_icm']); }?></textarea>
                     
         </div>
     </span>
@@ -582,7 +574,37 @@
 
 
 <script>
-$(document).ready(function() {  
+$(document).ready(function() { 
+
+
+    
+    var testo_sms = document.getElementById("testo_sms");
+    testo_sms.addEventListener(
+        'keypress',
+        function (event) {
+            //alert('apostrofo word ' + parseInt(event.which) );
+
+            
+            // escludo caratteri € ed apostrofo word 86
+            if (parseInt(event.which) == 69 || parseInt(event.which) == 86) {
+                alert('  Attenzione il carattere \'€\' non è consentito!!');
+                // Prevent the default event action (adding the
+                // character to the textarea).
+                event.preventDefault();
+            }
+            
+            
+        }
+    );
+    /*
+    testo_sms.bind("paste input",function(){
+      $(this).val($(this).val().replace (/[<>]/g ,"")) 
+    });
+    */
+
+ document.addEventListener("keydown", function(event) {
+  console.log('testo sms ' + parseInt(event.which));
+})
     
     //gestione nome campagna
     $('#channel_ins').on('select2:select', function () {  
@@ -612,7 +634,8 @@ $(document).ready(function() {
 //gestione upload file
 var myDropzoneCanale = new Dropzone(
         '#dropzone-canale',
-        {          
+        {   
+            <?php if($readonly){echo 'clickable: false,';} else{echo 'clickable: true,';}?>       
             init: function () {
              this.options.dictRemoveFileConfirmation = "Confermi di voler eliminare il File?";   
            //solo su Modifica o Duplica     
@@ -790,8 +813,8 @@ var myDropzoneCanale = new Dropzone(
             $('#sms_field').show();
 
         $('#sms_duration').attr('required', true);
-        $('#tipoMonitoring').attr('required', true);
-        $('#link').attr('required', true);
+        //$('#tipoMonitoring').attr('required', true);
+        //$('#link').attr('required', true);
         $('#mod_invio').attr('required', true);
         $('#testo_sms').attr('required', true);
         $('#storicizza_ins').attr('required', true);
@@ -914,7 +937,6 @@ var myDropzoneCanale = new Dropzone(
         $('#type_watson').attr('required', false);
         $('#contact_watson').attr('required', false);
 
-        $('#cat_sott_ins').attr('required', true)
         $.ajax({
           url: "select_Cat_Sott.php",
           method: "POST",

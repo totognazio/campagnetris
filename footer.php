@@ -1,11 +1,4 @@
 <!-- footer content -->
-<?php 
-  //print_r($_SERVER['REQUEST_URI']); 
-  $datatable = 'pianificazione';
-  if(isset($_GET['page']) && $_GET['page']=='gestioneCampagne2'){
-    $datatable = 'gestione';
-  }
-?>
 <footer>
   <div class="pull-right">
 
@@ -84,6 +77,14 @@
     var selected_channels = $('#channels').val();
     var selected_typologies = $('#typologies').val();
     var selected_sprint;
+    <?php 
+  //print_r($_SERVER['REQUEST_URI']); 
+      $datatable = 'pianificazione';
+      if(isset($_GET['page']) && $_GET['page']=='gestioneCampagne2'){
+        $datatable = 'gestione';
+      }
+    ?>
+    var datatable_name = '<?php echo $datatable; ?>';
 
   $('#stacks').multiselect({
       enableClickableOptGroups: true,
@@ -381,7 +382,7 @@
           selected_states: selected_states,
           selected_channels: selected_channels,
           selected_typologies: selected_typologies,
-          datatable: '<?php echo $datatable; ?>'
+          datatable: datatable_name,
         },
         //dataType:"html",    
         success: function(data) {
@@ -394,7 +395,7 @@
             scrollX: true,
             scrollCollapse: true,
             paging: false,
-            dom: 'Bfrtip',
+            dom: 'Bfrtip',            
             buttons: [
               /*
               {
@@ -503,7 +504,7 @@
               extend: 'colvis',
               className: 'btn-xs btn-primary',
               text: '<i class="fa fa-table"></i> Vista Colonne', 
-              titleAttr: 'Selezione le colonne da visualizzare', 
+              titleAttr: 'Seleziona le colonne da visualizzare', 
             }
           
           ],
@@ -614,12 +615,21 @@
           $('#table_pianificazione').dataTable( {
               'drawCallback': function () {
                       //$( 'table_pianificazione tbody tr td' ).css( 'padding', '0px 0px 0px 0px' );
-                      $( 'table_pianificazione tbody tr td' ).css( 'height', '5px');
+                      $( 'table_pianificazione tbody tr td' ).css( 'height', '5px');                      
+                      
                   }
                   
           } );
     
           table_pianificazione.columns.adjust().responsive.recalc();
+          
+          console.log(' conteggio righe '+ table_pianificazione.rows().count());
+          var tot_rows = parseInt(table_pianificazione.rows().count());
+          if(datatable_name==='pianificazione' && tot_rows>0){
+            tot_rows = parseInt(table_pianificazione.rows().count()-1);
+          }
+          document.getElementById('conteggio_righe').textContent = '   filtrate n°' + tot_rows + '';
+
           $('.loader').hide();
         },
         error: function(data) {
@@ -832,6 +842,10 @@
 
   });
 
+
+        $('#datatable-fixed-header').DataTable({
+          fixedHeader: true
+        });
 
 </script>  
 

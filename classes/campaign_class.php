@@ -1,7 +1,7 @@
 <?php
 
 include_once 'db_config.php';
-include_once("./classes/access_user/access_user_class.php");
+include_once './classes/access_user/access_user_class.php';
 include_once './classes/funzioni_admin.php';
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -953,7 +953,7 @@ function check_addCanale($record){
 
 function insert($record) {
 //print_r($lista_id);
-    print_r($_POST);
+    //print_r($_POST);
 
     //$addcanale = $this->check_addCanale($record);
     //echo "<br/>addcanale " . $addcanale . "<br/>";
@@ -1030,7 +1030,7 @@ function insert($record) {
 
         $sql = "INSERT INTO `campaigns` (" . $lista_variabili . ")VALUES (" . $lista_valori . ")";
 
-        echo "<br/>" . $sql . "<br/>";
+        //echo "<br/>" . $sql . "<br/>";
         try {
             $res = $this->my_mysql_query($sql);
             $page_protect = new Access_user;
@@ -1040,7 +1040,7 @@ function insert($record) {
         } catch (MySQLDuplicateKeyException $e) {
 // duplicate entry exception
             return $e->getMessage();
-        } catch (MySQLException $e) {
+        } catch (MySQLException $e) { 
 // other mysql exception (not duplicate key entry)
             return $e->getMessage() . " - " . $sql;
         } catch (Exception $e) {
@@ -1096,16 +1096,17 @@ function update($record, $id_campagne) {
             $temp = explode('_', $value);
             if ($value == "data_fine") {
 
-                if ($_POST['data_inizio'] != "" && $_POST['durata_campagna'] != "") {
-                    $data_inizio = $this->mysqli->real_escape_string($this->data_it_to_eng_($_POST['data_inizio']));
-                    $durata_campagna = $this->mysqli->real_escape_string($_POST['durata_campagna']);
-                    if (isset($_POST['escludi_sab_dom'])) {
-                        $escludi_sab_dom = $this->mysqli->real_escape_string($_POST['escludi_sab_dom']);
-                    } else
-                        $escludi_sab_dom = 0;
-                    $lista_variabili = $lista_variabili . "`data_fine`='" . $this->calcola_data_fine($data_inizio, $durata_campagna, $escludi_sab_dom) . "', ";
-                }
-            } elseif (isset($_POST[$value])) {
+                    if ($_POST['data_inizio'] != "" && $_POST['durata_campagna'] != "") {
+                        $data_inizio = $this->mysqli->real_escape_string($this->data_it_to_eng_($_POST['data_inizio']));
+                        $durata_campagna = $this->mysqli->real_escape_string($_POST['durata_campagna']);
+                        if (isset($_POST['escludi_sab_dom'])) {
+                            $escludi_sab_dom = $this->mysqli->real_escape_string($_POST['escludi_sab_dom']);
+                        } else
+                            $escludi_sab_dom = 0;
+                        $lista_variabili = $lista_variabili . "`data_fine`='" . $this->calcola_data_fine($data_inizio, $durata_campagna, $escludi_sab_dom) . "', ";
+                    }
+            } 
+            elseif (isset($_POST[$value])) {
                 $valore_inviato = $_POST[$value];
                 if ($valore_inviato != "") {
                     if ($temp[0] == 'data') {
@@ -1162,7 +1163,7 @@ function update($record, $id_campagne) {
         $results = $this->mysqli->query($sql) or die($sql . " - " . $this->mysqli->error);
         if ($send_email) {
 //L'utente Rattini Marco ha modificato lo stato della campagna “Nome Campagna�? in RICHIESTA. Data inizio campagna 21/03/2016.
-            $this->send_email("[CTM] La campagna " .$_POST['pref_nome_campagna']. "_". $_POST['nome_campagna'] . " ha cambiato stato", "L'utente '" . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . "' ha modificato lo stato della campagna '" .$_POST['pref_nome_campagna']. "_" . $_POST['nome_campagna'] . "' in " . $this->get_state_name($this->get_state($id_campagne)) . ". Data inizio campagna: " . $_POST['data_inizio'] . ".");
+            $this->send_email("[CTM] La campagna " .$_POST['pref_nome_campagna']. " ha cambiato stato", "L'utente '" . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . "' ha modificato lo stato della campagna '" .$_POST['pref_nome_campagna']. " in " . $this->get_state_name($this->get_state($id_campagne)) . ". Data inizio campagna: " . $_POST['data_inizio'] . ".");
         }
         return "Campagna modificata correttamente";
     }
@@ -1491,6 +1492,16 @@ LEFT JOIN users ON `user_id` = users.id
     }
 
     function getCampaignsGestione($filter){
+
+        //controllo Squad
+        $page_protect = new Access_user;
+        $sql_squad = '';
+        $job_role = $page_protect->get_job_role();
+        if ($job_role == 2) {
+            $squad_id = $page_protect->get_squad();
+            $sql_squad = " (campaigns.`squad_id` = $squad_id)  and ";
+        }
+
       if(!empty($filter['sprint'])){
           $funzioni = new funzioni_admin();
           $sprint = $funzioni->get_sprint($filter['sprint']);
@@ -1533,7 +1544,7 @@ LEFT JOIN users ON `user_id` = users.id
         ";
 
        
-         $sql .= " WHERE (`data_inizio` <= '".$filter['endDate']."' AND (`data_fine` >= '".$filter['startDate']."' )) and $sql_and";
+         $sql .= " WHERE  $sql_squad  (`data_inizio` <= '".$filter['endDate']."' AND (`data_fine` >= '".$filter['startDate']."' )) and $sql_and";
          
          $sql .= "  and squads.id  IN ('" . implode("', '", $filter["squads"]). "')"
                . " and campaign_stacks.id  IN ('" . implode("', '", $filter["stacks"]). "') and "
@@ -1559,7 +1570,7 @@ LEFT JOIN users ON `user_id` = users.id
     
     function tablePianificazione($list) {   
     //print_r($list);
-    ?>                                                    
+        ?>                                                    
                     <!--<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                     <table id="datatable-responsive" cellspacing="0" width="100%">
                     <table id="datatable-scroll" class="table table-bordered nowrap">
@@ -1612,7 +1623,7 @@ LEFT JOIN users ON `user_id` = users.id
                             <input type="hidden" name="azione" value="elimina" />                                                                
                         </form>
         <a href="#" onclick="manageCamp('.$row['id'].', \'modifica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Modifica" title="Modifica"><i class="fa fa-pencil-square-o"></i></a>        
-        <a href="#" onclick="manageCamp('.$row['id'].', \'modifica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone"></i></a>                       
+        <a href="#" onclick="manageCamp('.$row['id'].', \'duplica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone"></i></a>                       
         <a href="#" onclick="manageCamp('.$row['id'].', \'elimina\','.$permission.','.$stato_elimina.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></a>    
                     
                 '.  "</td>";
@@ -2120,7 +2131,7 @@ function nomeCampagna($row) {
     }
     
     
-   function day_volume($row) {
+function day_volume($row) {
            
         $volume_giornaliero = array($row['volumeGiornaliero1'], $row['volumeGiornaliero2'], $row['volumeGiornaliero3'], $row['volumeGiornaliero4'], $row['volumeGiornaliero5'], $row['volumeGiornaliero6'], $row['volumeGiornaliero7']);
         

@@ -145,6 +145,7 @@ if ($livello_accesso > 0) {
                 <form action="index.php?page=export_file_excel&funzione=export_pianificazione" method="post" id="exportpianificazione">
 
                 </form>
+                <div style="margin-left: 10px;">
                 <!--button Excel -->
 <?php }
 if ($livello_accesso > 1) {
@@ -155,6 +156,7 @@ if ($livello_accesso > 0) {
     ?>
 <button class="btn btn btn-xs btn-success" id="createXLSX"  data-placement="top" data-toggle="tooltip" data-original-title="Export Pianificazione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>
 <?php }?>
+</div>
 <div class="col-md-12 col-sm-12 col-xs-12" id="content_response">
 
 

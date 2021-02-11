@@ -2,7 +2,7 @@
             
                 tr:hover {
                 background-color: lightgreen;
-                color: black;
+                color: green;
                 }
                 body {
                     overflow-y: auto;
@@ -207,4 +207,6 @@ btn.addEventListener("click", function () {
         else
             document.location.href = './index.php?page=inserisciCampagna2';
     }
+
+    
   </script>

@@ -121,6 +121,7 @@ $(document).ready(function() {
 var myDropzoneProfile = new Dropzone(
         '#my-dropzone',
         {          
+            <?php if($readonly){echo 'clickable: false,';} else{echo 'clickable: true,';}?>
             init: function () {
             //this.options.dictRemoveFileConfirmation = true;
             this.options.dictRemoveFileConfirmation = "Confermi di voler eliminare il File?";

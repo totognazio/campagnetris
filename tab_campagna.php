@@ -256,16 +256,19 @@
                         
                             
                             <?php
+                            //print_r($id_campaign);
                             if (isset($id_campaign['ordinamento_stato'])) {
                                 if (($id_campaign['ordinamento_stato'] < 2) && ($page_protect->get_job_role() == 2)) {
                                     $list = $funzioni_admin->get_list_state_id('campaign_states', 2);
+                                    //print_r($list);
+                                
                                 } else {
                                     $list = $funzioni_admin->get_list_state_id('campaign_states', 10);
                                 }
 //$list = $funzioni_admin->get_list_id('campaign_states');
                                 $lista_field = array_column($list, 'id');
                                 $lista_name = array_column($list, 'name');
-                                $javascript = "  tabindex=\"7\" onfocus=\"seleziona('selectStato');\" onblur=\"deseleziona('selectStato');\" ";
+                                $javascript = "  tabindex=\"7\" onfocus=\"seleziona('campo');\" onblur=\"deseleziona('campo');\" ";
                                 if ($readonly)
                                     $javascript = $javascript . $disabled_value;
                                 $style = "";

@@ -71,7 +71,7 @@ if (stripos($_SERVER['REQUEST_URI'],'campaign_cat_sott') !== false) { $cat_sottm
                             <li <?php echo $channelsmenu;?>><a href="index.php?page=gestioneAdmin&amp;table=channels"> Channels</a></li>
                                  
                             <li <?php echo $segmentsmenu;?>><a href="index.php?page=gestioneAdmin&amp;table=segments"> Segments</a></li>
-                            <!--<li <?php #echo $sendersmenu;?>><a href="index.php?page=gestioneAdmin&amp;table=senders"> Senders</a></li>-->
+                            <li <?php echo $sendersmenu;?>><a href="index.php?page=gestioneAdmin&amp;table=senders"> Senders</a></li>
                             <li <?php echo $sprintsmenu;?>><a href="index.php?page=gestioneAdmin&amp;table=sprints"> Sprints</a></li>
                             <li <?php echo $categoriesmenu;?>><a href="index.php?page=gestioneAdmin&amp;table=campaign_categories"> Campaign Categories</a></li> 
                             <li <?php echo $modalitiesmenu;?>><a href="index.php?page=gestioneAdmin&amp;table=campaign_modalities"> Campaign Modalities</a></li>

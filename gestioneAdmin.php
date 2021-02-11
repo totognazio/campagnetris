@@ -124,23 +124,34 @@ if (isset($_POST['azione'])) {
                     $funzioni_admin->insert_new_offers($new_name, $label, $description);
                 else echo '<script type="text/javascript">alert("Attenzione! La tripletta \'Name\' \'Label\' \'Description\' è già esistente e non può essere duplicata!.");</script>';
             }
-        }elseif ($table_name == 'senders') {
+        }
+        
+        elseif ($table_name == 'senders') {
             if (isset($_POST['new_name']) && !empty($_POST['new_name']))
                 $new_name = $_POST['new_name'];
-            $channel_id = $_POST['channel_id'];
+
+            if (isset($_POST['label']))
+                $label = $_POST['label'];
+            else
+                $label = "";    
+                
+                //$channel_id = $_POST['channel_id'];
             #var_dump($_POST);
-            if (empty($new_name) || empty($channel_id))
+            //if (empty($new_name) || empty($channel_id))
+            if (empty($new_name)) 
                 echo '<script type="text/javascript">alert("Attenzione! Nome campo non valorizzato.");</script>';
             else
-                $funzioni_admin->insert_new_senders($new_name, $channel_id);
-        }else {
+                $funzioni_admin->insert_new_senders($new_name, 1, $label);
+        }
+        
+        else {
             if (isset($_POST['new_name']) && !empty($_POST['new_name']))
                 $new_name = $_POST['new_name'];
             if (isset($_POST['label']))
                 $label = $_POST['label'];
             else
                 $label = "";
-            #var_dump($_POST);
+            //var_dump($_POST);
             if (empty($new_name))
                 echo '<script type="text/javascript">alert("Attenzione! Nome campo non valorizzato.");</script>';
             elseif ($funzioni_admin->check_new_name($table_name, $new_name))
@@ -149,12 +160,14 @@ if (isset($_POST['azione'])) {
                 echo '<script type="text/javascript">alert("Attenzione! Nome già presente nella lista, occorre scegliere un nome univoco.");</script>';
         }
     }
+    /*
     if (!empty($_POST) && $_POST['azione'] == 'upload_lista') {
         //include_once("./upload/upload_class.php"); //classes is the map where the class file is stored (one above the root)
         //$folder = "./upload/";
         //error_reporting(E_ALL);
         include_once("./upload_offer_list.php");
     }
+    */
 }
 $select_job_roles = '';
 $select_squads = '';
@@ -167,6 +180,7 @@ $select_sprints = '';
 $select_senders = '';
 $select_channels = '';
 $select_offers = '';
+$select_senders = '';
 
 switch ($table_name) {
     case "job_roles": $select_job_roles = 'style="background-color:#6F7D94;color: #FFF;" break';
@@ -195,6 +209,8 @@ switch ($table_name) {
 ?>
 
 <script language="JavaScript" type="text/javascript">
+
+
 
     function seleziona(riga) {
         riga.className = "selezionata";
@@ -287,13 +303,14 @@ switch ($table_name) {
 
 
     <table id="datatable-fixed-header" class="table table-striped table-bordered dataTable no-footer nowrap" role="grid" aria-describedby="datatable-fixed-header_info">
+        <thead>
         <tr style="height:25px; font-weight: bold; background: url(images/wbg.gif) repeat-x 0px -1px;">
             <td align="center" width="1%">N.</td>
             <?php #if ($table_name == 'campaign_types') #echo '<td align="center">Stack</td>'; ?>
-            <?php if ($table_name == 'senders') echo '<td align="center">Channel</td>'; ?>
+            <?php #if ($table_name == 'senders') echo '<td align="center">Channel</td>'; ?>
 
             <td align="center">Nome</td>
-            <?php if ($table_name == 'offers' || $table_name == 'campaign_types' || $table_name == 'campaign_cat_sott' || $table_name == 'campaign_titolo_sottotitolo' || $table_name == 'campaign_stacks' || $table_name == 'channels' || $table_name == 'segments' || $table_name == 'campaign_categories' || $table_name == 'campaign_modalities'|| $table_name == 'squads') echo '<td align="center">Label</td>'; ?>
+            <?php if ($table_name == 'offers' || $table_name == 'campaign_types' || $table_name == 'campaign_cat_sott' || $table_name == 'campaign_titolo_sottotitolo' || $table_name == 'campaign_stacks' || $table_name == 'channels' || $table_name == 'segments' || $table_name == 'campaign_categories' || $table_name == 'campaign_modalities'|| $table_name == 'squads'|| $table_name == 'senders') echo '<td align="center">Label</td>'; ?>
             <?php if ($table_name == 'offers') echo '< align="center">Description</td>'; ?>
 
 
@@ -308,6 +325,7 @@ switch ($table_name) {
                     <?php echo "<input type=\"hidden\"  name=\"tabella\" value=\"" . $table_name . "\" />"; ?>
                     <input type="hidden"  name="azione" value="aggiungi" />
                 </form>
+                
                 <?php if ($table_name == 'offers') { ?>
                     <form name="upload" action="./index.php?page=gestioneAdmin" method="post" style="margin:0px;">
                         <input alt="Carica lista" title="Carica lista" type="image" src="images/upload.png" style="margin:0px"/>
@@ -318,7 +336,8 @@ switch ($table_name) {
                 ?>
             </td>
         </tr>
-
+        </thead>
+        <tbody>
         <?php
 #$table_name = 'campaign_stacks';
         if ($table_name == 'campaign_types') {
@@ -395,7 +414,8 @@ switch ($table_name) {
                 echo "<input type=\"hidden\"  name=\"id\" value=\"" . $value['id'] . "\" /></form>";
                 echo "</td></tr>";
             }
-        } elseif ($table_name == 'senders') {
+        } 
+        /*elseif ($table_name == 'senders') {
             $list = $funzioni_admin->get_all_list($table_name, 'ORDER BY `senders`.`channel_id` ASC');
             $riga = 0;
             if (!empty($_POST) && $_POST['azione'] == 'aggiungi') {
@@ -461,7 +481,9 @@ switch ($table_name) {
                 echo "<input type=\"hidden\"  name=\"id\" value=\"" . $value['id'] . "\" /></form>";
                 echo "</td></tr>";
             }
-        } else {
+        } 
+        */
+        else {
             $list = $funzioni_admin->get_list_id($table_name);
             $riga = 0;
             if (!empty($_POST) && $_POST['azione'] == 'aggiungi') {
@@ -492,7 +514,7 @@ switch ($table_name) {
                     . "<td align=\"center\"><input type=\"text\" size=\"30\" id=\"new_value\" name=\"new_name\"  onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
                     echo "<td align=\"center\"><input type=\"text\"   size=\"30\" id=\"label\" name=\"label\"  onfocus=\"seleziona_campo('label');\" onblur=\"deseleziona_campo('label');\"/></td>";
                     echo "<td align=\"center\"><textarea name=\"description\" cols=\"60\" rows=\"5\"  onfocus=\"seleziona_campo('description');\" onblur=\"deseleziona_campo('description');\"></textarea>";
-                } elseif ($table_name == 'campaign_cat_sott' || $table_name == 'campaign_titolo_sottotitolo' || $table_name == 'campaign_modalities' || $table_name == 'campaign_categories' || $table_name == 'campaign_stacks' || $table_name == 'channels' || $table_name == 'segments' || $table_name == 'squads') {
+                } elseif ($table_name == 'campaign_cat_sott' || $table_name == 'campaign_titolo_sottotitolo' || $table_name == 'campaign_modalities' || $table_name == 'campaign_categories' || $table_name == 'campaign_stacks' || $table_name == 'channels' || $table_name == 'segments' || $table_name == 'squads' || $table_name == 'senders') {
                     echo "<td align=\"center\">" . $riga . "</td>"
                     . "<td align=\"center\"><input type=\"text\"  id=\"new_value\" name=\"new_name\" value=\"\" onfocus=\"seleziona_campo('new_value');\" onblur=\"deseleziona_campo('new_value');\"/></td>";
                     echo "<td align=\"center\"><input type=\"text\"   id=\"label\" name=\"label\"  onfocus=\"seleziona_campo('label');\" onblur=\"deseleziona_campo('label');\"/></td>";
@@ -581,7 +603,7 @@ switch ($table_name) {
                         echo "<td align=\"center\"   >" . $data_inizio . "</td>";
                         echo "<td align=\"center\">" . $data_fine . "</td>";
                     }
-                    if ($table_name == 'campaign_categories' || $table_name == 'campaign_modalities' || $table_name == 'campaign_titolo_sottotitolo' || $table_name == 'campaign_cat_sott' || $table_name == 'campaign_stacks' || $table_name == 'channels' || $table_name == 'segments'|| $table_name == 'squads') {
+                    if ($table_name == 'campaign_categories' || $table_name == 'campaign_modalities' || $table_name == 'campaign_titolo_sottotitolo' || $table_name == 'campaign_cat_sott' || $table_name == 'campaign_stacks' || $table_name == 'channels' || $table_name == 'segments'|| $table_name == 'squads'|| $table_name == 'senders') {
                         $label = $funzioni_admin->get_nome_campo($table_name, "name", $value['name'], "label");
                         echo "<td align=\"center\"   >" . $label . "</td>";
                     }
@@ -614,7 +636,7 @@ switch ($table_name) {
             }
         }
         ?>
-
+    </tbody>
     </table>
 
 </div>
@@ -666,6 +688,9 @@ if(isset($_POST['azione']) and $_POST['azione']=='aggiungi'){
 <!-- bootstrap-daterangepicker -->
 <script>
   $(document).ready(function() {
+
+    //$('#gestioneAdmin').DataTable();
+    //gestioneAdmin
     //$('#days').val(14);
 
     $('#data_fine').daterangepicker({

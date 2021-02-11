@@ -125,45 +125,7 @@ if (isset($_POST['creautente']) && $_POST['creautente'] == "1") {
                       
                       
 
-    <script language="JavaScript" type="text/javascript">
-        function seleziona(riga) {
-            riga.className = "selezionata";
-        }
 
-        function deseleziona(riga) {
-            riga.className = "bianco";
-        }
-
-        function conferma(utente) {
-            if (!(confirm('L\'utente \'' + utente + '\' verrà disattivato. Confermi?')))
-            {
-                return false;
-            }
-            else {
-                return true;
-            }
-        }
-
-        function erase_user(utente) {
-            if (!(confirm('L\'utente \'' + utente + '\' verrà eliminato dal DB. Confermi?')))
-            {
-                return false;
-            }
-            else {
-                return true;
-            }
-        }
-
-        function seleziona_campo(campo) {
-            campoSelezionato = document.getElementById(campo);
-            campoSelezionato.style.background = "orange";
-        }
-
-        function deseleziona_campo(campo) {
-            campoSelezionato = document.getElementById(campo);
-            campoSelezionato.style.background = "white";
-        }
-    </script>
     <?php
     //print_r($_POST);
     if (isset($_POST['action']) && ($_POST['action']=="updateUser" OR $_POST['action']=="newuser") ) {
@@ -394,6 +356,7 @@ if (isset($_POST['creautente']) && $_POST['creautente'] == "1") {
                 </td>
             </tr>
             </thead>
+            <tbody>
 
             <?php
 #$table_name = 'campaign_groups';
@@ -458,6 +421,7 @@ if (isset($_POST['creautente']) && $_POST['creautente'] == "1") {
                 </tr>";
             }
             ?>
+            </tbody>
         </table>
     </div>
 </div><!-- end .content -->
@@ -469,3 +433,44 @@ if (isset($_POST['creautente']) && $_POST['creautente'] == "1") {
         </div>
         <!-- /page content -->
 
+    <script language="JavaScript" type="text/javascript">
+
+
+        function seleziona(riga) {
+            riga.className = "selezionata";
+        }
+
+        function deseleziona(riga) {
+            riga.className = "bianco";
+        }
+
+        function conferma(utente) {
+            if (!(confirm('L\'utente \'' + utente + '\' verrà disattivato. Confermi?')))
+            {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        function erase_user(utente) {
+            if (!(confirm('L\'utente \'' + utente + '\' verrà eliminato dal DB. Confermi?')))
+            {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        function seleziona_campo(campo) {
+            campoSelezionato = document.getElementById(campo);
+            campoSelezionato.style.background = "orange";
+        }
+
+        function deseleziona_campo(campo) {
+            campoSelezionato = document.getElementById(campo);
+            campoSelezionato.style.background = "white";
+        }
+    </script>

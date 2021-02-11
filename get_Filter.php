@@ -30,11 +30,17 @@ else if($datatable=='gestione'){
 if(count($list)>0  && $datatable=='pianificazione'){
     $campaign->tablePianificazione($list);
 }
-else if(count($list)>0  && $datatable=='gestione'){
+else if(count($list)>0  && $datatable=='gestione'){ 
     $campaign->tableGestione($list);
 }
-else{
-    echo ' Nessun Campagna !!!';
+else if(count($list)<=0  && $datatable=='gestione'){ 
+    echo ' <br><h2></h2>Nessuna Campagna in Gestione per il tuo SQUAD !!!</h2>';
+}
+else if(count($list)<=0  && $datatable=='pianificazione'){ 
+    echo ' <br><h2>Nessuna Campagna Pianificata !!!</h2>';
+}
+else { 
+    echo ' <br><h2>Nessuna Campagna !!!</h2>';
 }
 
             //print_r($list_campaign);

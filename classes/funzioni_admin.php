@@ -273,6 +273,9 @@ class funzioni_admin {
         }
         return $list;
     }
+    
+
+
 
     function get_offers($name=NULL) {
         
@@ -347,9 +350,7 @@ class funzioni_admin {
     }
 
     function get_senders($id) {
-        $query3 = "SELECT senders.id,senders.NAME as tipo_nome FROM senders 
-    left join channels on channels.id=senders.channel_id
-    where channels.id=$id";
+        $query3 = "SELECT senders.id,senders.NAME as tipo_nome FROM senders left join channels on channels.id=senders.channel_id where channels.id=$id";
 //echo $query3;
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $list = array();
@@ -360,6 +361,23 @@ class funzioni_admin {
             $list[] = $r;
         }
         return $list;
+    }
+
+    function get_sender($id) {
+        $query3 = "SELECT * FROM senders where senders.id=$id";
+//echo $query3;
+        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+        //$list = array();
+        //$r = array();
+        /*
+        while ($obj3 = $result3->fetch_array(MYSQLI_ASSOC)) {
+            //$r['id'] = $obj3['id'];
+            $list = $obj3;
+        }
+        */
+        $obj3 = $result3->fetch_array(MYSQLI_ASSOC);
+
+        return $obj3;
     }
     
     function get_sprints($startDate=null,$endDate=null) {
@@ -521,7 +539,7 @@ class funzioni_admin {
             $query3 = "UPDATE `$nome_tabella` SET `name` = '$new_value',`colore` ='$color',`elimina` ='$elimina'  WHERE `$nome_tabella`.`id` = $id";
         } elseif ($nome_tabella == "offers") {
             $query3 = "UPDATE `$nome_tabella` SET `name` = '$new_value',`label` = '$label',`description` ='$description'  WHERE `$nome_tabella`.`id` = $id";
-        } elseif ($nome_tabella == 'campaign_modalities' || $nome_tabella == 'campaign_categories' || $nome_tabella == 'campaign_cat_sott' || $nome_tabella == 'campaign_titolo_sottotitolo' || $nome_tabella == "campaign_types" || $nome_tabella == 'campaign_stacks' || $nome_tabella == 'channels' || $nome_tabella == 'segments'|| $nome_tabella == 'squads') {
+        } elseif ($nome_tabella == 'campaign_modalities' || $nome_tabella == 'campaign_categories' || $nome_tabella == 'campaign_cat_sott' || $nome_tabella == 'campaign_titolo_sottotitolo' || $nome_tabella == "campaign_types" || $nome_tabella == 'campaign_stacks' || $nome_tabella == 'channels' || $nome_tabella == 'segments'|| $nome_tabella == 'squads' || $nome_tabella == 'senders') {
             $query3 = "UPDATE `$nome_tabella` SET `name` = '$new_value',`label` = '$label'  WHERE `$nome_tabella`.`id` = $id";
         } 
         elseif($nome_tabella == "sprints"){
@@ -567,14 +585,14 @@ class funzioni_admin {
     }
     */
     function insert_new_campaigntype($name, $label) {
-        $query3 = "INSERT INTO `campaign_types`(`id`, `name`,label) VALUES ( NULL, '$name', '$label')";
+        $query3 = "INSERT INTO `campaign_types`(`id`, `name`,`label`) VALUES ( NULL, '$name', '$label')";
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
 
         return $result3;
     }
 
-    function insert_new_senders($name, $channel_id) {
-        $query3 = "INSERT INTO `senders`(`id`, `name`, `channel_id`) VALUES ( NULL, '$name', '$channel_id')";
+    function insert_new_senders($name, $channel_id, $label) {
+        $query3 = "INSERT INTO `senders`(`id`, `name`, `channel_id`, `label`) VALUES ( NULL, '$name', '$channel_id', '$label')";
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
 
         return $result3;

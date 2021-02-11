@@ -254,7 +254,7 @@ class Access_user {
         if ($job_role > 1) {
             if ($job_role < 4) {
 
-                if ($squad_id == $this->get_department()) {
+                if ($squad_id == $this->get_squad()) {
                     return 1;
                 } else
                     return 0;

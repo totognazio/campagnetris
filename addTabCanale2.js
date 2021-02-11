@@ -1,5 +1,18 @@
 const id_tab = document.getElementById('tab_id').value;
 
+var testo_sms2 = document.getElementById("testo_sms2");
+    testo_sms2.addEventListener(
+        'keypress',
+        function (e) {
+            // Test for the key codes you want to filter out.
+            if (e.which == 8364) {
+                alert('  Attenzione il carattere \'€\' non è consentito!!');
+                // Prevent the default event action (adding the
+                // character to the textarea).
+                e.preventDefault();
+            }
+        }
+    );
 
 
 $( '#mod_invio2').select2({
@@ -9,16 +22,18 @@ $( '#mod_invio2').select2({
 $( '#mod_invio2').on( 'select2:select ', function () {
     const selected_modsms2= $( '#mod_invio2').val();
     
-    if(selected_modsms2===  'Interattivo '){
+    if(selected_modsms2===  'Interattivo'){
            $("#spanLabelLinkTesto2").fadeOut();
            $("#spanLabelLinkTesto2").fadeIn();  
-           $( '#link2').attr( 'required', true);  
+      $('#link2').attr('required', true);  
+      $('#tipoMonitoring2').attr('required', true);   
     }
     else {
        $("#spanLabelLinkTesto2").fadeOut(); 
-       $( '#link2').attr( 'required', false);  
+      $('#link2').attr('required', false);  
+      $('#tipoMonitoring2').attr('required', false);  
     }
-    console.log( 'selected_modsms1  '+ selected_modsms1);   
+    console.log( 'selected_modsms2  '+ selected_modsms2);   
     });
 
     $( '#data_invio_jakala2').daterangepicker({
@@ -122,8 +137,8 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#notif_consegna2').attr( 'required', true);
         $( '#testo_sms2').attr( 'required', true);
         $( '#mod_invio2').attr( 'required', true);
-        $( '#link2').attr( 'required', true);
-        $( '#tipoMonitoring2').attr( 'required', true);
+        //$( '#link2').attr( 'required', true);
+        //$( '#tipoMonitoring2').attr( 'required', true);
         $( '#sms_duration2').attr( 'required', true);
         //pos
         $( '#cat_sott_ins2').attr( 'required', false);
@@ -442,7 +457,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#type_watson2').attr( 'required', false);
         $( '#contact_watson2').attr( 'required', false);
       }
-      else if (selected_channel_id2===  '16') {//canale APP INBOUND
+      else if (selected_channel_id2===  '16') {//canale APP OUTBOUND
             $( '#span_404002').hide();
             $( '#span_spai2').hide();
             $( '#span_mfh2').hide();
@@ -450,8 +465,8 @@ $( '#mod_invio2').on( 'select2:select ', function () {
             $( '#span_ivr_inbound2').hide();
             $( '#span_ivr_outbound2').hide();
             $( '#span_dealer2').hide();
-            $( '#span_app_outbound2').hide();
-            $( '#span_app_inbound2').show();
+            $( '#span_app_outbound2').show();
+            $( '#span_app_inbound2').hide();
             $( '#span_icm2').hide();
             $( '#span_watson2').hide();
             $( '#pos_field2').hide();

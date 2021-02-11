@@ -365,7 +365,7 @@ function interattivo() {
 function seleziona(campo) {
 
     campoSelezionato = document.getElementById(campo);
-    campoSelezionato.style.background = "orange";
+    campoSelezionato.style.background = "yellow";
 }
 
 function deseleziona(campo) {

@@ -338,7 +338,7 @@ var Dropzone = function (_Emitter) {
          * [`accept`](https://developer.mozilla.org/en-US/docs/HTML/Element/input#attr-accept)
          * parameter on the hidden file input as well.
          */
-        acceptedFiles: ".xlsx,.xls,.xlsm,.txt",
+        acceptedFiles: ".xlsx,.xls,.xlsm,.txt,.doc,.docx",
 
         /**
          * **Deprecated!**
@@ -419,7 +419,7 @@ var Dropzone = function (_Emitter) {
         /**
          * The text used before any files are dropped.
          */
-        dictDefaultMessage: "Drop files here to upload. (Only .txt, .xls, xlsx, xlsm)",
+        dictDefaultMessage: "Drop files here to upload. (Only .txt, .xls, xlsx, xlsm, doc, docx)",
 
         /**
          * The text that replaces the default message text it the browser is not supported.

@@ -92,7 +92,8 @@ if ( isset($azione) && $azione=='modifica') {
         $disabled_value = " disabled=\"disabled\"  ";
         $display_none = " display:none; ";
     }
-} elseif ( isset($azione) && $azione=='open') {
+} 
+elseif ( isset($azione) && $azione=='open') {
     $visualizza_campagna = 1;
     $id_campaign = $campaign->get_list_campaign(" where campaigns.id=" . $id)->fetch_array();
     $modifica = true;
@@ -104,7 +105,8 @@ if ( isset($azione) && $azione=='modifica') {
     //$nome_campagna = $campaign->name_camp($id_campaign);
     $nome_campagna = $id_campaign['pref_nome_campagna'];
 
-} elseif ( isset($azione) && $azione=='duplica') {    
+} 
+elseif ( isset($azione) && $azione=='duplica') {    
     $title = "Duplicazione Campagna ";
     $id_campaign = $campaign->get_list_campaign(" where campaigns.id=" . intval($id))->fetch_array();
     //$nome_campagna = $campaign->name_camp($id_campaign);
@@ -160,6 +162,7 @@ $sender = $funzione->get_allTable('senders');
             <div class="page-title">
               <div class="title_center">
                 <h3><?php echo $title; ?> - <?php echo $nome_campagna; ?></h3>
+
               </div>
 
               <div class="title_right">
@@ -175,18 +178,68 @@ $sender = $funzione->get_allTable('senders');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title"><?php #print_r($_POST);print_r($id_campaign);?>
-                      <h2>Compilazione<small></small></h2>
+                      
+   
+   <?php
+        if ($visualizza_campagna) {
+            $elimina = "";
+            $stato_elimina = $id_campaign['elimina'];
+            $squad_id = $id_campaign['squad_id'];
+            $squad_id = $page_protect->get_squad();
+            $permission = $page_protect->check_permission($squad_id);
+
+            ?>
+                        <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaModifica<?php echo $id; ?>">
+                            <input type="hidden" name="id" value="<?php echo $id; ?>" />
+                            <input type="hidden" name="azione" value="modifica" />                                                                
+                        </form>
+                        <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaDuplica<?php echo $id; ?>"> 
+                            <input type="hidden" name="id" value="<?php echo $id; ?>" />
+                            <input type="hidden" name="azione" value="duplica" />                                                                
+                        </form>
+                        <form action="index.php?page=pianificazione2"  method="post" id="campagnaElimina<?php echo $id; ?>"> 
+                            <input type="hidden" name="id" value="<?php echo $id; ?>" />
+                            <input type="hidden" name="azione" value="elimina" />                                                                
+                    </form>
+
+            
+                <ul class="nav navbar-left panel_toolbox">
+                    
+<a class="btn btn-sm btn-success" href="<?php echo $back_url;?>" data-placement="bottom" data-toggle="tooltip" data-original-title="Indietro" title="Indietro"><i class="fa fa-arrow-left"></i></a>                            
+               
+                   <a class="btn btn-sm btn-primary"href="#" onclick="manageCamp(<?php echo $id; ?>, 'modifica',<?php echo $permission; ?>);"  data-placement="bottom" data-toggle="tooltip" data-original-title="Modifica" title="Modifica"><i class="fa fa-edit"></i></a>        
+              
+<a class="btn btn-sm btn-default" href="#" onclick="manageCamp(<?php echo $id; ?>, 'duplica',<?php echo $permission; ?>);"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone"></i></a>         
+              
+<a class="btn btn-sm btn-danger" href="#" onclick="manageCamp(<?php echo $id; ?>, 'elimina',<?php echo $permission; ?>,<?php echo $stato_elimina; ?>);"  data-placement="bottom" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></a>    
+                    
+                
+                </ul>
+
+            <?php
+        }
+ if($azione == 'modifica' || $azione == 'duplica' || $azione == 'new')  {
+?>  
+    <h2>Compilazione</h2>
+<?php
+ }     
+ ?>
+
+                   
+
+
 
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
+                      <!--<li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>-->
                     </ul>
+
                     <div class="clearfix"></div>
                    </div>  
-              <!--
-                    <div class="col text-center">
+              
+                    <!--<div class="col text-center">
                           <a  href="index.php?page=inserisciCampagna2" class="btn btn btn-xs btn-success"><i class="fa fa-plus-square"></i> Add Canale</a>
                           
                       </div>-->
@@ -204,15 +257,15 @@ $sender = $funzione->get_allTable('senders');
   <h4>Yay!</h4>
   <p>Everything seems to be ok :)</p>
 </div>   -->
-<?php print_r($_POST); ?>    
+<?php //print_r($_POST); ?>    
 <form id="form-campagna-ins"  data-parsley-validate="" class="form-horizontal form-label-left" enctype="multipart/form-data" action="<?php echo $back_url; ?>" method="post">  
                 <input type="hidden" name="azione" value="<?php echo $_POST['azione']; ?>">
                 <input type="hidden" name="user_id" id="user_id" value="<?php echo $page_protect->id; ?>"> 
                 <input type="hidden" name="id_upload" id="fileid" value="<?php echo $id_upload; ?>">  
-                <div  class="" role="tabpanel" data-example-id="togglable-tabs">
+                <div  id="myTab"  class="" role="tabpanel" data-example-id="togglable-tabs">
                        
-                      <ul  id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" class="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Campagna</a>
+                      <ul  class="nav nav-tabs bar_tabs" role="tablist">
+                        <li id="tabcampagna" role="presentation" class="active"><a href="#tab_content1" id="home-tab" class="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Campagna</a>
                         </li>
                         <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Criteri</a>
                         </li>
@@ -220,7 +273,7 @@ $sender = $funzione->get_allTable('senders');
                         </li>
                        <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Canale</a>
                         </li>
-                        <li role="presentation" class=""><a href="#" class="add-contact">+ Add Canale</a>
+                        <li id="add-contact" role="presentation" class=""><a href="#" class="add-contact">+ Add Canale</a>
                         </li>                       
 
                       </ul>
@@ -378,14 +431,16 @@ $('.add-contact').click(function (e) {
     e.preventDefault();
     var id = $(".nav-tabs").children().length; //think about it ;)
     var tab_name = 'Canale ' + (id-3);
+    var readonly_value = <?php if($readonly){echo 1;} else{echo 0;}?>
     //var tab_content = 'contact_' + id;
+    //limite canali aggiunti 5 + 5 tab di default
     if(id<10){
             $(this).closest('li').before('<li><a href="#contact_' + id + '">' + tab_name + ' </a><span style="cursor:pointer;position:absolute;right: 6px;top: 8px;color: red;">x</span></li>'); 
 
             $.ajax({
                 url: "addTabCanale.php",
                         method: "POST",
-                        data: {readonly: <?php if($readonly){echo 1;} else{echo 0;}?>, tab_id: id, campaign_id: <?php if(isset($azione)) echo $id; else {echo 0;}?>, disabled_value: <?php if(!empty($disabled_value)) echo $disabled_value; else {echo "''";}?> , modifica: <?php echo $modifica; ?>},
+                        data: {readonly: readonly_value, tab_id: id, campaign_id: <?php if(isset($azione)) echo $id; else {echo 0;}?>, disabled_value: <?php if(!empty($disabled_value)) echo $disabled_value; else {echo "''";}?> , azione: '<?php echo $azione; ?>'},
                         dataType:"html",    
                         success: function (data)
                         {
@@ -395,6 +450,9 @@ $('.add-contact').click(function (e) {
                         }
             }); 
 
+    }
+    else if(readonly_value){
+        alert(' Azione non consentita !!!')
     }
     else{
         alert('E\' stato raggiunto il limite massimo di canali per una campagna!!!')
@@ -407,7 +465,7 @@ $(document).ready(function() {
 
  <?php 
  //trigger ADD Canale 
- if (isset($azione) && ($azione=='duplica' || $azione=='modifica')) {
+ if (isset($azione) && ($azione=='duplica' || $azione=='modifica' || $azione=='open')) {
 
     if(isset(json_decode($id_campaign['addcanale'],true)[1])){
         $addcanale = json_decode($id_campaign['addcanale'],true);
@@ -415,10 +473,18 @@ $(document).ready(function() {
         for($i=1;  $i<count($addcanale); $i++){?>
         //foreach($addcanale as $canale){?>
                 $('.add-contact').trigger("click");
+                //$('.nav-tabs a:last').tab('hide')
+                //$('[href="#ta_content1"]').tab('show');
                 $('#myTab a:first').tab('show');
         <?php    
         } 
         ?>
+    
+        $('#myTab li a:first').tab('show');
+        //$('#tab_content1').trigger("click");
+        // Select first tab
+        //$('.nav-tabs a:first').tab('show')
+        //$('.nav-tabs li:nth-child(0) a').trigger("click");
 
             
         <?php
@@ -434,8 +500,11 @@ $(document).ready(function() {
     //$('.tab_content1').trigger("click");
      
     //sistemo il tab attivo
-    //$('ul.mytab').tab();
-    //$( "#myTab").tab( "option", "active", 1);
+        $('#myTab li a:first').tab('show');
+        //$('.nav-tabs li:nth-child(1) a').click();
+        //$("#home-tab").tab('show');
+        //$('ul.mytab').tab();
+        //$( "#myTab").tab( "option", "active", 1);
 
 
 $('#mod_invio').select2({
@@ -443,7 +512,7 @@ $('#mod_invio').select2({
         });    
     
 $('#mod_invio').on('select2:select', function () {
-    const selected_modsms = $('#mod_invio').val();
+    const selected_modsms = $('#mod_invio').val();    
     
     if(selected_modsms === 'Interattivo'){
            $("#spanLabelLinkTesto").fadeOut();
@@ -476,68 +545,68 @@ $('#mod_invio').on('select2:select', function () {
             $('#day6').hide();
             $('#day7').hide();   
      }        
-    else if(value === '1'){
-            $('#day1').show();
-            $('#day2').hide();
-            $('#day3').hide();
-            $('#day4').hide();
-            $('#day5').hide();
-            $('#day6').hide();
-            $('#day7').hide();  
-        
-    }else if(value === '2'){
-            $('#day1').show();
-            $('#day2').show();
-            $('#day3').hide();
-            $('#day4').hide();
-            $('#day5').hide();
-            $('#day6').hide();
-            $('#day7').hide();  
-    }else if(value === '3'){
-            $('#day1').show();
-            $('#day2').show();
-            $('#day3').show();
-            $('#day4').hide();
-            $('#day5').hide();
-            $('#day6').hide();
-            $('#day7').hide();
-    }
-    else if(value === '4'){
-            $('#day1').show();
-            $('#day2').show();
-            $('#day3').show();
-            $('#day4').show();
-            $('#day5').hide();
-            $('#day6').hide();
-            $('#day7').hide();
-    }
-        else if(value === '5'){
-            $('#day1').show();
-            $('#day2').show();
-            $('#day3').show();
-            $('#day4').show();
-            $('#day5').show();
-            $('#day6').hide();
-            $('#day7').hide();
-    }
-            else if(value === '6'){
-            $('#day1').show();
-            $('#day2').show();
-            $('#day3').show();
-            $('#day4').show();
-            $('#day5').show();
-            $('#day6').show();
-            $('#day7').hide();
-    }
-    else if(value === '7'){
-            $('#day1').show();
-            $('#day2').show();
-            $('#day3').show();
-            $('#day4').show();
-            $('#day5').show();
-            $('#day6').show();
-            $('#day7').show();
-    }
+            else if(value === '1'){
+                    $('#day1').show();
+                    $('#day2').hide();
+                    $('#day3').hide();
+                    $('#day4').hide();
+                    $('#day5').hide();
+                    $('#day6').hide();
+                    $('#day7').hide();  
+                
+            }else if(value === '2'){
+                    $('#day1').show();
+                    $('#day2').show();
+                    $('#day3').hide();
+                    $('#day4').hide();
+                    $('#day5').hide();
+                    $('#day6').hide();
+                    $('#day7').hide();  
+            }else if(value === '3'){
+                    $('#day1').show();
+                    $('#day2').show();
+                    $('#day3').show();
+                    $('#day4').hide();
+                    $('#day5').hide();
+                    $('#day6').hide();
+                    $('#day7').hide();
+            }
+            else if(value === '4'){
+                    $('#day1').show();
+                    $('#day2').show();
+                    $('#day3').show();
+                    $('#day4').show();
+                    $('#day5').hide();
+                    $('#day6').hide();
+                    $('#day7').hide();
+            }
+                else if(value === '5'){
+                    $('#day1').show();
+                    $('#day2').show();
+                    $('#day3').show();
+                    $('#day4').show();
+                    $('#day5').show();
+                    $('#day6').hide();
+                    $('#day7').hide();
+            }
+                    else if(value === '6'){
+                    $('#day1').show();
+                    $('#day2').show();
+                    $('#day3').show();
+                    $('#day4').show();
+                    $('#day5').show();
+                    $('#day6').show();
+                    $('#day7').hide();
+            }
+            else if(value === '7'){
+                    $('#day1').show();
+                    $('#day2').show();
+                    $('#day3').show();
+                    $('#day4').show();
+                    $('#day5').show();
+                    $('#day6').show();
+                    $('#day7').show();
+            }
 }
 
 
@@ -1040,7 +1109,7 @@ $(function () {
   $('#form-campagna-ins').parsley().on('field:validated', function() {
     var ok = $('.parsley-error').length === 0;
     
-    console.log('ok form  '+ok);
+    console.log('ok form  '+ JSON.stringify('.parsley-error'));
     console.log('parsley-error  '+$('.parsley-error').length);
     $('.bs-callout-info').toggleClass('hidden', !ok);
     $('.bs-callout-warning').toggleClass('hidden', ok);

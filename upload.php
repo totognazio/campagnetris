@@ -30,7 +30,7 @@
       
       $file_name = $file_basename;
 
-      $extensions= array("xlsx","txt","xls","xlsm");
+      $extensions= array("xlsx","txt","xls","xlsm", "doc", "docx");
       
       if(in_array($file_ext,$extensions)=== false){
          $errors[]="extension not allowed!!!";
