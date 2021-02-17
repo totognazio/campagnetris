@@ -118,7 +118,7 @@ else {
                             
 $string = '<div role="tabpanel" class="tab-pane fade" id="' . $tab_content . '" aria-labelledby="profile-tab">';         
 
-$string .='<br/><input type="hidden" id="tab_id" name="'.$id_canale.'_addcanale" value="'.$id_canale.'" >
+$string .='<br/><input type="hidden" name="'.$id_canale.'_addcanale" value="'.$id_canale.'" >
                 <input type="hidden" name="addcanale['.$id_canale.'][canale]" value="'.$id_canale.'" >            
                 <div class="col-md-9 col-sm-6 col-xs-12">
                     <div class="form-group">
@@ -171,7 +171,7 @@ $string .='<span id="sms_field'.$id_canale.'" '.$display_sms.' data-parsley-chec
                           </select>
               <label style="margin-top:20px" for="message">Testo SMS </label>
               <textarea id="testo_sms'.$id_canale.'" ';
-            $string .= ' '.$disabled_value.' '.$required_sms.' class="form-control" name="addcanale['.$id_canale.'][testo_sms]" data-parsley-pattern="/^[a-zA-Z0-9-#/()%&\[\]{}!,.?£$@$\' ]+$/gi" data-parsley-pattern-message="Caratteri come \'€\' \' ’ \' ed altri caratteri speciali non sono accettati come testo SMS !!"onkeyup="checklength(0, 640, \'testo_sms\', \'charTesto\', \'numero_sms\')" >';
+            $string .= ' '.$disabled_value.' '.$required_sms.' class="form-control" name="addcanale['.$id_canale.'][testo_sms]" rows="8" data-parsley-pattern="/^[a-zA-Z0-9-#/()%&\[\]{}!,.?£$@$\' ]+$/gi" data-parsley-pattern-message="Caratteri come \'€\' \' ’ \' ed altri caratteri speciali non sono accettati come testo SMS !!"onkeyup="checklength(0, 640, \'testo_sms\', \'charTesto\', \'numero_sms\')" >';
             if($modifica and isset($addcanale_stored['testo_sms'])){$string .= $addcanale_stored['testo_sms'];}else{$string .= ' ';}
             $string .='</textarea>  
               <label style="width:100%;"><small>Numeri caratteri utilizzati</small><input type="text" name="charTesto" id="charTesto'.$id_canale.'" value="" class="text" value="" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>
@@ -179,19 +179,17 @@ $string .='<span id="sms_field'.$id_canale.'" '.$display_sms.' data-parsley-chec
                      
      
                           <label>Modalità Invio  <span class="required">*</span></label>                       
-                            <select id="mod_invio'.$id_canale.'" name="addcanale['.$id_canale.'][mod_invio]" class="select2_single form-control" style="width:100%" '.$required_sms.' '.$disabled_value.'>      
-                                <option value=""></option>
-                                <option value="Interattivo"';
-                                if($modifica and isset($addcanale_stored['mod_invio']) and $addcanale_stored['mod_invio']=='Interattivo'){ $string .= ' selected ';} 
-                                $string .='>Interattivo</option>
-                                <option ';
+                            <select id="mod_invio'.$id_canale.'" name="addcanale['.$id_canale.'][mod_invio]" class="select2_single form-control" style="width:100%" '.$required_sms.' '.$disabled_value.'>
+                            <option';    
                                 if($modifica and isset($addcanale_stored['mod_invio']) and $addcanale_stored['mod_invio']=='Standard'){$string .= ' selected';}
                                 $string .=' value="Standard">Standard</option>
                                 <option ';
                                 if($modifica and isset($addcanale_stored['mod_invio']) and $addcanale_stored['mod_invio']=='MST'){$string .= ' selected';}
                                 $string .=' value="MST">MST</option>
-
-                          </select>';
+                                <option value="Interattivo"';
+                                if($modifica and isset($addcanale_stored['mod_invio']) and $addcanale_stored['mod_invio']=='Interattivo'){ $string .= ' selected ';} 
+                                $string .='>Interattivo</option>                                 
+                            </select>';
                         if($modifica and isset($addcanale_stored['mod_invio']) and $addcanale_stored['mod_invio']=='Interattivo'){
                         $string .='  
                             <script> 
@@ -227,20 +225,6 @@ $string .='<span id="sms_field'.$id_canale.'" '.$display_sms.' data-parsley-chec
                                     <label style="width:100%;"><small>Numero</small><input type="text" name="charLink" id="charLink'.$id_canale.'" class="text" readonly="readonly"  size="3" value="255" placeholder="max 255"onfocus="this.blur()" /></label>   
                                     <label style="width:100%;"><small>Totale (SMS+Link)</small><input type="text" name="numero_totale" id="numero_totale'.$id_canale.'" value="" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>                  
                                 
-                                <br>
-                            <label style="margin-top:20px">Tipo Monitoring  <span class="required">*</span></label>               
-                                    <select id="tipoMonitoring'.$id_canale.'" name="addcanale['.$id_canale.'][tipoMonitoring]" class="select2_single form-control" style="width:100%"  '.$disabled_value.'>      
-                                        <option value=""></option>
-                                        <option ';
-                                        if($modifica and isset($addcanale_stored['tipoMonitoring']) and $addcanale_stored['tipoMonitoring']=='1'){$string .=  ' selected';}
-                                        $string .= 'value="1">ADV Tracking tool</option>
-                                        <option ';
-                                        if($modifica and isset($addcanale_stored['tipoMonitoring']) and $addcanale_stored['tipoMonitoring']=='2'){$string .=  ' selected';}
-                                        $string .= ' value="2">Orphan page</option>
-                                        <option ';
-                                        if($modifica and isset($addcanale_stored['tipoMonitoring']) and $addcanale_stored['tipoMonitoring']=='3'){$string .=  ' selected';}
-                                        $string .= ' value="3">No monitoring</option>
-                                </select>
                         </span>  
                        <label style="margin-top:20px">Validità SMS  <span class="required">*</span></label>
                           <input type="number" id="sms_duration'.$id_canale.'" name="sms_duration"  class="form-control col-md-7 col-xs-12" min="1" max="7" data-parsley-trigger="keyup" value="';

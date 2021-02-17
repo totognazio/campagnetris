@@ -262,9 +262,9 @@ $sender = $funzione->get_allTable('senders');
                 <input type="hidden" name="azione" value="<?php echo $_POST['azione']; ?>">
                 <input type="hidden" name="user_id" id="user_id" value="<?php echo $page_protect->id; ?>"> 
                 <input type="hidden" name="id_upload" id="fileid" value="<?php echo $id_upload; ?>">  
-                <div  id="myTab"  class="" role="tabpanel" data-example-id="togglable-tabs">
+                <div  id="myTab" class="" role="tabpanel" data-example-id="togglable-tabs">
                        
-                      <ul  class="nav nav-tabs bar_tabs" role="tablist">
+                      <ul  id="myTab-ul" class="nav nav-tabs bar_tabs" role="tablist">
                         <li id="tabcampagna" role="presentation" class="active"><a href="#tab_content1" id="home-tab" class="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Campagna</a>
                         </li>
                         <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Criteri</a>
@@ -410,7 +410,6 @@ function checklengthTotal(input, char) {
     //alert('eccolo test ' + totale);
 }
 
-
 //Tab canale controller
 $(".nav-tabs").on("click", "a", function (e) {
         e.preventDefault();
@@ -425,14 +424,13 @@ $(".nav-tabs").on("click", "a", function (e) {
         $(".nav-tabs li").children('a').first().click();
     });
 
-
-
+//creazione nuovo Tab addcanale    
 $('.add-contact').click(function (e) {
     e.preventDefault();
     var id = $(".nav-tabs").children().length; //think about it ;)
     var tab_name = 'Canale ' + (id-3);
     var readonly_value = <?php if($readonly){echo 1;} else{echo 0;}?>
-    //var tab_content = 'contact_' + id;
+    
     //limite canali aggiunti 5 + 5 tab di default
     if(id<10){
             $(this).closest('li').before('<li><a href="#contact_' + id + '">' + tab_name + ' </a><span style="cursor:pointer;position:absolute;right: 6px;top: 8px;color: red;">x</span></li>'); 
@@ -444,68 +442,48 @@ $('.add-contact').click(function (e) {
                         dataType:"html",    
                         success: function (data)
                         {
-                            console.log('eccoli data' + JSON.stringify(data));
+                            //console.log('eccoli data' + JSON.stringify(data));
                             $('.tab-content').append(data);   
                             $('.nav-tabs li:nth-child(' + id + ') a').click();
                         }
             }); 
-
     }
     else if(readonly_value){
         alert(' Azione non consentita !!!')
     }
     else{
         alert('E\' stato raggiunto il limite massimo di canali per una campagna!!!')
-    }
- 
-    
+    }  
 });
 
-$(document).ready(function() {  
 
- <?php 
- //trigger ADD Canale 
+
+
+
+
+
+$(document).ready(function() {  
+<?php 
+ 
  if (isset($azione) && ($azione=='duplica' || $azione=='modifica' || $azione=='open')) {
 
     if(isset(json_decode($id_campaign['addcanale'],true)[1])){
         $addcanale = json_decode($id_campaign['addcanale'],true);
 
         for($i=1;  $i<count($addcanale); $i++){?>
-        //foreach($addcanale as $canale){?>
                 $('.add-contact').trigger("click");
-                //$('.nav-tabs a:last').tab('hide')
-                //$('[href="#ta_content1"]').tab('show');
-                $('#myTab a:first').tab('show');
-        <?php    
+                $('#myTab-ul a:first').trigger("click");
+            <?php    
         } 
-        ?>
+    } ?>
     
-        $('#myTab li a:first').tab('show');
-        //$('#tab_content1').trigger("click");
-        // Select first tab
-        //$('.nav-tabs a:first').tab('show')
-        //$('.nav-tabs li:nth-child(0) a').trigger("click");
-
-            
-        <?php
-    }  
- }
+    $('#myTab-ul a:first').tab('show'); 
+    $('#myTab-ul a:first').trigger("click");
+    
+    <?php
+    }
 
  ?>
-         
-    //$('.nav-tabs a[href="#tab_content1"]').tab('show');
-    //$('.myTab li:eq(0) a').tab('show');
-    //$("#tab_content1").tab('hide');   
-    //$("#tab_content1").tab('show'); 
-    //$('.tab_content1').trigger("click");
-     
-    //sistemo il tab attivo
-        $('#myTab li a:first').tab('show');
-        //$('.nav-tabs li:nth-child(1) a').click();
-        //$("#home-tab").tab('show');
-        //$('ul.mytab').tab();
-        //$( "#myTab").tab( "option", "active", 1);
-
 
 $('#mod_invio').select2({
           placeholder: "Select Modalità SMS"

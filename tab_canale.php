@@ -104,7 +104,7 @@
         </div>   
 
         <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo Leva  <span class="required">*</span></label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo Leva </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <?php 
                 $select_monoleva = '';
@@ -117,7 +117,7 @@
                 }
                 if($modifica and $id_campaign['tipo_leva']=='multi'){$select_multileva = ' selected';$display_multi='';}                
                 ?>
-                <select  id="idlevaselect" name="tipo_leva" class="select2_single form-control" required="required" onchange="levaselect()"  <?php echo $disabled_value;?>>        
+                <select  id="idlevaselect" name="tipo_leva" class="select2_single form-control"  onchange="levaselect()"  <?php echo $disabled_value;?>>        
                     <option value=""></option>
                     <option <?php echo $select_monoleva; ?> value="mono">MonoLeva</option>
                     <option <?php echo $select_multileva; ?> value="multi" >MultiLeva</option>
@@ -206,7 +206,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12">Escludi Sa/Dom<span class="required">*</span></label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Escludi Sab/Dom<span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
                
                 <select <?php echo $disabled_value;?> id="escludi_sab_dom" name="escludi_sab_dom"  class="select2_single form-control"  style="width: 100%"   required="required">        
@@ -344,31 +344,31 @@
           
             
               <label style="margin-top:20px" for="message">Testo SMS<span class="required">*</span></label>
-              <textarea id="testo_sms" <?php echo $disabled_value; ?><?php echo $required_sms; ?> class="form-control" name="addcanale[0][testo_sms]" 	data-parsley-pattern="/^[a-zA-Z0-9-#/()%&\[\]{}!,.?£$@$' ]+$/gi" data-parsley-pattern-message="Caratteri come '€' ' ’ ' ed altri caratteri speciali non sono accettati come testo SMS !!" onkeyup="checklength(0, 640, 'testo_sms', 'charTesto', 'numero_sms')" ><?php if($modifica){echo $canale['testo_sms'];}else{echo'';}?></textarea>  
+              <textarea id="testo_sms" <?php echo $disabled_value; ?><?php echo $required_sms; ?> class="form-control" name="addcanale[0][testo_sms]" rows="8"	data-parsley-pattern="/^[a-zA-Z0-9-#/()%&\[\]{}!,.?£$@$' ]+$/gi" data-parsley-pattern-message="Caratteri come '€' ' ’ ' ed altri caratteri speciali non sono accettati come testo SMS !!" onkeyup="checklength(0, 640, 'testo_sms', 'charTesto', 'numero_sms')" ><?php if($modifica){echo $canale['testo_sms'];}else{echo'';}?></textarea>  
               <label style="width:100%;"><small>Numeri caratteri utilizzati</small><input type="text" name="addcanale[0][charTesto]" id="charTesto" value="" class="text" value="" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>
               <label style="width:100%;"><small>Numero SMS</small><input type="text" name="addcanale[0][numero_sms]" id="numero_sms" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>                  
                      
      
                           <label>Modalità Invio  <span class="required">*</span></label>                       
                             <select id="mod_invio" name="addcanale[0][mod_invio]" class="select2_single form-control" style="width:100%" <?php echo $required_sms; ?> <?php echo $disabled_value;?>>      
-                                <option value=""></option>
-                                <option value="Interattivo" <?php if($modifica and $canale['mod_invio']=='Interattivo'){ echo ' selected ';} ?>>Interattivo</option>
                                 <option value="Standard" <?php if($modifica and $canale['mod_invio']=='Standard'){echo ' selected';} ?>>Standard</option>
                                 <option value="MST" <?php if($modifica and $canale['mod_invio']=='MST'){echo ' selected ';} ?>>MST</option>
+                                <option value="Interattivo" <?php if($modifica and $canale['mod_invio']=='Interattivo'){ echo ' selected ';} ?>>Interattivo</option>
+                                
 
                           </select>
                         <?php if($modifica and $canale['mod_invio']=='Interattivo'){ ?>
                             <script> 
                                 $('#spanLabelLinkTesto').show();                                
                                 $('#link').attr('required', true);
-                                $('#tipoMonitoring').attr('required', true);                                                                
+                                //$('#tipoMonitoring').attr('required', true);                                                                
                             </script>
                         <?php } 
                          else { ?>
                             <script> 
                                 $('#spanLabelLinkTesto').hide();            
                                 $('#link').attr('required', false);
-                                $('#tipoMonitoring').attr('required', false);                                                                 
+                                //$('#tipoMonitoring').attr('required', false);                                                                 
                             </script>
                         <?php } ?>  
                         <span id="spanLabelLinkTesto" style="display: none;">
@@ -390,14 +390,13 @@
                             <label style="width:100%;"><small>Totale (SMS+Link)</small><input type="text" name="addcanale[0][numero_totale]" id="numero_totale" value="" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>                  
                           
                           <br>
-                       <label style="margin-top:20px">Tipo Monitoring  <span class="required">*</span></label>
-                        <?php #print_r($stacks); ?>                       
-                            <select id="tipoMonitoring" name="addcanale[0][tipoMonitoring]" class="select2_single form-control" style="width:100%"  <?php echo $disabled_value; ?>>      
+                       <!--<label style="margin-top:20px">Tipo Monitoring  <span class="required">*</span></label>                                    
+                            <select id="tipoMonitoring" name="addcanale[0][tipoMonitoring]" class="select2_single form-control" style="width:100%"  <?php //echo $disabled_value; ?>>      
                                 <option value=""></option>
-                                <option <?php if($modifica and $canale['tipoMonitoring']=='1'){echo ' selected';}?> value="1">ADV Tracking tool</option>
-                                <option <?php if($modifica and $canale['tipoMonitoring']=='2'){echo ' selected';}?> value="2">Orphan page</option>
-                                <option <?php if($modifica and $canale['tipoMonitoring']=='3'){echo ' selected';}?> value="3">No monitoring</option>
-                          </select>
+                                <option <?php //if($modifica and $canale['tipoMonitoring']=='1'){echo ' selected';}?> value="1">ADV Tracking tool</option>
+                                <option <?php //if($modifica and $canale['tipoMonitoring']=='2'){echo ' selected';}?> value="2">Orphan page</option>
+                                <option <?php //if($modifica and $canale['tipoMonitoring']=='3'){echo ' selected';}?> value="3">No monitoring</option>
+                          </select>-->
                       </span>     
                        <label style="margin-top:20px">Validità SMS  <span class="required">*</span></label>
                           <input type="number" id="sms_duration" name="addcanale[0][sms_duration]"  class="form-control col-md-7 col-xs-12" placeholder="numerico min 1 a max 7" min="1" max="7" data-parsley-trigger="keyup" value="<?php if($modifica){echo $canale['sms_duration'];}else{echo'2';}?>" <?php echo $required_sms; ?> <?php echo $disabled_value; ?>>
@@ -488,12 +487,11 @@
         <div class="col-md-4 col-sm-6 col-xs-12">      
                 <label  class="control-label">Giorni di Validità</label>
                 <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_icm" name="addcanale[0][day_val_icm]"  min="1" max="31" <?php echo $required_icm; ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['day_val_icm'])){echo $canale['day_val_icm']; }?>">
-                <br><br>                             
+                                            
         </div>
-        <div  class="col-md-6 col-sm-6 col-xs-12" >
+        <div  class="col-md-4 col-sm-6 col-xs-12" >
                 <label class="control-label">Call Guide (4000 chars max)</label>
-                <textarea id="callguide_icm" name="addcanale[0][callguide_icm]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" <?php echo $required_icm; ?> <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica){echo stripslashes($canale['callguide_icm']); }?></textarea>
-                    
+                <textarea id="callguide_icm" name="addcanale[0][callguide_icm]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" <?php echo $required_icm; ?> <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica){echo stripslashes($canale['callguide_icm']); }?></textarea>                    
         </div>
     </span>
     <span id="span_ivr_inbound" <?php echo $display_ivr_inbound; ?>>
@@ -757,7 +755,7 @@ var myDropzoneCanale = new Dropzone(
         $('#testo_sms').attr('required', false);
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
-        $('#tipoMonitoring').attr('required', false);
+        //$('#tipoMonitoring').attr('required', false);
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
@@ -898,7 +896,7 @@ var myDropzoneCanale = new Dropzone(
         $('#testo_sms').attr('required', false);
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
-        $('#tipoMonitoring').attr('required', false);
+        //$('#tipoMonitoring').attr('required', false);
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', true);
@@ -975,7 +973,7 @@ var myDropzoneCanale = new Dropzone(
         $('#testo_sms').attr('required', false);
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
-        $('#tipoMonitoring').attr('required', false);
+        //$('#tipoMonitoring').attr('required', false);
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
@@ -1035,7 +1033,7 @@ var myDropzoneCanale = new Dropzone(
         $('#testo_sms').attr('required', false);
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
-        $('#tipoMonitoring').attr('required', false);
+        //$('#tipoMonitoring').attr('required', false);
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
@@ -1096,7 +1094,7 @@ var myDropzoneCanale = new Dropzone(
         $('#testo_sms').attr('required', false);
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
-        $('#tipoMonitoring').attr('required', false);
+        //$('#tipoMonitoring').attr('required', false);
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
@@ -1157,7 +1155,7 @@ var myDropzoneCanale = new Dropzone(
         $('#testo_sms').attr('required', false);
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
-        $('#tipoMonitoring').attr('required', false);
+        //$('#tipoMonitoring').attr('required', false);
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
@@ -1218,7 +1216,7 @@ var myDropzoneCanale = new Dropzone(
         $('#testo_sms').attr('required', false);
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
-        $('#tipoMonitoring').attr('required', false);
+        //$('#tipoMonitoring').attr('required', false);
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
@@ -1279,7 +1277,7 @@ var myDropzoneCanale = new Dropzone(
         $('#testo_sms').attr('required', false);
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
-        $('#tipoMonitoring').attr('required', false);
+        //$('#tipoMonitoring').attr('required', false);
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
@@ -1340,7 +1338,7 @@ var myDropzoneCanale = new Dropzone(
         $('#testo_sms').attr('required', false);
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
-        $('#tipoMonitoring').attr('required', false);
+        //$('#tipoMonitoring').attr('required', false);
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
@@ -1401,7 +1399,7 @@ var myDropzoneCanale = new Dropzone(
         $('#testo_sms').attr('required', false);
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
-        $('#tipoMonitoring').attr('required', false);
+        //$('#tipoMonitoring').attr('required', false);
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
@@ -1462,7 +1460,7 @@ var myDropzoneCanale = new Dropzone(
         $('#testo_sms').attr('required', false);
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
-        $('#tipoMonitoring').attr('required', false);
+        //$('#tipoMonitoring').attr('required', false);
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
@@ -1523,7 +1521,7 @@ var myDropzoneCanale = new Dropzone(
         $('#testo_sms').attr('required', false);
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
-        $('#tipoMonitoring').attr('required', false);
+        //$('#tipoMonitoring').attr('required', false);
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
@@ -1584,7 +1582,7 @@ var myDropzoneCanale = new Dropzone(
         $('#testo_sms').attr('required', false);
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
-        $('#tipoMonitoring').attr('required', false);
+        //$('#tipoMonitoring').attr('required', false);
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
@@ -1645,7 +1643,7 @@ var myDropzoneCanale = new Dropzone(
         $('#testo_sms').attr('required', false);
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
-        $('#tipoMonitoring').attr('required', false);
+        //$('#tipoMonitoring').attr('required', false);
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);

@@ -12,7 +12,7 @@ if(isset($_POST['datatable'])){
     $datatable = $_POST['datatable'];
 } 
 else{
-    print_r($_POST);
+    //print_r($_POST);
     exit('ERROR DATATABLE ABSENT!!!');
 }   
 

@@ -234,7 +234,7 @@ if ($page_protect->get_job_role() >= 2) {
                                 if ($readonly){
                                 echo $disabled_value;}
                                 ?> 
-                       value="1" class="flat" /> Trasferimento dati a terzi (solo Tre TBC)
+                       value="1" class="flat" /> Trasferimento dati a terzi (Tre)
                 <br />
                 
             </p>     
@@ -276,15 +276,15 @@ if ($page_protect->get_job_role() >= 2) {
                                 if ($readonly){
                                 echo $disabled_value;}
                                 ?> 
-                       value="1" class="flat" /> Fissso
+                       value="1" class="flat" /> Fisso
                 <br />
                 <div id="checkbox-errors2"></div>
             </p>     
         </div>
         <div class="col-md-2 col-sm-6 col-xs-12">
-            <label>Frodatori </label><span class="required">*</span>
+            <label>Frodatori </label><span class="required"></span>
             <p style="padding: 5px;">
-                <input type="checkbox" name="no_frodi" id="no_frodi" data-parsley-multiple="frodatori" required data-parsley-errors-container="#checkbox-errors1" 
+                <input type="checkbox" name="no_frodi" id="no_frodi" 
                                                                   <?php
                                 if ($modifica) {
                                     if ($id_campaign['no_frodi'] == 1){
@@ -294,10 +294,10 @@ if ($page_protect->get_job_role() >= 2) {
                                 if ($readonly){
                                 echo $disabled_value;}
                                 ?> 
-                       value="1" data-parsley-mincheck="1" required class="flat" /> No Frodi
+                       value="1"  class="flat" /> No Frodi
                 <br />
 
-                <input type="checkbox" name="altri_filtri" id="altri_filtri" data-parsley-multiple="frodatori" 
+                <input type="checkbox" name="altri_filtri" id="altri_filtri"  
                       <?php
                                 if ($modifica) {
                                     if ($id_campaign['altri_filtri'] == 1){
@@ -307,7 +307,7 @@ if ($page_protect->get_job_role() >= 2) {
                                 if ($readonly){
                                 echo $disabled_value;}
                                 ?> 
-                       value="1" class="flat" /> Altri Filtri
+                       value="1" class="flat" /> No Collection
                        
                 <br />
 
@@ -326,13 +326,23 @@ if ($page_protect->get_job_role() >= 2) {
                             if ($modifica){$segment_id = $id_campaign['segment_id'];}
                             else {$segment_id = 0;}                            
                             foreach ($segments as $key => $value) {                                
-                                echo' <input type="radio" name="segment_id" id="'.$key.'" value="'.$key.'" data-parsley-multiple="segmento" '.$require_first.'  class="flat" ';
+                                echo' <input type="radio" name="segment_id" id="ch_'.$key.'" value="'.$key.'" data-parsley-multiple="segmento" '.$require_first.'  class="flat" ';
                                 if ($readonly) {echo $disabled_value;}
                                 if ($segment_id == $key){echo " checked=\"checked\" ";}                                
                                 echo'/> '.ucwords(strtolower($value));
                                 echo'<br/>';
                                 $require_first = '';  
                             }
+                            echo'<br/>';
+                            if (!$readonly) {
+                                echo'<input id="clear-button" type="button"  name="reset" value="reset" onClick="reset_button();">';
+                                 echo '<script>function reset_button() {';
+                                foreach ($segments as $key => $value) {   
+                                     echo '$("#ch_'.$key.'").iCheck(\'uncheck\');'; 
+                                }
+                                echo '}</script>';
+
+                            }       
                                                        
               ?>  
 
@@ -355,7 +365,7 @@ if ($page_protect->get_job_role() >= 2) {
 
                     <div class="col-md-3 col-sm-6 col-xs-12">
                         <label>Indicatore Dinamico <span class="required">*</span>
-                        <img id="infoInd" title="bla bla bla on verr&agrave; effettuata la campagna." alt="Control Group" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
+                        <!--<img id="infoInd" title="bla bla bla on verr&agrave; effettuata la campagna." alt="Control Group" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>-->
                         </label>
                                         <?php
                                         $value_0_selected = "";

@@ -266,8 +266,8 @@
       // allowClear: true
     });
     $('#cat_sott_ins').select2({
-      placeholder: "Select"
-      // allowClear: true
+      placeholder: "Select",
+      allowClear: true
     });
     $('#cat_sott_ins').on('select2:select', function() {
       var selected_stacks = $('#cat_sott_ins').val();
@@ -279,8 +279,8 @@
 
 
     $('#tit_sott_ins').select2({
-      placeholder: "Select"
-      // allowClear: true
+      placeholder: "Select",
+      allowClear: true
     });
     $('#tit_sott_ins').on('select2:select', function() {
       var selected_stacks = $('#tit_sott_ins').val();
@@ -508,16 +508,8 @@
             }
           
           ],
-            language: {
-                thousands: "."
-              },
-              formatNumber: function ( toFormat ) {
-                return toFormat.toString().replace(
-                  /\B(?=(\d{3})+(?!\d))/g, "."
-                );
-              },
               //ordering: true,
-              columnDefs: [
+            columnDefs: [
                 { 
                   orderable: false,     
                   targets: 0,
@@ -530,13 +522,8 @@
                   orderable: false,
                   visible: false,
               },
-                            {      
-                  targets: 1,
-                  searchable: true,
-                  //width: 95,
-                  orderable: true,
-              },
-                            {      
+ 
+              {      
                   targets: 2,
                   searchable: true,
                   //width: 95,
@@ -551,7 +538,7 @@
                             {      
                   targets: 4,
                   searchable: true,
-                  //width: 95,
+                  width: 95,
                   orderable: true,
               },
               {      
@@ -570,13 +557,13 @@
                   targets: 7,
                   searchable: true,
                   //width: 95,
-                  orderable: true,
+                  orderable: false,
               },
                             {      
                   targets: 8,
                   searchable: true,
                   //width: 95,
-                  orderable: true,
+                  orderable: false,
               },
                             {      
                   targets: 9,
@@ -628,7 +615,10 @@
           if(datatable_name==='pianificazione' && tot_rows>0){
             tot_rows = parseInt(table_pianificazione.rows().count()-1);
           }
-          document.getElementById('conteggio_righe').textContent = '   filtrate n°' + tot_rows + '';
+          if(document.getElementById('conteggio_righe')){
+             document.getElementById('conteggio_righe').textContent = '   filtrate n°' + tot_rows + '';
+          }
+          
 
           $('.loader').hide();
         },

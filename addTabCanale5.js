@@ -1,4 +1,4 @@
-const id_tab = document.getElementById('tab_id').value;
+//const id_tab = document.getElementById('tab_id').value;
 
 //alert('canala id add ' + id_tab);
 
@@ -26,12 +26,12 @@ $( '#mod_invio5').on( 'select2:select ', function () {
            $("#spanLabelLinkTesto5").fadeOut();
            $("#spanLabelLinkTesto5").fadeIn();  
       $('#link5').attr('required', true);  
-      $('#tipoMonitoring5').attr('required', true);  
+      //$('#tipoMonitoring5').attr('required', true);  
     }
     else {
        $("#spanLabelLinkTesto5").fadeOut(); 
       $('#link5').attr('required', false);
-      $('#tipoMonitoring5').attr('required', false);  
+      //$('#tipoMonitoring5').attr('required', false);  
     }
     console.log( 'selected_modsms5  '+ selected_modsms5);   
     });
@@ -75,7 +75,7 @@ $( '#mod_invio5').on( 'select2:select ', function () {
         $( '#testo_sms5').attr( 'required', false);
         $( '#mod_invio5').attr( 'required', false);
         $( '#link5').attr( 'required', false);
-        $( '#tipoMonitoring5').attr( 'required', false);
+        //$('#tipoMonitoring5').attr( 'required', false);
         $( '#sms_duration5').attr( 'required', false);
         //pos
         $( '#cat_sott_ins5').attr( 'required', false);
@@ -138,7 +138,7 @@ $( '#mod_invio5').on( 'select2:select ', function () {
         $( '#testo_sms5').attr( 'required', true);
         $( '#mod_invio5').attr( 'required', true);
         //$( '#link5').attr( 'required', true);
-        //$( '#tipoMonitoring5').attr( 'required', true);
+        ////$('#tipoMonitoring5').attr( 'required', true);
         $( '#sms_duration5').attr( 'required', true);
         //pos
         $( '#cat_sott_ins5').attr( 'required', false);
@@ -218,7 +218,7 @@ $( '#mod_invio5').on( 'select2:select ', function () {
         $( '#testo_sms5').attr( 'required', false);
         $( '#mod_invio5').attr( 'required', false);
         $( '#link5').attr( 'required', false);
-        $( '#tipoMonitoring5').attr( 'required', false);
+        //$('#tipoMonitoring5').attr( 'required', false);
         $( '#sms_duration5').attr( 'required', false);
         //pos
         $( '#cat_sott_ins5').attr( 'required', true);
@@ -296,7 +296,7 @@ $( '#mod_invio5').on( 'select2:select ', function () {
         $( '#testo_sms5').attr( 'required', false);
         $( '#mod_invio5').attr( 'required', false);
         $( '#link5').attr( 'required', false);
-        $( '#tipoMonitoring5').attr( 'required', false);
+        //$('#tipoMonitoring5').attr( 'required', false);
         $( '#sms_duration5').attr( 'required', false);
         //pos
         $( '#cat_sott_ins5').attr( 'required', false);
@@ -357,7 +357,7 @@ $( '#mod_invio5').on( 'select2:select ', function () {
         $( '#testo_sms5').attr( 'required', false);
         $( '#mod_invio5').attr( 'required', false);
         $( '#link5').attr( 'required', false);
-        $( '#tipoMonitoring5').attr( 'required', false);
+        //$('#tipoMonitoring5').attr( 'required', false);
         $( '#sms_duration5').attr( 'required', false);
         //pos
         $( '#cat_sott_ins5').attr( 'required', false);
@@ -418,7 +418,7 @@ $( '#mod_invio5').on( 'select2:select ', function () {
         $( '#testo_sms5').attr( 'required', false);
         $( '#mod_invio5').attr( 'required', false);
         $( '#link5').attr( 'required', false);
-        $( '#tipoMonitoring5').attr( 'required', false);
+        //$('#tipoMonitoring5').attr( 'required', false);
         $( '#sms_duration5').attr( 'required', false);
         //pos
         $( '#cat_sott_ins5').attr( 'required', false);
@@ -479,7 +479,7 @@ $( '#mod_invio5').on( 'select2:select ', function () {
         $( '#testo_sms5').attr( 'required', false);
         $( '#mod_invio5').attr( 'required', false);
         $( '#link5').attr( 'required', false);
-        $( '#tipoMonitoring5').attr( 'required', false);
+        //$('#tipoMonitoring5').attr( 'required', false);
         $( '#sms_duration5').attr( 'required', false);
         //pos
         $( '#cat_sott_ins5').attr( 'required', false);
@@ -540,7 +540,7 @@ $( '#mod_invio5').on( 'select2:select ', function () {
         $( '#testo_sms5').attr( 'required', false);
         $( '#mod_invio5').attr( 'required', false);
         $( '#link5').attr( 'required', false);
-        $( '#tipoMonitoring5').attr( 'required', false);
+        //$('#tipoMonitoring5').attr( 'required', false);
         $( '#sms_duration5').attr( 'required', false);
         //pos
         $( '#cat_sott_ins5').attr( 'required', false);
@@ -601,7 +601,7 @@ $( '#mod_invio5').on( 'select2:select ', function () {
         $( '#testo_sms5').attr( 'required', false);
         $( '#mod_invio5').attr( 'required', false);
         $( '#link5').attr( 'required', false);
-        $( '#tipoMonitoring5').attr( 'required', false);
+        //$('#tipoMonitoring5').attr( 'required', false);
         $( '#sms_duration5').attr( 'required', false);
         //pos
         $( '#cat_sott_ins5').attr( 'required', false);
@@ -662,7 +662,7 @@ $( '#mod_invio5').on( 'select2:select ', function () {
         $( '#testo_sms5').attr( 'required', false);
         $( '#mod_invio5').attr( 'required', false);
         $( '#link5').attr( 'required', false);
-        $( '#tipoMonitoring5').attr( 'required', false);
+        //$('#tipoMonitoring5').attr( 'required', false);
         $( '#sms_duration5').attr( 'required', false);
         //pos
         $( '#cat_sott_ins5').attr( 'required', false);
@@ -723,7 +723,7 @@ $( '#mod_invio5').on( 'select2:select ', function () {
         $( '#testo_sms5').attr( 'required', false);
         $( '#mod_invio5').attr( 'required', false);
         $( '#link5').attr( 'required', false);
-        $( '#tipoMonitoring5').attr( 'required', false);
+        //$('#tipoMonitoring5').attr( 'required', false);
         $( '#sms_duration5').attr( 'required', false);
         //pos
         $( '#cat_sott_ins5').attr( 'required', false);
@@ -784,7 +784,7 @@ $( '#mod_invio5').on( 'select2:select ', function () {
         $( '#testo_sms5').attr( 'required', false);
         $( '#mod_invio5').attr( 'required', false);
         $( '#link5').attr( 'required', false);
-        $( '#tipoMonitoring5').attr( 'required', false);
+        //$('#tipoMonitoring5').attr( 'required', false);
         $( '#sms_duration5').attr( 'required', false);
         //pos
         $( '#cat_sott_ins5').attr( 'required', false);
@@ -845,7 +845,7 @@ $( '#mod_invio5').on( 'select2:select ', function () {
         $( '#testo_sms5').attr( 'required', false);
         $( '#mod_invio5').attr( 'required', false);
         $( '#link5').attr( 'required', false);
-        $( '#tipoMonitoring5').attr( 'required', false);
+        //$('#tipoMonitoring5').attr( 'required', false);
         $( '#sms_duration5').attr( 'required', false);
         //pos
         $( '#cat_sott_ins5').attr( 'required', false);
@@ -907,7 +907,7 @@ $( '#mod_invio5').on( 'select2:select ', function () {
         $( '#testo_sms5').attr( 'required', false);
         $( '#mod_invio5').attr( 'required', false);
         $( '#link5').attr( 'required', false);
-        $( '#tipoMonitoring5').attr( 'required', false);
+        //$('#tipoMonitoring5').attr( 'required', false);
         $( '#sms_duration5').attr( 'required', false);
         //pos
         $( '#cat_sott_ins5').attr( 'required', false);
@@ -969,7 +969,7 @@ $( '#mod_invio5').on( 'select2:select ', function () {
         $( '#testo_sms5').attr( 'required', false);
         $( '#mod_invio5').attr( 'required', false);
         $( '#link5').attr( 'required', false);
-        $( '#tipoMonitoring5').attr( 'required', false);
+        //$('#tipoMonitoring5').attr( 'required', false);
         $( '#sms_duration5').attr( 'required', false);
         //pos
         $( '#cat_sott_ins5').attr( 'required', false);

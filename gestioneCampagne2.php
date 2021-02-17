@@ -143,7 +143,9 @@ if ($livello_accesso > 1) {
 if ($livello_accesso > 0) {
     ?>
                 <form action="index.php?page=export_file_excel&funzione=export_pianificazione" method="post" id="exportpianificazione">
-
+                </form>
+                <form action="export_file_excel.php" method="post" id="exportgestione">
+                        <input type="hidden" name="funzione" value="export_gestione">
                 </form>
                 <div style="margin-left: 10px;">
                 <!--button Excel -->
@@ -154,7 +156,9 @@ if ($livello_accesso > 1) {
 <?php } 
 if ($livello_accesso > 0) {
     ?>
-<button class="btn btn btn-xs btn-success" id="createXLSX"  data-placement="top" data-toggle="tooltip" data-original-title="Export Pianificazione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>
+<button class="btn btn btn-xs btn-success" id="createXLSX"  data-placement="top" data-toggle="tooltip" data-original-title="Export Gestione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>
+<!--<button class="btn btn btn-xs btn-success" onclick="manageCamp('','exportgestione');" data-placement="top" data-toggle="tooltip" data-original-title="Export Gestione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>-->
+
 <?php }?>
 </div>
 <div class="col-md-12 col-sm-12 col-xs-12" id="content_response">
@@ -169,7 +173,7 @@ if ($livello_accesso > 0) {
   
 
 var btn = document.getElementById("createXLSX");
-var fileName = "test";
+var fileName = "<?php echo date("Ymd").'_export_gestione';?>";
 var fileType = "xlsx";
 btn.addEventListener("click", function () {
   var table = document.getElementById("datatable-pianificazione");

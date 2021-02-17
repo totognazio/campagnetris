@@ -1521,6 +1521,7 @@ LEFT JOIN users ON `user_id` = users.id
         ,squads.NAME AS squads_nome
         ,senders.NAME AS sender_nome
         ,channels.NAME AS channel_nome
+        ,channels.label AS channel_label
         ,campaign_states.NAME AS campaign_stato_nome
         ,campaign_states.colore AS colore
         ,campaign_states.elimina AS elimina
@@ -1719,7 +1720,7 @@ LEFT JOIN users ON `user_id` = users.id
 
  function tableGestione($list) {    
     //print_r($list);
-    ?>                                                    
+            ?>                                                    
                     <!--<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                     <table id="datatable-responsive" cellspacing="0" width="100%">
                     <table id="datatable-scroll" class="table table-bordered nowrap">
@@ -1805,7 +1806,7 @@ LEFT JOIN users ON `user_id` = users.id
         $string .= "<td><small>".$row['id_news']."</small></td>";
         $string .= "<td><small>".$row['cod_opz']."</small></td>";
         $string .= "<td><small>".$row['cod_comunicazione']."</small></td>";
-        $string .= "<td><small>".$row['channel_nome']."</small></td>";
+        $string .= "<td><small>".$this->tableChannelLabel($row)."</small></td>";
         $string .= "<td><small>".$row['cat_sott_nome']."</small></td>";
         $string .= "<td><small>".$row['sms_duration']."</small></td>";
         $string .= "<td><small><strong>".$this->round_volume($row['volume'])."</strong></small></td>";
@@ -2018,6 +2019,28 @@ function datePeriod(){
    }
 }
 
+function datePeriodExcel(){    
+    //$filter_view = $_POST;
+    if(isset($_POST["startDate"])){
+        $filter_view = $_POST;
+    }
+    else{
+        $filter_view = $_SESSION['filter'];
+    }
+
+   $begin = new DateTime($filter_view["startDate"]);
+   $end = new DateTime($filter_view["endDate"]);
+   $end = $end->modify( '+1 day' );
+
+   $interval = new DateInterval('P1D');
+   $daterange = new DatePeriod($begin, $interval ,$end);
+   $data = array(); 
+   foreach($daterange as $date){
+       $data[] = $date->format("d D");
+   }
+   return $data;
+}
+
 function daterange(){    
     if(isset($_POST["startDate"])){
         $filter_view = $_POST;
@@ -2188,12 +2211,14 @@ function day_volume($row) {
      
         $r = $value;
         if ($r / 1000 < 1) {
-            $m = number_format($r / 1000, 1, ',', '.');
+            $m = number_format($r / 1000, 1,",",".");
+            //$m = round($r / 1000, 1);
         } else {
-            $m = number_format(round($r / 1000, 0), 0, ',', '.');
+            $m = number_format($r / 1000, 0,",",".");
+            //$m = round($r / 1000, 0);
         }
         return $m;
-        //return round($r/1000);
+        //return number_format($m, 1, ',', '.');
         
     }
 
@@ -2220,10 +2245,32 @@ function day_volume($row) {
         $bgcolor = " ";
         if (date('D', $daytimestamp) === "Sun") {
             //$bgcolor = " bgcolor=\"lightgray\"";
-            $bgcolor = " bgcolor=\"gray\"";
+            $bgcolor = " bgcolor=\"#808080\"";
         }
 
         return $bgcolor;
+    }
+
+    function bgcolor_sun($daytimestamp) { 
+        
+        if (date('D', $daytimestamp) === "Sun") {
+            //$bgcolor = " bgcolor=\"lightgray\"";
+            return true;
+        }
+        return false;
+    }
+
+    function hexToRgb($hex, $alpha = false) {
+        $hex      = str_replace('#', '', $hex);
+        $length   = strlen($hex);
+        $rgb['r'] = hexdec($length == 6 ? substr($hex, 0, 2) : ($length == 3 ? str_repeat(substr($hex, 0, 1), 2) : 0));
+        $rgb['g'] = hexdec($length == 6 ? substr($hex, 2, 2) : ($length == 3 ? str_repeat(substr($hex, 1, 1), 2) : 0));
+        $rgb['b'] = hexdec($length == 6 ? substr($hex, 4, 2) : ($length == 3 ? str_repeat(substr($hex, 2, 1), 2) : 0));
+        if ( $alpha ) {
+            $rgb['a'] = $alpha;
+        }
+        $colorRGB = ''.$rgb['r'].','.$rgb['g'].','.$rgb['b'].''; 
+        return $colorRGB;
     }
 
     function bordercolor($daytimestamp) {

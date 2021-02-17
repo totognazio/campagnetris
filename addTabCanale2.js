@@ -1,4 +1,4 @@
-const id_tab = document.getElementById('tab_id').value;
+//const id_tab = document.getElementById('tab_id').value;
 
 var testo_sms2 = document.getElementById("testo_sms2");
     testo_sms2.addEventListener(
@@ -26,12 +26,12 @@ $( '#mod_invio2').on( 'select2:select ', function () {
            $("#spanLabelLinkTesto2").fadeOut();
            $("#spanLabelLinkTesto2").fadeIn();  
       $('#link2').attr('required', true);  
-      $('#tipoMonitoring2').attr('required', true);   
+      ////$('#tipoMonitoring2').attr('required', true);   
     }
     else {
        $("#spanLabelLinkTesto2").fadeOut(); 
       $('#link2').attr('required', false);  
-      $('#tipoMonitoring2').attr('required', false);  
+      ////$('#tipoMonitoring2').attr('required', false);  
     }
     console.log( 'selected_modsms2  '+ selected_modsms2);   
     });
@@ -75,7 +75,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#testo_sms2').attr( 'required', false);
         $( '#mod_invio2').attr( 'required', false);
         $( '#link2').attr( 'required', false);
-        $( '#tipoMonitoring2').attr( 'required', false);
+        //$('#tipoMonitoring2').attr( 'required', false);
         $( '#sms_duration2').attr( 'required', false);
         //pos
         $( '#cat_sott_ins2').attr( 'required', false);
@@ -138,7 +138,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#testo_sms2').attr( 'required', true);
         $( '#mod_invio2').attr( 'required', true);
         //$( '#link2').attr( 'required', true);
-        //$( '#tipoMonitoring2').attr( 'required', true);
+        ////$('#tipoMonitoring2').attr( 'required', true);
         $( '#sms_duration2').attr( 'required', true);
         //pos
         $( '#cat_sott_ins2').attr( 'required', false);
@@ -218,7 +218,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#testo_sms2').attr( 'required', false);
         $( '#mod_invio2').attr( 'required', false);
         $( '#link2').attr( 'required', false);
-        $( '#tipoMonitoring2').attr( 'required', false);
+        //$('#tipoMonitoring2').attr( 'required', false);
         $( '#sms_duration2').attr( 'required', false);
         //pos
         $( '#cat_sott_ins2').attr( 'required', true);
@@ -296,7 +296,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#testo_sms2').attr( 'required', false);
         $( '#mod_invio2').attr( 'required', false);
         $( '#link2').attr( 'required', false);
-        $( '#tipoMonitoring2').attr( 'required', false);
+        //$('#tipoMonitoring2').attr( 'required', false);
         $( '#sms_duration2').attr( 'required', false);
         //pos
         $( '#cat_sott_ins2').attr( 'required', false);
@@ -357,7 +357,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#testo_sms2').attr( 'required', false);
         $( '#mod_invio2').attr( 'required', false);
         $( '#link2').attr( 'required', false);
-        $( '#tipoMonitoring2').attr( 'required', false);
+        //$('#tipoMonitoring2').attr( 'required', false);
         $( '#sms_duration2').attr( 'required', false);
         //pos
         $( '#cat_sott_ins2').attr( 'required', false);
@@ -418,7 +418,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#testo_sms2').attr( 'required', false);
         $( '#mod_invio2').attr( 'required', false);
         $( '#link2').attr( 'required', false);
-        $( '#tipoMonitoring2').attr( 'required', false);
+        //$('#tipoMonitoring2').attr( 'required', false);
         $( '#sms_duration2').attr( 'required', false);
         //pos
         $( '#cat_sott_ins2').attr( 'required', false);
@@ -479,7 +479,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#testo_sms2').attr( 'required', false);
         $( '#mod_invio2').attr( 'required', false);
         $( '#link2').attr( 'required', false);
-        $( '#tipoMonitoring2').attr( 'required', false);
+        //$('#tipoMonitoring2').attr( 'required', false);
         $( '#sms_duration2').attr( 'required', false);
         //pos
         $( '#cat_sott_ins2').attr( 'required', false);
@@ -540,7 +540,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#testo_sms2').attr( 'required', false);
         $( '#mod_invio2').attr( 'required', false);
         $( '#link2').attr( 'required', false);
-        $( '#tipoMonitoring2').attr( 'required', false);
+        //$('#tipoMonitoring2').attr( 'required', false);
         $( '#sms_duration2').attr( 'required', false);
         //pos
         $( '#cat_sott_ins2').attr( 'required', false);
@@ -601,7 +601,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#testo_sms2').attr( 'required', false);
         $( '#mod_invio2').attr( 'required', false);
         $( '#link2').attr( 'required', false);
-        $( '#tipoMonitoring2').attr( 'required', false);
+        //$('#tipoMonitoring2').attr( 'required', false);
         $( '#sms_duration2').attr( 'required', false);
         //pos
         $( '#cat_sott_ins2').attr( 'required', false);
@@ -662,7 +662,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#testo_sms2').attr( 'required', false);
         $( '#mod_invio2').attr( 'required', false);
         $( '#link2').attr( 'required', false);
-        $( '#tipoMonitoring2').attr( 'required', false);
+        //$('#tipoMonitoring2').attr( 'required', false);
         $( '#sms_duration2').attr( 'required', false);
         //pos
         $( '#cat_sott_ins2').attr( 'required', false);
@@ -723,7 +723,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#testo_sms2').attr( 'required', false);
         $( '#mod_invio2').attr( 'required', false);
         $( '#link2').attr( 'required', false);
-        $( '#tipoMonitoring2').attr( 'required', false);
+        //$('#tipoMonitoring2').attr( 'required', false);
         $( '#sms_duration2').attr( 'required', false);
         //pos
         $( '#cat_sott_ins2').attr( 'required', false);
@@ -784,7 +784,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#testo_sms2').attr( 'required', false);
         $( '#mod_invio2').attr( 'required', false);
         $( '#link2').attr( 'required', false);
-        $( '#tipoMonitoring2').attr( 'required', false);
+        //$('#tipoMonitoring2').attr( 'required', false);
         $( '#sms_duration2').attr( 'required', false);
         //pos
         $( '#cat_sott_ins2').attr( 'required', false);
@@ -845,7 +845,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#testo_sms2').attr( 'required', false);
         $( '#mod_invio2').attr( 'required', false);
         $( '#link2').attr( 'required', false);
-        $( '#tipoMonitoring2').attr( 'required', false);
+        //$('#tipoMonitoring2').attr( 'required', false);
         $( '#sms_duration2').attr( 'required', false);
         //pos
         $( '#cat_sott_ins2').attr( 'required', false);
@@ -907,7 +907,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#testo_sms2').attr( 'required', false);
         $( '#mod_invio2').attr( 'required', false);
         $( '#link2').attr( 'required', false);
-        $( '#tipoMonitoring2').attr( 'required', false);
+        //$('#tipoMonitoring2').attr( 'required', false);
         $( '#sms_duration2').attr( 'required', false);
         //pos
         $( '#cat_sott_ins2').attr( 'required', false);
@@ -969,7 +969,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#testo_sms2').attr( 'required', false);
         $( '#mod_invio2').attr( 'required', false);
         $( '#link2').attr( 'required', false);
-        $( '#tipoMonitoring2').attr( 'required', false);
+        //$('#tipoMonitoring2').attr( 'required', false);
         $( '#sms_duration2').attr( 'required', false);
         //pos
         $( '#cat_sott_ins2').attr( 'required', false);

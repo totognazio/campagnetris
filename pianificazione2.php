@@ -142,19 +142,47 @@ if ($livello_accesso > 1) {
                 
                 <?php }
 if ($livello_accesso > 0) {
-    ?>
-                <form action="index.php?page=export_file_excel&funzione=export_pianificazione" method="post" id="exportpianificazione">
-
+    ?>  
+                <form action="export_file_excel.php" method="post" id="exportpianificazione">
+                        <input type="hidden" name="funzione" value="export_pianificazione">
                 </form>
+                <form action="export_file_excel.php" method="post" id="exportgestione">
+                        <input type="hidden" name="funzione" value="export_gestione">
+                </form>
+                <form action="export_file_excel.php" method="post" id="exportcapacity">
+                        <input type="hidden" name="funzione" value="export_capacity">
+                </form>
+               <!-- 
+                <form action="export_excel_pianificazione.php" method="post" id="exportpianificazione">
+                        <input type="hidden" name="funzione" value="export_pianificazione">
+                </form>-->
                 <!--button Excel -->
 <?php }
-if ($livello_accesso > 1) {
+if ($livello_accesso > 1) { 
     ?>
 <button class="btn btn btn-xs btn-warning" type="submit" onclick="manageCamp('','new');" data-placement="top" data-toggle="tooltip" data-original-title="Inserisci nuova Campagna"><i class="fa fa-plus-square"></i> Nuova Campagna</button>
 <?php } 
 if ($livello_accesso > 0) {
     ?>
-<button class="btn btn btn-xs btn-success" id="createXLSX"  data-placement="top" data-toggle="tooltip" data-original-title="Export Pianificazione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>
+<!--<button class="btn btn btn-xs btn-success" id="createXLSX"  data-placement="top" data-toggle="tooltip" data-original-title="Export Pianificazione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>-->
+<button class="btn btn btn-xs btn-success" onclick="manageCamp('','exportpianificazione');" data-placement="top" data-toggle="tooltip" data-original-title="Export Pianificazione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-download"></i> Download </button>
+                                                <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    <span class="caret"></span>
+                                                    <span class="sr-only">Toggle Dropdown</span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li> <a href="#" onclick="manageCamp('','exportpianificazione');" > Export Pianificazione</a> 
+                                                    </li>
+                                                    <li class="divider"></li>
+                                                    <li><a href="#" onclick="manageCamp('','exportgestione');" > Export Gestione</a>
+                                                    </li>
+                                                    <li class="divider"></li>
+                                                    <li><a href="#" onclick="manageCamp('','exportcapacity');" > Export Capacity </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
 <?php }?>
 </div>
 <div class="col-md-12 col-sm-12 col-xs-12" id="content_response">
@@ -165,15 +193,6 @@ if ($livello_accesso > 0) {
 <?php $form->close_page(); ?> 
 
 <script>
-var btn = document.getElementById("createXLSX");
-var fileName = "test";
-var fileType = "xlsx";
-btn.addEventListener("click", function () {
-  var table = document.getElementById("datatable-pianificazione");
-  var wb = XLSX.utils.table_to_book(table, { sheet: "Sheet JS", type:'binary', raw: true});
-  return XLSX.writeFile(wb, null || fileName + "." + (fileType || "xlsx"));
-});
-
 
     function conferma(stato, permesso_elimina) {
         if (permesso_elimina == 0) {

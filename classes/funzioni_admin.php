@@ -462,6 +462,13 @@ class funzioni_admin {
      
     function get_list_select($nome_tabella) {
         $query3 = "SELECT id,name FROM $nome_tabella ORDER BY name ASC";
+        
+        //esclusione NO SQUAD
+        if($nome_tabella=='squads'){
+            $query3 = "SELECT id,name FROM $nome_tabella WHERE `name`<>'NO SQUAD' ORDER BY name ASC";
+        }
+
+
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $list = array();
         #$r = array();

@@ -377,7 +377,7 @@ function deseleziona(campo) {
 function manageCamp(id, azione, permesso_elimina, stato){
     //alert('eccoloooo ' + id +' '+ azione);
         if(azione==='modifica'){
-            document.getElementById("campagnaModifica"+id).submit(); 
+            document.getElementById("campagnaModifica"+id).submit();  
         }
     
         if (azione === 'duplica') {
@@ -394,6 +394,15 @@ function manageCamp(id, azione, permesso_elimina, stato){
         } 
         if(azione==='new'){
             document.getElementById("campagnaNew"+id).submit(); 
+      } 
+      if(azione==='exportpianificazione'){
+            document.getElementById("exportpianificazione").submit(); 
+      } 
+      if(azione==='exportgestione'){
+            document.getElementById("exportgestione").submit(); 
+    } 
+    if(azione==='exportcapacity'){
+            document.getElementById("exportcapacity").submit(); 
         } 
 
 }

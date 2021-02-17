@@ -1,0 +1,422 @@
+<?php
+
+$today = date("y_m_d");
+
+error_reporting(E_ALL);
+header("Content-Disposition: attachment; filename=\"" . $today . "_Export_pianificazione.xls\"");
+header("Content-Type: application/vnd.ms-excel");
+
+include_once 'funzioni_admin.php';
+include_once 'campaign_class.php';
+$funzioni_admin = new funzioni_admin();
+$campaign = new campaign_class();
+
+include_once("./classes/access_user/access_user_class.php");
+$page_protect = new Access_user;
+// $page_protect->login_page = "login.php"; // change this only if your login is on another page
+$page_protect->access_page(); // only set this this method to protect your page
+$page_protect->get_user_info();
+$hello_name = ($page_protect->user_full_name != "") ? $page_protect->user_full_name : $page_protect->user;
+if (isset($_GET['action']) && $_GET['action'] == "log_out") {
+    $page_protect->log_out(); // the method to log off
+}
+if (isset($_POST['invio_form'])) {
+    $campaign->set_filter_session();
+}
+include('action.php');
+$radici_list = $campaign->radici_list;
+$url = "";
+$titolo = "Pianificazione";
+if (isset($_GET['tipo_pian'])) {
+    if ($_GET['tipo_pian'] == 'effettiva') {
+        $url = "&tipo_pian=effettiva";
+        $titolo = "Pianificazione effettiva";
+        $lista_ext1 = $campaign->get_channel_ext1();
+    }
+}
+$titolo = array('N', 'Nome campagna', 'Gruppo', 'Tipo', 'Canale', 'Dipartimento','Cod. campagna','Cod. comunicazione', 'Ottimizz.', 'Data inizio', 'Stato', 'Vol.(k)');
+$filter = array();
+$giorno_start = 1;
+$giorno_end = 31;
+$intervallo = array();
+if (isset($_SESSION['selectAnno']) && (isset($_SESSION['selectMese']))) {
+    $intervallo = $campaign->calcola_intervallo_mese();
+} else {
+    $intervallo = $campaign->calcola_settimana_corrente();
+}
+$dataSelezionata = "";
+if (isset($_SESSION['selectAnno']) && (isset($_SESSION['selectMese']))) {
+    $mese = $_SESSION['selectMese'];
+    $anno = $_SESSION['selectAnno'];
+
+    if ($mese == 14)
+        $dataSelezionata = 'Campagne della settimana ' . $intervallo['giorno_start'] . "/" . $intervallo['mese_start'] . "/" . $intervallo['anno_start'] . "  -  "
+                . $intervallo['giorno_end'] . "/" . $intervallo['mese_end'] . "/" . $intervallo['anno_end'];
+    else if ($mese == 15)
+        $dataSelezionata = 'Campagne pianificate per ' . $intervallo['giorno_start'] . "/" . $intervallo['mese_start'] . "/" . $intervallo['anno_start'];
+    else if ($mese == 13)
+        $dataSelezionata = 'Campagne pianificate per ' . $intervallo['giorno_start'] . "/" . $intervallo['mese_start'] . "/" . $intervallo['anno_start'];
+    else if ($mese == 12)
+        $dataSelezionata = 'Campagne pianificate per ' . $intervallo['giorno_start'] . "/" . $intervallo['mese_start'] . "/" . $intervallo['anno_start'];
+    else if ($mese == 16)
+        $dataSelezionata = 'Campagne pianificate per l\'anno ' . $anno;
+    else {
+
+        $dataSelezionata = 'Campagne ' . date('M Y', mktime(0, 0, 0, $mese + 1, 1, $anno));
+    }
+    //$intervallo = $campaign->calcola_intervallo_mese();
+} else {
+    //$intervallo = $campaign->calcola_settimana_corrente();
+    $dataSelezionata = 'Campagne della settimana ' . $intervallo['giorno_start'] . "/" . $intervallo['mese_start'] . "/" . $intervallo['anno_start'] . "  -  "
+            . $intervallo['giorno_end'] . "/" . $intervallo['mese_end'] . "/" . $intervallo['anno_end'];
+}
+
+$data_start = $intervallo['anno_start'] . "-" . $intervallo['mese_start'] . "-" . $intervallo['giorno_start'];
+$data_end = $intervallo['anno_end'] . "-" . $intervallo['mese_end'] . "-" . $intervallo['giorno_end'];
+$filter['data'] = " ("
+        . "`data_inizio` <= '" . $data_end
+        . "' AND  (`data_fine` >= '" . $data_start . "' )"
+        . ")";
+//echo $anno . $mese;
+
+$list_day = array();
+$list_day_2 = array();
+for ($d = 1; $d <= 31; $d++) {
+    $time = mktime(0, 0, 0, $intervallo['mese_end'], $d, $intervallo['anno_end']);
+    if (date('m', $time) == $intervallo['mese_end']) {
+        $list_day[$d] = date('D', $time);
+        $list_day_2[$d] = $time;
+    }
+}
+foreach ($list_day as $key => $value) {
+    $titolo[] = $key;
+}
+$td_vuoti = 31 - count($list_day);
+$lista_day_nome = array();
+foreach ($list_day as $key => $value) {
+    $lista_day_nome[] = strtoupper($value);
+}
+
+$lista_filtri = array();
+foreach ($radici_list as $key_table => $value_table) {
+    $list = $funzioni_admin->get_list_id($value_table);
+    $radice = $key_table . "_";
+    foreach ($list as $key => $value) {
+        if ($_SESSION[$radice . $value['id']] == 0) {
+            $lista_filtri[] = " (" . $value_table . ".name not like '" . $value['name'] . "')";
+        }
+    }
+}
+$searchSql = " where 1 ";
+if (count($filter) > 0) {
+
+    foreach ($filter as $key => $value) {
+        $searchSql = $searchSql . " and " . $value;
+    }
+}
+$channel_query = " ";
+if (count($lista_filtri) > 0) {
+    foreach ($lista_filtri as $key => $value) {
+        $channel_query = $value . " and " . $channel_query;
+    }
+    $searchSql = $searchSql . " and " . "(" . substr($channel_query, 0, -5) . ")";
+}
+
+$list_campaign = $campaign->get_list_campaign($searchSql, ' order by data_inizio asc ');
+$totale_giorno = array();
+$totale_giorno[0] = 0;
+$contatore = 0;
+$riga = 1;
+$indice_output = 0;
+$output = array();
+$output_colore = array();
+foreach ($list_campaign as $key => $row) {
+    if ($row['sender_nome'] != NULL)
+        $sender_nome = $row['sender_nome'];
+    else
+        $sender_nome = "";
+    $durata_campagna = $row['durata_campagna'];
+    $escludi_sabato = $row['escludi_sabato'];
+    $time = strtotime($row['data_inizio']);
+    $time_trial = strtotime($row['data_trial']);
+    $trial = $row['trial_campagna'];
+
+    $volume_giornaliero = array($row['volumeGiornaliero1'], $row['volumeGiornaliero2'], $row['volumeGiornaliero3'], $row['volumeGiornaliero4'], $row['volumeGiornaliero5'], $row['volumeGiornaliero6'], $row['volumeGiornaliero7']);
+    $volume_trial = $row['volume_trial'];
+
+    $giorni_campagna = $campaign->calcola_giorni_campagna($time, $durata_campagna, $escludi_sabato);
+    $volume_per_giorno = $campaign->volume_per_giorno($giorni_campagna, $volume_giornaliero);
+    $somma_volume_per_giorno = $campaign->somma_volume_per_giorno($giorni_campagna, $volume_giornaliero);
+
+    if ($trial) {
+        $volume_per_giorno[$time_trial] = $volume_trial;
+    }
+    $numero_sms = 1;
+    if (isset($_GET['tipo_pian'])) {
+        if ($_GET['tipo_pian'] == 'effettiva') {
+            if (strlen($row['testo_sms']) <= 160)
+                $numero_sms = 1;
+            else {
+                $numero_sms = ceil(strlen($row['testo_sms']) / 153);
+            }
+        }
+    }
+
+    $sms_per_giorno = round($somma_volume_per_giorno / $row['durata_campagna'] / 1000, 0) * $numero_sms;
+
+    $nome_campagna_totale = substr(stripslashes($row['pref_nome_campagna']), 0);
+    if (strlen($row['nome_campagna']) > 0)
+        $nome_campagna_totale = $nome_campagna_totale . "_" . substr(stripslashes($row['nome_campagna']), 0);
+
+
+    $valore_riga = array("", $row['id'], "", $nome_campagna_totale, $row['gruppo_nome'], $row['tipo_nome'], $row['dipartimento_nome'],$row['cod_campagna'],$row['cod_comunicazione'], $row['optimization'], $row['data_inizio'], $row['campaign_stato_nome'], $somma_volume_per_giorno);
+
+    $stato_elimina = $row['elimina'];
+    $permission = $page_protect->check_permission($row['department_id']);
+    $output[$indice_output][] = $riga;
+    $output_colore[$indice_output][] = '';
+    $output[$indice_output][] = $nome_campagna_totale;
+    $output_colore[$indice_output][] = '';
+    $output[$indice_output][] = $row['gruppo_nome'];
+    $output_colore[$indice_output][] = '';
+    $output[$indice_output][] = $row['tipo_nome'];
+    $output_colore[$indice_output][] = '';
+    $output[$indice_output][] = $row['channel_nome'];
+    $output_colore[$indice_output][] = '';
+    $output[$indice_output][] = $row['dipartimento_nome'];
+    $output_colore[$indice_output][] = '';
+    $output[$indice_output][] = $row['cod_campagna'];
+    $output_colore[$indice_output][] = '';
+    $output[$indice_output][] = $row['cod_comunicazione'];
+    $output_colore[$indice_output][] = '';
+    if ($row['optimization'] == 1)
+        $optimization = "YES";
+    else
+        $optimization = "NO";
+    $_m = $somma_volume_per_giorno * $numero_sms;
+    /* if ($_volume / 1000 < 1)
+      $_m = round($_volume / 1000, 1);
+      else
+      $_m = round($_volume / 1000, 0); */
+    $output[$indice_output][] = $optimization;
+    $output_colore[$indice_output][] = '';
+    $output[$indice_output][] = $campaign->data_eng_to_it_($row['data_inizio']);
+    $output_colore[$indice_output][] = '';
+    $output[$indice_output][] = $row['campaign_stato_nome'];
+    $output_colore[$indice_output][] = '';
+    $output[$indice_output][] = $_m;
+    $output_colore[$indice_output][] = '';
+
+    $totale_giorno[0] = $totale_giorno[0] + round($_m * $numero_sms, 1);
+
+    $numero_giorni = 1;
+
+    //print_r($list_day_2);
+    //print_r($volume_per_giorno);
+    foreach ($list_day_2 as $key => $value) {
+        if (array_key_exists($value, $volume_per_giorno)) {
+            $r = $numero_sms * $volume_per_giorno[$value];
+            if ($r / 1000 < 1)
+                $m = round($r / 1000, 1);
+            else
+                $m = round($r / 1000, 0);
+            $m1 = round($r, 0);
+            $output[$indice_output][] = $m;
+            $output_colore[$indice_output][] = $row['colore'];
+            if (isset($totale_giorno[$key]))
+                $totale_giorno[$key] = $totale_giorno[$key] + $m;
+            else
+                $totale_giorno[$key] = $m;
+        }else {
+
+            if (date('D', $value) == "Sun") {
+                $output[$indice_output][] = '';
+                $output_colore[$indice_output][] = 'FFaaaaaa';
+                $totale_giorno[$key] = "";
+            } else {
+                $output[$indice_output][] = '';
+                $output_colore[$indice_output][] = '';
+                if (isset($totale_giorno[$key]))
+                    $totale_giorno[$key] = $totale_giorno[$key];
+                else
+                    $totale_giorno[$key] = 0;
+            }
+        }
+    }
+
+
+
+    $contatore++;
+    $riga++;
+    $indice_output++;
+}
+$totale = array();
+//print_r($output);
+//$i = 0;
+//foreach ($totale_giorno as $key => $value) {
+//
+//    $totale[] = $value;
+//    $i++;
+//}
+$totale[] = $td_vuoti;
+
+ini_set('display_errors', TRUE);
+ini_set('display_startup_errors', TRUE);
+date_default_timezone_set('Europe/London');
+
+if (PHP_SAPI == 'cli')
+    die('This example should only be run from a Web Browser');
+
+/** Include PHPExcel */
+require_once dirname(__FILE__) . './PHPExcel-1.8/Classes/PHPExcel.php';
+
+
+// Create new PHPExcel object
+$objPHPExcel = new PHPExcel();
+
+// Set document properties
+$objPHPExcel->getProperties()->setCreator("Tool Campaign")
+        ->setLastModifiedBy("Maarten Balliauw")
+        ->setTitle("Office 2007 XLSX Test Document")
+        ->setSubject("Office 2007 XLSX Test Document")
+        ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
+        ->setKeywords("office 2007 openxml php")
+        ->setCategory("Test result file");
+$objPHPExcel->getActiveSheet()->mergeCells('A1:e1');
+$objPHPExcel->getActiveSheet()->mergeCells('A2:e2');
+$objPHPExcel->getActiveSheet()->setCellValue('A1', 'Pianificazione Campagne - Campaign Management');
+$objPHPExcel->getActiveSheet()->setCellValue('A2', $dataSelezionata);
+$objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setName('Candara');
+$objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+$objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+//$objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setUnderline(PHPExcel_Style_Font::UNDERLINE_SINGLE);
+$objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_BLACK);
+$objPHPExcel->getActiveSheet()->getStyle('A1:E1')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
+$objPHPExcel->getActiveSheet()->getStyle('A1:E1')->getFill()->getStartColor()->setARGB('FF538DD5');
+$objPHPExcel->getActiveSheet()->getStyle('A2:E2')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
+$objPHPExcel->getActiveSheet()->getStyle('A2:E2')->getFill()->getStartColor()->setARGB('FFDDDDDD');
+$riga = 3;
+$colonna = 0;
+
+foreach ($titolo as $key => $value) {
+    if ($colonna < 11)
+        $objPHPExcel->getActiveSheet()->getColumnDimensionByColumn($colonna)->setAutoSize(true);;
+    $objPHPExcel->setActiveSheetIndex(0)->getStyleByColumnAndRow($colonna, $riga)
+            ->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER)
+            ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValueByColumnAndRow($colonna, $riga, $value);
+    $objPHPExcel->setActiveSheetIndex(0)->getStyleByColumnAndRow($colonna, $riga)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
+    $objPHPExcel->setActiveSheetIndex(0)->getStyleByColumnAndRow($colonna, $riga)->getFill()->getStartColor()->setARGB('FFDDDDDD');
+    $colonna++;
+}
+
+
+$riga = 4;
+$colonna = 12;
+foreach ($list_day as $key => $value) {
+    $objPHPExcel->getActiveSheet()->getColumnDimensionByColumn($colonna)->setWidth(8);
+    $objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($colonna);
+    $objPHPExcel->setActiveSheetIndex(0)->getStyleByColumnAndRow($colonna, $riga)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER)->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValueByColumnAndRow($colonna, $riga, strtoupper($value));
+    $colonna++;
+}
+//stampa valori campagne
+//print_r($output_colore);
+$riga = 5;
+$colonna = 0;
+$data_output = $output;
+foreach ($data_output as $key => $value) {
+    if (count($value) > 1) {
+        foreach ($value as $key_record => $value_record) {
+            $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValueByColumnAndRow($colonna, $riga, $value_record);
+            if ($colonna != 1) {
+                $objPHPExcel->setActiveSheetIndex(0)->getStyleByColumnAndRow($colonna, $riga)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER)->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                //echo $output_colore[$key][$key_record]."-----";
+                //echo str_replace("#", "FF", $output_colore[$key][$key_record]);
+                if ($output_colore[$key][$key_record] != '') {
+                    $objPHPExcel->setActiveSheetIndex(0)->getStyleByColumnAndRow($colonna, $riga)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
+                    $objPHPExcel->setActiveSheetIndex(0)->getStyleByColumnAndRow($colonna, $riga)->getFill()->getStartColor()->setARGB(str_replace("#", "FF", $output_colore[$key][$key_record]));
+                }
+            }
+            $colonna++;
+        }
+        $colonna = 0;
+        $riga++;
+    }
+}
+
+    $objPHPExcel->getActiveSheet()->getColumnDimensionByColumn(8)->setAutoSize(true);
+    $objPHPExcel->setActiveSheetIndex(0)->getStyleByColumnAndRow(8, $riga)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER)->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+    $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValueByColumnAndRow(10, $riga, "TOTALE");
+    $colonna = 11;
+    foreach ($totale_giorno as $key => $value) {
+        $objPHPExcel->getActiveSheet()->getColumnDimensionByColumn($colonna)->setWidth(8);
+        $objPHPExcel->setActiveSheetIndex(0)->getStyleByColumnAndRow($colonna, $riga)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER)->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValueByColumnAndRow($colonna, $riga, $value);
+        $colonna++;
+    }
+
+$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow(0, $riga, count($list_day) + 11, $riga)->applyFromArray(
+        array(
+            'font' => array(
+                'bold' => true
+            ),
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            ),
+            'borders' => array(
+                'top' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                ), 'left' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                ), 'right' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                ), 'bottom' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            ),
+            'fill' => array(
+                'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                'color' => array(
+                    'argb' => 'FFDDDDDD'
+                )
+            )
+        )
+);
+
+//rimozione colonna Ottimizzazione
+$objPHPExcel->getActiveSheet()->removeColumn('I');
+
+// Rename worksheet
+$objPHPExcel->getActiveSheet()->setTitle('Export');
+
+
+// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+$objPHPExcel->setActiveSheetIndex(0);
+
+
+// Redirect output to a client’s web browser (Excel2007)
+header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+header('Content-Disposition: attachment;filename="' . $today . '_Export_pianificazione.xlsx"');
+header('Cache-Control: max-age=0');
+// If you're serving to IE 9, then the following may be needed
+header('Cache-Control: max-age=1');
+
+// If you're serving to IE over SSL, then the following may be needed
+header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+header('Pragma: public'); // HTTP/1.0
+
+$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+$objWriter->save('php://output');
+exit;
+//echo json_encode($data_output);
+?>
