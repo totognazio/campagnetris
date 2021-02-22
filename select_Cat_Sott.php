@@ -9,7 +9,7 @@ if (isset($_POST['channel_id'])) {
     $lista = $funzioni_admin->get_allTable($table);
     //print_r($lista);
     foreach ($lista as $key => $row) {        
-        $string.= '<option value="'.$row['id'].'">'.$row['name'].' - '.$row['label'].'</option>';
+        $string.= '<option value="'.$row['id'].'">'.$row['name'].'</option>';
     }
     /*
     foreach ($lista as $key => $row) {

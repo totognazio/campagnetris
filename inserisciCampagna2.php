@@ -148,7 +148,7 @@ $states = $funzione->get_list_select('campaign_states');
 $category = $funzione->get_list_select('campaign_categories');
 $modality = $funzione->get_list_select('campaign_modalities');
 $segments = $funzione->get_list_select('segments');
-$tit_sott = $funzione->get_allTable('campaign_titolo_sottotitolo');
+//$tit_sott = $funzione->get_allTable('campaign_titolo_sottotitolo');
 //print_r($tit_sott);
 $cat_sott = $funzione->get_allTable('campaign_cat_sott');
 $sender = $funzione->get_allTable('senders');
@@ -334,6 +334,7 @@ $sender = $funzione->get_allTable('senders');
 
 <script>
 
+var last_tab_click = 1; //in caso di modifica open duplica di campagna multicanale 
   
 function validitaoffer(){
     if($( "#validitalevaofferta" ).val()==='1'){
@@ -443,8 +444,12 @@ $('.add-contact').click(function (e) {
                         success: function (data)
                         {
                             //console.log('eccoli data' + JSON.stringify(data));
-                            $('.tab-content').append(data);   
-                            $('.nav-tabs li:nth-child(' + id + ') a').click();
+                            $('.tab-content').append(data); 
+                            console.log('ultimo tab '+last_tab_click);
+                            if(last_tab_click){
+                                $('.nav-tabs li:nth-child(' + id + ') a').click();
+                            }  
+                            
                         }
             }); 
     }
@@ -463,6 +468,7 @@ $('.add-contact').click(function (e) {
 
 
 $(document).ready(function() {  
+
 <?php 
  
  if (isset($azione) && ($azione=='duplica' || $azione=='modifica' || $azione=='open')) {
@@ -471,17 +477,18 @@ $(document).ready(function() {
         $addcanale = json_decode($id_campaign['addcanale'],true);
 
         for($i=1;  $i<count($addcanale); $i++){?>
+                last_tab_click = 0; //in caso di apertura campagna multicanale 
                 $('.add-contact').trigger("click");
-                $('#myTab-ul a:first').trigger("click");
+                //$('#myTab-ul a:first').trigger("click");
             <?php    
         } 
     } ?>
     
-    $('#myTab-ul a:first').tab('show'); 
-    $('#myTab-ul a:first').trigger("click");
+    //$('#myTab-ul a:first').tab('show'); 
+    //$('#myTab-ul a:first').trigger("click");
     
     <?php
-    }
+}
 
  ?>
 

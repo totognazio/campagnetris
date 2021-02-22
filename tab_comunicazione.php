@@ -98,19 +98,19 @@
                 </div>
             </span>
 </div>      
-                   
+         <!--          
             <div class="col-md-12 col-sm-6 col-xs-12"><br><br> 
                 <label style="width:100%;">File Upload
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">             
                     <div class="x_content">                                          
-                        <form id="my-dropzone" action="upload.php?id_upload=<?php echo $id_upload; ?>&comunicazione"  class="dropzone">
+                        <form id="my-dropzone" action="upload.php?id_upload=<?php //echo $id_upload; ?>&comunicazione"  class="dropzone">
                         </form>
                         <br />
                     </div>
                 </div>   
             </div>  
-         
+                            -->
    
         <div  class="col-md-12 col-sm-12 col-xs-12"><br></div>    
   
@@ -118,21 +118,22 @@
 
 <script>
 $(document).ready(function() { 
+/*    
 var myDropzoneProfile = new Dropzone(
         '#my-dropzone',
         {          
-            <?php if($readonly){echo 'clickable: false,';} else{echo 'clickable: true,';}?>
+            <?php //if($readonly){echo 'clickable: false,';} else{echo 'clickable: true,';}?>
             init: function () {
             //this.options.dictRemoveFileConfirmation = true;
             this.options.dictRemoveFileConfirmation = "Confermi di voler eliminare il File?";
             //solo su Modifica o Duplica     
-          <?php if($modifica) {?>    
+          <?php //if($modifica) {?>    
             thisDropzone = this;        
             $.ajax({
                 type: "POST",
                 dataType: "json",
                 url: "scan_uploaded.php",
-                    data: { id_dir: '<?php echo $id_campaign['id']; ?>',subdir: 'comunicazione'},
+                    data: { id_dir: '<?php //echo $id_campaign['id']; ?>',subdir: 'comunicazione'},
                     success: function (data) {
             
                     $.each(data, function(key,value){  
@@ -140,7 +141,7 @@ var myDropzoneProfile = new Dropzone(
                                 var a = document.createElement('a');
                                 a.setAttribute('class',"dz-remove");
                                 //onclick="javascript:window.location.href = './index.php?page=gestioneCampagne2'"
-                                a.setAttribute('href',"upload.php?download=<?php echo $id_campaign['id']; ?>&com&file=" + filename);
+                                a.setAttribute('href',"upload.php?download=<?php //echo $id_campaign['id']; ?>&com&file=" + filename);
                                 a.setAttribute('target', '_blank');
                                 a.innerHTML = "Download file";
 
@@ -155,7 +156,7 @@ var myDropzoneProfile = new Dropzone(
                 
                 }
             });
-        <?php  } ?>
+        <?php  //} ?>
             this.on("removedfile", function(file) {
                         console.log('removedfile on');
 
@@ -163,7 +164,7 @@ var myDropzoneProfile = new Dropzone(
 
                                 $.ajax({
                                 url: "upload.php",
-                                data: { filename: filename, action: 'delete', id_upload: '<?php echo $id_upload; ?>',subdir: 'comunicazione'},
+                                data: { filename: filename, action: 'delete', id_upload: '<?php //echo $id_upload; ?>',subdir: 'comunicazione'},
                                 type: 'POST',
                                 success: function (data) {
                                     if (data.NotificationType === "Error") {
@@ -197,7 +198,7 @@ var myDropzoneProfile = new Dropzone(
                                 var a = document.createElement('a');
                                 a.setAttribute('class',"dz-remove");
                                 //onclick="javascript:window.location.href = './index.php?page=gestioneCampagne2'"
-                                a.setAttribute('href',"upload.php?download=<?php echo $id_upload; ?>&com&file=" + filename);
+                                a.setAttribute('href',"upload.php?download=<?php //echo $id_upload; ?>&com&file=" + filename);
                                 a.setAttribute('target', '_blank');
                                 a.innerHTML = "Download file";
                                 file.previewTemplate.appendChild(a);
@@ -212,7 +213,7 @@ var myDropzoneProfile = new Dropzone(
                             
             }
         });
-
+*/
 
 $('#control_group').select2({
         placeholder: "Select"

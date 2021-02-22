@@ -80,45 +80,27 @@
             <input type="hidden" id="canale_zero" name="addcanale[0][channel_id]" value="<?php if(isset($id_campaign['channel_id'])) echo $id_campaign['channel_id'] ?>" >
             
             </div>
-        </div>
+        </div> 
 
         <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12">Titolo & Sottotitolo </label>
-            <?php #print_r($stacks); ?>
-            <div class="col-md-6 col-sm-6 col-xs-12">                              
-                <select  id="tit_sott_ins" style="width: 100%" name="tit_sott_id" class="select2_single form-control" <?php echo $disabled_value;?>>        
-                    <option value=""></option>
-                    <?php
-                    foreach ($tit_sott as $key => $value) {                        
-                        if($modifica and $id_campaign['tit_sott_id']==$key){
-                                   echo '<option  selected value="' . $value['id'] . '">' . $value['name'] . ' - ' . $value['label'] . '</option>';
-                                }
-                                else {
-                                   echo '<option  value="' . $value['id'] . '">' . $value['name'] . ' - ' . $value['label'] . '</option>';
-                                }
-                        
-                    }
-                    ?>  
-                </select>
-            </div>
-        </div>   
-
-        <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo Leva </label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo Leva <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <?php 
                 $select_monoleva = '';
+                $select_info = '';
+                $display_info = ' style="display: none;"';
                 $display_mono = ' style="display: none;"';
                 $select_multileva = '';
-                $display_multi = ' style="display: none;"';             
+                //$display_multi = ' style="display: none;"';             
                 if($modifica and $id_campaign['tipo_leva']=='mono'){
                     $select_monoleva = ' selected';
                     $display_mono = '';                   
                 }
                 if($modifica and $id_campaign['tipo_leva']=='multi'){$select_multileva = ' selected';$display_multi='';}                
                 ?>
-                <select  id="idlevaselect" name="tipo_leva" class="select2_single form-control"  onchange="levaselect()"  <?php echo $disabled_value;?>>        
+                <select  id="idlevaselect" name="tipo_leva" class="select2_single form-control"  required="required" onchange="levaselect()"  <?php echo $disabled_value;?>>        
                     <option value=""></option>
+                    <option <?php echo $select_info; ?> value="info">Informativa</option>
                     <option <?php echo $select_monoleva; ?> value="mono">MonoLeva</option>
                     <option <?php echo $select_multileva; ?> value="multi" >MultiLeva</option>
 
@@ -155,28 +137,18 @@
                     <input  <?php echo $disabled_value; ?>type="text" id="cod_opz" name="cod_opz" value="<?php if(isset($id_campaign['cod_opz'])){$form->input_value($modifica, $id_campaign['cod_opz']);} ?>"   placeholder=" campo alfanumerico" class="form-control col-md-7 col-xs-12">
                 </div>
             </div>
-
-
-            <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="id_news">ID News
-                </label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input <?php echo $disabled_value;?> type="text" id="id_news" name="id_news"  class="form-control col-md-7 col-xs-12" placeholder=" campo alfanumerico" value="<?php if(isset($id_campaign['id_news'])){echo $id_campaign['id_news'];}?>">
-                </div>
-            </div>    
-
+  
 
         </span>     
-        <span id="multileva" <?php echo $display_multi; ?>> 
+        
 
             <div class="form-group">
                 <br />
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="note">File Upload<span class="required">*</span>
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="note">File Upload 
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">             
 
-                    <div class="x_content">
-                        <p>Drag a file to the box below for upload or click to select file.</p>                        
+                    <div class="x_content">                                             
                                         
                         <form id="dropzone-canale" action="upload.php?id_upload=<?php echo $id_upload; ?>&canale"  class="dropzone">
                         </form>
@@ -184,7 +156,7 @@
                     </div>
                 </div>   
             </div>  
-        </span>   
+    
 
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="note">Note Operative
@@ -315,7 +287,7 @@
                             <select id="senders_ins" name="addcanale[0][sender_id]" class="select2_single form-control" style="width:100%"  <?php echo $required_sms; ?> <?php echo $disabled_value;?>>      
                                 <?php                               
                                 foreach ($sender as $key => $value) {
-                                    if($modifica and $canale['sender_id']==$value['id']){$selected = ' selected';}
+                                    if($modifica and isset($canale['sender_id']) && $canale['sender_id']==$value['id']){$selected = ' selected';}
                                     else{$selected = '';}
                                     echo '<option '. $selected. ' value="' . $value['id'] .'">'  . $value['name'] . '</option>';
                                 }
@@ -406,10 +378,13 @@
 
     </span>   
     <span id="pos_field" <?php echo $display_pos; ?>> 
-            <?php #print_r($stacks); ?>
-            <div class="col-md-4 col-sm-6 col-xs-12">
-                <label>Categoria & Sottocategoria</label>
-                <select id="cat_sott_ins" style="width: 100%" name="addcanale[0][cat_sott_id]" class="select2_single form-control" <?php echo $required_pos ?> <?php echo $disabled_value; ?>>        
+            <div class="col-md-4 col-sm-6 col-xs-12">      
+                <label  class="control-label">Titolo & Sottotitolo<span class="required">*</span></label>
+                <input <?php if ($readonly){echo $disabled_value;}?> type="text" id="tit_sott_pos" name="addcanale[0][tit_sott_pos]" placeholder="testo"  data-parsley-trigger="keyup" data-parsley-maxlength="200" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['tit_sott_pos'])){echo $canale['tit_sott_pos']; }?>" <?php echo $required_pos; ?> >                         
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12"><br>
+                <label>Categoria & Sottocategoria<span class="required">*</span></label></label>
+                <select id="cat_sott_ins" style="width: 100%" name="addcanale[0][cat_sott_id]" class="select2_single form-control" <?php echo $required_pos; ?> <?php echo $disabled_value; ?>>        
                     <?php                               
                     foreach ($cat_sott as $key => $value) {
                         if($modifica and $canale['cat_sott_id']==$value['id']){$selected = ' selected';}
@@ -419,91 +394,175 @@
                     ?>  
                 </select>
             </div>
-            <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Giorni di Validità</label>
-                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_pos" name="addcanale[0][day_val_pos]"  min="1" max="31" <?php echo $required_pos ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['day_val_pos'])){echo $canale['day_val_pos']; }?>">                         
+            <div class="col-md-4 col-sm-6 col-xs-12"><br>     
+                <label  class="control-label">Giorni di Validità<span class="required">*</span></label>
+                <input <?php if ($readonly){echo $disabled_value;}?> type="number" id="day_val_pos" name="addcanale[0][day_val_pos]"  min="1" max="31" <?php echo $required_pos ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['day_val_pos'])){echo $canale['day_val_pos']; }?>">                         
             </div>
-            <div  class="col-md-4 col-sm-6 col-xs-12" >
-                <label class="control-label">Call Guide (4000 chars max)</label>
+            <div  class="col-md-4 col-sm-6 col-xs-12" ><br>
+                <label class="control-label">Call Guide (4000 chars max)<span class="required">*</span></label>
                 <textarea id="callguide_pos" name="addcanale[0][callguide_pos]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" <?php echo $required_pos; ?> <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica and (isset($canale['callguide_pos']))){echo stripslashes($canale['callguide_pos']); }?></textarea>                    
             </div>
 
-        </span> 
+    </span> 
     <span id="span_40400" <?php echo $display_40400; ?>>
         <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label>Alias Attivazione</label>
+                <label>Alias Attivazione<span class="required">*</span></label>
                 <input <?php if ($readonly){echo $disabled_value;}?>type="text" id="alias_attiv" name="addcanale[0][alias_attiv]"  <?php echo $required_400 ?> placeholder="alfanumerico"  class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['alias_attiv'])){echo $canale['alias_attiv']; }?>">
                 <br><br>
-                <label  class="control-label" for="day_val">Giorni di Validità</label>
+                <label  class="control-label" for="day_val">Giorni di Validità<span class="required">*</span></label>
                 <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val" name="addcanale[0][day_val]"  min="1" max="31"  <?php echo $required_400 ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['day_val'])){echo $canale['day_val']; }?>">
                 <br><br>
-                <label  class="control-label" for="note">SMS Presa in carico</label>
+                <label  class="control-label" for="note">SMS Presa in carico<span class="required">*</span></label>
                 <textarea <?php if ($readonly){echo $disabled_value;}?> rows="2" id="sms_incarico" name="addcanale[0][sms_incarico]"  <?php echo $required_400 ?> placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" ><?php if(isset($canale['sms_incarico'])){echo $canale['sms_incarico']; }?></textarea>
                 <br><br>
-                <label class="control-label" for="sms_target">SMS Non in Tanget</label>            
+                <label class="control-label" for="sms_target">SMS Non in Tanget<span class="required">*</span></label>            
                 <textarea <?php if ($readonly){echo $disabled_value;}?> rows="2" id="sms_target" name="addcanale[0][sms_target]"   <?php echo $required_400 ?> placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160"   data-parsley-trigger="keyup"  class="form-control col-md-7 col-xs-12" ><?php if(isset($canale['sms_target'])){echo $canale['sms_target']; }?></textarea>
                 <br><br>
-                <label class="control-label" for="sms_adesione">SMS Adesione già Avvenuta</label>
+                <label class="control-label" for="sms_adesione">SMS Adesione già Avvenuta<span class="required">*</span></label>
                 <textarea <?php if ($readonly){echo $disabled_value;}?> rows="2" id="sms_adesione" name="addcanale[0][sms_adesione]"    <?php echo $required_400 ?>placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" ><?php if(isset($canale['sms_adesione'])){echo $canale['sms_adesione']; }?></textarea>
                 <br><br>
-                <label class="control-label" for="sms_adesione">SMS Non Disponibile</label>
+                <label class="control-label" for="sms_adesione">SMS Non Disponibile<span class="required">*</span></label>
                 <textarea <?php if ($readonly){echo $disabled_value;}?> rows="2" id="sms_nondisponibile" name="addcanale[0][sms_nondisponibile]"   <?php echo $required_400 ?>placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" ><?php if(isset($canale['sms_nondisponibile'])){echo $canale['sms_nondisponibile']; }?></textarea>
         </div>
     </span> 
     <span id="span_app_inbound" <?php echo $display_app_inbound; ?>>
-        <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Giorni di Validità</label>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+                <label  class="control-label">Id News<span class="required">*</span></label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="text" id="id_news_app_inbound" name="addcanale[0][id_news_app_inbound]" <?php echo $required_app_inbound ?> placeholder="testo"  data-parsley-trigger="keyup" data-parsley-maxlength="200" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['id_news_app_inbound'])){echo $canale['id_news_app_inbound']; }?>">
+                <br><br>      
+                <label  class="control-label">Giorni di Validità<span class="required">*</span></label>
                 <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_app_inbound" name="addcanale[0][day_val_app_inbound]"  min="1" max="31" <?php echo $required_app_inbound ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['day_val_app_inbound'])){echo $canale['day_val_app_inbound']; }?>">
                 <br><br>
-                <label  class="control-label">Priorità</label>
-                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="prior_app_inbound" name="addcanale[0][prior_app_inbound]"  min="0" max="9"  <?php echo $required_app_inbound ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['prior_app_inbound'])){echo $canale['prior_app_inbound']; }?>">
-                <br><br>                                
+                <label  class="control-label">Priorità<span class="required">*</span></label>                
+                      <select id="prior_app_inbound" name="addcanale[0][prior_app_inbound]" class="select2_single form-control" style="width:100%"  <?php echo $required_app_inbound; ?> <?php echo $disabled_value;?>>
+                            <option <?php if($modifica and isset($canale['prior_app_inbound']) && $canale['prior_app_inbound']=='1'){echo ' selected';} ?> value="1">HIGH</option>        
+                            <option <?php if($modifica and isset($canale['prior_app_inbound']) && $canale['prior_app_inbound']=='0'){echo ' selected';} ?> value="0">LOW </option>                                                            
+                        </select>
+                <br><br>
+                                         
         </div>
         <div  class="col-md-4 col-sm-6 col-xs-12" >
-                <label class="control-label">Call Guide (4000 chars max)</label>
+                <label class="control-label">Call Guide (4000 chars max)<span class="required">*</span></label>
 
-                    <textarea id="callguide_app_inbound" name="addcanale[0][callguide_app_inbound]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" <?php echo $required_app_inbound; ?> <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica){echo stripslashes($canale['callguide_app_inbound']); }?></textarea>
+                    <textarea id="callguide_app_inbound" name="addcanale[0][callguide_app_inbound]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" <?php echo $required_app_inbound; ?> <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica && isset($canale['callguide_app_inbound'])){echo stripslashes($canale['callguide_app_inbound']); }?></textarea>
                     
         </div> 
     </span>
     <span id="span_app_outbound" <?php echo $display_app_outbound; ?>>
-        <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Giorni di Validità</label>
-                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_app_outbound" name="addcanale[0][day_val_app_outbound]"  min="1" max="31" <?php echo $required_app_outbound ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['day_val_app_outbound'])){echo $canale['day_val_app_outbound']; }?>">
+        <div class="col-md-4 col-sm-6 col-xs-12">
+                <label  class="control-label">Id News<span class="required">*</span></label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="text" id="id_news_app_outbound" name="addcanale[0][id_news_app_outbound]" <?php echo $required_app_outbound; ?> placeholder="testo"  data-parsley-trigger="keyup" data-parsley-maxlength="200" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['id_news_app_outbound'])){echo $canale['id_news_app_outbound']; }?>">
+                <br><br>     
+                <label  class="control-label">Giorni di Validità<span class="required">*</span></label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_app_outbound" name="addcanale[0][day_val_app_outbound]"  min="1" max="31" <?php echo $required_app_outbound; ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['day_val_app_outbound'])){echo $canale['day_val_app_outbound']; }?>">
                 <br><br>
-                <label  class="control-label">Priorità</label>
-                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="prior_app_outbound" name="addcanale[0][prior_app_outbound]"  min="0" max="9"  <?php echo $required_app_outbound ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['prior_app_outbound'])){echo $canale['prior_app_outbound']; }?>">
-                <br><br>                                
+                <label  class="control-label">Push Notification<span class="required">*</span></label>
+                            <select id="notif_app_outbound" name="addcanale[0][notif_app_outbound]" class="select2_single form-control" style="width:100%"  <?php echo $required_app_outbound; ?> <?php echo $disabled_value;?>>
+                                <option <?php if($modifica and isset($canale['notif_app_outbound']) && $canale['notif_app_outbound']=='0'){echo ' selected';} ?> value="0">N</option>
+                                <option <?php if($modifica and isset($canale['notif_app_outbound']) && $canale['notif_app_outbound']=='1'){echo ' selected';} ?> value="1">Y</option>
+                                
+
+                          </select>
+                       
+                <label  class="control-label">Priorità<span class="required">*</span></label>
+                <!--<input <?php //if ($readonly){echo $disabled_value;}?>type="number" id="prior_app_outbound" name="addcanale[0][prior_app_outbound]"  min="0" max="9"  <?php //echo $required_app_outbound; ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php //if(isset($canale['prior_app_outbound'])){echo $canale['prior_app_outbound']; }?>">-->
+                        <select id="prior_app_outbound" name="addcanale[0][prior_app_outbound]" class="select2_single form-control" style="width:100%"  <?php echo $required_app_outbound; ?> <?php echo $disabled_value;?>>
+                            <option <?php if($modifica and isset($canale['prior_app_outbound']) && $canale['prior_app_outbound']=='1'){echo ' selected';} ?> value="1">HIGH</option>        
+                            <option <?php if($modifica and isset($canale['prior_app_outbound']) && $canale['prior_app_outbound']=='0'){echo ' selected';} ?> value="0">LOW </option>                                                            
+                        </select>
+                                           
         </div>
+                <div  class="col-md-4 col-sm-6 col-xs-12" >
+                <label class="control-label">Call Guide (4000 chars max)<span class="required">*</span></label>
+
+                    <textarea id="callguide_app_outbound" name="addcanale[0][callguide_app_outbound]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" <?php echo $required_app_outbound; ?> <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica && isset($canale['callguide_app_outbound'])){echo stripslashes($canale['callguide_app_outbound']); }?></textarea>
+                    
+        </div> 
     </span>   
     <span id="span_dealer" <?php echo $display_dealer; ?>>
         <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Cod. iniziativa</label>
-                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa" name="addcanale[0][Cod_iniziativa]"   <?php echo $required_dealer; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa'])){echo $canale['Cod_iniziativa']; }?>">
+                <label  class="control-label">Iniziative Dealer da gestire<span class="required">*</span></label>
+                <select  id="iniziative_dealer" name="addcanale[0][count_iniziative_dealer]" class="select2_single form-control" <?php echo $required_dealer ?> <?php echo $disabled_value;?>>
+                    
+                <?php  
+                for($i=1; $i<=9; $i++){
+                    echo'<option ';
+                    if($modifica and isset($canale['count_iniziative_dealer']) and $canale['count_iniziative_dealer']==$i){ 
+                        echo ' selected';
+                    }
+                    echo ' value='.$i.' >'.$i.'</option>';
+                }
+                ?>
+                     
+                </select>                           
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12" id="dealer_1">      
+                <label  class="control-label">Cod. iniziativa 1<span class="required">*</span></label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa1" name="addcanale[0][Cod_iniziativa1]"   <?php echo $required_dealer; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa1'])){echo $canale['Cod_iniziativa1']; }?>">
+                <br><br>                             
+        </div>
+                <div class="col-md-4 col-sm-6 col-xs-12" id="dealer_2" style="display: none;">      
+                <label  class="control-label">Cod. iniziativa 2<span class="required">*</span></label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa2" name="addcanale[0][Cod_iniziativa2]"   <?php echo $required_dealer; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa2'])){echo $canale['Cod_iniziativa2']; }?>">
+                <br><br>                             
+        </div>
+                <div class="col-md-4 col-sm-6 col-xs-12" id="dealer_3" style="display: none;">      
+                <label  class="control-label">Cod. iniziativa 3<span class="required">*</span></label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa3" name="addcanale[0][Cod_iniziativa3]"   <?php echo $required_dealer; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa3'])){echo $canale['Cod_iniziativa3']; }?>">
+                <br><br>                             
+        </div>
+                <div class="col-md-4 col-sm-6 col-xs-12" id="dealer_4" style="display: none;">      
+                <label  class="control-label">Cod. iniziativa 4<span class="required">*</span></label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa4" name="addcanale[0][Cod_iniziativa4]"   <?php echo $required_dealer; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa4'])){echo $canale['Cod_iniziativa4']; }?>">
+                <br><br>                             
+        </div>
+                <div class="col-md-4 col-sm-6 col-xs-12" id="dealer_5" style="display: none;">      
+                <label  class="control-label">Cod. iniziativa 5<span class="required">*</span></label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa5"  name="addcanale[0][Cod_iniziativa5]"   <?php echo $required_dealer; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa5'])){echo $canale['Cod_iniziativa5']; }?>">
+                <br><br>                             
+        </div>
+                <div class="col-md-4 col-sm-6 col-xs-12" id="dealer_6" style="display: none;">      
+                <label  class="control-label">Cod. iniziativa 6<span class="required">*</span></label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa6" name="addcanale[0][Cod_iniziativa6]"   <?php echo $required_dealer; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa6'])){echo $canale['Cod_iniziativa6']; }?>">
+                <br><br>                             
+        </div>
+                <div class="col-md-4 col-sm-6 col-xs-12" id="dealer_7" style="display: none;">      
+                <label  class="control-label">Cod. iniziativa 7<span class="required">*</span></label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa7"  name="addcanale[0][Cod_iniziativa7]"   <?php echo $required_dealer; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa7'])){echo $canale['Cod_iniziativa7']; }?>">
+                <br><br>                             
+        </div>
+                <div class="col-md-4 col-sm-6 col-xs-12" id="dealer_8" style="display: none;">      
+                <label  class="control-label">Cod. iniziativa 8<span class="required">*</span></label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa8" name="addcanale[0][Cod_iniziativa8]"   <?php echo $required_dealer; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa8'])){echo $canale['Cod_iniziativa8']; }?>">
+                <br><br>                             
+        </div>
+                <div class="col-md-4 col-sm-6 col-xs-12" id="dealer_9" style="display: none;">      
+                <label  class="control-label">Cod. iniziativa 9<span class="required">*</span></label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa9" name="addcanale[0][Cod_iniziativa9]"   <?php echo $required_dealer; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa9'])){echo $canale['Cod_iniziativa9']; }?>">
                 <br><br>                             
         </div>
     </span>
     <span id="span_icm" <?php echo $display_icm; ?>>
         <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Giorni di Validità</label>
+                <label  class="control-label">Giorni di Validità<span class="required">*</span></label>
                 <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_icm" name="addcanale[0][day_val_icm]"  min="1" max="31" <?php echo $required_icm; ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['day_val_icm'])){echo $canale['day_val_icm']; }?>">
                                             
         </div>
         <div  class="col-md-4 col-sm-6 col-xs-12" >
-                <label class="control-label">Call Guide (4000 chars max)</label>
-                <textarea id="callguide_icm" name="addcanale[0][callguide_icm]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" <?php echo $required_icm; ?> <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica){echo stripslashes($canale['callguide_icm']); }?></textarea>                    
+                <label class="control-label">Call Guide (4000 chars max)<span class="required">*</span></label>
+                <textarea id="callguide_icm" name="addcanale[0][callguide_icm]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" <?php echo $required_icm; ?> <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica && isset($canale['callguide_icm'])){echo stripslashes($canale['callguide_icm']); }?></textarea>                    
         </div>
     </span>
     <span id="span_ivr_inbound" <?php echo $display_ivr_inbound; ?>>
         <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Giorni di Validità</label>
+                <label  class="control-label">Giorni di Validità<span class="required">*</span></label>
                 <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_ivr_inbound" name="addcanale[0][day_val_ivr_inbound]"  min="1" max="31" <?php echo $required_ivr_inbound ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['day_val_ivr_inbound'])){echo $canale['day_val_ivr_inbound']; }?>">
                 <br><br>                             
         </div>
     </span>
     <span id="span_ivr_outbound" <?php echo $display_ivr_outbound; ?>>
         <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Giorni di Validità</label>
+                <label  class="control-label">Giorni di Validità<span class="required">*</span></label>
                 <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_ivr_outbound" name="addcanale[0][day_val_ivr_outbound]"  min="1" max="31" <?php echo $required_ivr_outbound ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['day_val_ivr_outbound'])){echo $canale['day_val_ivr_outbound']; }?>">
                 <br><br>                             
         </div>
@@ -511,7 +570,7 @@
     <span id="span_jakala" <?php echo $display_jakala; ?>>
 
         <div class="col-md-4 col-sm-6 col-xs-12">    
-                <label class="control-label col-md-6 col-sm-3 col-xs-12">Data invio JAKALA</label>
+                <label class="control-label col-md-6 col-sm-3 col-xs-12">Data invio JAKALA<span class="required">*</span></label>
                 <div class="col-md-6 xdisplay_inputx form-group has-feedback">
                     <input id="data_invio_jakala" <?php if ($readonly){echo $disabled_value;}?> type="text" class="form-control has-feedback-rigth"  placeholder="Data Invio Jakala" aria-describedby="inputSuccessJakala" required="required" name="addcanale[0][data_invio_jakala]" value="<?php if(isset($canale['data_invio_jakala'])){echo $canale['data_invio_jakala'];}?>">
                     <span class="fa fa-calendar-o form-control-feedback rigth" aria-hidden="true"></span>
@@ -521,7 +580,7 @@
     </span>
     <span id="span_spai" <?php echo $display_spai; ?>>
         <div class="col-md-4 col-sm-6 col-xs-12">
-                <label class="control-label col-md-6 col-sm-3 col-xs-12">Data invio SPAI</label>
+                <label class="control-label col-md-6 col-sm-3 col-xs-12">Data invio SPAI<span class="required">*</span></label>
                 <div class="col-md-6 xdisplay_inputx form-group has-feedback">
                     <input id="data_invio_spai" <?php if ($readonly){echo $disabled_value;}?> type="text" class="form-control has-feedback-rigth"  placeholder="Data Invio Spai" aria-describedby="inputSuccessSpai" required="required" name="addcanale[0][data_invio_spai]" value="<?php if(isset($canale['data_invio_spai'])){echo $canale['data_invio_spai'];}?>">
                     <span class="fa fa-calendar-o form-control-feedback rigth" aria-hidden="true"></span>
@@ -531,7 +590,7 @@
     </span>    
     <span id="span_mfh" <?php echo $display_mfh; ?>>
         <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Tipologia MFH</label>
+                <label  class="control-label">Tipologia MFH<span class="required">*</span></label>
                 <select  id="type_mfh" name="addcanale[0][type_mfh]" class="select2_single form-control" <?php echo $required_mfh ?> <?php echo $disabled_value;?>>        
                     <option value=""></option>
                     <option <?php if($modifica and isset($canale['type_mfh']) and $canale['type_mfh']=='ACCREDITI'){ echo ' selected';}?> value="ACCREDITI">ACCREDITI</option>
@@ -544,7 +603,7 @@
     </span>
     <span id="span_watson" <?php echo $display_watson; ?>>
         <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Tipologia Campagna Watson</label>
+                <label  class="control-label">Tipologia Campagna Watson<span class="required">*</span></label>
                 <select  id="type_watson" name="addcanale[0][type_watson]" class="select2_single form-control" <?php echo $required_watson ?> <?php echo $disabled_value;?>>        
                     <option value=""></option>
                     <option <?php if($modifica and isset($canale['type_watson']) and  $canale['type_watson']=='Add On'){ echo ' selected';}?> value="Add On">Add On</option>
@@ -557,7 +616,7 @@
                 </select>                           
         </div>
         <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Tipologia Contatto Watson</label>
+                <label  class="control-label">Tipologia Contatto Watson<span class="required">*</span></label>
                 <select  id="contact_watson" name="addcanale[0][contact_watson]" class="select2_single form-control" <?php echo $required_watson ?> <?php echo $disabled_value;?>>        
                     <option value=""></option>
                     <option <?php if($modifica and isset($canale['contact_watson']) and $canale['contact_watson']=='Provisioning Automatico'){ echo ' selected';}?> value="Provisioning Automatico">Provisioning Automatico</option>
@@ -759,6 +818,8 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
+        $('#tit_sott_pos').attr('required', false);
+        
         $('#day_val_pos').attr('required', false);
         $('#callguide_pos').attr('required', false);
         //#span_40400
@@ -770,11 +831,15 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_nondisponibile').attr('required', false);
         //#span_app_inbound
         $('#day_val_app_inbound').attr('required', false);
+        $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
         $('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         $('#day_val_app_outbound').attr('required', false);
+        $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
+        $('#notif_app_outbound').attr('required', false); 
+        $('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -821,6 +886,8 @@ var myDropzoneCanale = new Dropzone(
 
          //pos
         $('#cat_sott_ins').attr('required', false);
+        $('#tit_sott_pos').attr('required', false);
+        
         $('#day_val_pos').attr('required', false);
         $('#callguide_pos').attr('required', false);
         //#span_40400
@@ -832,11 +899,15 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_nondisponibile').attr('required', false);
         //#span_app_inbound
         $('#day_val_app_inbound').attr('required', false);
+        $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
         $('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         $('#day_val_app_outbound').attr('required', false);
+        $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
+        $('#notif_app_outbound').attr('required', false); 
+        $('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -900,6 +971,8 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', true);
+        $('#tit_sott_pos').attr('required', true);
+    
         $('#day_val_pos').attr('required', true);
         $('#callguide_pos').attr('required', true);
         //#span_40400
@@ -911,11 +984,15 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_nondisponibile').attr('required', false);
         //#span_app_inbound
         $('#day_val_app_inbound').attr('required', false);
+        $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
         $('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         $('#day_val_app_outbound').attr('required', false);
+        $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
+        $('#notif_app_outbound').attr('required', false);        
+        $('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -977,6 +1054,7 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
+        $('#tit_sott_pos').attr('required', false);
         $('#day_val_pos').attr('required', false);
         $('#callguide_pos').attr('required', false);
         //#span_40400
@@ -988,11 +1066,15 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_nondisponibile').attr('required', true);
         //#span_app_inbound
         $('#day_val_app_inbound').attr('required', false);
+        $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
         $('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         $('#day_val_app_outbound').attr('required', false);
+        $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
+        $('#notif_app_outbound').attr('required', false); 
+        $('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1037,6 +1119,7 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
+        $('#tit_sott_pos').attr('required', false);
         $('#day_val_pos').attr('required', false);
         $('#callguide_pos').attr('required', false);
         //#span_40400
@@ -1048,11 +1131,15 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_nondisponibile').attr('required', false);
         //#span_app_inbound
         $('#day_val_app_inbound').attr('required', false);
+        $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
         $('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         $('#day_val_app_outbound').attr('required', false);
+        $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
+        $('#notif_app_outbound').attr('required', false); 
+        $('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1098,6 +1185,7 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
+        $('#tit_sott_pos').attr('required', false);
         $('#day_val_pos').attr('required', false);
         $('#callguide_pos').attr('required', false);
         //#span_40400
@@ -1109,11 +1197,15 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_nondisponibile').attr('required', false);
         //#span_app_inbound
         $('#day_val_app_inbound').attr('required', true);
+        $('#id_news_app_inbound').attr('required', true);
         $('#prior_app_inbound').attr('required', true);
         $('#callguide_app_inbound').attr('required', true);
         //#span_app_outbound
         $('#day_val_app_outbound').attr('required', false);
+        $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
+        $('#notif_app_outbound').attr('required', false); 
+        $('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1159,6 +1251,7 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
+        $('#tit_sott_pos').attr('required', false);
         $('#day_val_pos').attr('required', false);
         $('#callguide_pos').attr('required', false);
         //#span_40400
@@ -1170,11 +1263,15 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_nondisponibile').attr('required', false);
         //#span_app_inbound
         $('#day_val_app_inbound').attr('required', false);
+        $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
         $('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         $('#day_val_app_outbound').attr('required', true);
+        $('#id_news_app_outbound').attr('required', true);
         $('#prior_app_outbound').attr('required', true);
+        $('#notif_app_outbound').attr('required', true); 
+        $('#callguide_app_outbound').attr('required', true);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1220,6 +1317,7 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
+        $('#tit_sott_pos').attr('required', false);
         $('#day_val_pos').attr('required', false);
         $('#callguide_pos').attr('required', false);
         //#span_40400
@@ -1231,11 +1329,15 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_nondisponibile').attr('required', false);
         //#span_app_inbound
         $('#day_val_app_inbound').attr('required', false);
+        $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
         $('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         $('#day_val_app_outbound').attr('required', false);
+        $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
+        $('#notif_app_outbound').attr('required', false); 
+        $('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', true);
         //#span_icm
@@ -1254,6 +1356,26 @@ var myDropzoneCanale = new Dropzone(
         //#span_watson
         $('#type_watson').attr('required', false);
         $('#contact_watson').attr('required', false);
+        
+        $('#iniziative_dealer').change(function() {
+            //alert($(this).val());
+            count = $(this).val();
+            for(i=1; i<10; i++){
+                if(i<=count){
+                    $('#dealer_'+i).show();
+                    $('#Cod_iniziativa'+i).attr('required', true);
+                    
+                }                
+                else{
+                    $('#dealer_'+i).hide();
+                    $('#Cod_iniziativa'+i).attr('required', false);
+                }
+            }
+
+
+        });        
+
+
       }
      else if (selected_channel_id === '22') {//canale IVR INBOUND
         $('#sms_field').hide();
@@ -1281,6 +1403,7 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
+        $('#tit_sott_pos').attr('required', false);
         $('#day_val_pos').attr('required', false);
         $('#callguide_pos').attr('required', false);
         //#span_40400
@@ -1292,11 +1415,15 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_nondisponibile').attr('required', false);
         //#span_app_inbound
         $('#day_val_app_inbound').attr('required', false);
+        $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
         $('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         $('#day_val_app_outbound').attr('required', false);
+        $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
+        $('#notif_app_outbound').attr('required', false); 
+        $('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1342,6 +1469,7 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
+        $('#tit_sott_pos').attr('required', false);
         $('#day_val_pos').attr('required', false);
         $('#callguide_pos').attr('required', false);
         //#span_40400
@@ -1353,11 +1481,15 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_nondisponibile').attr('required', false);
         //#span_app_inbound
         $('#day_val_app_inbound').attr('required', false);
+        $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
         $('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         $('#day_val_app_outbound').attr('required', false);
+        $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
+        $('#notif_app_outbound').attr('required', false); 
+        $('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1403,6 +1535,7 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
+        $('#tit_sott_pos').attr('required', false);
         $('#day_val_pos').attr('required', false);
         $('#callguide_pos').attr('required', false);
         //#span_40400
@@ -1414,11 +1547,15 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_nondisponibile').attr('required', false);
         //#span_app_inbound
         $('#day_val_app_inbound').attr('required', false);
+        $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
         $('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         $('#day_val_app_outbound').attr('required', false);
+        $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
+        $('#notif_app_outbound').attr('required', false); 
+        $('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1464,6 +1601,7 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
+        $('#tit_sott_pos').attr('required', false);
         $('#day_val_pos').attr('required', false);
         $('#callguide_pos').attr('required', false);
         //#span_40400
@@ -1475,11 +1613,15 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_nondisponibile').attr('required', false);
         //#span_app_inbound
         $('#day_val_app_inbound').attr('required', false);
+        $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
         $('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         $('#day_val_app_outbound').attr('required', false);
+        $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
+        $('#notif_app_outbound').attr('required', false); 
+        $('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1525,6 +1667,7 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
+        $('#tit_sott_pos').attr('required', false);
         $('#day_val_pos').attr('required', false);
         $('#callguide_pos').attr('required', false);
         //#span_40400
@@ -1536,11 +1679,15 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_nondisponibile').attr('required', false);
         //#span_app_inbound
         $('#day_val_app_inbound').attr('required', false);
+        $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
         $('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         $('#day_val_app_outbound').attr('required', false);
+        $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
+        $('#notif_app_outbound').attr('required', false); 
+        $('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1586,6 +1733,7 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
+        $('#tit_sott_pos').attr('required', false);
         $('#day_val_pos').attr('required', false);
         $('#callguide_pos').attr('required', false);
         //#span_40400
@@ -1597,11 +1745,15 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_nondisponibile').attr('required', false);
         //#span_app_inbound
         $('#day_val_app_inbound').attr('required', false);
+        $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
         $('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         $('#day_val_app_outbound').attr('required', false);
+        $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
+        $('#notif_app_outbound').attr('required', false); 
+        $('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1647,6 +1799,7 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
+        $('#tit_sott_pos').attr('required', false);
         $('#day_val_pos').attr('required', false);
         $('#callguide_pos').attr('required', false);
         //#span_40400
@@ -1658,11 +1811,15 @@ var myDropzoneCanale = new Dropzone(
         $('#sms_nondisponibile').attr('required', false);
         //#span_app_inbound
         $('#day_val_app_inbound').attr('required', false);
+        $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
         $('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         $('#day_val_app_outbound').attr('required', false);
+        $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
+        $('#notif_app_outbound').attr('required', false); 
+        $('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm

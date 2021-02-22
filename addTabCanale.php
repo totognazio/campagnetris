@@ -5,7 +5,7 @@ include_once './classes/funzioni_admin.php';
 $funzione = new funzioni_admin();
 $campaign = new campaign_class();
 $channels = $funzione->get_list_select('channels');
-$tit_sott = $funzione->get_allTable('campaign_titolo_sottotitolo');
+//$tit_sott = $funzione->get_allTable('campaign_titolo_sottotitolo');
 $cat_sott = $funzione->get_allTable('campaign_cat_sott');
 $id_campaign = array();
 $addcanale_stored = array();
@@ -120,7 +120,7 @@ $string = '<div role="tabpanel" class="tab-pane fade" id="' . $tab_content . '" 
 
 $string .='<br/><input type="hidden" name="'.$id_canale.'_addcanale" value="'.$id_canale.'" >
                 <input type="hidden" name="addcanale['.$id_canale.'][canale]" value="'.$id_canale.'" >            
-                <div class="col-md-9 col-sm-6 col-xs-12">
+                <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Canale  <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">'
@@ -169,7 +169,7 @@ $string .='<span id="sms_field'.$id_canale.'" '.$display_sms.' data-parsley-chec
                                 if($modifica and  isset($addcanale_stored['notif_consegna']) and $addcanale_stored['notif_consegna']=='1'){$string .= ' selected';}
                                 $string .=' value="1">Si</option>
                           </select>
-              <label style="margin-top:20px" for="message">Testo SMS </label>
+              <label style="margin-top:20px" for="message">Testo SMS <span class="required">*</span></label>
               <textarea id="testo_sms'.$id_canale.'" ';
             $string .= ' '.$disabled_value.' '.$required_sms.' class="form-control" name="addcanale['.$id_canale.'][testo_sms]" rows="8" data-parsley-pattern="/^[a-zA-Z0-9-#/()%&\[\]{}!,.?£$@$\' ]+$/gi" data-parsley-pattern-message="Caratteri come \'€\' \' ’ \' ed altri caratteri speciali non sono accettati come testo SMS !!"onkeyup="checklength(0, 640, \'testo_sms\', \'charTesto\', \'numero_sms\')" >';
             if($modifica and isset($addcanale_stored['testo_sms'])){$string .= $addcanale_stored['testo_sms'];}else{$string .= ' ';}
@@ -235,9 +235,14 @@ $string .='<span id="sms_field'.$id_canale.'" '.$display_sms.' data-parsley-chec
                 </div>
         </span>';
 
-$string .='<span id="pos_field'.$id_canale.'" '.$display_pos.'> 
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <label>Categoria & Sottocategoria</label>
+$string .='<span id="pos_field'.$id_canale.'" '.$display_pos.'>                                         
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <label  class="control-label">Titolo e Sottotitolo<span class="required">*</span></label>
+                <input'; if ($readonly){$string .=' '.$disabled_value;}
+                $string .=' type="text" id="tit_sott_pos'.$id_canale.'" name="addcanale['.$id_canale.'][tit_sott_pos]"  '.$required_pos.' placeholder="numerico"  data-parsley-trigger="keyup" data-parsley-maxlength="200" class="form-control col-md-7 col-xs-12" value="';
+                if(isset($addcanale_stored['tit_sott_pos'])){$string .= $addcanale_stored['tit_sott_pos']; }
+                $string .=' "><br> 
+                <label>Categoria & Sottocategoria<span class="required">*</span></label>
                 <select id="cat_sott_ins'.$id_canale.'" style="width: 100%" name="addcanale['.$id_canale.'][cat_sott_id]" class="select2_single form-control" '.$required_pos.' '.$disabled_value.'>';        
                                                  
                     foreach ($cat_sott as $key => $value) {
@@ -247,19 +252,12 @@ $string .='<span id="pos_field'.$id_canale.'" '.$display_pos.'>
                     }
                      
                 $string .= '</select>
-            </div>
-            <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Giorni di Validità</label>
+                <label  class="control-label">Giorni di Validità<span class="required">*</span></label>
                 <input'; if ($readonly){$string .=' '.$disabled_value;}
                 $string .=' type="number" id="day_val_pos'.$id_canale.'" name="addcanale['.$id_canale.'][day_val_pos]"  min="1" max="31" '.$required_pos.' placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="';
                 if(isset($addcanale_stored['day_val_pos'])){$string .= $addcanale_stored['day_val_pos']; }
-                $string .='">
-                </div>
-            <div  class="col-md-4 col-sm-6 col-xs-12" >
-                <label class="control-label">Call Guide (4000 chars max)
-                <img  title="Indicare le azioni che il cliente dovr&agrave; eseguire per essere considerato redeemer (esempio: il cliente dovr&agrave; attivare una opzione in un range temporale). 
-                                    Non &egrave; considerata redemption il click di un link da parte di un cliente." alt="Criteri Redemption" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
-                </label>
+                $string .=' "><br>
+                <label class="control-label">Call Guide (4000 chars max)<span class="required">*</span></label>
                 <textarea id="callguide_pos'.$id_canale.'" name="addcanale['.$id_canale.'][callguide_pos]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" '.$required_pos;
                 if ($readonly){$string .= $disabled_value;}
                 $string .=' >';
@@ -271,15 +269,15 @@ $string .='<span id="pos_field'.$id_canale.'" '.$display_pos.'>
 
 $string .='<span id="span_40400'.$id_canale.'" '.$display_40400.'> 
 
-        <div class="col-md-3 col-sm-6 col-xs-12">      
-                <label class="control-label" for="alias_attiv">Alias Attivazione</label>
+        <div class="col-md-4 col-sm-6 col-xs-12">      
+                <label class="control-label" for="alias_attiv">Alias Attivazione<span class="required">*</span></label>
                 <input ';
                 if ($readonly){$string .= $disabled_value;}
                 $string .= 'type="text" id="alias_attiv'.$id_canale.'" name="addcanale['.$id_canale.'][alias_attiv]"  placeholder="alfanumerico"  class="form-control col-md-7 col-xs-12" value="';
                 if(isset($id_campaign['alias_attiv'])){$string .= $id_campaign['alias_attiv']; }
                 $string .= '">
                 <br><br><br><br>
-                <label  class="control-label" for="day_val">Giorni di Validità</label>
+                <label  class="control-label" for="day_val">Giorni di Validità<span class="required">*</span></label>
                 <input ';
                 if ($readonly){$string .=  $disabled_value;}
                 $string .= 'type="number" id="day_val'.$id_canale.'" name="addcanale['.$id_canale.'][day_val]"  min="1" max="31" placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="';
@@ -290,21 +288,21 @@ $string .='<span id="span_40400'.$id_canale.'" '.$display_40400.'>
                 if($modifica and isset($addcanale_stored['sms_incarico'])){$string .= $addcanale_stored['sms_incarico']; }
                 $string .= '</textarea>
                 <br><br>
-                <label class="control-label" for="sms_target">SMS Non in Tanget</label>            
+                <label class="control-label" for="sms_target">SMS Non in Tanget<span class="required">*</span></label>         
                 <textarea ';
                 if ($readonly){$string .= $disabled_value;}
                 $string .= ' rows="2" id="sms_target'.$id_canale.'" addcanale['.$id_canale.'][sms_target]"  placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" >';
                 if($modifica and isset($addcanale_stored['sms_target'])){$string .= $addcanale_stored['sms_target']; }
                 $string .= '</textarea>
                 <br><br>
-                <label class="control-label" for="sms_adesione">SMS Adesione già Avvenuta</label>
+                <label class="control-label" for="sms_adesione">SMS Adesione già Avvenuta<span class="required">*</span></label>
                 <textarea ';
                 if ($readonly){$string .= $disabled_value;}
                 $string .= ' rows="2" id="sms_adesione'.$id_canale.'" name="addcanale['.$id_canale.'][sms_adesione]"  placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" > ';
                 if($modifica and isset($addcanale_stored['sms_adesione'])){$string .=  $addcanale_stored['sms_adesione']; }
                 $string .= '</textarea>
                 <br><br>
-                <label class="control-label" for="sms_adesione">SMS Non Disponibile</label>
+                <label class="control-label" for="sms_adesione">SMS Non Disponibile<span class="required">*</span></label>
                 <textarea ';if ($readonly){$string .=  $disabled_value;}
                 $string .= ' rows="2" id="sms_nondisponibile'.$id_canale.'" name="addcanale['.$id_canale.'][sms_nondisponibile]"  placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" >';
                 if($modifica and isset($addcanale_stored['sms_adesione'])){$string .=  $addcanale_stored['sms_adesione']; }
@@ -313,58 +311,91 @@ $string .='<span id="span_40400'.$id_canale.'" '.$display_40400.'>
  </span>'; 
  
 $string .='<span id="span_app_inbound'.$id_canale.'"  '.$display_app_inbound.' >
-        <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Giorni di Validità</label>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+                <label  class="control-label">Id News<span class="required">*</span></label>
+                <input ';
+                if ($readonly){$string .=$disabled_value;}
+                $string .=' type="text" id="id_news_app_inbound'.$id_canale.'" name="addcanale['.$id_canale.'][id_news_app_inbound]"   '.$required_app_inbound.' placeholder="testo"  data-parsley-trigger="keyup" data-parsley-maxlength="200" class="form-control col-md-7 col-xs-12" value="';
+                if(isset($addcanale_stored['id_news_app_inbound'])){$string .= $addcanale_stored['id_news_app_inbound']; }
+                $string .='">
+                <br><br>     
+                <label  class="control-label">Giorni di Validità<span class="required">*</span></label>
                 <input ';
                 if ($readonly){$string .=$disabled_value;}
                 $string .=' type="number" id="day_val_app_inbound'.$id_canale.'" name="addcanale['.$id_canale.'][day_val_app_inbound]"  min="1" max="31" '.$required_app_inbound.' placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="';
                 if(isset($addcanale_stored['day_val_app_inbound'])){$string .= $addcanale_stored['day_val_app_inbound']; }
                 $string .='">
                 <br><br>
-                <label  class="control-label">Priorità</label>
-                <input ';
-                if ($readonly){$string .= $disabled_value;}
-                $string .=' type="number" id="prior_app_inbound'.$id_canale.'" name="addcanale['.$id_canale.'][prior_app_inbound]"  min="0" max="9" '.$required_app_inbound.' placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="';
-                if(isset($addcanale_stored['prior_app_inbound'])){$string .= $addcanale_stored['prior_app_inbound']; }
-                $string .='">
-                <br><br>                                
-        </div>
-        <div  class="col-md-4 col-sm-6 col-xs-12" >
-                <label class="control-label">Call Guide (4000 chars max)</label>
-
+                <label  class="control-label">Priorità<span class="required">*</span></label>
+                        <select id="prior_app_inbound'.$id_canale.'" name="addcanale['.$id_canale.'][prior_app_inbound]" class="select2_single form-control" style="width:100%" '.$required_app_inbound.' '.$disabled_value.'>
+                            <option ';
+                            if($modifica and isset($addcanale_stored['prior_app_inbound']) && $addcanale_stored['prior_app_inbound']=='1'){$string.= ' selected';}
+                            $string.=' value="1">HIGH</option>        
+                            <option ';
+                            if($modifica and isset($addcanale_stored['prior_app_inbound']) && $addcanale_stored['prior_app_inbound']=='0'){$string.= ' selected';}
+                            $string.='value="0">LOW </option>                                                            
+                        </select>                             
+                <br><br>
+                <label class="control-label">Call Guide (4000 chars max)<span class="required">*</span></label>
                     <textarea id="callguide_app_inbound'.$id_canale.'" name="addcanale['.$id_canale.'][callguide_app_inbound]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" '. $required_app_inbound;
-                     if ($readonly){$string .= $disabled_value;}
-                     $string .='> ';
-                    if ($modifica and isset($addcanale_stored['prior_app_inbound'])){$string .= stripslashes($addcanale_stored['callguide_app_inbound']); }
+                    if ($readonly){$string .= $disabled_value;}
+                    $string .='>';
+                    if ($modifica and isset($addcanale_stored['callguide_app_inbound'])){$string .= stripslashes($addcanale_stored['callguide_app_inbound']); }
                     $string .='</textarea>
                     
         </div> 
     </span>
     
     <span id="span_app_outbound'.$id_canale.'" '.$display_app_outbound.'>
-        <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Giorni di Validità</label>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+                <label  class="control-label">Id News<span class="required">*</span></label>
+                <input ';
+                if ($readonly){$string .=$disabled_value;}
+                $string .=' type="text" id="id_news_app_outbound'.$id_canale.'" name="addcanale['.$id_canale.'][id_news_app_outbound]"   '.$required_app_outbound.' placeholder="testo"  data-parsley-trigger="keyup" data-parsley-maxlength="200" class="form-control col-md-7 col-xs-12" value="';
+                if(isset($addcanale_stored['id_news_app_outbound'])){$string .= $addcanale_stored['id_news_app_outbound']; }
+                $string .='">
+                <br><br>       
+                <label  class="control-label">Giorni di Validità<span class="required">*</span></label>
                 <input ';
                 if ($readonly){$string .= $disabled_value;}
                 $string .=' type="number" id="day_val_app_outbound'.$id_canale.'" name="addcanale['.$id_canale.'][day_val_app_outbound]"  min="1" max="31" '.$required_app_outbound.'  placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="';
                 if(isset($addcanale_stored['day_val_app_outbound'])){$string .= $addcanale_stored['day_val_app_outbound']; }
                 $string .='">
                 <br><br>
-                <label  class="control-label">Priorità</label>
-                <input ';
-                if ($readonly){$string .= $disabled_value;}
-                $string .='type="number" id="prior_app_outbound'.$id_canale.'" name="addcanale['.$id_canale.'][prior_app_outbound]"  min="0" max="9"  '.$required_app_outbound.' placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="';
-                if(isset($addcanale_stored['prior_app_outbound'])){$string .= $addcanale_stored['prior_app_outbound']; }
-                $string .='">
-                <br><br>                                
+                <label  class="control-label">Push Notification<span class="required">*</span></label>
+                            <select id="notif_app_outbound'.$id_canale.'" name="addcanale['.$id_canale.'][notif_app_outbound]" class="select2_single form-control" style="width:100%" '.$required_app_outbound.' '.$disabled_value.'>
+                                <option ';
+                                if($modifica and isset($addcanale_stored['notif_app_outbound']) && $addcanale_stored['notif_app_outbound']=='0'){$string.= ' selected';}
+                                $string.=' value="0">N</option>
+                                <option ';
+                                if($modifica and isset($addcanale_stored['notif_app_outbound']) && $addcanale_stored['notif_app_outbound']=='1'){$string.= ' selected';}
+                                $string.=' value="1">Y</option>
+                                
+                          </select>                          
+                <label  class="control-label">Priorità<span class="required">*</span></label>
+                        <select id="prior_app_outbound'.$id_canale.'" name="addcanale['.$id_canale.'][prior_app_outbound]" class="select2_single form-control" style="width:100%" '.$required_app_outbound.' '.$disabled_value.'>
+                            <option ';
+                            if($modifica and isset($addcanale_stored['prior_app_outbound']) && $addcanale_stored['prior_app_outbound']=='1'){$string.= ' selected';}
+                            $string.=' value="1">HIGH</option>        
+                            <option ';
+                            if($modifica and isset($addcanale_stored['prior_app_outbound']) && $addcanale_stored['prior_app_outbound']=='0'){$string.= ' selected';}
+                            $string.='value="0">LOW </option>                                                            
+                        </select>
+                
+                <label class="control-label">Call Guide (4000 chars max)<span class="required">*</span></label>
+                    <textarea id="callguide_app_outbound'.$id_canale.'" name="addcanale['.$id_canale.'][callguide_app_outbound]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" '. $required_app_outbound;
+                    if ($readonly){$string .= $disabled_value;}
+                    $string .='> ';
+                     if ($modifica and isset($addcanale_stored['callguide_app_outbound'])){$string .= stripslashes($addcanale_stored['callguide_app_outbound']); }
+                    $string .='</textarea>                                
         </div>
     </span>   
     <span id="span_dealer'.$id_canale.'" '.$display_dealer.'>
         <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Cod. iniziativa</label>
-                <input ';
+                <label  class="control-label">Cod. iniziativa<span class="required">*</span></label>
+                <input class="form-control col-md-7 col-xs-12" ';
                 if ($readonly){$string .= $disabled_value;}
-                $string .='type="number" id="Cod_iniziativa'.$id_canale.'" name="addcanale['.$id_canale.'][Cod_iniziativa]"  min="1"  '.$required_dealer.' min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="';
+                $string .=' type="number" id="Cod_iniziativa'.$id_canale.'" name="addcanale['.$id_canale.'][Cod_iniziativa]"  min="1"  '.$required_dealer.'  max="999" placeholder="numerico da min 1 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3"  value="';
                 if(isset($addcanale_stored['Cod_iniziativa'])){$string .= $addcanale_stored['Cod_iniziativa']; }
                 $string .='">
                 <br><br>                             
@@ -372,20 +403,16 @@ $string .='<span id="span_app_inbound'.$id_canale.'"  '.$display_app_inbound.' >
     </span>
     <span id="span_icm'.$id_canale.'" '.$display_icm.'>
         <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Giorni di Validità</label>
+                <label  class="control-label">Giorni di Validità<span class="required">*</span></label>
                 <input ';
                 if ($readonly){$string .= $disabled_value;}
                 $string .=' type="number" id="day_val_icm'.$id_canale.'" name="addcanale['.$id_canale.'][day_val_icm]"  min="1" max="31" '.$required_icm.' placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="';
                 if(isset($addcanale_stored['day_val_icm'])){$string .= $addcanale_stored['day_val_icm']; }
                 $string .='">
                 <br><br>                             
-        </div>
-        <div  class="col-md-6 col-sm-6 col-xs-12" >
-                <label class="control-label">Call Guide (4000 chars max)
-                <img  title="Indicare le azioni che il cliente dovr&agrave; eseguire per essere considerato redeemer (esempio: il cliente dovr&agrave; attivare una opzione in un range temporale). 
-                                    Non &egrave; considerata redemption il click di un link da parte di un cliente." alt="Criteri Redemption" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
-                </label>
-
+        
+                <label class="control-label">Call Guide (4000 chars max)                
+                <span class="required">*</span></label>
                     <textarea id="callguide_icm'.$id_canale.'" name="addcanale['.$id_canale.'][callguide_icm]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" '.$required_icm;
                     if ($readonly){$string .= $disabled_value;}
                     $string .='>';
@@ -396,7 +423,7 @@ $string .='<span id="span_app_inbound'.$id_canale.'"  '.$display_app_inbound.' >
     </span>
     <span id="span_ivr_inbound'.$id_canale.'" '.$display_ivr_inbound.'>
         <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Giorni di Validità</label>
+                <label  class="control-label">Giorni di Validità<span class="required">*</span></label>
                 <input ';
                 if ($readonly){ $string .= $disabled_value;}
                 $string .=' type="number" id="day_val_ivr_inbound'.$id_canale.'" name="addcanale['.$id_canale.'][day_val_ivr_inbound]"  min="1" max="31" '.$required_ivr_inbound.' placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="';
@@ -407,7 +434,7 @@ $string .='<span id="span_app_inbound'.$id_canale.'"  '.$display_app_inbound.' >
     </span>
     <span id="span_ivr_outbound'.$id_canale.'" '.$display_ivr_outbound.'>
         <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Giorni di Validità</label>
+                <label  class="control-label">Giorni di Validità<span class="required">*</span></label>
                 <input ';
                 if ($readonly){$string .= $disabled_value;}
                 $string .=' type="number" id="day_val_ivr_outbound'.$id_canale.'" name="addcanale['.$id_canale.'][day_val_ivr_outbound]"  min="1" max="31"  '. $required_ivr_outbound.' placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="';
@@ -419,7 +446,7 @@ $string .='<span id="span_app_inbound'.$id_canale.'"  '.$display_app_inbound.' >
     <span id="span_jakala'.$id_canale.'" '.$display_jakala.'>
 
         <div class="col-md-4 col-sm-6 col-xs-12">    
-                <label class="control-label col-md-6 col-sm-3 col-xs-12">Data invio JAKALA</label>
+                <label class="control-label col-md-6 col-sm-3 col-xs-12">Data invio JAKALA<span class="required">*</span></label>
                 <div class="col-md-6 xdisplay_inputx form-group has-feedback">
                     <input id="data_invio_jakala'.$id_canale.'" ';
                     if ($readonly){$string .= $disabled_value;}
@@ -433,7 +460,7 @@ $string .='<span id="span_app_inbound'.$id_canale.'"  '.$display_app_inbound.' >
     </span>
     <span id="span_spai'.$id_canale.'" '.$display_spai.'>
         <div class="col-md-4 col-sm-6 col-xs-12">
-                <label class="control-label col-md-6 col-sm-3 col-xs-12">Data invio SPAI</label>
+                <label class="control-label col-md-6 col-sm-3 col-xs-12">Data invio SPAI<span class="required">*</span></label>
                 <div class="col-md-6 xdisplay_inputx form-group has-feedback">
                     <input id="data_invio_spai'.$id_canale.'" ';
                     if ($readonly){$string .= $disabled_value;}
@@ -447,7 +474,7 @@ $string .='<span id="span_app_inbound'.$id_canale.'"  '.$display_app_inbound.' >
     </span>    
     <span id="span_mfh'.$id_canale.'" '.$display_mfh.'>
         <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Tipologia MFH</label>
+                <label  class="control-label">Tipologia MFH<span class="required">*</span></label>
                 <select  id="type_mfh'.$id_canale.'" name="addcanale['.$id_canale.'][type_mfh]" class="select2_single form-control" '.$required_mfh.' '.$disabled_value.'>        
                     <option value=""></option>
                     <option ';
@@ -470,7 +497,7 @@ $string .='<span id="span_app_inbound'.$id_canale.'"  '.$display_app_inbound.' >
     </span>
     <span id="span_watson'.$id_canale.'" '.$display_watson.'>
         <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Tipologia Campagna Watson</label>
+                <label  class="control-label">Tipologia Campagna Watson<span class="required">*</span></label>
                 <select  id="type_watson'.$id_canale.'" name="addcanale['.$id_canale.'][type_watson]" class="select2_single form-control"  '. $required_watson.' '.$disabled_value.'>        
                     <option value=""></option>
                     <option ';
@@ -495,10 +522,9 @@ $string .='<span id="span_app_inbound'.$id_canale.'"  '.$display_app_inbound.' >
                     if($modifica and isset($addcanale_stored['type_watson']) and $addcanale_stored['type_watson']=='Rivincolo cliente in scadenza'){ $string .= ' selected';}
                     $string .=' value="Rivincolo cliente in scadenza">Rivincolo cliente in scadenza</option>
                 </select>                           
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Tipologia Contatto Watson</label>
-                <select  id="contact_watson'.$id_canale.'" name="addcanale['.$id_canale.'][contact_watson]" class="select2_single form-control" <?php echo $required_watson ?> <?php echo $disabled_value;?>>        
+   
+                <label  class="control-label">Tipologia Contatto Watson<span class="required">*</span></label>
+                <select  id="contact_watson'.$id_canale.'" name="addcanale['.$id_canale.'][contact_watson]" class="select2_single form-control" '.$required_watson.' '.$disabled_value.'>
                     <option value=""></option>
                     <option ';
                     if($modifica and isset($addcanale_stored['contact_watson']) and $addcanale_stored['contact_watson']=='Provisioning Automatico'){ $string .= ' selected';}

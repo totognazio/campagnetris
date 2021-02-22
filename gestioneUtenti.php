@@ -43,7 +43,9 @@ if (isset($_POST['modificaUtente']) && $_POST['modificaUtente'] == "1") {
         $maillist = ",`maillist`='1'";
     else
         $maillist = ",`maillist`='0'";
-    $email = "";
+
+    //$email = "";
+    $email = ',`email`=""';
     if (isset($_POST['email']) && $funzioni_access->check_email($_POST['email'])) {
         $email = ',`email`="' . trim($_POST['email']) . '"';
 
@@ -53,12 +55,19 @@ if (isset($_POST['modificaUtente']) && $_POST['modificaUtente'] == "1") {
           $this->the_msg = $this->messages(12);
           return;
           } */
-    } //else
+    } 
+    elseif(empty($_POST['email'])){
+        $email = ',`email`=""';
+        $maillist = ",`maillist`='0'";
+
+    } 
+    //else
     // echo '<script type="text/javascript">alert("Attenzione! Indirizzo e-mail non valido.");</script>';
 #if (isset($_POST['username']) && !empty($_POST['username'])) $funzioni_admin->check_new_username ($_POST['username']);
 #$login = $_POST['username']
     $access_level = $funzioni_admin->access_level($inserisci, $modifica, $cancella);
     $update_sql = "UPDATE `users` SET $cognome $nome `job_role_id`='" . $_POST['selectRuolo'] . "',`login`='" . $_POST['login'] . "',`squad_id`='" . $_POST['selectSquad'] . "',`active`='" . $_POST['selectStato'] . "',`leggi`='Yes',`inserisci`='" . $inserisci . "',`modifica`='" . $modifica . "',`cancella`='" . $cancella . "' $email $update_pw ,`access_level`='" . $access_level . "' $maillist WHERE `id`='" . $_POST['idUtente'] . "'";
+    //echo $update_sql;
     $result = $funzioni_admin->user_update($update_sql);
     if ($result > 0)
         $stringa_risultato = "L'aggiornamento è avvenuto correttamente";

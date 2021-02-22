@@ -1577,7 +1577,7 @@ LEFT JOIN users ON `user_id` = users.id
                     <table id="datatable-scroll" class="table table-bordered nowrap">
                     <table id="datatable-scroll" class="table table-bordered nowrap" style="width:100%">
                     <table id="datatable-pianificazione" class="display compact table-bordered table-striped  nowrap table-hover no-margin" cellspacing="0"> -->   
-              <table id="datatable-pianificazione" class="display compact table-bordered table-striped table-hover no-margin" cellspacing="0" cellpadding="0" defer>
+              <table id="datatable-pianificazione" class="display compact table-bordered text-nowrap table-hover no-margin nowrap" cellspacing="0" cellpadding="0" defer>
                         <thead>
                             <tr>                            
                             <th class="not-export-col"><small>Azione</small></th> 

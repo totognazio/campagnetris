@@ -168,13 +168,13 @@ var Dropzone = function (_Emitter) {
         /**
          * The timeout for the XHR requests in milliseconds (since `v4.4.0`).
          */
-        timeout: 36000,
+        timeout: 360000,
 
         /**
          * How many file uploads to process in parallel (See the
          * Enqueuing file uploads* documentation section for more info)
          */
-        parallelUploads: 2,
+        parallelUploads: 20,
 
         /**
          * Whether to send multiple files in one request. If
@@ -225,7 +225,7 @@ var Dropzone = function (_Emitter) {
          * the event `maxfilesexceeded` will be called. The dropzone element gets the
          * class `dz-max-files-reached` accordingly so you can provide visual feedback.
          */
-        maxFilesize: 10000000,
+        maxFilesize: 100000000,
 
         /**
          * The name of the file param that gets transferred.
@@ -304,7 +304,7 @@ var Dropzone = function (_Emitter) {
         /**
          * Can be used to limit the maximum number of files that will be handled by this Dropzone
          */
-        maxFiles: 10,
+        maxFiles: 20,
 
         /**
          * An optional object to send additional headers to the server. Eg:

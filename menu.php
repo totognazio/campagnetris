@@ -26,7 +26,7 @@ if (stripos($_SERVER['REQUEST_URI'],'campaign_categories') !== false) { $categor
 if (stripos($_SERVER['REQUEST_URI'],'campaign_modalities') !== false) { $modalitiesmenu = ' class="current-page"';$adminmenu=' class="active"';$ul_admin=' style="display: block;"';} else{$modalitiesmenu='';$adminmenu='';$ul_admin='';}
 if (stripos($_SERVER['REQUEST_URI'],'campaign_types') !== false) { $typesmenu = ' class="current-page"';$adminmenu=' class="active"';$ul_admin=' style="display: block;"';} else{$typesmenu='';$adminmenu='';$ul_admin='';}
 if (stripos($_SERVER['REQUEST_URI'],'campaign_states') !== false) { $statesmenu = ' class="current-page"';$adminmenu=' class="active"';$ul_admin=' style="display: block;"';} else{$statesmenu='';$adminmenu='';$ul_admin='';}
-if (stripos($_SERVER['REQUEST_URI'],'campaign_titolo_sottotitolo') !== false) { $tit_sottmenu = ' class="current-page"';$adminmenu=' class="active"';$ul_admin=' style="display: block;"';} else{$tit_sottmenu='';$adminmenu='';$ul_admin='';}
+//if (stripos($_SERVER['REQUEST_URI'],'campaign_titolo_sottotitolo') !== false) { $tit_sottmenu = ' class="current-page"';$adminmenu=' class="active"';$ul_admin=' style="display: block;"';} else{$tit_sottmenu='';$adminmenu='';$ul_admin='';}
 if (stripos($_SERVER['REQUEST_URI'],'campaign_cat_sott') !== false) { $cat_sottmenu = ' class="current-page"';$adminmenu=' class="active"';$ul_admin=' style="display: block;"';} else{$cat_sottmenu='';$adminmenu='';$ul_admin='';}
 
 
@@ -56,10 +56,10 @@ if (stripos($_SERVER['REQUEST_URI'],'campaign_cat_sott') !== false) { $cat_sottm
                 
                 
 
-                <?php if ($jobrole>5) { ?>
+                <?php if ($jobrole>6) { ?>
                  <li  <?php echo $adminmenu;?>><a><i class="fa fa-gears"></i> Amministrazione <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu" <?php echo $ul_admin; ?> >
-                            <li <?php echo $kickOffmenu;?> ><a href="index.php?page=kickOff">Kick Off</a></li>
+                <li <?php echo $kickOffmenu;?> ><a href="index.php?page=kickOff">Kick Off</a></li>
 
                         <?php if ($jobrole>7) { ?>   
                                                         
@@ -77,7 +77,7 @@ if (stripos($_SERVER['REQUEST_URI'],'campaign_cat_sott') !== false) { $cat_sottm
                             <li <?php echo $modalitiesmenu;?>><a href="index.php?page=gestioneAdmin&amp;table=campaign_modalities"> Campaign Modalities</a></li>
                             <li <?php echo $typesmenu;?>><a href="index.php?page=gestioneAdmin&amp;table=campaign_types"> Campaign Typlogies</a></li> 
                             <li <?php echo $statesmenu;?>><a href="index.php?page=gestioneAdmin&amp;table=campaign_states"> Campaign States</a></li> 
-                            <li <?php echo $tit_sottmenu;?>><a href="index.php?page=gestioneAdmin&amp;table=campaign_titolo_sottotitolo"> Titolo & Sottotitolo</a></li>  
+                            <!--<li <?php #echo $tit_sottmenu;?>><a href="index.php?page=gestioneAdmin&amp;table=campaign_titolo_sottotitolo"> Titolo & Sottotitolo</a></li>  -->
                             <li <?php echo $cat_sottmenu;?>><a href="index.php?page=gestioneAdmin&amp;table=campaign_cat_sott"> Categoria & Sottocategoria</a></li>  
                             
                             

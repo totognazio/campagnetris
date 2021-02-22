@@ -500,7 +500,7 @@
 
             },
             */
-                          {              
+            {              
               extend: 'colvis',
               className: 'btn-xs btn-primary',
               text: '<i class="fa fa-table"></i> Vista Colonne', 
@@ -513,13 +513,14 @@
                 { 
                   orderable: false,     
                   targets: 0,
-                  searchable: false,                  
-                  width: 35,
+                  searchable: false,
+                  orderable: false,              
+                  //width: 35,
               },
               {      
                   targets: 1,
                   searchable: false,                  
-                  orderable: false,
+                  orderable: true,
                   visible: false,
               },
  
@@ -538,13 +539,13 @@
                             {      
                   targets: 4,
                   searchable: true,
-                  width: 95,
+                  //width: 95,
                   orderable: true,
               },
               {      
                   targets: 5,
                   searchable: true,
-                  width: 95,
+                  //width: 95,
                   orderable: true,
               },
                             {      
@@ -592,9 +593,15 @@
               {
                   targets: '_all',
                   searchable: true,
+                  width: 10,
+                  createdCell: function (th, td, cellData, rowData, row, col) {
+                      $(td).css('padding', '3px');
+                      $(th).css('text-align', 'left');
+                      
+                  }, 
                   orderable: <?php if($datatable=="pianificazione") {echo "false,";} elseif($datatable=="gestione"){echo "true,";}?>
-                  //width: 10,
-              },              
+                  
+              },             
             ],
             order: [1, 'asc'],
 
@@ -804,8 +811,22 @@
     $('#data_inizio_campagna').daterangepicker({
       singleDatePicker: true,
       singleClasses: "picker_3",
+      /*
       locale: {
         format: "DD/MM/YYYY"
+      }
+      */
+      format: "DD/MM/YYYY",
+      locale: {
+        format: "DD/MM/YYYY",
+        applyLabel: 'Submit',
+        cancelLabel: 'Clear',
+        fromLabel: 'From',
+        toLabel: 'To',
+        customRangeLabel: 'Custom',
+        daysOfWeek: ['Do', 'Lu', 'Ma', 'Me', 'Gi', 'Ve', 'Sa'],
+        monthNames: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
+        firstDay: 1        
       }
     }, function(start, end, label) {
           console.log(start.toISOString(), end.toISOString(), label);

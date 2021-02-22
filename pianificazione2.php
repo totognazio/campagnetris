@@ -2,11 +2,19 @@
             
                 tr:hover {
                 background-color: lightgreen;
-                color: green;
+                color: black;
                 }
                 body {
                     overflow-y: auto;
                 }
+                th {
+                background-color: lightgreen;
+                color: black;
+                }
+div.datatable-wide {
+    padding-left: 0;
+    padding-right: 0;
+}
  </style>  
  
 
@@ -128,8 +136,6 @@ $form->head_page_compat("Pianificazione Campagne", "Filtro");
 <?php 
 $form->close_row();
 $form->open_row("Lista Campagne", "Filtrate");
-
-
 $livello_accesso = $page_protect->get_job_role();
 if ($livello_accesso > 1) {
     ?>
@@ -138,7 +144,7 @@ if ($livello_accesso > 1) {
                             <input type="hidden" name="azione" value="new" />
                             <input type="hidden" name="id" value="0" />
                 </form>
-                <div style="margin-left: 10px;">
+                
                 
                 <?php }
 if ($livello_accesso > 0) {
@@ -158,17 +164,21 @@ if ($livello_accesso > 0) {
                 </form>-->
                 <!--button Excel -->
 <?php }
+
 if ($livello_accesso > 1) { 
     ?>
+<div class="col-md-12 col-sm-12 col-xs-12">
+<div class="btn-group">    
 <button class="btn btn btn-xs btn-warning" type="submit" onclick="manageCamp('','new');" data-placement="top" data-toggle="tooltip" data-original-title="Inserisci nuova Campagna"><i class="fa fa-plus-square"></i> Nuova Campagna</button>
+</div>
 <?php } 
 if ($livello_accesso > 0) {
     ?>
-<!--<button class="btn btn btn-xs btn-success" id="createXLSX"  data-placement="top" data-toggle="tooltip" data-original-title="Export Pianificazione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>-->
-<button class="btn btn btn-xs btn-success" onclick="manageCamp('','exportpianificazione');" data-placement="top" data-toggle="tooltip" data-original-title="Export Pianificazione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>
+<!--<button class="btn btn btn-xs btn-success" id="createXLSX"  data-placement="top" data-toggle="tooltip" data-original-title="Export Pianificazione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>
+<button class="btn btn btn-xs btn-success" onclick="manageCamp('','exportpianificazione');" data-placement="top" data-toggle="tooltip" data-original-title="Export Pianificazione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>-->
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-download"></i> Download </button>
-                                                <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                <button type="button" class="btn btn-success btn-xs"><i class="fa fa-download"></i> Download </button>
+                                                <button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                                     <span class="caret"></span>
                                                     <span class="sr-only">Toggle Dropdown</span>
                                                 </button>
@@ -186,8 +196,6 @@ if ($livello_accesso > 0) {
 <?php }?>
 </div>
 <div class="col-md-12 col-sm-12 col-xs-12" id="content_response">
-
-
 </div>
 
 <?php $form->close_page(); ?> 
