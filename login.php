@@ -4,7 +4,6 @@ include("./classes/access_user/access_user_class.php");
 
 $my_access = new Access_user(false);
 
-
 // $my_access->language = "de"; // use this selector to get messages in other languages
 if (isset($_GET['activate']) && isset($_GET['ident'])) { // this two variables are required for activating/updating the account/password
     $my_access->auto_activation = true; // use this (true/false) to stop the automatic activation
@@ -63,9 +62,11 @@ $error = $my_access->the_msg;
                 <input type="password" class="form-control" placeholder="Password" required="" name="password" value="<?php if (isset($_POST['password'])) echo $_POST['password']; ?>" />
               </div>
               <div>
-                
-                <input class="btn btn-default submit" type="submit" name="Submit" value="Login" />
-                <a class="reset_pass" href="forgot_password.php">Lost your password?</a>
+                    <p>
+                        <input class="btn btn-default submit"  type="submit" name="Submit" value="Login">
+                    </p>
+                    <p><b><?php echo (isset($error)) ? $error : "&nbsp;"; ?></b></p>
+                    <a class="reset_pass" href="forgot_password.php">Lost your password?</a>
               </div>
 
               <div class="clearfix"></div>
@@ -124,7 +125,7 @@ $error = $my_access->the_msg;
                 <br />
 
                 <div>
-                  <h1><i class="fa fa-paw"></i> Device Engineering</h1>
+                  <h1><i class="fa fa-paw"></i> Tool Campaign</h1>
                   <p></p>
                 </div>
               </div>

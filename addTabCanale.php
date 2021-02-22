@@ -252,7 +252,7 @@ $string .='<span id="pos_field'.$id_canale.'" '.$display_pos.'>
                     }
                      
                 $string .= '</select>
-                <label  class="control-label">Giorni di Validità<span class="required">*</span></label>
+                <label  class="control-label">Giorni di Validità</label>
                 <input'; if ($readonly){$string .=' '.$disabled_value;}
                 $string .=' type="number" id="day_val_pos'.$id_canale.'" name="addcanale['.$id_canale.'][day_val_pos]"  min="1" max="31" '.$required_pos.' placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="';
                 if(isset($addcanale_stored['day_val_pos'])){$string .= $addcanale_stored['day_val_pos']; }
@@ -319,7 +319,7 @@ $string .='<span id="span_app_inbound'.$id_canale.'"  '.$display_app_inbound.' >
                 if(isset($addcanale_stored['id_news_app_inbound'])){$string .= $addcanale_stored['id_news_app_inbound']; }
                 $string .='">
                 <br><br>     
-                <label  class="control-label">Giorni di Validità<span class="required">*</span></label>
+                <label  class="control-label">Giorni di Validità</label>
                 <input ';
                 if ($readonly){$string .=$disabled_value;}
                 $string .=' type="number" id="day_val_app_inbound'.$id_canale.'" name="addcanale['.$id_canale.'][day_val_app_inbound]"  min="1" max="31" '.$required_app_inbound.' placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="';
@@ -355,7 +355,7 @@ $string .='<span id="span_app_inbound'.$id_canale.'"  '.$display_app_inbound.' >
                 if(isset($addcanale_stored['id_news_app_outbound'])){$string .= $addcanale_stored['id_news_app_outbound']; }
                 $string .='">
                 <br><br>       
-                <label  class="control-label">Giorni di Validità<span class="required">*</span></label>
+                <label  class="control-label">Giorni di Validità</label>
                 <input ';
                 if ($readonly){$string .= $disabled_value;}
                 $string .=' type="number" id="day_val_app_outbound'.$id_canale.'" name="addcanale['.$id_canale.'][day_val_app_outbound]"  min="1" max="31" '.$required_app_outbound.'  placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="';

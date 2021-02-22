@@ -80,7 +80,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $('#cat_sott_ins2').attr('required', false);
         $('#tit_sott_pos2').attr('required', false);
       
-        $( '#day_val_pos2').attr( 'required', false);
+        //$( '#day_val_pos2').attr( 'required', false);
         $( '#callguide_pos2').attr( 'required', false);
         //#span_40400
         $( '#alias_attiv2').attr( 'required', false);
@@ -90,12 +90,12 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#sms_adesione2').attr( 'required', false);
         $( '#sms_nondisponibile2').attr( 'required', false);
         //#span_app_inbound
-      $('#day_val_app_inbound2').attr('required', false);
+      //$('#day_val_app_inbound2').attr('required', false);
       $('#id_news_app_inbound2').attr('required', false);  
         $( '#prior_app_inbound2').attr( 'required', false);
         $( '#callguide_app_inbound2').attr( 'required', false);
         //#span_app_outbound
-      $('#day_val_app_outbound2').attr('required', false);
+      //$('#day_val_app_outbound2').attr('required', false);
       $('#id_news_app_outbound2').attr('required', false);
       $('#prior_app_outbound2').attr('required', false);
       $('#notif_app_outbound2').attr('required', false);
@@ -148,7 +148,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         //pos
         $('#cat_sott_ins2').attr('required', false);
         $('#tit_sott_pos2').attr('required', false);
-        $( '#day_val_pos2').attr( 'required', false);
+        //$( '#day_val_pos2').attr( 'required', false);
         $( '#callguide_pos2').attr( 'required', false);
         //#span_40400
         $( '#alias_attiv2').attr( 'required', false);
@@ -158,12 +158,12 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#sms_adesione2').attr( 'required', false);
         $( '#sms_nondisponibile2').attr( 'required', false);
         //#span_app_inbound
-        $('#day_val_app_inbound2').attr('required', false);
+        //$('#day_val_app_inbound2').attr('required', false);
         $('#id_news_app_inbound2').attr('required', false);  
         $( '#prior_app_inbound2').attr( 'required', false);
         $( '#callguide_app_inbound2').attr( 'required', false);
         //#span_app_outbound
-        $('#day_val_app_outbound2').attr('required', false);
+        //$('#day_val_app_outbound2').attr('required', false);
         $('#id_news_app_outbound2').attr('required', false);
         $('#prior_app_outbound2').attr('required', false);
         $('#notif_app_outbound2').attr('required', false);
@@ -233,7 +233,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         //pos
         $('#cat_sott_ins2').attr('required', true);
         $('#tit_sott_pos2').attr('required', true);
-        $( '#day_val_pos2').attr( 'required', true);
+        //$( '#day_val_pos2').attr( 'required', true);
         $( '#callguide_pos2').attr( 'required', true);
         //#span_40400
         $( '#alias_attiv2').attr( 'required', false);
@@ -243,12 +243,12 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#sms_adesione2').attr( 'required', false);
         $( '#sms_nondisponibile2').attr( 'required', false);
         //#span_app_inbound
-        $('#day_val_app_inbound2').attr('required', false);
+        //$('#day_val_app_inbound2').attr('required', false);
         $('#id_news_app_inbound2').attr('required', false);  
         $( '#prior_app_inbound2').attr( 'required', false);
         $( '#callguide_app_inbound2').attr( 'required', false);
         //#span_app_outbound
-        $('#day_val_app_outbound2').attr('required', false);
+        //$('#day_val_app_outbound2').attr('required', false);
         $('#id_news_app_outbound2').attr('required', false);
         $('#prior_app_outbound2').attr('required', false);
         $('#notif_app_outbound2').attr('required', false);
@@ -316,7 +316,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         //pos
         $('#cat_sott_ins2').attr('required', false);
         $('#tit_sott_pos2').attr('required', false);
-        $( '#day_val_pos2').attr( 'required', false);
+        //$( '#day_val_pos2').attr( 'required', false);
         $( '#callguide_pos2').attr( 'required', false);
         //#span_40400
         $( '#alias_attiv2').attr( 'required', true);
@@ -326,12 +326,12 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#sms_adesione2').attr( 'required', true);
         $( '#sms_nondisponibile2').attr( 'required', true);
         //#span_app_inbound
-        $('#day_val_app_inbound2').attr('required', false);
+        //$('#day_val_app_inbound2').attr('required', false);
         $('#id_news_app_inbound2').attr('required', false);  
         $( '#prior_app_inbound2').attr( 'required', false);
         $( '#callguide_app_inbound2').attr( 'required', false);
         //#span_app_outbound
-        $('#day_val_app_outbound2').attr('required', false);
+        //$('#day_val_app_outbound2').attr('required', false);
         $('#id_news_app_outbound2').attr('required', false);
         $('#prior_app_outbound2').attr('required', false);
         $('#notif_app_outbound2').attr('required', false);
@@ -382,7 +382,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         //pos
         $('#cat_sott_ins2').attr('required', false);
         $('#tit_sott_pos2').attr('required', false);
-        $( '#day_val_pos2').attr( 'required', false);
+        //$( '#day_val_pos2').attr( 'required', false);
         $( '#callguide_pos2').attr( 'required', false);
         //#span_40400
         $( '#alias_attiv2').attr( 'required', false);
@@ -392,12 +392,12 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#sms_adesione2').attr( 'required', false);
         $( '#sms_nondisponibile2').attr( 'required', false);
         //#span_app_inbound
-        $('#day_val_app_inbound2').attr('required', false);
+        //$('#day_val_app_inbound2').attr('required', false);
         $('#id_news_app_inbound2').attr('required', false);  
         $( '#prior_app_inbound2').attr( 'required', false);
         $( '#callguide_app_inbound2').attr( 'required', false);
         //#span_app_outbound
-        $('#day_val_app_outbound2').attr('required', false);
+        //$('#day_val_app_outbound2').attr('required', false);
         $('#id_news_app_outbound2').attr('required', false);
         $('#prior_app_outbound2').attr('required', false);
         $('#notif_app_outbound2').attr('required', false);
@@ -448,7 +448,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         //pos
         $('#cat_sott_ins2').attr('required', false);
         $('#tit_sott_pos2').attr('required', false);
-        $( '#day_val_pos2').attr( 'required', false);
+        //$( '#day_val_pos2').attr( 'required', false);
         $( '#callguide_pos2').attr( 'required', false);
         //#span_40400
         $( '#alias_attiv2').attr( 'required', false);
@@ -458,12 +458,12 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#sms_adesione2').attr( 'required', false);
         $( '#sms_nondisponibile2').attr( 'required', false);
         //#span_app_inbound
-        $('#day_val_app_inbound2').attr('required', true);
+        //$('#day_val_app_inbound2').attr('required', true);
         $('#id_news_app_inbound2').attr('required', true);  
         $( '#prior_app_inbound2').attr( 'required', true);
         $( '#callguide_app_inbound2').attr( 'required', true);
         //#span_app_outbound
-        $('#day_val_app_outbound2').attr('required', false);
+        //$('#day_val_app_outbound2').attr('required', false);
         $('#id_news_app_outbound2').attr('required', false);
         $('#prior_app_outbound2').attr('required', false);
         $('#notif_app_outbound2').attr('required', false);
@@ -514,7 +514,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         //pos
         $('#cat_sott_ins2').attr('required', false);
         $('#tit_sott_pos2').attr('required', false);
-        $( '#day_val_pos2').attr( 'required', false);
+        //$( '#day_val_pos2').attr( 'required', false);
         $( '#callguide_pos2').attr( 'required', false);
         //#span_40400
         $( '#alias_attiv2').attr( 'required', false);
@@ -524,12 +524,12 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#sms_adesione2').attr( 'required', false);
         $( '#sms_nondisponibile2').attr( 'required', false);
         //#span_app_inbound
-        $('#day_val_app_inbound2').attr('required', false);
+        //$('#day_val_app_inbound2').attr('required', false);
         $('#id_news_app_inbound2').attr('required', false);  
         $( '#prior_app_inbound2').attr( 'required', false);
         $( '#callguide_app_inbound2').attr( 'required', false);
         //#span_app_outbound
-        $('#day_val_app_outbound2').attr('required', true);
+        //$('#day_val_app_outbound2').attr('required', true);
         $('#id_news_app_outbound2').attr('required', true);  
         $('#prior_app_outbound2').attr('required', true);
         $('#notif_app_outbound2').attr('required', true);
@@ -580,7 +580,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         //pos
         $('#cat_sott_ins2').attr('required', false);
         $('#tit_sott_pos2').attr('required', false);
-        $( '#day_val_pos2').attr( 'required', false);
+        //$( '#day_val_pos2').attr( 'required', false);
         $( '#callguide_pos2').attr( 'required', false);
         //#span_40400
         $( '#alias_attiv2').attr( 'required', false);
@@ -590,12 +590,12 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#sms_adesione2').attr( 'required', false);
         $( '#sms_nondisponibile2').attr( 'required', false);
         //#span_app_inbound
-        $('#day_val_app_inbound2').attr('required', false);
+        //$('#day_val_app_inbound2').attr('required', false);
         $('#id_news_app_inbound2').attr('required', false);  
         $( '#prior_app_inbound2').attr( 'required', false);
         $( '#callguide_app_inbound2').attr( 'required', false);
         //#span_app_outbound
-        $('#day_val_app_outbound2').attr('required', false);
+        //$('#day_val_app_outbound2').attr('required', false);
         $('#id_news_app_outbound2').attr('required', false);
         $('#prior_app_outbound2').attr('required', false);
         $('#notif_app_outbound2').attr('required', false);
@@ -646,7 +646,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         //pos
         $('#cat_sott_ins2').attr('required', false);
         $('#tit_sott_pos2').attr('required', false);
-        $( '#day_val_pos2').attr( 'required', false);
+        //$( '#day_val_pos2').attr( 'required', false);
         $( '#callguide_pos2').attr( 'required', false);
         //#span_40400
         $( '#alias_attiv2').attr( 'required', false);
@@ -656,12 +656,12 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#sms_adesione2').attr( 'required', false);
         $( '#sms_nondisponibile2').attr( 'required', false);
         //#span_app_inbound
-        $('#day_val_app_inbound2').attr('required', false);
+        //$('#day_val_app_inbound2').attr('required', false);
         $('#id_news_app_inbound2').attr('required', false);  
         $( '#prior_app_inbound2').attr( 'required', false);
         $( '#callguide_app_inbound2').attr( 'required', false);
         //#span_app_outbound
-        $('#day_val_app_outbound2').attr('required', false);
+        //$('#day_val_app_outbound2').attr('required', false);
         $('#id_news_app_outbound2').attr('required', false);
         $('#prior_app_outbound2').attr('required', false);
         $('#notif_app_outbound2').attr('required', false);
@@ -712,7 +712,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         //pos
         $('#cat_sott_ins2').attr('required', false);
         $('#tit_sott_pos2').attr('required', false);
-        $( '#day_val_pos2').attr( 'required', false);
+        //$( '#day_val_pos2').attr( 'required', false);
         $( '#callguide_pos2').attr( 'required', false);
         //#span_40400
         $( '#alias_attiv2').attr( 'required', false);
@@ -722,12 +722,12 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#sms_adesione2').attr( 'required', false);
         $( '#sms_nondisponibile2').attr( 'required', false);
         //#span_app_inbound
-        $('#day_val_app_inbound2').attr('required', false);
+        //$('#day_val_app_inbound2').attr('required', false);
         $('#id_news_app_inbound2').attr('required', false);  
         $( '#prior_app_inbound2').attr( 'required', false);
         $( '#callguide_app_inbound2').attr( 'required', false);
         //#span_app_outbound
-        $('#day_val_app_outbound2').attr('required', false);
+        //$('#day_val_app_outbound2').attr('required', false);
         $('#id_news_app_outbound2').attr('required', false);
         $('#prior_app_outbound2').attr('required', false);
         $('#notif_app_outbound2').attr('required', false);
@@ -778,7 +778,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         //pos
         $('#cat_sott_ins2').attr('required', false);
         $('#tit_sott_pos2').attr('required', false);
-        $( '#day_val_pos2').attr( 'required', false);
+        //$( '#day_val_pos2').attr( 'required', false);
         $( '#callguide_pos2').attr( 'required', false);
         //#span_40400
         $( '#alias_attiv2').attr( 'required', false);
@@ -788,12 +788,12 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#sms_adesione2').attr( 'required', false);
         $( '#sms_nondisponibile2').attr( 'required', false);
         //#span_app_inbound
-        $('#day_val_app_inbound2').attr('required', false);
+        //$('#day_val_app_inbound2').attr('required', false);
         $('#id_news_app_inbound2').attr('required', false);  
         $( '#prior_app_inbound2').attr( 'required', false);
         $( '#callguide_app_inbound2').attr( 'required', false);
         //#span_app_outbound
-        $('#day_val_app_outbound2').attr('required', false);
+        //$('#day_val_app_outbound2').attr('required', false);
         $('#id_news_app_outbound2').attr('required', false);
         $('#prior_app_outbound2').attr('required', false);
         $('#notif_app_outbound2').attr('required', false);
@@ -844,7 +844,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         //pos
         $('#cat_sott_ins2').attr('required', false);
         $('#tit_sott_pos2').attr('required', false);
-        $( '#day_val_pos2').attr( 'required', false);
+        //$( '#day_val_pos2').attr( 'required', false);
         $( '#callguide_pos2').attr( 'required', false);
         //#span_40400
         $( '#alias_attiv2').attr( 'required', false);
@@ -854,12 +854,12 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#sms_adesione2').attr( 'required', false);
         $( '#sms_nondisponibile2').attr( 'required', false);
         //#span_app_inbound
-        $('#day_val_app_inbound2').attr('required', false);
+        //$('#day_val_app_inbound2').attr('required', false);
         $('#id_news_app_inbound2').attr('required', false);  
         $( '#prior_app_inbound2').attr( 'required', false);
         $( '#callguide_app_inbound2').attr( 'required', false);
         //#span_app_outbound
-        $('#day_val_app_outbound2').attr('required', false);
+        //$('#day_val_app_outbound2').attr('required', false);
         $('#id_news_app_outbound2').attr('required', false);
         $('#prior_app_outbound2').attr('required', false);
         $('#notif_app_outbound2').attr('required', false);
@@ -910,7 +910,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         //pos
         $('#cat_sott_ins2').attr('required', false);
         $('#tit_sott_pos2').attr('required', false);
-        $( '#day_val_pos2').attr( 'required', false);
+        //$( '#day_val_pos2').attr( 'required', false);
         $( '#callguide_pos2').attr( 'required', false);
         //#span_40400
         $( '#alias_attiv2').attr( 'required', false);
@@ -920,12 +920,12 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#sms_adesione2').attr( 'required', false);
         $( '#sms_nondisponibile2').attr( 'required', false);
         //#span_app_inbound
-        $('#day_val_app_inbound2').attr('required', false);
+        //$('#day_val_app_inbound2').attr('required', false);
         $('#id_news_app_inbound2').attr('required', false);  
         $( '#prior_app_inbound2').attr( 'required', false);
         $( '#callguide_app_inbound2').attr( 'required', false);
         //#span_app_outbound
-        $('#day_val_app_outbound2').attr('required', false);
+        //$('#day_val_app_outbound2').attr('required', false);
         $('#id_news_app_outbound2').attr('required', false);
         $('#prior_app_outbound2').attr('required', false);
         $('#notif_app_outbound2').attr('required', false);
@@ -977,7 +977,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         //pos
         $('#cat_sott_ins2').attr('required', false);
         $('#tit_sott_pos2').attr('required', false);
-        $( '#day_val_pos2').attr( 'required', false);
+        //$( '#day_val_pos2').attr( 'required', false);
         $( '#callguide_pos2').attr( 'required', false);
         //#span_40400
         $( '#alias_attiv2').attr( 'required', false);
@@ -987,12 +987,12 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#sms_adesione2').attr( 'required', false);
         $( '#sms_nondisponibile2').attr( 'required', false);
         //#span_app_inbound
-        $('#day_val_app_inbound2').attr('required', false);
+        //$('#day_val_app_inbound2').attr('required', false);
         $('#id_news_app_inbound2').attr('required', false);  
         $( '#prior_app_inbound2').attr( 'required', false);
         $( '#callguide_app_inbound2').attr( 'required', false);
         //#span_app_outbound
-        $('#day_val_app_outbound2').attr('required', false);
+        //$('#day_val_app_outbound2').attr('required', false);
         $('#id_news_app_outbound2').attr('required', false);
         $('#prior_app_outbound2').attr('required', false);
         $('#notif_app_outbound2').attr('required', false);
@@ -1044,7 +1044,7 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         //pos
         $('#cat_sott_ins2').attr('required', false);
         $('#tit_sott_pos2').attr('required', false);
-        $( '#day_val_pos2').attr( 'required', false);
+        //$( '#day_val_pos2').attr( 'required', false);
         $( '#callguide_pos2').attr( 'required', false);
         //#span_40400
         $( '#alias_attiv2').attr( 'required', false);
@@ -1054,12 +1054,12 @@ $( '#mod_invio2').on( 'select2:select ', function () {
         $( '#sms_adesione2').attr( 'required', false);
         $( '#sms_nondisponibile2').attr( 'required', false);
         //#span_app_inbound
-        $('#day_val_app_inbound2').attr('required', false);
+        //$('#day_val_app_inbound2').attr('required', false);
         $('#id_news_app_inbound2').attr('required', false);  
         $( '#prior_app_inbound2').attr( 'required', false);
         $( '#callguide_app_inbound2').attr( 'required', false);
         //#span_app_outbound
-        $('#day_val_app_outbound2').attr('required', false);
+        //$('#day_val_app_outbound2').attr('required', false);
         $('#id_news_app_outbound2').attr('required', false);
         $('#prior_app_outbound2').attr('required', false);
         $('#notif_app_outbound2').attr('required', false);

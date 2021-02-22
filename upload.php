@@ -98,16 +98,3 @@ if (!file_exists($file_path))
       
 }
 ?>
-<!--
-<html>
-   <body>
-      
-      <form action="" method="POST" enctype="multipart/form-data">
-         <input type="file" name="file" />
-         <input type="submit"/>
-      </form>
-      
-   </body>
-</html>
-
--->

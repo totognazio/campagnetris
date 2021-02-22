@@ -26,16 +26,17 @@ if ($_POST['funzione'] == "export_gestione"){
 
     $campaign = new campaign_class();
     $filter = $_SESSION['filter'];
-    $list = $campaign->getCampaigns($filter); 
+    $list = $campaign->getCampaignsGestione($filter); 
     //$tot_volume = $campaign->tot_volume();
     //$list_day = $campaign->datePeriodExcel();
+    //print_r($list);
     $gestore->export_gestione($list, $filter); 
 }
 if ($_POST['funzione'] == "export_capacity"){
 
     $campaign = new campaign_class();
     $filter = $_SESSION['filter'];
-    $list = $campaign->getCampaignsGestione($filter); 
+    $list = $campaign->getCampaignsCapacity($filter); 
     //$tot_volume = $campaign->tot_volume();
     //$list_day = $campaign->datePeriodExcel();
     $gestore->export_capacity($list, $filter); 

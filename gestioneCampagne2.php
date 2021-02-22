@@ -142,8 +142,7 @@ if ($livello_accesso > 1) {
                 <?php }
 if ($livello_accesso > 0) {
     ?>
-                <form action="index.php?page=export_file_excel&funzione=export_pianificazione" method="post" id="exportpianificazione">
-                </form>
+
                 <form action="export_file_excel.php" method="post" id="exportgestione">
                         <input type="hidden" name="funzione" value="export_gestione">
                 </form>
@@ -156,8 +155,8 @@ if ($livello_accesso > 1) {
 <?php } 
 if ($livello_accesso > 0) {
     ?>
-<button class="btn btn btn-xs btn-success" id="createXLSX"  data-placement="top" data-toggle="tooltip" data-original-title="Export Gestione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>
-<!--<button class="btn btn btn-xs btn-success" onclick="manageCamp('','exportgestione');" data-placement="top" data-toggle="tooltip" data-original-title="Export Gestione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>-->
+<!--<button class="btn btn btn-xs btn-success" id="createXLSX"  data-placement="top" data-toggle="tooltip" data-original-title="Export Gestione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>-->
+<button class="btn btn btn-xs btn-success" onclick="manageCamp('','exportgestione');" data-placement="top" data-toggle="tooltip" data-original-title="Export Gestione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>
 
 <?php }?>
 </div>
