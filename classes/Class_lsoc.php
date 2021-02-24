@@ -701,7 +701,7 @@ foreach ($titolo as $key => $value) {
                     'bold' => true
                 ),
                 'alignment' => array(
-                    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
                 ),
                 'borders' => array(
                     'top' => array(
@@ -728,7 +728,7 @@ foreach ($titolo as $key => $value) {
                     'bold' => true
                 ),
                 'alignment' => array(
-                    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
                 ),
                 'borders' => array(
                     'top' => array(
@@ -755,10 +755,10 @@ foreach ($titolo as $key => $value) {
         $colonna = 0;
         foreach ($list as $key => $row) {
             if(strtotime($row['data_inizio_validita_offerta'])<0){
-                $row['data_inizio_validita_offerta'] = '';
+                $row['data_inizio_validita_offerta'] = '1970-01-01';
             }
             if(strtotime($row['data_fine_validita_offerta'])<0){
-                $row['data_fine_validita_offerta'] = '';
+                $row['data_fine_validita_offerta'] = '1970-01-01';
             }
 
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, $riga, $key+1);        

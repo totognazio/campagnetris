@@ -190,17 +190,30 @@
                                  <div class="col-md-6 col-sm-6 col-xs-12">     
                                      <div class="well" style="overflow: auto">
                                          <div class="col-md-12">
-
+                                    <!--
                                              <div id="range_offerta" class="pull-left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                                                  <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                                                  <span id="range_offerta">20/11/2020 - 30/11/20</span> <b class="caret"></b>
                                                  <input type="hidden" id="data_inizio_validita_offerta" name="data_inizio_validita_offerta" value="">
                                                  <input type="hidden" id="data_fine_validita_offerta" name="data_fine_validita_offerta" value="">
                                              </div>
+                                             -->
+                            <div class="control-group">
+                              <div class="controls">
+                                <div class="input-prepend input-group">
+                                  <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                  <input type="text" style="width: 200px" name="reservation" id="reservation" class="form-control" value="" <?php echo $disabled_value;?> />
+                                </div>
+                              </div>
+                            </div>    
                                          </div>
                                      </div>
+        
                                  </div>
                              </div> 
+                             
+                                                 <input type="hidden" id="data_inizio_validita_offerta" name="data_inizio_validita_offerta" value="">
+                                                 <input type="hidden" id="data_fine_validita_offerta" name="data_fine_validita_offerta" value="">
                  
                              <div class="form-group">
                                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Offerta  <span class="required">*</span></label>
@@ -294,10 +307,64 @@
     
     
   $(document).ready(function () {
+
+    $('#reservation').daterangepicker({   
+            <?php
+
+    if(isset($id_campaign['leva_offerta']) && $id_campaign['leva_offerta']==1 && (strtotime($id_campaign['data_inizio_validita_offerta'])>0)&& (strtotime($id_campaign['data_fine_validita_offerta'])>0)){                
+                $start = date('d/m/Y',strtotime($id_campaign['data_inizio_validita_offerta']));
+                $end = date('d/m/Y',strtotime($id_campaign['data_fine_validita_offerta']));
+                echo "startDate:'".$start."',";
+                echo "endDate:'".$end."',";
+    }
+    else{
+?>
+            startDate: moment().format('DD/MM/YYYY'),
+            endDate: moment().add(1, 'week').format('DD/MM/YYYY'),  
+<?php
+    }
+
+    ?>
+        
+      
+            locale: {
+                    format: "DD/MM/YYYY",
+                    applyLabel: 'Submit',
+                    cancelLabel: 'Clear',
+                    fromLabel: 'From',
+                    toLabel: 'To',
+                    customRangeLabel: 'Custom',
+                    daysOfWeek: ['Do', 'Lu', 'Ma', 'Me', 'Gi', 'Ve', 'Sa'],
+                    monthNames: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
+                    firstDay: 1
+            }, 
+            function(start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+                document.getElementById('data_inizio_validita_offerta').value = startDate.format('YYYY-MM-DD');
+                document.getElementById('data_fine_validita_offerta').value = endDate.format('YYYY-MM-DD');
+
+            }
+    });
+
+    $('#reservation').on('apply.daterangepicker', function(ev, picker) {
+        console.log(picker.startDate.format('YYYY-MM-DD'));
+        console.log(picker.endDate.format('YYYY-MM-DD'));
+        $('#data_inizio_validita_offerta').attr('value',picker.startDate.format('YYYY-MM-DD'));
+        $('#data_fine_validita_offerta').attr('value',picker.endDate.format('YYYY-MM-DD'));
+    });
+
+
+    //$('#reservation').data('daterangepicker').setStartDate('04/01/2014');
+    //$('#reservation').data('daterangepicker').setEndDate('10/01/2014');
+
+
+    
     <?php
     if (isset($azione) && ($azione=='new')){
         ?>
             document.getElementById('nomecampagna').value = moment().format('YYYYMMDD');
+            document.getElementById('data_inizio_validita_offerta').value = moment().format('YYYYMMDD');
+            document.getElementById('data_fine_validita_offerta').value = moment().add(1, 'week').format('YYYYMMDD');
     <?php        
     }
     ?>    

@@ -65,15 +65,18 @@ $form->head_page_compat("Pianificazione Campagne", "Filtro");
                 }
               
 ?>
- <br>
-                  <!--<div class="well" style="overflow: auto">-->                                                
-                      <div class="col-md-6 col-sm-6 col-xs-12"><h4>Date Range</h4>
+                <form action="index.php?page=pianificazione2" method="post" id="nofilter">
+                            <input type="hidden" name="nofiletr" value="nofiletr" />                            
+                </form>
+                 <!--<div class="well" style="overflow: auto">-->                                                
+    <div class="well" style="overflow: auto">
+                  <div class="col-md-6 col-sm-6 col-xs-12"><h4>Date Range</h4>
                         <div id="reportrange_right" class="pull-left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                           <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                           <span id="datarange">December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
                         </div>
                       </div>
-                     <div class="col-md-2 col-sm-2 col-xs-12">
+                     <div class="col-md-2 col-sm-6 col-xs-12">
                                 <h4>Sprints</h4>
                              <select id="sprints" name="sprints" class="select2_single form-control">        
                               
@@ -83,8 +86,8 @@ $form->head_page_compat("Pianificazione Campagne", "Filtro");
                             //}                                                  
                             ?>  
                           </select>
-                    </div>       
-                            
+                    </div>
+        </div>                             
                 
                     <div class="col-md-12">
                             <div class="col-md-2 col-sm-2 col-xs-12">
@@ -129,13 +132,18 @@ $form->head_page_compat("Pianificazione Campagne", "Filtro");
                                     ?>                                       
                                 </select>
                             </div>
-                            </div>
-            
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                                <p><br><br>
+                                    <button class="btn btn btn-sm btn-info" type="submit" onclick="manageCamp('','nofilter');" data-placement="top" data-toggle="tooltip" data-original-title="Cancella Filtro"><i class="fa fa-eraser"></i> Cancella Filtro</button>
+                                </p>
+                                
+                            </div> 
+            </div>  
 <div class="loader"></div>                       
                     
 <?php 
 $form->close_row();
-$form->open_row("Lista Campagne", "Filtrate");
+$form->open_row("Pianificazione Campagne", "Filtrate");
 $livello_accesso = $page_protect->get_job_role();
 if ($livello_accesso > 1) {
     ?>
@@ -170,6 +178,7 @@ if ($livello_accesso > 1) {
 <div class="col-md-12 col-sm-12 col-xs-12">
 <div class="btn-group">    
 <button class="btn btn btn-xs btn-warning" type="submit" onclick="manageCamp('','new');" data-placement="top" data-toggle="tooltip" data-original-title="Inserisci nuova Campagna"><i class="fa fa-plus-square"></i> Nuova Campagna</button>
+
 </div>
 <?php } 
 if ($livello_accesso > 0) {
@@ -191,7 +200,8 @@ if ($livello_accesso > 0) {
                                                     <li class="divider"></li>
                                                     <li><a href="#" onclick="manageCamp('','exportcapacity');" > Export Capacity </a>
                                                     </li>
-                                                </ul>
+                                                </ul>                                            
+                                                
                                             </div>
 <?php }?>
 </div>

@@ -155,6 +155,7 @@ $sender = $funzione->get_allTable('senders');
 
 
 //print_r($_POST);
+//print_r($id_campaign);
 
 ?>
         <div class="right_col" role="main">
@@ -642,117 +643,6 @@ $('#mod_invio').on('select2:select', function () {
 
 <script>
  $(document).ready(function() { 
-    // bootstrap-daterangepicker     
-    moment.locale('it');
-    moment().format('LL');
-    var select_startDate = moment().subtract(2, 'week').format('YYYY-MM-DD');
-    var select_endDate = moment().add(2, 'week').format('YYYY-MM-DD');
-        
-    var cb = function(start, end, label) {
-        console.log(start.toISOString(), end.toISOString(), label);
-        $('#range_offerta span').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
-    };
-    var cb2 = function(start, end, label) {
-        console.log(start.toISOString(), end.toISOString(), label);
-        $('#range_offerta span').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
-    };
-    var optionSet2 = {
-            startDate: moment().format('DD/MM/YYYY'),
-            endDate: moment().add(1, 'week').format('DD/MM/YYYY'),
-            
-            <?php 
-            if(isset($id_campaign['data_inizio'])){
-                echo 'startDate: \''.date('d/m/Y',strtotime($id_campaign['data_inizio_validita_offerta'])).'\',';
-            }
-            if(isset($id_campaign['data_fine'])){
-                echo 'endDate: \'' .date('d/m/Y',strtotime($id_campaign['data_fine_validita_offerta'])).'\',';
-            }
-            ?>
-
-            minDate: '01/01/2014',
-            //maxDate: '12/31/2021',
-            //dateLimit: {
-            //days: 60
-            //},
-            showDropdowns: true,
-            showWeekNumbers: true,
-            timePicker: false,
-            timePickerIncrement: 1,
-            timePicker12Hour: true,
-            
-            opens: 'right',
-            buttonClasses: ['btn btn-default'],
-            applyClass: 'btn-small btn-primary',
-            cancelClass: 'btn-small',
-            format: 'DD/MM/YYYY',
-            separator: ' to ',
-            locale: {
-                    format: "DD/MM/YYYY",
-                    applyLabel: 'Submit',
-                    cancelLabel: 'Clear',
-                    fromLabel: 'From',
-                    toLabel: 'To',
-                    customRangeLabel: 'Custom',
-                    daysOfWeek: ['Do', 'Lu', 'Ma', 'Me', 'Gi', 'Ve', 'Sa'],
-                    monthNames: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
-                    firstDay: 1
-            }};
-        
-      
-        
-    $('#range_offerta span').html(moment().format('DD/MM/YYYY') + ' - ' + moment().add(1, 'week').format('DD/MM/YYYY'));
-    
-    <?php 
-            if(isset($id_campaign['leva']) and $id_campaign['leva']==1){
-                
-                $start = date('d/m/Y',strtotime($id_campaign['data_inizio_validita_offerta']));
-                $end = date('d/m/Y',strtotime($id_campaign['data_fine_validita_offerta']));
-                echo '$(\'#range_offerta span\').html(\''.$start.' - '.$end.'\');';
-                echo '$(\'#data_inizio_validita_offerta\').attr(\'value\',date(\'YYYY-MM-DD\',\''.strtotime($id_campaign['data_inizio_validita_offerta']).'\'));';
-                echo '$(\'#data_inizio_validita_offerta\').attr(\'value\',date(\'YYYY-MM-DD\',\''.strtotime($id_campaign['data_fine_validita_offerta']).'\'));';
-                //echo '$(\'#data_fine_validita_offerta\').attr(\'value\',date(\'YYYY-MM-DD\',strtotime($id_campaign[\'data_fine_validita_offerta\']));';
-
-            }
-            
-            
-    ?>
-
-    $('#data_inizio_validita_offerta').attr('value',moment().format('YYYY-MM-DD'));
-    $('#data_fine_validita_offerta').attr('value',moment().add(1, 'week').format('YYYY-MM-DD'));
-    $('#range_offerta').daterangepicker(optionSet2, cb2);  
-    $('#range_offerta').on('show.daterangepicker', function() {
-        console.log("show event fired");
-    });
-    $('#range_offerta').on('hide.daterangepicker', function() {
-        console.log("hide event fired");
-    });
-    $('#range_offerta').on('apply.daterangepicker', function(ev, picker) {
-
-        console.log("apply event fired, start/end dates are " + picker.startDate.format('DD/MM/YYYY') + " to " + picker.endDate.format('DD/MM/YYYY'));
-        select_startDate = picker.startDate.format('YYYY-MM-DD');        
-        select_endDate = picker.endDate.format('YYYY-MM-DD');
-        $('#data_inizio_validita_offerta').attr('value',picker.startDate.format('YYYY-MM-DD'));
-        $('#data_fine_validita_offerta').attr('value',picker.endDate.format('YYYY-MM-DD'));
- 
-        console.log('select_startDate inn' + select_startDate);
- 
-    });
-    $('#range_offerta').on('cancel.daterangepicker', function(ev, picker) {
-            console.log("cancel event fired");
-    });
-    $('#options2').click(function() {
-        $('#range_offerta').data('daterangepicker').setOptions(optionSet2, cb);
-        $('#data_inizio_validita_offerta').attr('value',start.format('YYYY-MM-DD'));
-        $('#data_fine_validita_offerta').attr('value',end.format('YYYY-MM-DD'));
-         console.log('option2 setting');
-    });
-    $('#destroy').click(function() {
-        $('#range_offerta').data('daterangepicker').remove();
-    });
-
-
-        
-    
 
         $('#data_inizio_campagna').daterangepicker({
           locale: {

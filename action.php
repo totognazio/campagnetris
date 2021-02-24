@@ -62,3 +62,12 @@ if (isset($_POST['azione']) and $_POST['azione']=='elimina') {
         $result = $campaign->delete_campaign($id);
     }
 }
+
+if (isset($_POST['nofiletr']) and $_POST['nofiletr']=='nofiletr') {
+
+    $result = $campaign->reset_filter();
+    
+}
+
+
+

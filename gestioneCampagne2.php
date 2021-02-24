@@ -1,9 +1,20 @@
-  <style type="text/css">
+<style type="text/css">
             
                 tr:hover {
-                background-color: lightgreen;
+                background-color: lightseagreen;
+                color: black;                
+                }
+                body {
+                    overflow-y: auto;
+                }
+                th {
+                background-color: lightseagreen;
                 color: black;
                 }
+div.datatable-wide {
+    padding-left: 0;
+    padding-right: 0;
+}
  </style>  
  
 
@@ -54,6 +65,9 @@ $form->head_page("Gestione Campagne", "Filtro");
               
 
 ?>
+                <form action="index.php?page=gestioneCampagne2" method="post" id="nofilter">
+                            <input type="hidden" name="nofiletr" value="nofiletr" />                            
+                </form>
                     <br>
                   <div class="well" style="overflow: auto">
                                 
@@ -119,10 +133,13 @@ $form->head_page("Gestione Campagne", "Filtro");
                                     ?>                                       
                                 </select>
                             </div>
-                            </div>
-               
- 
-                    <br><br>
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                                <p><br><br>
+                                    <button class="btn btn btn-sm btn-info" type="submit" onclick="manageCamp('','nofilter');" data-placement="top" data-toggle="tooltip" data-original-title="Cancella Filtro"><i class="fa fa-eraser"></i> Cancella Filtro</button>
+                                </p>
+                                
+                            </div> 
+                        </div>                    
 <div class="loader"></div>                       
                     
 <?php 

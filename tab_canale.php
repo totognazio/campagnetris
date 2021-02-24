@@ -96,7 +96,8 @@
                     $select_monoleva = ' selected';
                     $display_mono = '';                   
                 }
-                if($modifica and $id_campaign['tipo_leva']=='multi'){$select_multileva = ' selected';$display_multi='';}                
+                if($modifica and $id_campaign['tipo_leva']=='multi'){$select_multileva = ' selected';$display_multi='';}   
+                if($modifica and $id_campaign['tipo_leva']=='info'){$select_info = ' selected';$display_info='';}               
                 ?>
                 <select  id="idlevaselect" name="tipo_leva" class="select2_single form-control"  required="required" onchange="levaselect()"  <?php echo $disabled_value;?>>        
                     <option value=""></option>
@@ -399,8 +400,8 @@
                 <input <?php if ($readonly){echo $disabled_value;}?> type="number" id="day_val_pos" name="addcanale[0][day_val_pos]"  min="1" max="31" <?php //echo $required_pos ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['day_val_pos'])){echo $canale['day_val_pos']; }?>">                         
             </div>
             <div  class="col-md-4 col-sm-6 col-xs-12" ><br>
-                <label class="control-label">Call Guide (4000 chars max)<span class="required">*</span></label>
-                <textarea id="callguide_pos" name="addcanale[0][callguide_pos]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" <?php echo $required_pos; ?> <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica and (isset($canale['callguide_pos']))){echo stripslashes($canale['callguide_pos']); }?></textarea>                    
+                <label class="control-label">Call Guide (4000 chars max)</label>
+                <textarea id="callguide_pos" name="addcanale[0][callguide_pos]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000"  <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica and (isset($canale['callguide_pos']))){echo stripslashes($canale['callguide_pos']); }?></textarea>                    
             </div>
 
     </span> 
@@ -433,7 +434,7 @@
                 <label  class="control-label">Giorni di Validità</label>
                 <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_app_inbound" name="addcanale[0][day_val_app_inbound]"  min="1" max="31" <?php //echo $required_app_inbound ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['day_val_app_inbound'])){echo $canale['day_val_app_inbound']; }?>">
                 <br><br>
-                <label  class="control-label">Priorità<span class="required">*</span></label>                
+                <label  class="control-label">Priorità</label>                
                       <select id="prior_app_inbound" name="addcanale[0][prior_app_inbound]" class="select2_single form-control" style="width:100%"  <?php echo $required_app_inbound; ?> <?php echo $disabled_value;?>>
                             <option <?php if($modifica and isset($canale['prior_app_inbound']) && $canale['prior_app_inbound']=='1'){echo ' selected';} ?> value="1">HIGH</option>        
                             <option <?php if($modifica and isset($canale['prior_app_inbound']) && $canale['prior_app_inbound']=='0'){echo ' selected';} ?> value="0">LOW </option>                                                            
@@ -442,9 +443,9 @@
                                          
         </div>
         <div  class="col-md-4 col-sm-6 col-xs-12" >
-                <label class="control-label">Call Guide (4000 chars max)<span class="required">*</span></label>
+                <label class="control-label">Call Guide (4000 chars max)</label>
 
-                    <textarea id="callguide_app_inbound" name="addcanale[0][callguide_app_inbound]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" <?php echo $required_app_inbound; ?> <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica && isset($canale['callguide_app_inbound'])){echo stripslashes($canale['callguide_app_inbound']); }?></textarea>
+                    <textarea id="callguide_app_inbound" name="addcanale[0][callguide_app_inbound]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000"  <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica && isset($canale['callguide_app_inbound'])){echo stripslashes($canale['callguide_app_inbound']); }?></textarea>
                     
         </div> 
     </span>
@@ -454,7 +455,7 @@
                 <input <?php if ($readonly){echo $disabled_value;}?>type="text" id="id_news_app_outbound" name="addcanale[0][id_news_app_outbound]" <?php echo $required_app_outbound; ?> placeholder="testo"  data-parsley-trigger="keyup" data-parsley-maxlength="200" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['id_news_app_outbound'])){echo $canale['id_news_app_outbound']; }?>">
                 <br><br>     
                 <label  class="control-label">Giorni di Validità</label>
-                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_app_outbound" name="addcanale[0][day_val_app_outbound]"  min="1" max="31" <?php echo $required_app_outbound; ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['day_val_app_outbound'])){echo $canale['day_val_app_outbound']; }?>">
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_app_outbound" name="addcanale[0][day_val_app_outbound]"  min="1" max="31"  placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['day_val_app_outbound'])){echo $canale['day_val_app_outbound']; }?>">
                 <br><br>
                 <label  class="control-label">Push Notification<span class="required">*</span></label>
                             <select id="notif_app_outbound" name="addcanale[0][notif_app_outbound]" class="select2_single form-control" style="width:100%"  <?php //echo $required_app_outbound; ?> <?php echo $disabled_value;?>>
@@ -473,9 +474,9 @@
                                            
         </div>
                 <div  class="col-md-4 col-sm-6 col-xs-12" >
-                <label class="control-label">Call Guide (4000 chars max)<span class="required">*</span></label>
+                <label class="control-label">Call Guide (4000 chars max)</label>
 
-                    <textarea id="callguide_app_outbound" name="addcanale[0][callguide_app_outbound]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" <?php echo $required_app_outbound; ?> <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica && isset($canale['callguide_app_outbound'])){echo stripslashes($canale['callguide_app_outbound']); }?></textarea>
+                    <textarea id="callguide_app_outbound" name="addcanale[0][callguide_app_outbound]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000"  <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica && isset($canale['callguide_app_outbound'])){echo stripslashes($canale['callguide_app_outbound']); }?></textarea>
                     
         </div> 
     </span>   
@@ -599,6 +600,11 @@
                     <option <?php if($modifica and isset($canale['type_mfh']) and $canale['type_mfh']=='PROROGA'){ echo ' selected';}?> value="PROROGA">PROROGA</option>
                     <option <?php if($modifica and isset($canale['type_mfh']) and $canale['type_mfh']=='RINNOVO SIM'){ echo ' selected';}?> value="RINNOVO SIM">RINNOVO SIM</option>
                 </select>                           
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">      
+                <label  class="control-label">Note MFH<span class="required">*</span></label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="text" id="note_mfh" name="addcanale[0][note_mfh]"   <?php echo $required_mfh; ?>  placeholder="text"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['note_mfh'])){echo $canale['note_mfh']; }?>">
+                <br><br>                             
         </div>
     </span>
     <span id="span_watson" <?php echo $display_watson; ?>>
@@ -821,7 +827,7 @@ var myDropzoneCanale = new Dropzone(
         $('#tit_sott_pos').attr('required', false);
         
         //$('#day_val_pos').attr('required', false);
-        $('#callguide_pos').attr('required', false);
+        //$('#callguide_pos').attr('required', false);
         //#span_40400
         $('#alias_attiv').attr('required', false);
         $('#day_val').attr('required', false);
@@ -833,13 +839,13 @@ var myDropzoneCanale = new Dropzone(
         //$('#day_val_app_inbound').attr('required', false);
         $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
-        $('#callguide_app_inbound').attr('required', false);
+        //$('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         //$('#day_val_app_outbound').attr('required', false);
         $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
         $('#notif_app_outbound').attr('required', false); 
-        $('#callguide_app_outbound').attr('required', false);
+        ////$('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -855,6 +861,7 @@ var myDropzoneCanale = new Dropzone(
         $('#data_invio_spai').attr('required', false);
         //#span_mfh
         $('#type_mfh').attr('required', false);
+        $('#note_mfh').attr('required', false);
         //#span_watson
         $('#type_watson').attr('required', false);
         $('#contact_watson').attr('required', false);
@@ -889,7 +896,7 @@ var myDropzoneCanale = new Dropzone(
         $('#tit_sott_pos').attr('required', false);
         
         //$('#day_val_pos').attr('required', false);
-        $('#callguide_pos').attr('required', false);
+        ////$('#callguide_pos').attr('required', false);
         //#span_40400
         $('#alias_attiv').attr('required', false);
         $('#day_val').attr('required', false);
@@ -901,13 +908,13 @@ var myDropzoneCanale = new Dropzone(
         //$('#day_val_app_inbound').attr('required', false);
         $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
-        $('#callguide_app_inbound').attr('required', false);
+        //$('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         //$('#day_val_app_outbound').attr('required', false);
         $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
         $('#notif_app_outbound').attr('required', false); 
-        $('#callguide_app_outbound').attr('required', false);
+        //$('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -923,6 +930,7 @@ var myDropzoneCanale = new Dropzone(
         $('#data_invio_spai').attr('required', false);
         //#span_mfh
         $('#type_mfh').attr('required', false);
+        $('#note_mfh').attr('required', false);
         //#span_watson
         $('#type_watson').attr('required', false);
         $('#contact_watson').attr('required', false);
@@ -974,7 +982,7 @@ var myDropzoneCanale = new Dropzone(
         $('#tit_sott_pos').attr('required', true);
     
         //$('#day_val_pos').attr('required', true);
-        $('#callguide_pos').attr('required', true);
+        //$('#callguide_pos').attr('required', true);
         //#span_40400
         $('#alias_attiv').attr('required', false);
         $('#day_val').attr('required', false);
@@ -986,13 +994,13 @@ var myDropzoneCanale = new Dropzone(
         //$('#day_val_app_inbound').attr('required', false);
         $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
-        $('#callguide_app_inbound').attr('required', false);
+        //$('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         //$('#day_val_app_outbound').attr('required', false);
         $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
         $('#notif_app_outbound').attr('required', false);        
-        $('#callguide_app_outbound').attr('required', false);
+        //$('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1008,6 +1016,7 @@ var myDropzoneCanale = new Dropzone(
         $('#data_invio_spai').attr('required', false);
         //#span_mfh
         $('#type_mfh').attr('required', false);
+        $('#note_mfh').attr('required', false);
         //#span_watson
         $('#type_watson').attr('required', false);
         $('#contact_watson').attr('required', false);
@@ -1056,7 +1065,7 @@ var myDropzoneCanale = new Dropzone(
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
         //$('#day_val_pos').attr('required', false);
-        $('#callguide_pos').attr('required', false);
+        //$('#callguide_pos').attr('required', false);
         //#span_40400
         $('#alias_attiv').attr('required', true);
         $('#day_val').attr('required', true);
@@ -1068,13 +1077,13 @@ var myDropzoneCanale = new Dropzone(
         //$('#day_val_app_inbound').attr('required', false);
         $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
-        $('#callguide_app_inbound').attr('required', false);
+        //$('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         //$('#day_val_app_outbound').attr('required', false);
         $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
         $('#notif_app_outbound').attr('required', false); 
-        $('#callguide_app_outbound').attr('required', false);
+        //$('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1090,6 +1099,7 @@ var myDropzoneCanale = new Dropzone(
         $('#data_invio_spai').attr('required', false);
         //#span_mfh
         $('#type_mfh').attr('required', false);
+        $('#note_mfh').attr('required', false);
         //#span_watson
         $('#type_watson').attr('required', false);
         $('#contact_watson').attr('required', false);
@@ -1121,7 +1131,7 @@ var myDropzoneCanale = new Dropzone(
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
         //$('#day_val_pos').attr('required', false);
-        $('#callguide_pos').attr('required', false);
+        //$('#callguide_pos').attr('required', false);
         //#span_40400
         $('#alias_attiv').attr('required', false);
         $('#day_val').attr('required', false);
@@ -1133,13 +1143,13 @@ var myDropzoneCanale = new Dropzone(
         //$('#day_val_app_inbound').attr('required', false);
         $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
-        $('#callguide_app_inbound').attr('required', false);
+        //$('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         //$('#day_val_app_outbound').attr('required', false);
         $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
         $('#notif_app_outbound').attr('required', false); 
-        $('#callguide_app_outbound').attr('required', false);
+        //$('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1155,6 +1165,7 @@ var myDropzoneCanale = new Dropzone(
         $('#data_invio_spai').attr('required', false);
         //#span_mfh
         $('#type_mfh').attr('required', false);
+        $('#note_mfh').attr('required', false);
         //#span_watson
         $('#type_watson').attr('required', false);
         $('#contact_watson').attr('required', false);
@@ -1187,7 +1198,7 @@ var myDropzoneCanale = new Dropzone(
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
         //$('#day_val_pos').attr('required', false);
-        $('#callguide_pos').attr('required', false);
+        //$('#callguide_pos').attr('required', false);
         //#span_40400
         $('#alias_attiv').attr('required', false);
         $('#day_val').attr('required', false);
@@ -1199,13 +1210,13 @@ var myDropzoneCanale = new Dropzone(
         //$('#day_val_app_inbound').attr('required', true);
         $('#id_news_app_inbound').attr('required', true);
         $('#prior_app_inbound').attr('required', true);
-        $('#callguide_app_inbound').attr('required', true);
+        //$('#callguide_app_inbound').attr('required', true);
         //#span_app_outbound
         //$('#day_val_app_outbound').attr('required', false);
         $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
         $('#notif_app_outbound').attr('required', false); 
-        $('#callguide_app_outbound').attr('required', false);
+        //$('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1221,6 +1232,7 @@ var myDropzoneCanale = new Dropzone(
         $('#data_invio_spai').attr('required', false);
         //#span_mfh
         $('#type_mfh').attr('required', false);
+        $('#note_mfh').attr('required', false);
         //#span_watson
         $('#type_watson').attr('required', false);
         $('#contact_watson').attr('required', false);
@@ -1253,7 +1265,7 @@ var myDropzoneCanale = new Dropzone(
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
         //$('#day_val_pos').attr('required', false);
-        $('#callguide_pos').attr('required', false);
+        //$('#callguide_pos').attr('required', false);
         //#span_40400
         $('#alias_attiv').attr('required', false);
         $('#day_val').attr('required', false);
@@ -1265,13 +1277,13 @@ var myDropzoneCanale = new Dropzone(
         //$('#day_val_app_inbound').attr('required', false);
         $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
-        $('#callguide_app_inbound').attr('required', false);
+        //$('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         //$('#day_val_app_outbound').attr('required', true);
         $('#id_news_app_outbound').attr('required', true);
         $('#prior_app_outbound').attr('required', true);
         $('#notif_app_outbound').attr('required', true); 
-        $('#callguide_app_outbound').attr('required', true);
+        //$('#callguide_app_outbound').attr('required', true);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1287,6 +1299,7 @@ var myDropzoneCanale = new Dropzone(
         $('#data_invio_spai').attr('required', false);
         //#span_mfh
         $('#type_mfh').attr('required', false);
+        $('#note_mfh').attr('required', false);
         //#span_watson
         $('#type_watson').attr('required', false);
         $('#contact_watson').attr('required', false);
@@ -1319,7 +1332,7 @@ var myDropzoneCanale = new Dropzone(
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
         //$('#day_val_pos').attr('required', false);
-        $('#callguide_pos').attr('required', false);
+        //$('#callguide_pos').attr('required', false);
         //#span_40400
         $('#alias_attiv').attr('required', false);
         $('#day_val').attr('required', false);
@@ -1331,13 +1344,13 @@ var myDropzoneCanale = new Dropzone(
         //$('#day_val_app_inbound').attr('required', false);
         $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
-        $('#callguide_app_inbound').attr('required', false);
+        //$('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         //$('#day_val_app_outbound').attr('required', false);
         $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
         $('#notif_app_outbound').attr('required', false); 
-        $('#callguide_app_outbound').attr('required', false);
+        //$('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', true);
         //#span_icm
@@ -1353,6 +1366,7 @@ var myDropzoneCanale = new Dropzone(
         $('#data_invio_spai').attr('required', false);
         //#span_mfh
         $('#type_mfh').attr('required', false);
+        $('#note_mfh').attr('required', false);
         //#span_watson
         $('#type_watson').attr('required', false);
         $('#contact_watson').attr('required', false);
@@ -1405,7 +1419,7 @@ var myDropzoneCanale = new Dropzone(
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
         //$('#day_val_pos').attr('required', false);
-        $('#callguide_pos').attr('required', false);
+        //$('#callguide_pos').attr('required', false);
         //#span_40400
         $('#alias_attiv').attr('required', false);
         $('#day_val').attr('required', false);
@@ -1417,13 +1431,13 @@ var myDropzoneCanale = new Dropzone(
         //$('#day_val_app_inbound').attr('required', false);
         $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
-        $('#callguide_app_inbound').attr('required', false);
+        //$('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         //$('#day_val_app_outbound').attr('required', false);
         $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
         $('#notif_app_outbound').attr('required', false); 
-        $('#callguide_app_outbound').attr('required', false);
+        //$('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1439,6 +1453,7 @@ var myDropzoneCanale = new Dropzone(
         $('#data_invio_spai').attr('required', false);
         //#span_mfh
         $('#type_mfh').attr('required', false);
+        $('#note_mfh').attr('required', false);
         //#span_watson
         $('#type_watson').attr('required', false);
         $('#contact_watson').attr('required', false);
@@ -1471,7 +1486,7 @@ var myDropzoneCanale = new Dropzone(
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
         //$('#day_val_pos').attr('required', false);
-        $('#callguide_pos').attr('required', false);
+        //$('#callguide_pos').attr('required', false);
         //#span_40400
         $('#alias_attiv').attr('required', false);
         $('#day_val').attr('required', false);
@@ -1483,13 +1498,13 @@ var myDropzoneCanale = new Dropzone(
         //$('#day_val_app_inbound').attr('required', false);
         $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
-        $('#callguide_app_inbound').attr('required', false);
+        //$('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         //$('#day_val_app_outbound').attr('required', false);
         $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
         $('#notif_app_outbound').attr('required', false); 
-        $('#callguide_app_outbound').attr('required', false);
+        //$('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1505,6 +1520,7 @@ var myDropzoneCanale = new Dropzone(
         $('#data_invio_spai').attr('required', false);
         //#span_mfh
         $('#type_mfh').attr('required', false);
+        $('#note_mfh').attr('required', false);
         //#span_watson
         $('#type_watson').attr('required', false);
         $('#contact_watson').attr('required', false);
@@ -1537,7 +1553,7 @@ var myDropzoneCanale = new Dropzone(
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
         //$('#day_val_pos').attr('required', false);
-        $('#callguide_pos').attr('required', false);
+        //$('#callguide_pos').attr('required', false);
         //#span_40400
         $('#alias_attiv').attr('required', false);
         $('#day_val').attr('required', false);
@@ -1549,13 +1565,13 @@ var myDropzoneCanale = new Dropzone(
         //$('#day_val_app_inbound').attr('required', false);
         $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
-        $('#callguide_app_inbound').attr('required', false);
+        //$('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         //$('#day_val_app_outbound').attr('required', false);
         $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
         $('#notif_app_outbound').attr('required', false); 
-        $('#callguide_app_outbound').attr('required', false);
+        //$('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1571,6 +1587,7 @@ var myDropzoneCanale = new Dropzone(
         $('#data_invio_spai').attr('required', false);
         //#span_mfh
         $('#type_mfh').attr('required', false);
+        $('#note_mfh').attr('required', false);
         //#span_watson
         $('#type_watson').attr('required', false);
         $('#contact_watson').attr('required', false);
@@ -1603,7 +1620,7 @@ var myDropzoneCanale = new Dropzone(
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
         //$('#day_val_pos').attr('required', false);
-        $('#callguide_pos').attr('required', false);
+        //$('#callguide_pos').attr('required', false);
         //#span_40400
         $('#alias_attiv').attr('required', false);
         $('#day_val').attr('required', false);
@@ -1615,13 +1632,13 @@ var myDropzoneCanale = new Dropzone(
         //$('#day_val_app_inbound').attr('required', false);
         $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
-        $('#callguide_app_inbound').attr('required', false);
+        //$('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         //$('#day_val_app_outbound').attr('required', false);
         $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
         $('#notif_app_outbound').attr('required', false); 
-        $('#callguide_app_outbound').attr('required', false);
+        //$('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1637,6 +1654,7 @@ var myDropzoneCanale = new Dropzone(
         $('#data_invio_spai').attr('required', false);
         //#span_mfh
         $('#type_mfh').attr('required', true);
+        $('#note_mfh').attr('required', true);
         //#span_watson
         $('#type_watson').attr('required', false);
         $('#contact_watson').attr('required', false);
@@ -1669,7 +1687,7 @@ var myDropzoneCanale = new Dropzone(
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
         //$('#day_val_pos').attr('required', false);
-        $('#callguide_pos').attr('required', false);
+        //$('#callguide_pos').attr('required', false);
         //#span_40400
         $('#alias_attiv').attr('required', false);
         $('#day_val').attr('required', false);
@@ -1681,13 +1699,13 @@ var myDropzoneCanale = new Dropzone(
         //$('#day_val_app_inbound').attr('required', false);
         $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
-        $('#callguide_app_inbound').attr('required', false);
+        //$('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         //$('#day_val_app_outbound').attr('required', false);
         $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
         $('#notif_app_outbound').attr('required', false); 
-        $('#callguide_app_outbound').attr('required', false);
+        //$('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1703,6 +1721,7 @@ var myDropzoneCanale = new Dropzone(
         $('#data_invio_spai').attr('required', true);
         //#span_mfh
         $('#type_mfh').attr('required', false);
+        $('#note_mfh').attr('required', false);
         //#span_watson
         $('#type_watson').attr('required', false);
         $('#contact_watson').attr('required', false);
@@ -1735,7 +1754,7 @@ var myDropzoneCanale = new Dropzone(
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
         //$('#day_val_pos').attr('required', false);
-        $('#callguide_pos').attr('required', false);
+        //$('#callguide_pos').attr('required', false);
         //#span_40400
         $('#alias_attiv').attr('required', false);
         $('#day_val').attr('required', false);
@@ -1747,13 +1766,13 @@ var myDropzoneCanale = new Dropzone(
         //$('#day_val_app_inbound').attr('required', false);
         $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
-        $('#callguide_app_inbound').attr('required', false);
+        //$('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         //$('#day_val_app_outbound').attr('required', false);
         $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
         $('#notif_app_outbound').attr('required', false); 
-        $('#callguide_app_outbound').attr('required', false);
+        //$('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1769,6 +1788,7 @@ var myDropzoneCanale = new Dropzone(
         $('#data_invio_spai').attr('required', false);
         //#span_mfh
         $('#type_mfh').attr('required', false);
+        $('#note_mfh').attr('required', false);
         //#span_watson
         $('#type_watson').attr('required', true);
         $('#contact_watson').attr('required', true);
@@ -1801,7 +1821,7 @@ var myDropzoneCanale = new Dropzone(
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
         //$('#day_val_pos').attr('required', false);
-        $('#callguide_pos').attr('required', false);
+        //$('#callguide_pos').attr('required', false);
         //#span_40400
         $('#alias_attiv').attr('required', false);
         $('#day_val').attr('required', false);
@@ -1813,13 +1833,13 @@ var myDropzoneCanale = new Dropzone(
         //$('#day_val_app_inbound').attr('required', false);
         $('#id_news_app_inbound').attr('required', false);
         $('#prior_app_inbound').attr('required', false);
-        $('#callguide_app_inbound').attr('required', false);
+        //$('#callguide_app_inbound').attr('required', false);
         //#span_app_outbound
         //$('#day_val_app_outbound').attr('required', false);
         $('#id_news_app_outbound').attr('required', false);
         $('#prior_app_outbound').attr('required', false);
         $('#notif_app_outbound').attr('required', false); 
-        $('#callguide_app_outbound').attr('required', false);
+        //$('#callguide_app_outbound').attr('required', false);
         //#span_dealer
         $('#Cod_iniziativa').attr('required', false);
         //#span_icm
@@ -1835,6 +1855,7 @@ var myDropzoneCanale = new Dropzone(
         $('#data_invio_spai').attr('required', false);
         //#span_mfh
         $('#type_mfh').attr('required', false);
+        $('#note_mfh').attr('required', false);
         //#span_watson
         $('#type_watson').attr('required', false);
         $('#contact_watson').attr('required', false);

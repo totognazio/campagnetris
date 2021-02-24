@@ -403,7 +403,10 @@ function manageCamp(id, azione, permesso_elimina, stato){
     } 
     if(azione==='exportcapacity'){
             document.getElementById("exportcapacity").submit(); 
-        } 
+    } 
+    if(azione==='nofilter'){
+            document.getElementById("nofilter").submit(); 
+    } 
 
 }
 

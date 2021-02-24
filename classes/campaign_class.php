@@ -1117,7 +1117,7 @@ function update($record, $id_campagne) {
             elseif (isset($_POST[$value])) {
                 $valore_inviato = $_POST[$value];
                 if ($valore_inviato != "") {
-                    if ($temp[0] == 'data') {
+                    if ($temp[0] == 'data' and $value !='data_inizio_validita_offerta' and $value !='data_fine_validita_offerta') {
 
                         $lista_variabili = $lista_variabili . " `" . $value . "`='" . $this->mysqli->real_escape_string($this->data_it_to_eng_($valore_inviato)) . "',";
                     } elseif ($value == "pref_nome_campagna") {
@@ -1709,10 +1709,11 @@ LEFT JOIN users ON `user_id` = users.id
                             <input type="hidden" name="id" value="'.$row['id'].'" />
                             <input type="hidden" name="azione" value="elimina" />                                                                
                         </form>
-        <a href="#" onclick="manageCamp('.$row['id'].', \'modifica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Modifica" title="Modifica"><i class="fa fa-pencil-square-o"></i></a>        
-        <a href="#" onclick="manageCamp('.$row['id'].', \'duplica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone"></i></a>                       
-        <a href="#" onclick="manageCamp('.$row['id'].', \'elimina\','.$permission.','.$stato_elimina.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></a>    
-                    
+                        
+                    <button class="btn btn-xs btn-primary" type="submit" onclick="manageCamp('.$row['id'].', \'modifica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Modifica" title="Modifica"><i class="fa fa-edit" ></i></button>
+                    <button class="btn btn-xs btn-default" type="submit" onclick="manageCamp('.$row['id'].',\'duplica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone" ></i></button>
+                    <button class="btn btn-xs btn-danger" type="submit" onclick="manageCamp('.$row['id'].',\'elimina\','.$permission.','.$stato_elimina.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></button>                    
+        
                 '.  "</td>";
                     //<button class="btn btn-xs btn-primary" type="submit" onclick="manageCamp('.$row['id'].', \'modifica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Modifica" title="Modifica"><i class="fa fa-edit" ></i></button>
                     //<button class="btn btn-xs btn-default" type="submit" onclick="manageCamp('.$row['id'].',\'duplica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone" ></i></button>
@@ -1771,7 +1772,12 @@ LEFT JOIN users ON `user_id` = users.id
         $string .= "<td><strong>Totale<strong></td>";
         $string .= "<td><small><strong>".$this->round_volume($tot_volume['totale'])."</strong></small></td>";
      foreach($daterange as $key=>$daytimestamp){
-         $string .= "<td><small><strong>".$this->round_volume($tot_volume[$daytimestamp])."</strong></small></td>";
+         if(intval($tot_volume[$daytimestamp])>0){
+            $string .= "<td><small><strong>".$this->round_volume($tot_volume[$daytimestamp])."</strong></small></td>";
+         }
+         else{
+             $string .= "<td><small><strong></strong></small></td>";
+         }
      }
      $string .= "</tr>"; 
  
@@ -1859,9 +1865,9 @@ LEFT JOIN users ON `user_id` = users.id
                     <!--<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                     <table id="datatable-responsive" cellspacing="0" width="100%">
                     <table id="datatable-scroll" class="table table-bordered nowrap">
-                    <table id="datatable-scroll" class="table table-bordered nowrap" style="width:100%">-->
-                    <table id="datatable-pianificazione" class="display compact table-bordered table-striped  table-hover no-margin" cellspacing="0" cellpadding="0">    
-              
+                    <table id="datatable-scroll" class="table table-bordered nowrap" style="width:100%">
+                    <table id="datatable-pianificazione" class="display compact table-bordered table-striped  table-hover no-margin" cellspacing="0" cellpadding="0">-->    
+                    <table id="datatable-pianificazione" class="display compact table-bordered text-nowrap table-hover no-margin nowrap" cellspacing="0" cellpadding="0" defer>
                         <thead>
                             <tr>
                             <th class="not-export-col"><small>Azione</small></th>
@@ -1930,10 +1936,10 @@ LEFT JOIN users ON `user_id` = users.id
                             <input type="hidden" name="id" value="'.$row['id'].'" />
                             <input type="hidden" name="azione" value="elimina" />                                                                
                         </form>
-            
-                    <button class="btn btn-sm btn-primary" type="submit" onclick="manageCamp('.$row['id'].', \'modifica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Modifica" title="Modifica"><i class="fa fa-edit" ></i></button>
-                    <button class="btn btn-sm btn-default" type="submit" onclick="manageCamp('.$row['id'].',\'duplica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone" ></i></button>
-                    <button class="btn btn-sm btn-danger" type="submit" onclick="manageCamp('.$row['id'].',\'elimina\','.$permission.','.$stato_elimina.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></button>                    
+
+                    <button class="btn btn-xs btn-primary" type="submit" onclick="manageCamp('.$row['id'].', \'modifica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Modifica" title="Modifica"><i class="fa fa-edit" ></i></button>
+                    <button class="btn btn-xs btn-default" type="submit" onclick="manageCamp('.$row['id'].',\'duplica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone" ></i></button>
+                    <button class="btn btn-xs btn-danger" type="submit" onclick="manageCamp('.$row['id'].',\'elimina\','.$permission.','.$stato_elimina.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></button>                    
                 '.  "</td>";
         $string .= "<td><small>".$riga."</small></td>";
         $string .= "<td><small>".$row['stacks_nome']."</small></td>";
@@ -2112,6 +2118,10 @@ LEFT JOIN users ON `user_id` = users.id
         
         return array("sprint"=>$sprint, "startDate"=>$startDate,"endDate"=>$endDate,"channels"=>$channels,"squads"=>$squads,"stacks"=>$stacks,"states"=>$states,"typologies"=>$typologies);
    
+    }
+
+    function reset_filter(){
+        unset($_SESSION['filter']); 
     }
 
     function getStartEndDatapicker(){

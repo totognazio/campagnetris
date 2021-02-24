@@ -510,49 +510,54 @@
           ],
               //ordering: true,
             columnDefs: [
+                 {
+                  className: "dt-head-left"
+                },
+              
                 { 
-                  orderable: false,     
+                    
                   targets: 0,
                   searchable: false,
                   orderable: false,              
                   //width: 35,
               },
               {      
-                  targets: 1,
+                  targets: 1,                   
                   searchable: false,                  
-                  orderable: true,
+                  orderable: false,
                   visible: false,
               },
  
               {      
-                  targets: 2,
+                  targets: 2, 
                   searchable: true,
                   //width: 95,
-                  orderable: true,
+                  orderable: false,
               },
                             {      
                   targets: 3,
                   searchable: true,
                   //width: 95,
-                  orderable: true,
+                  orderable: false,
               },
                             {      
                   targets: 4,
                   searchable: true,
                   //width: 95,
-                  orderable: true,
+                  orderable: false,
               },
               {      
-                  targets: 5,
+                  targets: 5, 
                   searchable: true,
                   //width: 95,
-                  orderable: true,
+                  orderable: false,
               },
                             {      
                   targets: 6,
+                  orderable: false,  
                   searchable: true,
                   //width: 95,
-                  orderable: true,
+                  
               },
                             {      
                   targets: 7,
@@ -570,34 +575,37 @@
                   targets: 9,
                   searchable: true,
                   //width: 95,
-                  orderable: true,
+                  orderable: false,
               },
                                           {      
                   targets: 10,
                   searchable: true,
                   //width: 95,
-                  orderable: true,
+                  orderable: false,
               },
                                           {      
                   targets: 11,
                   searchable: true,
                   //width: 95,
-                  orderable: true,
+                  orderable: false,
               },
                                                    {      
                   targets: 12,
                   searchable: true,
                   //width: 95,
-                  orderable: true,
+                  orderable: false,
               },
+              
               {
                   targets: '_all',
                   searchable: true,
                   width: 10,
-                  createdCell: function (th, td, cellData, rowData, row, col) {
-                      $(td).css('padding', '3px');
+                  createdCell: function (th, td, cellData, rowData, row, col) {                      
+                      $(th).css('padding', '1px');
                       $(th).css('text-align', 'left');
-                      
+                      $(td).css('text-align', 'left');
+                      $(td).css('padding', '1px');
+                                            
                   }, 
                   orderable: <?php if($datatable=="pianificazione") {echo "false,";} elseif($datatable=="gestione"){echo "true,";}?>
                   
@@ -641,8 +649,8 @@
     moment.locale('it');
     moment().format('LL');
     // valori iniziali se session vuota
-    // var select_startDate = moment().startOf('month').format('YYYY-MM-DD');
-    // var select_endDate = moment().endOf('month').format('YYYY-MM-DD');     
+    var select_startDate = moment().startOf('month').format('YYYY-MM-DD');
+    var select_endDate = moment().endOf('month').format('YYYY-MM-DD');     
     // valori di session 
     var select_startDate = '<?php if (isset($_SESSION['filter'])) {
                               echo $_SESSION['filter']['startDate'];
