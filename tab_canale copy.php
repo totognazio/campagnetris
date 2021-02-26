@@ -371,6 +371,9 @@
                                 <option <?php //if($modifica and $canale['tipoMonitoring']=='3'){echo ' selected';}?> value="3">No monitoring</option>
                           </select>-->
                       </span>     
+                       <label style="margin-top:20px">Validità SMS  <span class="required">*</span></label>
+                          <input type="number" id="sms_duration" name="addcanale[0][sms_duration]"  class="form-control col-md-7 col-xs-12" placeholder="numerico min 1 a max 7" min="1" max="7" data-parsley-trigger="keyup" value="<?php if($modifica){echo $canale['sms_duration'];}else{echo'2';}?>" <?php echo $required_sms; ?> <?php echo $disabled_value; ?>>
+                        
   
         </div> 
 
@@ -818,7 +821,7 @@ var myDropzoneCanale = new Dropzone(
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
         //$('#tipoMonitoring').attr('required', false);
-        //$('#sms_duration').attr('required', false);
+        $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
@@ -879,7 +882,7 @@ var myDropzoneCanale = new Dropzone(
             $('#pos_field').hide();
             $('#sms_field').show();
 
-        //$('#sms_duration').attr('required', true);
+        $('#sms_duration').attr('required', true);
         //$('#tipoMonitoring').attr('required', true);
         //$('#link').attr('required', true);
         $('#mod_invio').attr('required', true);
@@ -973,7 +976,7 @@ var myDropzoneCanale = new Dropzone(
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
         //$('#tipoMonitoring').attr('required', false);
-        //$('#sms_duration').attr('required', false);
+        $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', true);
         $('#tit_sott_pos').attr('required', true);
@@ -1057,7 +1060,7 @@ var myDropzoneCanale = new Dropzone(
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
         //$('#tipoMonitoring').attr('required', false);
-        //$('#sms_duration').attr('required', false);
+        $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
@@ -1123,7 +1126,7 @@ var myDropzoneCanale = new Dropzone(
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
         //$('#tipoMonitoring').attr('required', false);
-        //$('#sms_duration').attr('required', false);
+        $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
@@ -1190,7 +1193,7 @@ var myDropzoneCanale = new Dropzone(
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
         //$('#tipoMonitoring').attr('required', false);
-        //$('#sms_duration').attr('required', false);
+        $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
@@ -1257,7 +1260,7 @@ var myDropzoneCanale = new Dropzone(
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
         //$('#tipoMonitoring').attr('required', false);
-        //$('#sms_duration').attr('required', false);
+        $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
@@ -1324,7 +1327,7 @@ var myDropzoneCanale = new Dropzone(
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
         //$('#tipoMonitoring').attr('required', false);
-        //$('#sms_duration').attr('required', false);
+        $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
@@ -1411,7 +1414,7 @@ var myDropzoneCanale = new Dropzone(
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
         //$('#tipoMonitoring').attr('required', false);
-        //$('#sms_duration').attr('required', false);
+        $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
@@ -1478,7 +1481,7 @@ var myDropzoneCanale = new Dropzone(
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
         //$('#tipoMonitoring').attr('required', false);
-        //$('#sms_duration').attr('required', false);
+        $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
@@ -1545,7 +1548,7 @@ var myDropzoneCanale = new Dropzone(
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
         //$('#tipoMonitoring').attr('required', false);
-        //$('#sms_duration').attr('required', false);
+        $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
@@ -1612,7 +1615,7 @@ var myDropzoneCanale = new Dropzone(
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
         //$('#tipoMonitoring').attr('required', false);
-        //$('#sms_duration').attr('required', false);
+        $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
@@ -1679,7 +1682,7 @@ var myDropzoneCanale = new Dropzone(
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
         //$('#tipoMonitoring').attr('required', false);
-        //$('#sms_duration').attr('required', false);
+        $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
@@ -1746,7 +1749,7 @@ var myDropzoneCanale = new Dropzone(
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
         //$('#tipoMonitoring').attr('required', false);
-        //$('#sms_duration').attr('required', false);
+        $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);
@@ -1813,7 +1816,7 @@ var myDropzoneCanale = new Dropzone(
         $('#mod_invio').attr('required', false);
         $('#link').attr('required', false);
         //$('#tipoMonitoring').attr('required', false);
-        //$('#sms_duration').attr('required', false);
+        $('#sms_duration').attr('required', false);
         //pos
         $('#cat_sott_ins').attr('required', false);
         $('#tit_sott_pos').attr('required', false);

@@ -317,7 +317,37 @@ if ($page_protect->get_job_role() >= 2) {
         </div>
        </div>     
         <div class="col-md-12">
+        <div class="col-md-2 col-sm-6 col-xs-12">
+            <label>Segmento </label>
+            <p style="padding: 5px;">
+             <?php 
+                 //$require_first = 'required';  
+                 $require_first = '';            
+                            if ($modifica){$segment_id = $id_campaign['segment_id'];}
+                            else {$segment_id = 0;}                            
+                            foreach ($segments as $key => $value) {                                
+                                echo' <input type="radio" name="segment_id" id="ch_'.$key.'" value="'.$key.'" data-parsley-multiple="segmento" '.$require_first.'  class="flat" ';
+                                if ($readonly) {echo $disabled_value;}
+                                if ($segment_id == $key){echo " checked=\"checked\" ";}                                
+                                echo'/> '.ucwords(strtolower($value));
+                                echo'<br/>';
+                                $require_first = '';  
+                            }
+                            echo'<br/>';
+                            if (!$readonly) {
+                                echo'<input id="clear-button" type="button"  name="reset" value="reset" onClick="reset_button();">';
+                                 echo '<script>function reset_button() {';
+                                foreach ($segments as $key => $value) {   
+                                     echo '$("#ch_'.$key.'").iCheck(\'uncheck\');'; 
+                                }
+                                echo '}</script>';
 
+                            }       
+                                                       
+              ?>  
+
+            </p>     
+        </div>
                     <form id="demo-form" data-parsley-validate>
             <div  class="col-md-6 col-sm-12 col-xs-12">
               <label for="message">Altri Criteri (2000 chars max) </label><span class="required">*</span>

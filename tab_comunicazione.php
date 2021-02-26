@@ -64,9 +64,8 @@
 <div class="col-md-12 col-sm-6 col-xs-12"><br> 
         <span id="div_call_guide" <?php echo $display_guide; ?>>           
             <div  class="col-md-6 col-sm-6 col-xs-12" >
-                <label style="width:100%;">Call Guide 
-                <img id="infoRedemption" title="Indicare le azioni che il cliente dovr&agrave; eseguire per essere considerato redeemer (esempio: il cliente dovr&agrave; attivare una opzione in un range temporale). 
-                                    Non &egrave; considerata redemption il click di un link da parte di un cliente." alt="Criteri Redemption" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
+                <label style="width:100%;">Call Guide  
+                
                 </label>
 
                     <textarea id="redemption" name="redemption" class="form-control" rows="10" <?php if ($readonly){echo $disabled_value;}?> onkeyup="checklength(0, 1000, 'redemption', 'charRedemption', '');" ><?php if ($modifica){echo stripslashes($id_campaign['redemption']); }?></textarea>

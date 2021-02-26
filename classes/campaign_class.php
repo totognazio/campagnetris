@@ -1171,7 +1171,7 @@ function update($record, $id_campagne) {
         $results = $this->mysqli->query($sql) or die($sql . " - " . $this->mysqli->error);
         if ($send_email) {
 //L'utente Rattini Marco ha modificato lo stato della campagna “Nome Campagna�? in RICHIESTA. Data inizio campagna 21/03/2016.
-            $this->send_email("[CTM] La campagna " .$_POST['pref_nome_campagna']. " ha cambiato stato", "L'utente '" . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . "' ha modificato lo stato della campagna '" .$_POST['pref_nome_campagna']. " in " . $this->get_state_name($this->get_state($id_campagne)) . ". Data inizio campagna: " . $_POST['data_inizio'] . ".");
+            //$this->send_email("[CTM] La campagna " .$_POST['pref_nome_campagna']. " ha cambiato stato", "L'utente '" . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . "' ha modificato lo stato della campagna '" .$_POST['pref_nome_campagna']. " in " . $this->get_state_name($this->get_state($id_campagne)) . ". Data inizio campagna: " . $_POST['data_inizio'] . ".");
         }
         return "Campagna modificata correttamente";
     }
