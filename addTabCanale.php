@@ -225,13 +225,7 @@ $string .='<span id="sms_field'.$id_canale.'" '.$display_sms.' data-parsley-chec
                                     <label style="width:100%;"><small>Numero</small><input type="text" name="charLink" id="charLink'.$id_canale.'" class="text" readonly="readonly"  size="3" value="255" placeholder="max 255"onfocus="this.blur()" /></label>   
                                     <label style="width:100%;"><small>Totale (SMS+Link)</small><input type="text" name="numero_totale" id="numero_totale'.$id_canale.'" value="" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>                  
                                 
-                        </span>  
-                       <label style="margin-top:20px">Validità SMS  <span class="required">*</span></label>
-                          <input type="number" id="sms_duration'.$id_canale.'" name="sms_duration"  class="form-control col-md-7 col-xs-12" min="1" max="7" data-parsley-trigger="keyup" value="';
-                        if($modifica and isset($addcanale_stored['sms_duration'])){$string .=  $addcanale_stored['sms_duration'];}else{$string .= '2';};
-                         $string .= '" '.$required_sms.' '. $disabled_value.'>';
-                        $string .= '<img id="info" title="Numero di giorni in cui la rete tenter&agrave; l\'invio dell\'sms. Range da 1 a 7 giorni." alt="Durata SMS" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
-  
+                        </span>      
                 </div>
         </span>';
 
@@ -493,11 +487,12 @@ $string .='<span id="span_app_inbound'.$id_canale.'"  '.$display_app_inbound.' >
                     $string .=' value="RINNOVO SIM">RINNOVO SIM</option>
                 </select>                           
     
-                <label  class="control-label">Note MFH<span class="required">*</span></label>
-                <input type="text" id="note_mfh'.$id_canale.'" name="addcanale['.$id_canale.'][note_mfh]" placeholder="text"  data-parsley-trigger="keyup"  class="form-control col-md-7 col-xs-12" value="';
-                 if($modifica and isset($addcanale_stored['note_mfh'])) { $string.= $addcanale_stored['note_mfh']; }
-                 $string.='" '.$required_mfh.' '.$disabled_value.'>  
-                <br><br>                             
+                <label  class="control-label">Note MFH<span class="required">*</span></label>                
+                <textarea id="note_mfh'.$id_canale.'" name="addcanale['.$id_canale.'][note_mfh]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" ';
+                if ($readonly){$string .= $disabled_value;}
+                $string .=' >';
+                if ($modifica and (isset($addcanale_stored['note_mfh']))){$string .= stripslashes($addcanale_stored['note_mfh']); }
+                $string .='</textarea>                             
         </div>
     </span>
     <span id="span_watson'.$id_canale.'" '.$display_watson.'>

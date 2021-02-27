@@ -675,8 +675,8 @@ $objPHPExcel->getProperties()->setCreator("Tool Campaign")
     $riga = 3;
     $colonna = 0;
 
-$titolo = array('N', 'Stack','Sprint','Squad','Tipologia', 'Modalità', 'Categoria', 'Offerta',	'Canale',	'Volume Stimato (K)',	'Data Output',	'Data Inizio Offerta', 'Data Fine Offerta',	'Stato','Note operative');
-
+//$titolo = array('N', 'Stack','Sprint','Squad','Tipologia', 'Modalità', 'Categoria', 'Offerta',	'Canale',	'Volume Stimato (K)',	'Data Output',	'Data Inizio Offerta', 'Data Fine Offerta',	'Stato','Note operative');
+$titolo = array('N', 'Stack','Sprint','Squad','Tipologia', 'Modalità', 'Categoria', 'Offerta',	'Canale',	'Volume Stimato (K)',	'Data Output','Stato','Note operative');
 $tot_colonne = count($titolo) - 1;
 
 
@@ -754,12 +754,14 @@ foreach ($titolo as $key => $value) {
         $riga = 4;
         $colonna = 0;
         foreach ($list as $key => $row) {
+            /*
             if(strtotime($row['data_inizio_validita_offerta'])<0){
                 $row['data_inizio_validita_offerta'] = '1970-01-01';
             }
             if(strtotime($row['data_fine_validita_offerta'])<0){
                 $row['data_fine_validita_offerta'] = '1970-01-01';
             }
+            */
 
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, $riga, $key+1);        
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, $riga, $row['stacks_nome']);    
@@ -772,10 +774,10 @@ foreach ($titolo as $key => $value) {
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(8, $riga, $campaign->tableChannelLabel($row));
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(9, $riga, round($row['volume']/1000));
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(10, $riga, $row['data_inizio']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(11, $riga, $row['data_inizio_validita_offerta']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(12, $riga, $row['data_fine_validita_offerta']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(13, $riga, $row['campaign_stato_nome']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(14, $riga, $row['note_operative']);
+            //$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(11, $riga, $row['data_inizio_validita_offerta']);
+            //$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(12, $riga, $row['data_fine_validita_offerta']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(11, $riga, $row['campaign_stato_nome']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(12, $riga, $row['note_operative']);
             
             
             //$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(13, $riga, '');

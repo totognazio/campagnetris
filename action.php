@@ -17,24 +17,29 @@ if (isset($_GET['action']) && $_GET['action'] == "log_out") {
 
 $campaign = new campaign_class();
 //print_r($_POST);
+print_r($_SESSION);
 
 //inserimento campagna
-if (isset($_POST['azione']) and $_POST['azione']=='new') {   
+if (isset($_POST['azione']) and $_POST['azione']=='new' and $_SESSION['form_submit']) {    
     if ($page_protect->get_insert_permission()) {
         $result = $campaign->insert($_POST);
-        if ($result == "1")
+        if ($result == "1"){
             $result = "La campagna è stata inserita correttamente";
-    } else {
+            $_SESSION['form_submit']= false; 
+        }            
+    } 
+    else {
         $result = "L'utente non ha i diritti di inseirmento";
     }   
 }
 
 //inserimento campagna
-if (isset($_POST['azione']) and $_POST['azione']=='duplica') {   
+if (isset($_POST['azione']) and $_POST['azione']=='duplica' and $_SESSION['form_submit']) {   
     if ($page_protect->get_insert_permission()) {
         $result = $campaign->insert($_POST);
         if ($result == "1")
             $result = "La campagna è stata inserita correttamente";
+            $_SESSION['form_submit'] = false; 
     } else {
         $result = "L'utente non ha i diritti di inseirmento";
     }   

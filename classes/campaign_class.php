@@ -1002,7 +1002,7 @@ function insert($record) {
 //echo $value . " - " . $valore_inviato . "<br/>";
                     if (strlen($valore_inviato) > 0) {
 //echo $value . " - " . $valore_inviato . "<br/>";
-                        if ($temp[0] == 'data' and $value !='data_inizio_validita_offerta' and $value !='data_fine_validita_offerta'  ) {
+                        if ($temp[0] == 'data') {
                             $lista_variabili = $lista_variabili . "`" . $value . "`,";
                             $lista_valori = $lista_valori . "'" . $this->mysqli->real_escape_string($this->data_it_to_eng_($valore_inviato)) . "',";
                             //$lista_valori = $lista_valori . "'" . $this->mysqli->real_escape_string(addslashes($valore_inviato)) . "',";
@@ -1854,6 +1854,15 @@ LEFT JOIN users ON `user_id` = users.id
             if($row['control_group']==2) return 'Si (Volume)'; 
             else return ' ';        
         }
+        //Tab Comunicazione
+        if($criterio=='tipo_leva'){
+            if($row['tipo_leva']=='info') return 'Informativa';
+            if($row['tipo_leva']=='mono') return 'MonoOfferta';    
+            if($row['tipo_leva']=='multi') return 'MultOfferta'; 
+            else return ' ';        
+        }
+
+        
 
     }
 
@@ -1881,33 +1890,23 @@ LEFT JOIN users ON `user_id` = users.id
                             <th><small>Cod. Com.</small></th>
                             <th><small>Modalità</small></th>                            
                             <th><small>Priorità</small></th>
-                            <th><small>Descrizione Offerta</small></th>
-                            <th><small>Leva/Offerta</small></th>
-                            <th><small>Opzione</small></th>
+                            <th><small>Descrizione Attvità</small></th>
                             <th><small>Canale</small></th>
-                            <th><small>Tipo Leva</small></th>
+                            <th><small>Tipo</small></th>
                             <th><small>Data Inizio Campagna</small></th>
                             <th><small>Data Fine Campagna</small></th> 
                             <th><small>Volume (k)</small></th>
                             <th><small>Stato</small></th>
                             <th><small>Username</small></th>
                             <th><small>Data Inserimento</small></th>  
-
                             <th><small>Stato</small></th>
                             <th><small>Tipo Offerta</small></th>
                             <th><small>Tipo Contratto</small></th>
-                            <th><small>Consenso</small></th>
-                            
-                            <th><small>Mercato</small></th>
-                            
-                            <th><small>Frodatori</small></th>
-                            <th><small>Altri Criteri</small></th>
-                                                                 
-                            <th><small>Indicatore Dinamico</small></th>
-                            <th><small>Control Guide</small></th>
-                            <th><small>Control Group</small></th>
-                                                  
-                                                                                
+                            <th><small>Consenso</small></th>                            
+                            <th><small>Mercato</small></th>                            
+                            <th><small>Frodatori</small></th>                                                                                             
+                            <th><small>Indicatore Dinamico</small></th>                            
+                            <th><small>Control Group</small></th>                                                                                                                                  
                             </tr>
                         </thead>
                         <tbody>
@@ -1959,11 +1958,8 @@ LEFT JOIN users ON `user_id` = users.id
         $string .= "<td><small>".$row['modality_nome']."</small></td>";
         $string .= "<td><small>".$row['priority']."</small></td>";
         $string .= "<td><small>".$row['descrizione_target']."</small></td>";
-
-        $string .= "<td><small>".$row['leva_offerta']."</small></td>";
-        $string .= "<td><small>opzione??</small></td>";
         $string .= "<td><small>".$this->tableChannelLabel($row)."</small></td>";
-        $string .= "<td><small>".$row['tipo_leva']."</small></td>";
+        $string .= "<td><small>".$this->getCriteri($row,'tipo_leva')."</small></td>";
         $string .= "<td><small>".$row['data_inizio']."</small></td>";
         $string .= "<td><small>".$row['data_fine']."</small></td>";
         $string .= "<td><small><strong>".$this->round_volume($row['volume'])."</strong></small></td>";
@@ -1977,10 +1973,8 @@ LEFT JOIN users ON `user_id` = users.id
         $string .= "<td><small>".$this->getCriteri($row,'tipo_contratto')."</small></td>";
         $string .= "<td><small>".$this->getCriteri($row,'consenso')."</small></td>";
         $string .= "<td><small>".$this->getCriteri($row,'mercato')."</small></td>";
-        $string .= "<td><small>".$this->getCriteri($row,'frodatori')."</small></td>";
-        $string .= "<td><small>".$row['altri_criteri']."</small></td>";
-        $string .= "<td><small>".$row['indicatore_dinamico']."</small></td>";
-        $string .= "<td><small>".$row['redemption']."</small></td>";
+        $string .= "<td><small>".$this->getCriteri($row,'frodatori')."</small></td>";        
+        $string .= "<td><small>".$row['indicatore_dinamico']."</small></td>";        
         $string .= "<td><small>".$this->getCriteri($row,'control_group')."</small></td>";
         
         $string .= "</tr>";      

@@ -2,7 +2,9 @@
     <br/>
     <div class="col-md-8 col-sm-6 col-xs-12">
         <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12">Canale  <span class="required">*</span></label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Canale  <span class="required">*</span>
+                <img  title="Inserire nel primo Canale il Canale Prioritario della Campagna" alt="Control Group" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
+            </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
             <?php
                 $canale = array(); 
@@ -174,6 +176,15 @@
             </label>
             <div class="col-md-6 xdisplay_inputx form-group has-feedback">
                 <input id="data_inizio_campagna" <?php if ($readonly){echo $disabled_value;}?> type="text" class="form-control has-feedback-left"  placeholder="Data Inizio Campagna" aria-describedby="inputSuccess2Status3" required="required" name="data_inizio" value="<?php if(isset($id_campaign['data_inizio'])){echo date('d/m/Y', strtotime($id_campaign['data_inizio']));}?>">
+                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                <span id="inputSuccess2Status3" class="sr-only">(success)</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="note">Data Fine Campagna
+            </label>
+            <div class="col-md-6 xdisplay_inputx form-group has-feedback">
+                <input id="data_fine_validita_offerta" <?php if ($readonly){echo $disabled_value;}?> type="text" class="form-control has-feedback-left"  placeholder="Data Fine Campagna" aria-describedby="inputSuccess2Status3" required="required" name="data_fine_validita_offerta" value="<?php if(isset($id_campaign['data_fine_validita_offerta'])){echo date('d/m/Y', strtotime($id_campaign['data_fine_validita_offerta']));}?>">
                 <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                 <span id="inputSuccess2Status3" class="sr-only">(success)</span>
             </div>
@@ -599,9 +610,8 @@
                 </select>                           
         </div>
         <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Note MFH<span class="required">*</span></label>
-                <input <?php if ($readonly){echo $disabled_value;}?>type="text" id="note_mfh" name="addcanale[0][note_mfh]"   <?php echo $required_mfh; ?>  placeholder="text"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['note_mfh'])){echo $canale['note_mfh']; }?>">
-                <br><br>                             
+                <label  class="control-label">Note MFH<span class="required">*</span></label>                
+                <textarea id="note_mfh" name="addcanale[0][note_mfh]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" <?php echo $required_mfh; ?> <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica && isset($canale['note_mfh'])){echo stripslashes($canale['note_mfh']); }?></textarea>                         
         </div>
     </span>
     <span id="span_watson" <?php echo $display_watson; ?>>

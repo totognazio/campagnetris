@@ -809,11 +809,13 @@
 
 <script>
   $(document).ready(function() {
-
+    var min_data_offerta = moment().format('DD/MM/YYYY');
 
     $("body").tooltip({
       selector: '[data-toggle=tooltip]'
     });
+
+
 
 
     $('#data_inizio_campagna').daterangepicker({
@@ -837,7 +839,12 @@
         firstDay: 1        
       }
     }, function(start, end, label) {
-          console.log(start.toISOString(), end.toISOString(), label);
+          console.log('data_inizio_campagna '+start.toISOString(), end.toISOString(), label);   
+          //$('#data_fine_validita_offerta').destroy();       
+          $('#data_fine_validita_offerta').data('daterangepicker').setStartDate(start.format('DD/MM/YYYY'));
+          $('#data_fine_validita_offerta').data('daterangepicker').minDate = start;
+          //min_data_offerta = start.format('DD/MM/YYYY');
+
           if (document.getElementById('nomecampagna').value.length > 0) {
             const pref_nome_campagna = document.getElementById('nomecampagna').value;
             const myarr = pref_nome_campagna.split("_");
@@ -858,6 +865,29 @@
       
       
     });
+
+    $('#data_fine_validita_offerta').daterangepicker({
+      
+      minDate: min_data_offerta,
+      startDate: min_data_offerta,
+      singleDatePicker: true,
+      singleClasses: "picker_3",
+      format: "DD/MM/YYYY",
+      locale: {
+        format: "DD/MM/YYYY",
+        applyLabel: 'Submit',
+        cancelLabel: 'Clear',
+        fromLabel: 'From',
+        toLabel: 'To',
+        customRangeLabel: 'Custom',
+        daysOfWeek: ['Do', 'Lu', 'Ma', 'Me', 'Gi', 'Ve', 'Sa'],
+        monthNames: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
+        firstDay: 1        
+      }
+    }, function(start, end, label) {
+          console.log('data_fine_validita_offerta '+ start.toISOString(), end.toISOString(), label);
+    });
+
 
   });
 

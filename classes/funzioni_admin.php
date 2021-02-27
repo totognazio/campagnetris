@@ -3,7 +3,7 @@
 //ini_set('error_reporting', E_ALL);
 //ini_set("display_errors", 1);
 include_once 'db_config.php';
-#include_once 'socmanager_class.php';
+include_once './classes/access_user/access_user_class.php';
 
 function debug_to_console($data) {
 
@@ -461,12 +461,28 @@ class funzioni_admin {
     }
      
     function get_list_select($nome_tabella) {
+        
         $query3 = "SELECT id,name FROM $nome_tabella ORDER BY name ASC";
         
         //esclusione NO SQUAD
-        if($nome_tabella=='squads'){
-            $query3 = "SELECT id,name FROM $nome_tabella WHERE `name`<>'NO SQUAD' ORDER BY name ASC";
-        }
+        if($nome_tabella=='squads'){                        
+            //controllo Squad
+            $page_protect = new Access_user;
+            $sql_squad = '';
+            $job_role = $page_protect->get_job_role();
+            //Utente PM
+            if ($job_role == 2) {
+                $squad_id = $page_protect->get_squad();
+                $sql_squad = " and (`id` = '$squad_id') ";
+
+                $query3 = "SELECT id,name FROM $nome_tabella WHERE 1 $sql_squad ORDER BY name ASC";
+            }
+            else {
+                $query3 = "SELECT id,name FROM $nome_tabella WHERE `name`<>'NO SQUAD' $sql_squad ORDER BY name ASC";
+            }
+                
+        
+    }
 
 
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
