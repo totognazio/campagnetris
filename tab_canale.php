@@ -329,8 +329,8 @@
             
               <label style="margin-top:20px" for="message">Testo SMS<span class="required">*</span></label>
               <textarea id="testo_sms" <?php echo $disabled_value; ?><?php echo $required_sms; ?> class="form-control" name="addcanale[0][testo_sms]" rows="8"	data-parsley-pattern="/^[a-zA-Z0-9-#/()%&\[\]{}!,.?£$@$' ]+$/gi" data-parsley-pattern-message="Caratteri come '€' ' ’ ' ed altri caratteri speciali non sono accettati come testo SMS !!" onkeyup="checklength(0, 640, 'testo_sms', 'charTesto', 'numero_sms')" ><?php if($modifica){echo $canale['testo_sms'];}else{echo'';}?></textarea>  
-              <label style="width:100%;"><small>Numeri caratteri utilizzati</small><input type="text" name="addcanale[0][charTesto]" id="charTesto" value="" class="text" value="" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>
-              <label style="width:100%;"><small>Numero SMS</small><input type="text" name="addcanale[0][numero_sms]" id="numero_sms" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>                  
+              <label style="width:100%;"><small>Numeri caratteri utilizzati</small><input type="text" name="addcanale[0][charTesto]" id="charTesto" value="<?php if($modifica and isset($canale['charTesto'])){echo $canale['charTesto'];} ?>" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" onfocus="this.blur();" /></label>
+              <label style="width:100%;"><small>Numero SMS</small><input type="text" name="addcanale[0][numero_sms]" id="numero_sms" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="<?php if($modifica and isset($canale['numero_sms'])){echo $canale['numero_sms'];} else{echo 0;} ?>" onfocus="this.blur();" /></label>                  
                      
      
                           <label>Modalità Invio  <span class="required">*</span></label>                       

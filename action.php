@@ -17,7 +17,7 @@ if (isset($_GET['action']) && $_GET['action'] == "log_out") {
 
 $campaign = new campaign_class();
 //print_r($_POST);
-print_r($_SESSION);
+//print_r($_SESSION);
 
 //inserimento campagna
 if (isset($_POST['azione']) and $_POST['azione']=='new' and $_SESSION['form_submit']) {    
@@ -46,7 +46,7 @@ if (isset($_POST['azione']) and $_POST['azione']=='duplica' and $_SESSION['form_
 }
 
 //modifica campagna
-if (isset($_POST['azione']) and $_POST['azione']=='modifica') {
+if (isset($_POST['azione']) and $_POST['azione']=='modifica'and $_SESSION['form_submit']) {  
     $id_campaign = $campaign->get_list_campaign(" where campaigns.id=" . intval($_POST['id']))->fetch_array();
     $squad_id = $id_campaign['squad_id'];
     $permission = $page_protect->check_permission($squad_id);
@@ -55,6 +55,7 @@ if (isset($_POST['azione']) and $_POST['azione']=='modifica') {
             $result = $campaign->update($_POST, $_POST['id']);
             if (is_numeric($result))
                 $result = "La campagna è stata modificata";
+                $_SESSION['form_submit'] = false; 
         }
     } else {
         $result = "L'utente non pu&ograve; modificare l'articolo";

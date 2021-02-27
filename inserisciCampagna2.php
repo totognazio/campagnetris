@@ -340,7 +340,8 @@ $sender = $funzione->get_allTable('senders');
 
 <script>
 
-var last_tab_click = 1; //in caso di modifica open duplica di campagna multicanale 
+//in caso di modifica open duplica di campagna multicanale 
+var last_tab_click = 1; 
   
 function validitaoffer(){
     if($( "#validitalevaofferta" ).val()==='1'){
