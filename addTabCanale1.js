@@ -13,7 +13,8 @@ var testo_sms1 = document.getElementById("testo_sms1");
                 e.preventDefault();
             }
         }
-    );
+);
+    
 
 $( '#mod_invio1').select2({
           placeholder: "Select Modalità SMS"
@@ -1102,6 +1103,25 @@ $( '#mod_invio1').on( 'select2:select ', function () {
       console.log( 'channel_id1  ' + selected_channel_id1);
 
     });
+
+
+     $('#iniziative_dealer1').change(function() {
+            //alert('canale 1 '+$(this).val());
+            count = $(this).val();
+            for(i=2; i<10; i++){
+                if(i<=count){
+                    $('#adddealer_'+i).show();
+                    $('#addCod_iniziativa'+i).attr('required', true);
+                    
+                }                
+                else{
+                    $('#adddealer_'+i).hide();
+                    $('#addCod_iniziativa'+i).attr('required', false);
+                }
+            }
+
+
+        });    
 
     
   

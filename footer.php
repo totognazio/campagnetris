@@ -397,109 +397,7 @@
             paging: false,
             dom: 'Bfrtip',            
             buttons: [
-              /*
-              {
-              
-              extend: 'excelHtml5',
-              className: 'btn-xs btn-success',
-              text: '<i class="fa fa-file-excel-o"></i> Export', 
-              
-              <php
-              if($datatable=='pianificazione'){
-              
-                  echo 'titleAttr: \'Export Pianificazione\',';
-                  echo 'title: \'Pianificazione_Campagne_\'+select_startDate+\'_\'+select_endDate,';
-                 
-              }
-              elseif($datatable=='gestione'){ 
-              
-                  echo 'titleAttr: \'Export Gestione\',';
-                  echo 'title: \'Gestione_Campagne_\'+select_startDate+\'_\'+select_endDate,';
-                
-              }
-              ?>
-              
-              exportOptions: {
-              columns: ':not(.not-export-col)',
-    
-              },              
-              customize: function ( xlsx ) {
-                      var sheet = xlsx.xl.worksheets['sheet1.xml'];
-                      var row = 0;
-                      var num_columns = $('#datatable-pianificazione thead th').length;
-                      // Get number of visible columns (alternative way)    
-                    var start = moment(select_startDate);
-                    var end = moment(select_endDate);
-                    var num_columns = $('#datatable-pianificazione thead th').length + moment.duration(end.diff(start)).asDays();
-                    var cols = $('col', sheet);
 
-                                       
-                    console.log("---- column i: " + num_columns);
-
-                // Loop over the cells in column `J`
-                $('row c[r^="J"]', sheet).each( function (row) {
-                //for ( i=2; i < rows.length; i++ ) {  
-                    // Get the value
-                    if ( $('is t', this).text() == 'DRAFT' ) {
-                        $(this).attr( 's', '39' );
-                        for ( i=11; i < cols.length; i++ ) {  
-                          //$( cols [i] ).attr('width', 10 ); 
-                          console.log('riga ' + row);
-                          
-                          //$( cols [i] ).attr('s', '42' ); 
-                          //$('row:eq('+row+') c', sheet).attr( 's', '39' );
-                          if($(table_pianificazione.cell(row, i).node()).hasClass('valore')){
-                                  console.log('colonna numero draft ' + i);
-                                  //$('row:eq('+(row)+') c', sheet).eq(i).attr('s', '39');
-                                  $('row:eq('+row+') c['+i+']', sheet).attr( 's', '39' );
-                          } 
-                        }
-                    }
-                    else if ( $('is t', this).text() == 'ESEGUITA' ) {
-                        $(this).attr( 's', '42' );
-                    }
-                    else if ( $('is t', this).text() == 'PIANIFICATA' ) {
-                        $(this).attr( 's', '20' );
-                    }
-                    else if ( $('is t', this).text() == 'RICHIESTA' ) {
-                        $(this).attr( 's', '7' );
-                    }
-                    else if ( $('is t', this).text() == 'ANNULLATA' ) {
-                        $(this).attr( 's', '42' );
-                    }
-                });
-
-
-
-                      $('row', sheet).each(function(row) {                
-                         
-                          
-                          if($('c[r=J'+row+'] t', sheet).text() === 'DRAFT'){
-                          $('row:eq('+(row+1)+') c', sheet).eq(i-1).attr('s', '39')  
-                            for(var i=11; i<num_columns; i++) {  
-                              //console.log("---- riga Draft    row " + row );
-                              if($(table_pianificazione.cell(row, i).node()).hasClass('valore')){
-                                  //$('row:eq('+(row+1)+') c', sheet).eq(i-1).attr('s', '39');
-                              }  
-
-                          }
-                        
-                        }
-
-                        
-                          //console.log(table_pianificazione.row(':eq('+row+')').data());
-                          //if ($(table_pianificazione.cell(':eq('+row+')', 10).node()).hasClass('stato')) {
-                          //  console.log(' stato colonna YES')
-                            //$('row:nth-child('+(x+1)+') c', sheet).attr('s', '41');
-                          //}
-
-                          
-    
-                    });
-                }
-
-            },
-            */
             {              
               extend: 'colvis',
               className: 'btn-xs btn-primary',
@@ -508,9 +406,10 @@
             }
           
           ],
-              //ordering: true,
+            
             columnDefs: [
-                 {
+               
+                {
                   className: "dt-head-left"
                 },
               
@@ -599,32 +498,35 @@
               {
                   targets: '_all',
                   searchable: true,
-                  width: 10,
+                  //width: 10,
+                /*  
                   createdCell: function (th, td, cellData, rowData, row, col) {                      
-                      $(th).css('padding', '1px');
-                      $(th).css('text-align', 'left');
-                      $(td).css('text-align', 'left');
-                      $(td).css('padding', '1px');
+                      //$(th).css('padding-left', '5px');
+                      //$(th).css('text-align', 'left');
+                      $(td).css('text-align','left');
+                      $(td).css('padding-left', '5px');
                                             
                   }, 
-                  orderable: <?php if($datatable=="pianificazione") {echo "false,";} elseif($datatable=="gestione"){echo "true,";}?>
+                  */
                   
               },             
             ],
-            order: [1, 'asc'],
+          
+            order: [1, 'asc'],            
+            ordering: <?php if($datatable=="pianificazione") {echo "false,";} elseif($datatable=="gestione"){echo "true,";}?>
 
           });
           $('#table_pianificazione').dataTable( {
+              
               'drawCallback': function () {
                       //$( 'table_pianificazione tbody tr td' ).css( 'padding', '0px 0px 0px 0px' );
-                      $( 'table_pianificazione tbody tr td' ).css( 'height', '5px');                      
-                      
+                    $( 'table_pianificazione tbody tr td' ).css( 'height', '5px');  
                   }
                   
           } );
     
           table_pianificazione.columns.adjust().responsive.recalc();
-          
+         
           console.log(' conteggio righe '+ table_pianificazione.rows().count());
           var tot_rows = parseInt(table_pianificazione.rows().count());
           if(datatable_name==='pianificazione' && tot_rows>0){
@@ -632,8 +534,8 @@
           }
           if(document.getElementById('conteggio_righe')){
              document.getElementById('conteggio_righe').textContent = '   filtrate n°' + tot_rows + '';
+             document.getElementById('datatable-pianificazione_info').textContent = ' Campagne filtrate n°' + tot_rows + '';
           }
-          
 
           $('.loader').hide();
         },
@@ -841,7 +743,7 @@
     }, function(start, end, label) {
           console.log('data_inizio_campagna '+start.toISOString(), end.toISOString(), label);   
           //$('#data_fine_validita_offerta').destroy();       
-          $('#data_fine_validita_offerta').data('daterangepicker').setStartDate(start.format('DD/MM/YYYY'));
+          //$('#data_fine_validita_offerta').data('daterangepicker').setStartDate(start.format('DD/MM/YYYY'));
           $('#data_fine_validita_offerta').data('daterangepicker').minDate = start;
           //min_data_offerta = start.format('DD/MM/YYYY');
 
@@ -869,7 +771,7 @@
     $('#data_fine_validita_offerta').daterangepicker({
       
       minDate: min_data_offerta,
-      startDate: min_data_offerta,
+      //startDate: min_data_offerta,
       singleDatePicker: true,
       singleClasses: "picker_3",
       format: "DD/MM/YYYY",
@@ -886,6 +788,7 @@
       }
     }, function(start, end, label) {
           console.log('data_fine_validita_offerta '+ start.toISOString(), end.toISOString(), label);
+          $('#data_fine_validita_offerta').data('daterangepicker').setStartDate(start.format('DD/MM/YYYY'));
     });
 
 

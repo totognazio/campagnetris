@@ -1,20 +1,30 @@
 <style type="text/css">
-            
-                tr:hover {
-                background-color: lightseagreen;
-                color: black;                
-                }
                 body {
                     overflow-y: auto;
                 }
-                th {
-                background-color: lightseagreen;
-                color: black;
+                a:hover {                    
+                    color: black;
                 }
-div.datatable-wide {
-    padding-left: 0;
-    padding-right: 0;
+
+table.dataTable thead th,
+table.dataTable tr td,
+table.dataTable tfoot th {
+  text-align: left;
+  padding-left: 2px;
+  padding-right: 2px;
+  margin-left: 0px;
+  margin-right: 0px;
+  height: 5px;
 }
+table.dataTable th { 
+    background-color: lightseagreen;
+    color: black;
+}
+table.dataTable tr:hover{
+    background-color: lightgray;
+    color: black; 
+}
+
  </style>  
  
 
@@ -45,6 +55,7 @@ $channels = $funzione->get_list_select('channels');
 $stacks = $funzione->get_list_select('campaign_stacks');
 //print_r($stacks);
 $typlogies = $funzione->get_list_select('campaign_types');
+//$squads = $funzione->get_squads_gestione();
 $squads = $funzione->get_list_select('squads');
 $states = $funzione->get_list_select('campaign_states'); 
 $sprints = $funzione->get_sprints();
@@ -52,15 +63,16 @@ $sprints = $funzione->get_sprints();
 $form->head_page("Gestione Campagne", "Filtro");
 //print_r($_SESSION);  
 //print_r($_POST); 
-                
                 if (isset($result)) {
                     //echo "<div class=\"info\">";
                     //echo "<h2 style=\"color: #ff0000\">" . $result . "</h2>";
                     //echo "</div>";
-                    echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">
+                    echo '<div class="alert alert-info alert-dismissible fade in" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
                     </button>
-                    <strong>'. $result .'</strong></div>';
+                    <strong>'. $result .'</strong></div>
+                  </div>
+                    ';
                 }
               
 
@@ -187,9 +199,9 @@ if ($livello_accesso > 0) {
 <script>
 
   
-
+/*
 var btn = document.getElementById("createXLSX");
-var fileName = "<?php echo date("Ymd").'_export_gestione';?>";
+var fileName = "<?php //echo date("Ymd").'_export_gestione';?>";
 var fileType = "xlsx";
 btn.addEventListener("click", function () {
   var table = document.getElementById("datatable-pianificazione");
@@ -197,7 +209,7 @@ btn.addEventListener("click", function () {
 
   return XLSX.writeFile(wb, null || fileName + "." + (fileType || "xlsx"));
 });
-
+*/
 
     function conferma(stato, permesso_elimina) {
         if (permesso_elimina == 0) {

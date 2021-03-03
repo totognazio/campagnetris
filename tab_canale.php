@@ -493,7 +493,16 @@
                 <label  class="control-label">Iniziative Dealer da gestire<span class="required">*</span></label>
                 <select  id="iniziative_dealer" name="addcanale[0][count_iniziative_dealer]" class="select2_single form-control" <?php echo $required_dealer ?> <?php echo $disabled_value;?>>
                     
-                <?php  
+                <?php 
+                for($i=2; $i<=9; $i++){
+                    $display_cod[$i] = ' style="display: none;" '; 
+                    $required_dealer_plus[$i] = '';
+                    if($modifica and isset($canale['count_iniziative_dealer']) and ($i<=$canale['count_iniziative_dealer'])){
+                        $display_cod[$i] = ' ';
+                        $required_dealer_plus[$i] = ' required="requuired" ';
+                    }
+                }    
+                
                 for($i=1; $i<=9; $i++){
                     echo'<option ';
                     if($modifica and isset($canale['count_iniziative_dealer']) and $canale['count_iniziative_dealer']==$i){ 
@@ -503,53 +512,25 @@
                 }
                 ?>
                      
-                </select>                           
+                </select><br>                           
         </div>
         <div class="col-md-4 col-sm-6 col-xs-12" id="dealer_1">      
                 <label  class="control-label">Cod. iniziativa 1<span class="required">*</span></label>
-                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa1" name="addcanale[0][Cod_iniziativa1]"   <?php echo $required_dealer; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa1'])){echo $canale['Cod_iniziativa1']; }?>">
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa" name="addcanale[0][Cod_iniziativa]"   <?php echo $required_dealer; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa'])){echo $canale['Cod_iniziativa']; }?>">
                 <br><br>                             
         </div>
-                <div class="col-md-4 col-sm-6 col-xs-12" id="dealer_2" style="display: none;">      
-                <label  class="control-label">Cod. iniziativa 2<span class="required">*</span></label>
-                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa2" name="addcanale[0][Cod_iniziativa2]"   <?php echo $required_dealer; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa2'])){echo $canale['Cod_iniziativa2']; }?>">
-                <br><br>                             
-        </div>
-                <div class="col-md-4 col-sm-6 col-xs-12" id="dealer_3" style="display: none;">      
-                <label  class="control-label">Cod. iniziativa 3<span class="required">*</span></label>
-                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa3" name="addcanale[0][Cod_iniziativa3]"   <?php echo $required_dealer; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa3'])){echo $canale['Cod_iniziativa3']; }?>">
-                <br><br>                             
-        </div>
-                <div class="col-md-4 col-sm-6 col-xs-12" id="dealer_4" style="display: none;">      
-                <label  class="control-label">Cod. iniziativa 4<span class="required">*</span></label>
-                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa4" name="addcanale[0][Cod_iniziativa4]"   <?php echo $required_dealer; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa4'])){echo $canale['Cod_iniziativa4']; }?>">
-                <br><br>                             
-        </div>
-                <div class="col-md-4 col-sm-6 col-xs-12" id="dealer_5" style="display: none;">      
-                <label  class="control-label">Cod. iniziativa 5<span class="required">*</span></label>
-                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa5"  name="addcanale[0][Cod_iniziativa5]"   <?php echo $required_dealer; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa5'])){echo $canale['Cod_iniziativa5']; }?>">
-                <br><br>                             
-        </div>
-                <div class="col-md-4 col-sm-6 col-xs-12" id="dealer_6" style="display: none;">      
-                <label  class="control-label">Cod. iniziativa 6<span class="required">*</span></label>
-                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa6" name="addcanale[0][Cod_iniziativa6]"   <?php echo $required_dealer; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa6'])){echo $canale['Cod_iniziativa6']; }?>">
-                <br><br>                             
-        </div>
-                <div class="col-md-4 col-sm-6 col-xs-12" id="dealer_7" style="display: none;">      
-                <label  class="control-label">Cod. iniziativa 7<span class="required">*</span></label>
-                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa7"  name="addcanale[0][Cod_iniziativa7]"   <?php echo $required_dealer; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa7'])){echo $canale['Cod_iniziativa7']; }?>">
-                <br><br>                             
-        </div>
-                <div class="col-md-4 col-sm-6 col-xs-12" id="dealer_8" style="display: none;">      
-                <label  class="control-label">Cod. iniziativa 8<span class="required">*</span></label>
-                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa8" name="addcanale[0][Cod_iniziativa8]"   <?php echo $required_dealer; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa8'])){echo $canale['Cod_iniziativa8']; }?>">
-                <br><br>                             
-        </div>
-                <div class="col-md-4 col-sm-6 col-xs-12" id="dealer_9" style="display: none;">      
-                <label  class="control-label">Cod. iniziativa 9<span class="required">*</span></label>
-                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa9" name="addcanale[0][Cod_iniziativa9]"   <?php echo $required_dealer; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa9'])){echo $canale['Cod_iniziativa9']; }?>">
-                <br><br>                             
-        </div>
+        <?php 
+                for($i=2; $i<=9; $i++){
+                ?>    
+                    <div class="col-md-4 col-sm-6 col-xs-12" id="dealer_<?php echo $i; ?>" <?php echo $display_cod[$i]; ?> >      
+                        <label  class="control-label">Cod. iniziativa <?php echo $i; ?><span class="required">*</span></label>                        
+                        <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="Cod_iniziativa<?php echo $i; ?>" name="addcanale[0][Cod_iniziativa<?php echo $i; ?>]"   <?php echo $required_dealer_plus[$i]; ?> min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['Cod_iniziativa'.$i.''])){echo $canale['Cod_iniziativa'.$i.'']; }?>">
+                        <br><br>                             
+                    </div>
+                <?php     
+                }  
+        ?>        
+
     </span>
     <span id="span_icm" <?php echo $display_icm; ?>>
         <div class="col-md-4 col-sm-6 col-xs-12">      
@@ -883,6 +864,7 @@ var myDropzoneCanale = new Dropzone(
             $('#span_ivr_inbound').hide();
             $('#span_ivr_outbound').hide();
             $('#span_dealer').hide();
+            $('#span_app_inbound').hide();
             $('#span_app_outbound').hide();
             $('#span_icm').hide();
             $('#span_watson').hide();
@@ -970,6 +952,7 @@ var myDropzoneCanale = new Dropzone(
             $('#span_ivr_inbound').hide();
             $('#span_ivr_outbound').hide();
             $('#span_dealer').hide();
+            $('#span_app_inbound').hide();
             $('#span_app_outbound').hide();
             $('#span_icm').hide();
             $('#span_watson').hide();
@@ -1054,6 +1037,7 @@ var myDropzoneCanale = new Dropzone(
             $('#span_ivr_inbound').hide();
             $('#span_ivr_outbound').hide();
             $('#span_dealer').hide();
+            $('#span_app_inbound').hide();
             $('#span_app_outbound').hide();
             $('#span_icm').hide();
             $('#span_watson').hide();
@@ -1121,6 +1105,7 @@ var myDropzoneCanale = new Dropzone(
         $('#span_ivr_inbound').hide();
         $('#span_ivr_outbound').hide();
         $('#span_dealer').hide();
+        $('#span_app_inbound').hide();
         $('#span_app_outbound').hide();
         $('#span_watson').hide();
         $('#span_icm').show();   
@@ -1376,26 +1361,7 @@ var myDropzoneCanale = new Dropzone(
         $('#note_mfh').attr('required', false);
         //#span_watson
         $('#type_watson').attr('required', false);
-        $('#contact_watson').attr('required', false);
-        
-        $('#iniziative_dealer').change(function() {
-            //alert($(this).val());
-            count = $(this).val();
-            for(i=1; i<10; i++){
-                if(i<=count){
-                    $('#dealer_'+i).show();
-                    $('#Cod_iniziativa'+i).attr('required', true);
-                    
-                }                
-                else{
-                    $('#dealer_'+i).hide();
-                    $('#Cod_iniziativa'+i).attr('required', false);
-                }
-            }
-
-
-        });        
-
+        $('#contact_watson').attr('required', false);             
 
       }
      else if (selected_channel_id === '22') {//canale IVR INBOUND
@@ -1870,6 +1836,25 @@ var myDropzoneCanale = new Dropzone(
       console.log('channel_id  ' + selected_channel_id);
 
     });
+
+
+    //canale Dealer select numero Dealer
+    $('#iniziative_dealer').change(function() {
+            //alert('deale canale 0  '+$(this).val());
+            count = $(this).val();
+            for(i=2; i<10; i++){
+                if(i<=count){
+                    $('#dealer_'+i).show();
+                    $('#Cod_iniziativa'+i).attr('required', true);                    
+                }                
+                else{
+                    $('#dealer_'+i).hide();
+                    $('#Cod_iniziativa'+i).attr('required', false);
+                }
+            }
+
+
+        });  
 
 
 });

@@ -203,25 +203,32 @@
                             
                             <?php
                             //print_r($id_campaign);
+                            if (($page_protect->get_job_role() == 2)) {
+                                    $list = $funzioni_admin->get_list_state_id('campaign_states', 2);                                                
+                            }
+                            else{
+                                $list = $funzioni_admin->get_list_state_id('campaign_states', 10);  
+                            }
+
                             if (isset($id_campaign['ordinamento_stato'])) {
-                                if (($id_campaign['ordinamento_stato'] < 2) && ($page_protect->get_job_role() == 2)) {
-                                    $list = $funzioni_admin->get_list_state_id('campaign_states', 2);
-                                    //print_r($list);
-                                
-                                } else {
-                                    $list = $funzioni_admin->get_list_state_id('campaign_states', 10);
-                                }
-//$list = $funzioni_admin->get_list_id('campaign_states');
+
                                 $lista_field = array_column($list, 'id');
                                 $lista_name = array_column($list, 'name');
-                                $javascript = "  tabindex=\"7\" onfocus=\"seleziona('campo');\" onblur=\"deseleziona('campo');\" ";
+                                $javascript = " ";
                                 if ($readonly)
                                     $javascript = $javascript . $disabled_value;
+
+                                 //Se utente PM e ordinamento Stato > Richiesta  disabilito il campo  
+                                if(($page_protect->get_job_role() == 2) and ($id_campaign['ordinamento_stato']>2)){
+                                    $javascript = $javascript . " disabled=\"disabled\"  ";
+                                }
+                                    
                                 $style = "";
                                 if ($modifica)
                                     $campaign_state_id = $id_campaign['campaign_state_id'];
                                 else
                                     $campaign_state_id = "";
+
                                 $funzioni_admin->stampa_select2('campaign_state_id', $lista_field, $lista_name, $javascript, $style, $campaign_state_id);
                             }
                             ?>
@@ -231,7 +238,7 @@
                         </div> 
 
 <script>
-    
+
     var channel_label = "_";
     var squad_label = "_";
     var type_label = "_";
@@ -241,20 +248,11 @@
     
   $(document).ready(function () {
 
-
-
-
-    //$('#reservation').data('daterangepicker').setStartDate('04/01/2014');
-    //$('#reservation').data('daterangepicker').setEndDate('10/01/2014');
-
-
     
     <?php
     if (isset($azione) && ($azione=='new')){
         ?>
             document.getElementById('nomecampagna').value = moment().format('YYYYMMDD');
-            //document.getElementById('data_inizio_validita_offerta').value = moment().format('YYYYMMDD');
-            //document.getElementById('data_fine_validita_offerta').value = moment().add(1, 'week').format('YYYYMMDD');
     <?php        
     }
     ?>    

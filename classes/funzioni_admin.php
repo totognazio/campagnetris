@@ -467,6 +467,26 @@ class funzioni_admin {
         //esclusione NO SQUAD
         if($nome_tabella=='squads'){                        
             //controllo Squad
+                $query3 = "SELECT id,name FROM $nome_tabella WHERE `name`<>'NO SQUAD' ORDER BY name ASC";
+        }                        
+    
+
+        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+        $list = array();
+        #$r = array();
+        while ($obj3 = $result3->fetch_array(MYSQLI_ASSOC)) {
+            #$r['id'] = $obj3['id'];
+            #$r['name'] = $obj3['name'];
+            $list[$obj3['id']] = $obj3['name'];
+        }
+        return $list;
+    }
+
+    function get_squads_gestione() {
+
+        $nome_tabella ='squads';     
+        //esclusione NO SQUAD                             
+        //controllo Squad
             $page_protect = new Access_user;
             $sql_squad = '';
             $job_role = $page_protect->get_job_role();
@@ -479,11 +499,8 @@ class funzioni_admin {
             }
             else {
                 $query3 = "SELECT id,name FROM $nome_tabella WHERE `name`<>'NO SQUAD' $sql_squad ORDER BY name ASC";
-            }
-                
+            }                        
         
-    }
-
 
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $list = array();

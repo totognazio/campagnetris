@@ -1,20 +1,30 @@
 <style type="text/css">
-            
-                tr:hover {
-                background-color: lightgreen;
-                color: black;
-                }
                 body {
                     overflow-y: auto;
                 }
-                th {
-                background-color: lightgreen;
-                color: black;
+                a:hover {                    
+                    color: black;
                 }
-div.datatable-wide {
-    padding-left: 0;
-    padding-right: 0;
+table.dataTable thead th,
+table.dataTable tr td,
+table.dataTable tfoot th {
+  text-align: left;
+  padding-left: 2px;
+  padding-right: 2px;
+  margin-left: 0px;
+  margin-right: 0px;
+  height: 5px;
 }
+table.dataTable th { 
+    background-color: lightgreen;
+    color: black;
+}
+table.dataTable tr:hover{
+    background-color: lightgray;
+    color: black; 
+}
+
+
  </style>  
  
 
@@ -205,6 +215,7 @@ if ($livello_accesso > 0) {
                                             </div>
 <?php }?>
 </div>
+<p style="padding-top: 16px;"></p>
 <div class="col-md-12 col-sm-12 col-xs-12" id="content_response">
 </div>
 

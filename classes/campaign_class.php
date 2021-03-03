@@ -1117,7 +1117,7 @@ function update($record, $id_campagne) {
             elseif (isset($_POST[$value])) {
                 $valore_inviato = $_POST[$value];
                 if ($valore_inviato != "") {
-                    if ($temp[0] == 'data' and $value !='data_inizio_validita_offerta' and $value !='data_fine_validita_offerta') {
+                    if ($temp[0] == 'data') {
 
                         $lista_variabili = $lista_variabili . " `" . $value . "`='" . $this->mysqli->real_escape_string($this->data_it_to_eng_($valore_inviato)) . "',";
                     } elseif ($value == "pref_nome_campagna") {
@@ -1961,7 +1961,7 @@ LEFT JOIN users ON `user_id` = users.id
         $string .= "<td><small>".$this->tableChannelLabel($row)."</small></td>";
         $string .= "<td><small>".$this->getCriteri($row,'tipo_leva')."</small></td>";
         $string .= "<td><small>".$row['data_inizio']."</small></td>";
-        $string .= "<td><small>".$row['data_fine']."</small></td>";
+        $string .= "<td><small>".$row['data_fine_validita_offerta']."</small></td>";
         $string .= "<td><small><strong>".$this->round_volume($row['volume'])."</strong></small></td>";
         
         $string .= "<td class=\"stato\"><small>".$row['campaign_stato_nome']."</small></td>";
