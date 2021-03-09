@@ -208,7 +208,7 @@ if ($livello_accesso > 0) {
                                                     <li><a href="#" onclick="manageCamp('','exportgestione');" > Export Gestione</a>
                                                     </li>
                                                     <li class="divider"></li>
-                                                    <li><a href="#" onclick="manageCamp('','exportcapacity');" > Export Capacity </a>
+                                                    <li><a href="#" onclick="manageCamp('','exportcapacity');" > Export Campaign Proposal </a>
                                                     </li>
                                                 </ul>                                            
                                                 

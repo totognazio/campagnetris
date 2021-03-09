@@ -77,6 +77,7 @@
     var selected_channels = $('#channels').val();
     var selected_typologies = $('#typologies').val();
     var selected_sprint;
+    var canale_zero = $('#channel_ins').val();
     <?php 
   //print_r($_SERVER['REQUEST_URI']); 
       $datatable = 'pianificazione';
@@ -262,9 +263,18 @@
     });
 
     $('#channel_ins').select2({
-      placeholder: "Select"
+      placeholder: "Select Canale"
       // allowClear: true
     });
+    $('#channel_ins').on('select2:select', function() {
+      canale_0 = $('#channel_ins').val();
+      document.getElementById("canale_zero").value = canale_0;
+      
+      $(this).parsley().validate();
+      console.log('channel_ins canale zero  ' + canale_0);
+
+    });
+
     $('#cat_sott_ins').select2({
       placeholder: "Select",
       allowClear: true

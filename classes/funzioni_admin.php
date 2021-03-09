@@ -527,6 +527,13 @@ class funzioni_admin {
         return $list;
     }
 
+    function get_stato_info($id) {
+        $query3 = "SELECT * FROM campaign_states where id=$id";
+        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+        $obj3 = $result3->fetch_array(MYSQLI_ASSOC);
+        return $obj3;
+    }
+
     function get_all_list($nome_tabella, $order_condition = 'ORDER BY `campaign_types`.`campaign_stack_id` ASC', $filter = "") {
         $query3 = "SELECT * FROM $nome_tabella $order_condition";
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);

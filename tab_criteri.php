@@ -282,9 +282,9 @@ if ($page_protect->get_job_role() >= 2) {
             </p>     
         </div>
         <div class="col-md-2 col-sm-6 col-xs-12">
-            <label>Frodatori </label><span class="required"></span>
+            <label>Altri Criteri </label><span class="required"></span>
             <p style="padding: 5px;">
-                <input type="checkbox" name="no_frodi" id="no_frodi" 
+                <input type="checkbox" name="no_frodi" id="no_frodi" data-parsley-multiple="frodatori" required data-parsley-errors-container="#checkbox-errors1"    
                                                                   <?php
                                 if ($modifica) {
                                     if ($id_campaign['no_frodi'] == 1){
@@ -297,7 +297,7 @@ if ($page_protect->get_job_role() >= 2) {
                        value="1"  class="flat" /> No Frodi
                 <br />
 
-                <input type="checkbox" name="altri_filtri" id="altri_filtri"  
+                <input type="checkbox" name="altri_filtri" id="altri_filtri" data-parsley-multiple="frodatori"  
                       <?php
                                 if ($modifica) {
                                     if ($id_campaign['altri_filtri'] == 1){
@@ -375,5 +375,12 @@ if ($page_protect->get_job_role() >= 2) {
         
 
   </div>
+
+
+
+
+
+
+
 
 

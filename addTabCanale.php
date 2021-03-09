@@ -393,11 +393,11 @@ $string .='<span id="span_app_inbound'.$id_canale.'"  '.$display_app_inbound.' >
                 <select  id="iniziative_dealer'.$id_canale.'" name="addcanale['.$id_canale.'][addcount_iniziative_dealer'.$id_canale.']" class="select2_single form-control" '.$required_dealer.' '.$disabled_value.'>';                
                                      
                 for($i=2; $i<=9; $i++){
-                    $add_display_cod[$i] = ' style="display: none;" '; 
-                    $add_required_dealer[$i] = '';
+                    $add_display_cod[$id_canale][$i] = ' style="display: none;" '; 
+                    $add_required_dealer[$id_canale][$i] = '';
                     if($modifica and isset($addcanale_stored['addcount_iniziative_dealer'.$id_canale.'']) and ($i<=$addcanale_stored['addcount_iniziative_dealer'.$id_canale.''])){
-                        $add_display_cod[$i] = ' ';
-                        $add_required_dealer[$i] = ' required="requuired" ';
+                        $add_display_cod[$id_canale][$i] = ' ';
+                        $add_required_dealer[$id_canale][$i] = ' required="requuired" ';
                     }
                 }    
                 
@@ -419,11 +419,11 @@ $string .='<span id="span_app_inbound'.$id_canale.'"  '.$display_app_inbound.' >
                 $string .='"></div>'; 
                 
                 for($i=2; $i<=9; $i++){                    
-                    $string.='<div class="col-md-12 col-sm-12 col-xs-12" id="adddealer_'.$i.'" '.$add_display_cod[$i].' >      
+                    $string.='<div class="col-md-12 col-sm-12 col-xs-12" id="'.$id_canale.'adddealer_'.$i.'" '.$add_display_cod[$id_canale][$i].' >      
                             <label  class="control-label">Cod. iniziativa '.$i.'<span class="required">*</span></label>                        
                             <input ';
                             if ($readonly){$string.= $disabled_value;}
-                            $string.=' type="number" id="addCod_iniziativa'.$i.'" name="addcanale['.$id_canale.'][addCod_iniziativa'.$i.']" '.$add_required_dealer[$i].' min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="';
+                            $string.=' type="number" id="'.$id_canale.'addCod_iniziativa'.$i.'" name="addcanale['.$id_canale.'][addCod_iniziativa'.$i.']" '.$add_required_dealer[$id_canale][$i].' min="0" max="999" placeholder="numerico da min 0 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3" class="form-control col-md-7 col-xs-12" value="';
                             if(isset($addcanale_stored['addCod_iniziativa'.$i.''])){$string.= $addcanale_stored['addCod_iniziativa'.$i.'']; }
                             $string.='">
                             <br>                          

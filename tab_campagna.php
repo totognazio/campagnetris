@@ -209,29 +209,27 @@
                             else{
                                 $list = $funzioni_admin->get_list_state_id('campaign_states', 10);  
                             }
-
-                            if (isset($id_campaign['ordinamento_stato'])) {
-
-                                $lista_field = array_column($list, 'id');
-                                $lista_name = array_column($list, 'name');
-                                $javascript = " ";
-                                if ($readonly)
-                                    $javascript = $javascript . $disabled_value;
-
-                                 //Se utente PM e ordinamento Stato > Richiesta  disabilito il campo  
-                                if(($page_protect->get_job_role() == 2) and ($id_campaign['ordinamento_stato']>2)){
-                                    $javascript = $javascript . " disabled=\"disabled\"  ";
+                            ?>
+                            <select id="campaign_state_id" name="campaign_state_id" class="select2_single form-control" required="required" <?php echo $disabled_value;?>>        
+                              <option value=""></option>
+                            <?php 
+                                if ($modifica){
+                                    $campaign_state_id = $id_campaign['campaign_state_id'];
+                                }                                    
+                                else {
+                                    $campaign_state_id = 2; //default Draft per new campagne o duplica
                                 }
                                     
-                                $style = "";
-                                if ($modifica)
-                                    $campaign_state_id = $id_campaign['campaign_state_id'];
-                                else
-                                    $campaign_state_id = "";
-
-                                $funzioni_admin->stampa_select2('campaign_state_id', $lista_field, $lista_name, $javascript, $style, $campaign_state_id);
-                            }
-                            ?>
+                            foreach ($states as $key => $value) {
+                                if($modifica && $campaign_state_id==$key){
+                                   echo '<option selected value="'.$key.'">'.$value.'</option>'; 
+                                }
+                                else {
+                                    echo '<option value="'.$key.'">'.$value.'</option>';
+                                }
+                            }                                                  
+                            ?>  
+                          </select>
 
                         </div>
                     </div>
@@ -244,6 +242,9 @@
     var type_label = "_";
     var data_label = "";
     var note_label = "";
+    var stato = 2;
+    var selected_channel_id = 0;
+
     
     
   $(document).ready(function () {
@@ -253,9 +254,31 @@
     if (isset($azione) && ($azione=='new')){
         ?>
             document.getElementById('nomecampagna').value = moment().format('YYYYMMDD');
-    <?php        
+            stato = document.getElementById('campaign_state_id').value = 2; //stato RICHIESTA
+            selected_channel_id = document.getElementById('channel_ins').value;   
+                  
+            validazione(selected_channel_id, stato);
+            validazione_criteri(stato);  
+        <?php        
     }
-    ?>    
+    if ($modifica) {
+        ?>
+                document.getElementById("span_state").style.display = "inline";
+                stato = document.getElementById('campaign_state_id').value;
+                selected_channel_id = document.getElementById('channel_ins').value; 
+                
+                validazione(selected_channel_id, stato); 
+                validazione_criteri(stato);
+    <?php    
+    }
+        
+    if ($modifica_codici) {
+        ?>
+                document.getElementById("span_cod_comunicazione").style.display = "inline";
+                document.getElementById("span_cod_campagna").style.display = "inline";
+        <?php
+    }
+?>   
        
        $('#squad_ins').on('select2:select', function () {  
             if (document.getElementById('nomecampagna').value.length > 0) {
@@ -320,21 +343,41 @@
 
          
 
-<?php
-if ($modifica) {
-    ?>
-    document.getElementById("span_state").style.display = "inline";
-<?php    
-}
-    
-if ($modifica_codici) {
-    ?>
-            document.getElementById("span_cod_comunicazione").style.display = "inline";
-            document.getElementById("span_cod_campagna").style.display = "inline";
-    <?php
-}
-?>
+
         
 
-  })      
+ 
+  
+    $('#campaign_state_id').select2({
+      placeholder: "Select Stato",
+      allowClear: true
+    });
+
+
+    //alert('stato adesso '+ stato);
+
+    $('#campaign_state_id').on('select2:select', function() {
+            //alert(' stato campagna  '+ $('#campaign_state_id').val());
+            //var stato_info;
+            stato = $('#campaign_state_id').val();
+            
+            var stato_info = $.parseJSON($.ajax({
+                    url: "get_stato_info.php",
+                    method: "POST",
+                    data: { stato_id: stato },
+                    dataType: "json",
+                    async: false,
+                }).responseText);
+
+            console.log('stato_infoquii '+ JSON.stringify(stato_info));
+            
+            count =  $('#iniziative_dealer').val();   
+            validazione(selected_channel_id, stato);              
+            validazione_canaleDealer(count, stato);
+            validazione_criteri(stato);
+
+    });
+    
+ });
+
 </script>

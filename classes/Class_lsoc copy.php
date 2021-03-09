@@ -46,7 +46,7 @@ function export_pianificazione($list, $tot_volume, $list_day, $filter){
 
     $riga = 3;
     $colonna = 0;
-    $titolo = array('N', 'Stack', 'Sprint', 'Squad', 'Nome Campagna','Tipologia', 'Cod. campagna','Cod. comunicazione', 'Canale','Data Inizio', 'Data Fine','Stato', 'Volume');
+    $titolo = array('N', 'Stack', 'Sprint', 'Squad', 'Nome Campagna','Tipologia', 'Cod. campagna','Cod. comunicazione', 'Canale', 'Lunghezza SMS', 'Delivery Report', 'Data Inizio', 'Data Fine','Stato', 'Volume');
     $tot_colonne = count($list_day) + count($titolo) - 1;
 
     foreach ($titolo as $key => $value) {
@@ -93,7 +93,7 @@ function export_pianificazione($list, $tot_volume, $list_day, $filter){
     );
 
     $riga = 3;
-    $colonna = 13;
+    $colonna = 15;
     //intestazione excel colonne dei giorni
     foreach ($list_day as $key => $value) {
         $objPHPExcel->getActiveSheet()->getColumnDimensionByColumn($colonna)->setAutoSize(true);
@@ -140,12 +140,12 @@ function export_pianificazione($list, $tot_volume, $list_day, $filter){
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(6, $riga, $row['cod_campagna']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(7, $riga, $row['cod_comunicazione']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(8, $riga, $campaign->tableChannelLabel($row));
-            //$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(9, $riga, $canale['charTesto']);
-            //$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(10, $riga, $canale['notif_consegna']);        
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(9, $riga, $row['data_inizio']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(10, $riga, $row['data_fine_validita_offerta']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(11, $riga, $row['campaign_stato_nome']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(12, $riga, round($row['volume']));
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(9, $riga, $canale['charTesto']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(10, $riga, $canale['notif_consegna']);        
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(11, $riga, $row['data_inizio']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(12, $riga, $row['data_fine_validita_offerta']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(13, $riga, $row['campaign_stato_nome']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(14, $riga, round($row['volume']));
 
             
             $tot_volume['totale'] = $tot_volume['totale'] + $row['volume'];
@@ -153,7 +153,7 @@ function export_pianificazione($list, $tot_volume, $list_day, $filter){
             $daterange = $campaign->daterange();
             //print_r($volume_giorno);
             //print_r($daterange);
-        $colonna = 12;
+        $colonna = 14;
             foreach($daterange as $key=>$daytimestamp){
                     $colonna++;
                     if(array_key_exists($daytimestamp, $volume_giorno)){                   
@@ -214,21 +214,21 @@ function export_pianificazione($list, $tot_volume, $list_day, $filter){
         }
         
             //$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, $riga, $riga);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(11, $riga, 'Totale');
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(12, $riga, round($tot_volume['totale'],1));
-            $objPHPExcel->getActiveSheet()->getColumnDimensionByColumn(12)->setWidth(8);
-            $objPHPExcel->setActiveSheetIndex(0)->getStyleByColumnAndRow(12, $riga)->getAlignment()
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(13, $riga, 'Totale');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(14, $riga, round($tot_volume['totale'],1));
+            $objPHPExcel->getActiveSheet()->getColumnDimensionByColumn(14)->setWidth(8);
+            $objPHPExcel->setActiveSheetIndex(0)->getStyleByColumnAndRow(14, $riga)->getAlignment()
             ->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER)
-            ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+            ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
 
         
-            $colonna = 12;
+            $colonna = 14;
         foreach($daterange as $key=>$daytimestamp){
             $colonna++;
             $objPHPExcel->getActiveSheet()->getColumnDimensionByColumn($colonna)->setWidth(8);
             $objPHPExcel->setActiveSheetIndex(0)->getStyleByColumnAndRow($colonna, $riga)->getAlignment()
             ->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER)
-            ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+            ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
 
             //$string .= "<td><small><strong>".$campaign->round_volume($tot_volume[$daytimestamp])."</strong></small></td>";
             if($tot_volume[$daytimestamp]>0){
@@ -243,7 +243,7 @@ function export_pianificazione($list, $tot_volume, $list_day, $filter){
                     'bold' => true
                 ),
                 'alignment' => array(
-                    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_RIGHT,
+                    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
                 ),
                 'borders' => array(
                     'top' => array(
@@ -477,13 +477,13 @@ function export_gestione($list,$filter){
 
 
 
-function export_capacity($list, $filter){//campaign proposal 
+function export_capacity($list, $filter){ 
         // Set document properties
         $campaign = new campaign_class();
         $today = date("Ymd");
 
         $objPHPExcel = new PHPExcel();
-    $objPHPExcel->getProperties()->setCreator("Tool Campaign")
+$objPHPExcel->getProperties()->setCreator("Tool Campaign")
         ->setLastModifiedBy("Maarten Balliauw")
         ->setTitle("Office 2007 XLSX Test Document")
         ->setSubject("Office 2007 XLSX Test Document")
@@ -508,12 +508,13 @@ function export_capacity($list, $filter){//campaign proposal
     $colonna = 0;
 
 //$titolo = array('N', 'Stack','Sprint','Squad','Tipologia', 'Modalità', 'Categoria', 'Offerta',	'Canale',	'Volume Stimato (K)',	'Data Output',	'Data Inizio Offerta', 'Data Fine Offerta',	'Stato','Note operative');
-$titolo = array('N', 'Stack','Sprint','Squad','Tipologia', 'Modalità', 'Categoria', 'Descrizione Attivita',	'Canale', 'Lunghezza SMS','Delivery Report','Priorità', 'Volume','Data Inizio','Data Fine', 'Stato', 'Note Operative');
+$titolo = array('N', 'Stack','Sprint','Squad','Tipologia', 'Modalità', 'Categoria', 'Descrizione Attivita',	'Canale',  'Volume Stimato',	'Data Inizio','Data Fine', 'Stato', 'Note operative');
                    
 $tot_colonne = count($titolo) - 1;
 
 
 foreach ($titolo as $key => $value) {
+
         $objPHPExcel->getActiveSheet()->getColumnDimensionByColumn($colonna)->setAutoSize(true);
         $objPHPExcel->setActiveSheetIndex(0)->getStyleByColumnAndRow($colonna, $riga)
                 ->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER)
@@ -594,19 +595,6 @@ foreach ($titolo as $key => $value) {
                 $row['data_fine_validita_offerta'] = '1970-01-01';
             }
             */
-            $canale = json_decode($row['addcanale'],true)[0];
-
-            if($row['channel_id']==12){ 
-                if($canale['notif_consegna']==1){
-                    $canale['notif_consegna']='Si';
-                } 
-                elseif($canale['notif_consegna']==0){
-                    $canale['notif_consegna']='No';
-                };
-            }else{
-                $canale['notif_consegna'] = '';
-                $canale['charTesto'] = '';
-            }
             
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, $riga, $key+1);        
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, $riga, $row['stacks_nome']);    
@@ -617,15 +605,11 @@ foreach ($titolo as $key => $value) {
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(6, $riga, $row['category_nome']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(7, $riga, $row['descrizione_target']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(8, $riga, $campaign->tableChannelLabel($row));
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(9, $riga, $canale['charTesto']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(10, $riga, $canale['notif_consegna']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(11, $riga, $row['priority']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(12, $riga, round($row['volume']));
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(13, $riga, $row['data_inizio']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(9, $riga, $row['data_inizio']);
             //$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(11, $riga, $row['data_inizio_validita_offerta']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(14, $riga, $row['data_fine_validita_offerta']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(15, $riga, $row['campaign_stato_nome']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(16, $riga, $row['note_operative']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(10, $riga, $row['data_fine_validita_offerta']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(11, $riga, $row['campaign_stato_nome']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(12, $riga, $row['note_operative']);
             
             
             //$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(13, $riga, '');
