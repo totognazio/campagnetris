@@ -357,24 +357,21 @@
     //alert('stato adesso '+ stato);
 
     $('#campaign_state_id').on('select2:select', function() {
-            //alert(' stato campagna  '+ $('#campaign_state_id').val());
-            //var stato_info;
-            stato = $('#campaign_state_id').val();
-            
-            var stato_info = $.parseJSON($.ajax({
-                    url: "get_stato_info.php",
-                    method: "POST",
-                    data: { stato_id: stato },
-                    dataType: "json",
-                    async: false,
-                }).responseText);
-
-            console.log('stato_infoquii '+ JSON.stringify(stato_info));
-            
+        stato_new = $('#campaign_state_id').val();
+        //console.log('stato prima '+stato+' stato new '+stato_new);
+        if(process_stato(stato,stato_new)){
+            stato = stato_new;
+            //console.log('stato_info new ' + JSON.stringify(new_get_stato(stato)));
+        }
+        else{
+            $('#campaign_state_id').val(stato).trigger('change');
+        }
             count =  $('#iniziative_dealer').val();   
             validazione(selected_channel_id, stato);              
             validazione_canaleDealer(count, stato);
             validazione_criteri(stato);
+            //console.log('stato adesso '+stato);
+            console.log('stato_info new ' + JSON.stringify(new_get_stato(stato)));
 
     });
     

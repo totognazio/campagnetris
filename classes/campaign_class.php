@@ -1039,6 +1039,8 @@ function insert($record) {
             $user_info = $page_protect->get_user_id();
 //L'utente Rattini Marco ha modificato lo stato della campagna “Nome Campagna�? in RICHIESTA. Data inizio campagna 21/03/2016.
             //$this->send_email("[CTM] Nuova campagna: " . $_POST['nome_campagna'] . "", "L'utente '" . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . "' ha inserito una nuova campagna '" . $_POST['nome_campagna'] . "'. Data inizio campagna: " . $_POST['data_inizio'] . ".");
+            $stringa_mail ="[CTM] Nuova campagna: " . $record['pref_nome_campagna'] . ", L'utente " . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . " ha inserito una nuova campagna. Data inizio campagna: " . $record['data_inizio'] . ".";            
+            echo '<script type="text/javascript">alert("SIMULAZIONE Invio Email' . $stringa_mail . '")</script>';
         } catch (Exception $e) {
             echo 'ERROR:'.$e->getMessage(). " - " . $sql;
         }
@@ -1137,7 +1139,11 @@ function update($record, $id_campagne) {
                     else {
                         if ($value == "campaign_state_id") {
                             //if (($this->get_state_eliminabile($id_campagne) > 0) && ($valore_inviato != $id_state)) {
-                            if ($valore_inviato == $this->get_state_invio_email()) {
+                            $states_infos = $this->get_states_info();
+                            //check if invio_email==1
+                            if ($states_infos[$valore_inviato]['invio_email']==1) {
+                            //if ($valore_inviato == $this->get_states_info()) {
+                                
                                 $send_email = 1;
                             }
                         }
@@ -1172,6 +1178,8 @@ function update($record, $id_campagne) {
         if ($send_email) {
 //L'utente Rattini Marco ha modificato lo stato della campagna “Nome Campagna�? in RICHIESTA. Data inizio campagna 21/03/2016.
             //$this->send_email("[CTM] La campagna " .$_POST['pref_nome_campagna']. " ha cambiato stato", "L'utente '" . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . "' ha modificato lo stato della campagna '" .$_POST['pref_nome_campagna']. " in " . $this->get_state_name($this->get_state($id_campagne)) . ". Data inizio campagna: " . $_POST['data_inizio'] . ".");
+            $stringa_mail ="[CTM] La campagna: " . $record['pref_nome_campagna'] . " ha cambiato stato. L'utente " . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . " ha modificato lo stato della campagna in ". $this->get_state_name($this->get_state($id_campagne)) . ". Data inizio campagna: " . $_POST['data_inizio'];           
+            echo '<script type="text/javascript">alert("SIMULAZIONE Invio Email' . $stringa_mail . '")</script>';
         }
         return "Campagna modificata correttamente";
     }
@@ -1188,8 +1196,7 @@ LEFT JOIN campaign_states ON `campaign_state_id` = campaign_states.id
     }
 
     function get_state_invio_email() {
-        $query3 = "SELECT id
-FROM campaign_states where invio_email=1";
+        $query3 = "SELECT id FROM campaign_states where invio_email=1";
 //echo $query3;
         $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $row = $results->fetch_array();
@@ -1202,6 +1209,16 @@ FROM campaign_states where invio_email=1";
         $results = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $row = $results->fetch_array();
         return $row[0];
+    }
+
+    function get_states_info() {
+        $query3 = "SELECT * FROM campaign_states where 1";
+        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+        $obj3 = $result3->fetch_array(MYSQLI_ASSOC);
+        while ($obj3 = $result3->fetch_array(MYSQLI_ASSOC)) {
+            $rows[$obj3['id']] = $obj3;
+        }
+        return $rows;
     }
 
     function get_state_name($id) {

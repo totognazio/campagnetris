@@ -85,7 +85,7 @@
         </div> 
 
         <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo <span class="required">*</span></label> 
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" style="color: black;">Tipo <span class="required">*</span></label> 
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <?php 
                 $select_monoleva = '';
@@ -101,7 +101,7 @@
                 if($modifica and $id_campaign['tipo_leva']=='multi'){$select_multileva = ' selected';$display_multi='';}   
                 if($modifica and $id_campaign['tipo_leva']=='info'){$select_info = ' selected';$display_info='';}               
                 ?>
-                <select  id="idlevaselect" name="tipo_leva" class="select2_single form-control"  required="required" onchange="levaselect()"  <?php echo $disabled_value;?>>        
+                <select  id="idlevaselect" name="tipo_leva" class="select2_single form-control"  style="background-color: #e7e7e7; color: black;" required="required" onchange="levaselect()"  <?php echo $disabled_value;?>>        
                     <option value=""></option>
                     <option <?php echo $select_info; ?> value="info">Informativa</option>
                     <option <?php echo $select_monoleva; ?> value="mono">MonoOfferta</option>

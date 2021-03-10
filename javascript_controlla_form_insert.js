@@ -2556,6 +2556,20 @@ function get_info_required(stato_id) {
 
 }
 
+
+function process_stato(stato_id, stato_id_new) {
+  //Una campagna può passare in stato lavorabile solo se si trova in stato confermata
+  //ID 4 confermata  ID 10 Lavorabile
+  if ((stato_id_new==10) && (stato_id != 4)) {
+    alert('Una campagna può passare in stato LAVORABILE solo se si trova in stato CONFERMATA !!');
+    return false;
+  }
+  else {
+    return true;
+  }
+
+}
+
 function get_required(stato_id) {
   //full required stoto LAVORABILE ed ESEGUITA
                   if (stato_id == 1 || stato_id == 10) {                    
@@ -2563,8 +2577,21 @@ function get_required(stato_id) {
                   }
                   else {
                     return false;
+                    
   }
 
+}
+
+function new_get_stato(stato_id) {
+              let stato_info = JSON.parse($.ajax({
+                    url: "get_stato_info.php",
+                    method: "POST",
+                    data: { stato_id: stato_id },
+                    dataType: "json",
+                    async: false,
+                }).responseText);
+  //console.log('stato_info new ' + JSON.stringify(stato_info));
+  return stato_info;
 }
 
 
