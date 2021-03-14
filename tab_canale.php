@@ -2,7 +2,7 @@
     <br/>
     <div class="col-md-8 col-sm-6 col-xs-12">
         <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12">Canale  <span class="required">*</span>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" style="color: black;">Canale  <span class="required">*</span>
                 <img  title="Inserire nel primo Canale il Canale Prioritario della Campagna" alt="Control Group" type="image" src="images/informazione.jpg" style="margin:0px; height:15px;"/>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -21,7 +21,7 @@
                             $display_pos =  ' style="display: none;"';
                             $display_40400 =  ' style="display: none;"';
                             $required_400 = '';
-                            $style = " style=\"width:100%;\" ";
+                            $style = " style=\"width:100%; \" ";
                             $display_app_inbound = ' style="display: none;"';
                             $display_app_outbound = ' style="display: none;"';
                             $display_icm = ' style="display: none;"';
@@ -101,7 +101,7 @@
                 if($modifica and $id_campaign['tipo_leva']=='multi'){$select_multileva = ' selected';$display_multi='';}   
                 if($modifica and $id_campaign['tipo_leva']=='info'){$select_info = ' selected';$display_info='';}               
                 ?>
-                <select  id="idlevaselect" name="tipo_leva" class="select2_single form-control"  style="background-color: #e7e7e7; color: black;" required="required" onchange="levaselect()"  <?php echo $disabled_value;?>>        
+                <select  id="idlevaselect" name="tipo_leva" class="select2_single form-control" style="width: 100%;" required="required" onchange="levaselect()"  <?php echo $disabled_value;?>>        
                     <option value=""></option>
                     <option <?php echo $select_info; ?> value="info">Informativa</option>
                     <option <?php echo $select_monoleva; ?> value="mono">MonoOfferta</option>
@@ -172,8 +172,8 @@
 
 
         <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="note">Data Inizio Campagna
-            </label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" style="color: black;" for="note">Data Inizio Campagna
+            <span class="required">*</span></label>
             <div class="col-md-6 xdisplay_inputx form-group has-feedback">
                 <input id="data_inizio_campagna" <?php if ($readonly){echo $disabled_value;}?> type="text" class="form-control has-feedback-left"  placeholder="Data Inizio Campagna" aria-describedby="inputSuccess2Status3" required="required" name="data_inizio" value="<?php if(isset($id_campaign['data_inizio'])){echo date('d/m/Y', strtotime($id_campaign['data_inizio']));}?>">
                 <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
@@ -181,8 +181,8 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="note">Data Fine Campagna
-            </label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" style="color: black;" for="note">Data Fine Campagna
+            <span class="required">*</span></label>
             <div class="col-md-6 xdisplay_inputx form-group has-feedback">
                 <input id="data_fine_validita_offerta" <?php if ($readonly){echo $disabled_value;}?> type="text" class="form-control has-feedback-left"  placeholder="Data Fine Campagna" aria-describedby="inputSuccess2Status3" required="required" name="data_fine_validita_offerta" value="<?php if(isset($id_campaign['data_fine_validita_offerta'])){echo date('d/m/Y', strtotime($id_campaign['data_fine_validita_offerta']));}?>">
                 <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
@@ -217,10 +217,10 @@
             </div>
         </div>    
         <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="volume_tot">Volume Totale Stimato<span class="required">*</span>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" style="color: black;" for="volume_tot">Volume Totale Stimato<span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input <?php echo $disabled_value;?> id="volume_tot" name="volume"  type="number" class="form-control col-md-7 col-xs-12" style="text-align:right"  onblur="volumeRipartizione(0);"  oninput="validity.valid||(value='');" pattern="/^-?\d+\.?\d*$/"  onKeyPress="if (this.value.length == 9) return false;" min="0" max="999999999"  required="required" placeholder="maximum 9 digits" 
+                <input <?php echo $disabled_value;?> id="volume_tot" name="volume"  type="number" class="form-control col-md-7 col-xs-12" style="text-align:right; color: black;"  onblur="volumeRipartizione(0);"  oninput="validity.valid||(value='');" pattern="/^-?\d+\.?\d*$/"  onKeyPress="if (this.value.length == 9) return false;" min="0" max="999999999"  required="required" placeholder="maximum 9 digits" 
                        value="<?php if($modifica){echo $id_campaign['volume'];}?>">
             </div>
         </div>  
@@ -626,9 +626,7 @@
 
 <script>
 $(document).ready(function() { 
-
-
-    
+        
     var testo_sms = document.getElementById("testo_sms");
     testo_sms.addEventListener(
         'keypress',
@@ -839,6 +837,9 @@ var myDropzoneCanale = new Dropzone(
 
 
                 }); 
+
+             
+                
 
 });
 

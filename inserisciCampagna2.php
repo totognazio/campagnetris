@@ -2,6 +2,8 @@
 input:focus {
   background-color: yellow;
 }
+
+
 </style>  
 <!-- bootstrap-daterangepicker -->
 <link href="vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
@@ -226,7 +228,7 @@ $sender = $funzione->get_allTable('senders');
         }
  if($azione == 'modifica' || $azione == 'duplica' || $azione == 'new')  {
 ?>  
-    <h2>Compilazione</h2>
+    <h2>Compilazione</h2><img src="./image/campiminimi.jpg" alt=""  height="30" style="margin-left:25px;">
 <?php
  }     
  ?>
@@ -251,9 +253,13 @@ $sender = $funzione->get_allTable('senders');
                   <div class="x_content">                     
 <!--inizio mega Form inserimento-->   
 <div class="bs-callout bs-callout-warning hidden">
-  <h3><strong>Errore di validazione !!!   :(</strong></h3>
-  <p><strong> Verifica il corretto inserimento dei campi evidenziati in rosso in tutte le schede</strong></p>
+  <h3><strong>Errore di validazione !!! Inserire i campi evidenziati in tutte le schede</strong></h3>
 </div>
+<div id="alertvalidazione" class="alert alert-info alert-dismissible fade in" role="alert" hidden>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <strong>Errore di validazione !!! Inserire i campi evidenziati in tutte le schede</strong>
+</div> 
 
 <!--
 <div class="bs-callout bs-callout-info hidden">
@@ -319,7 +325,7 @@ $sender = $funzione->get_allTable('senders');
                     } else {                        
                         ?>
                         <input style="<?php echo $display_none; ?>" id="salva" class="btn btn-success" name="salva" tabindex="64" type="submit" value="Salva" />
-                        <input type="hidden" name="campaign_state_id" id="campaign_state_id" value="2" />
+                        <input type="hidden" name="campaign_state_id" value="2" />
                         <?php
                     }
                     ?>
@@ -339,7 +345,7 @@ $sender = $funzione->get_allTable('senders');
 
 //in caso di modifica open duplica di campagna multicanale 
 var last_tab_click = 1; 
-  
+
 function validitaoffer(){
     if($( "#validitalevaofferta" ).val()==='1'){
         $('#validita-offerta').show();
@@ -376,44 +382,7 @@ function levaselect() {
 }
 
   
-function checklength(areaText, maxchars, input, char, char_count_sms) {
-    lunghezza_sms = 160;
-    lunghezza_sms_concatenato = 153;
-    lunghezza_link = 28;
-    chars = document.getElementById(input).value;
-    if ((document.getElementById("mod_invio").value == "Interattivo") && (input == "testo_sms")) {
-        lunghezza_link = 28;
-    } else {
-        lunghezza_link = 0;
-    }
-    maxchars = maxchars - lunghezza_link;
-    if (chars.length > maxchars)
-    {
-        document.getElementById(input).value = chars.substr(0, maxchars);
-        document.getElementById(input).blur();
-    }
-    //document.getElementById(char).value = maxchars - document.getElementById(input).value.length;
-    document.getElementById(char).value = document.getElementById(input).value.length;
-    if (char_count_sms != '') {
-        if (document.getElementById(input).value.length <= 160 - lunghezza_link)
-            document.getElementById(char_count_sms).value = 1;
-        else
-            document.getElementById(char_count_sms).value = Math.floor((document.getElementById(input).value.length - lunghezza_link) / 153) + 1;
-    }
-}
 
-function checklengthTotal(input, char) {   
-    lunghezza_test_sms = 0;
-    chars = document.getElementById(input).value;
-    if ((document.getElementById("mod_invio").value === "Interattivo")) {
-        lunghezza_test_sms = document.getElementById(char).value; 
-        
-    } else {
-        lunghezza_test_sms = 0;
-    }
-    totale = document.getElementById("numero_totale").value = parseInt(chars) + parseInt(lunghezza_test_sms) + 1;
-    //alert('eccolo test ' + totale);
-}
 
 //Tab canale controller
 $(".nav-tabs").on("click", "a", function (e) {
@@ -519,129 +488,13 @@ $('#mod_invio').on('select2:select', function () {
     var selected_duratacampagna = $('#duratacampagna').val();
     durata_camp(selected_duratacampagna);
     
-    
+   
+
     
 });
     
-    
-    function durata_camp(value) {
-     if(value === '0'){
-            $('#day1').hide();
-            $('#day2').hide();
-            $('#day3').hide();
-            $('#day4').hide();
-            $('#day5').hide();
-            $('#day6').hide();
-            $('#day7').hide();   
-     }        
-            else if(value === '1'){
-                    $('#day1').show();
-                    $('#day2').hide();
-                    $('#day3').hide();
-                    $('#day4').hide();
-                    $('#day5').hide();
-                    $('#day6').hide();
-                    $('#day7').hide();  
-                
-            }else if(value === '2'){
-                    $('#day1').show();
-                    $('#day2').show();
-                    $('#day3').hide();
-                    $('#day4').hide();
-                    $('#day5').hide();
-                    $('#day6').hide();
-                    $('#day7').hide();  
-            }else if(value === '3'){
-                    $('#day1').show();
-                    $('#day2').show();
-                    $('#day3').show();
-                    $('#day4').hide();
-                    $('#day5').hide();
-                    $('#day6').hide();
-                    $('#day7').hide();
-            }
-            else if(value === '4'){
-                    $('#day1').show();
-                    $('#day2').show();
-                    $('#day3').show();
-                    $('#day4').show();
-                    $('#day5').hide();
-                    $('#day6').hide();
-                    $('#day7').hide();
-            }
-                else if(value === '5'){
-                    $('#day1').show();
-                    $('#day2').show();
-                    $('#day3').show();
-                    $('#day4').show();
-                    $('#day5').show();
-                    $('#day6').hide();
-                    $('#day7').hide();
-            }
-                    else if(value === '6'){
-                    $('#day1').show();
-                    $('#day2').show();
-                    $('#day3').show();
-                    $('#day4').show();
-                    $('#day5').show();
-                    $('#day6').show();
-                    $('#day7').hide();
-            }
-            else if(value === '7'){
-                    $('#day1').show();
-                    $('#day2').show();
-                    $('#day3').show();
-                    $('#day4').show();
-                    $('#day5').show();
-                    $('#day6').show();
-                    $('#day7').show();
-            }
-}
 
 
-   
- function volumeRipartizione(start) {
-    durata = $('#duratacampagna').val();
-    temp = 0;
-    
-    volume = $('#volume_tot').val();
-    var volday = [0, 0, 0, 0, 0, 0, 0]; 
-    volday[0] = $('#VolumeGiornaliero1').val();
-    volday[1] = $('#VolumeGiornaliero2').val();
-    volday[2] = $('#VolumeGiornaliero3').val();
-    volday[3] = $('#VolumeGiornaliero4').val();
-    volday[4] = $('#VolumeGiornaliero5').val();
-    volday[5] = $('#VolumeGiornaliero6').val();
-    volday[6] = $('#VolumeGiornaliero7').val();
-
-    for (i = 0; i < parseInt(durata); i++) {    
-        if (i < (start)) {
-            temp = temp + parseInt(volday[i]);
-        } else {
-            //alert(Math.floor((volume - temp) / (durata - start)));
-//            if (document.getElementById('volumeGiornaliero' + i).value == 0)
-            //document.getElementById('volumeGiornaliero' + i).value = Math.floor((volume - temp) / (durata - start));
-            volday[i] = Math.floor((volume - temp) / (durata - start));
- 
-        }
-    }
-   if (volume - temp - Math.floor((volume - temp) / (durata - start)) * (durata - start - 1) < 0){
-        alert("numero sms errato.");
-    }    
-    //document.getElementById('volumeGiornaliero' + durata).value = volume - temp - Math.floor((volume - temp) / (durata - start)) * (durata - start - 1);
-
-
-    $("#VolumeGiornaliero1").val(volday[0]);  
-    $("#VolumeGiornaliero2").val(volday[1]); 
-    $("#VolumeGiornaliero3").val(volday[2]);   
-    $("#VolumeGiornaliero4").val(volday[3]);   
-    $("#VolumeGiornaliero5").val(volday[4]);   
-    $("#VolumeGiornaliero6").val(volday[5]);   
-    $("#VolumeGiornaliero7").val(volday[6]);     
- 
-
- }
-    
 //Controllo validazione ed output
 $(function () {
   $('#form-campagna-ins').parsley().on('field:validated', function() {
@@ -651,6 +504,19 @@ $(function () {
     console.log('parsley-error  '+$('.parsley-error').length);
     $('.bs-callout-info').toggleClass('hidden', !ok);
     $('.bs-callout-warning').toggleClass('hidden', ok);
+    if(!ok){
+            //$('#alertvalidazione').hide();
+            
+            $("#alertvalidazione").fadeOut();
+            $("#alertvalidazione").fadeIn();
+            $('#alertvalidazione').show();
+    }
+    elseif(ok){
+            $("#alertvalidazione").fadeOut();
+            $("#alertvalidazione").fadeIn();
+            $('#alertvalidazione').hide();
+
+    }
   })
   
 });

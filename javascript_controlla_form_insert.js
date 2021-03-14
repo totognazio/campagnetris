@@ -1,5 +1,24 @@
             
-function validazione_canaleDealer(count,stato_id) {    
+function highlither_min_required() {
+  console.log('--->highlither_min_required');
+  //Tab campagna
+  document.querySelector('#tab_content1 > div:nth-child(4) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
+  document.querySelector('#tab_content1 > div:nth-child(5) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
+  document.querySelector('#tab_content1 > div:nth-child(6) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
+  document.querySelector('#tab_content1 > div:nth-child(8) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
+  document.querySelector('#tab_content1 > div:nth-child(9) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
+  document.querySelector('#tab_content1 > div:nth-child(4) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
+  //Tab canale
+  document.querySelector('#tab_content3 > div > div:nth-child(1) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
+  document.querySelector('#tab_content3 > div > div:nth-child(2) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
+  document.querySelector('#volume_tot').style.backgroundColor = '#C1FFD5';
+  
+  
+}
+
+
+
+function validazione_canaleDealer(count, stato_id) {
     if (count > 1) {
         for (i = 2; i < 10; i++) {
             if (i <= count) {
@@ -97,8 +116,8 @@ function validazione(selected_channel_id, all_required) {
   $('#type_watson').attr('required', false);
   $('#contact_watson').attr('required', false);
     
-  //stato diverso  Draft, Da Approfondire, Oltre Capacity e Annullata    
-  if (get_required(all_required)) {
+  //stato diverso  Richiesta, Da Approfondire, Oltre Capacity e Annullata    
+  if (get_required(all_required)) {    
     if (selected_channel_id === '12') {
       //$('#sms_duration').attr('required', true);
       //$('#tipoMonitoring').attr('required', true);
@@ -864,10 +883,10 @@ function validazione(selected_channel_id, all_required) {
     }
     
     console.log('validazione dentro ' + selected_channel_id);
-
+    
   }
   
-  //se lo stato è comunque Richiesta, Confermata, Da Approfondire, Nuova Pianificazione, Oltre Capacity o  Annullata
+  //se lo stato è Richiesta, Confermata, Da Approfondire, Nuova Pianificazione, Oltre Capacity o  Annullata
   // e si seleziona il canale SMS 
   if (!get_required(all_required) && (selected_channel_id === '12')) {    
       //$('#sms_duration').attr('required', true);
@@ -2592,6 +2611,163 @@ function new_get_stato(stato_id) {
                 }).responseText);
   //console.log('stato_info new ' + JSON.stringify(stato_info));
   return stato_info;
+}
+
+    function durata_camp(value) {
+     if(value === '0'){
+            $('#day1').hide();
+            $('#day2').hide();
+            $('#day3').hide();
+            $('#day4').hide();
+            $('#day5').hide();
+            $('#day6').hide();
+            $('#day7').hide();   
+     }        
+            else if(value === '1'){
+                    $('#day1').show();
+                    $('#day2').hide();
+                    $('#day3').hide();
+                    $('#day4').hide();
+                    $('#day5').hide();
+                    $('#day6').hide();
+                    $('#day7').hide();  
+                
+            }else if(value === '2'){
+                    $('#day1').show();
+                    $('#day2').show();
+                    $('#day3').hide();
+                    $('#day4').hide();
+                    $('#day5').hide();
+                    $('#day6').hide();
+                    $('#day7').hide();  
+            }else if(value === '3'){
+                    $('#day1').show();
+                    $('#day2').show();
+                    $('#day3').show();
+                    $('#day4').hide();
+                    $('#day5').hide();
+                    $('#day6').hide();
+                    $('#day7').hide();
+            }
+            else if(value === '4'){
+                    $('#day1').show();
+                    $('#day2').show();
+                    $('#day3').show();
+                    $('#day4').show();
+                    $('#day5').hide();
+                    $('#day6').hide();
+                    $('#day7').hide();
+            }
+                else if(value === '5'){
+                    $('#day1').show();
+                    $('#day2').show();
+                    $('#day3').show();
+                    $('#day4').show();
+                    $('#day5').show();
+                    $('#day6').hide();
+                    $('#day7').hide();
+            }
+                    else if(value === '6'){
+                    $('#day1').show();
+                    $('#day2').show();
+                    $('#day3').show();
+                    $('#day4').show();
+                    $('#day5').show();
+                    $('#day6').show();
+                    $('#day7').hide();
+            }
+            else if(value === '7'){
+                    $('#day1').show();
+                    $('#day2').show();
+                    $('#day3').show();
+                    $('#day4').show();
+                    $('#day5').show();
+                    $('#day6').show();
+                    $('#day7').show();
+            }
+}
+
+
+   
+ function volumeRipartizione(start) {
+    durata = $('#duratacampagna').val();
+    temp = 0;
+    
+    volume = $('#volume_tot').val();
+    var volday = [0, 0, 0, 0, 0, 0, 0]; 
+    volday[0] = $('#VolumeGiornaliero1').val();
+    volday[1] = $('#VolumeGiornaliero2').val();
+    volday[2] = $('#VolumeGiornaliero3').val();
+    volday[3] = $('#VolumeGiornaliero4').val();
+    volday[4] = $('#VolumeGiornaliero5').val();
+    volday[5] = $('#VolumeGiornaliero6').val();
+    volday[6] = $('#VolumeGiornaliero7').val();
+
+    for (i = 0; i < parseInt(durata); i++) {    
+        if (i < (start)) {
+            temp = temp + parseInt(volday[i]);
+        } else {
+            //alert(Math.floor((volume - temp) / (durata - start)));
+//            if (document.getElementById('volumeGiornaliero' + i).value == 0)
+            //document.getElementById('volumeGiornaliero' + i).value = Math.floor((volume - temp) / (durata - start));
+            volday[i] = Math.floor((volume - temp) / (durata - start));
+ 
+        }
+    }
+   if (volume - temp - Math.floor((volume - temp) / (durata - start)) * (durata - start - 1) < 0){
+        alert("numero sms errato.");
+    }    
+    //document.getElementById('volumeGiornaliero' + durata).value = volume - temp - Math.floor((volume - temp) / (durata - start)) * (durata - start - 1);
+
+
+    $("#VolumeGiornaliero1").val(volday[0]);  
+    $("#VolumeGiornaliero2").val(volday[1]); 
+    $("#VolumeGiornaliero3").val(volday[2]);   
+    $("#VolumeGiornaliero4").val(volday[3]);   
+    $("#VolumeGiornaliero5").val(volday[4]);   
+    $("#VolumeGiornaliero6").val(volday[5]);   
+    $("#VolumeGiornaliero7").val(volday[6]);     
+ 
+
+ }
+
+ function checklength(areaText, maxchars, input, char, char_count_sms) {
+    lunghezza_sms = 160;
+    lunghezza_sms_concatenato = 153;
+    lunghezza_link = 28;
+    chars = document.getElementById(input).value;
+    if ((document.getElementById("mod_invio").value == "Interattivo") && (input == "testo_sms")) {
+        lunghezza_link = 28;
+    } else {
+        lunghezza_link = 0;
+    }
+    maxchars = maxchars - lunghezza_link;
+    if (chars.length > maxchars)
+    {
+        document.getElementById(input).value = chars.substr(0, maxchars);
+        document.getElementById(input).blur();
+    }
+    //document.getElementById(char).value = maxchars - document.getElementById(input).value.length;
+    document.getElementById(char).value = document.getElementById(input).value.length;
+    if (char_count_sms != '') {
+        if (document.getElementById(input).value.length <= 160 - lunghezza_link)
+            document.getElementById(char_count_sms).value = 1;
+        else
+            document.getElementById(char_count_sms).value = Math.floor((document.getElementById(input).value.length - lunghezza_link) / 153) + 1;
+    }
+}
+
+function checklengthTotal(input, char) {   
+    lunghezza_test_sms = 0;
+    chars = document.getElementById(input).value;
+    if ((document.getElementById("mod_invio").value === "Interattivo")) {
+        lunghezza_test_sms = document.getElementById(char).value; 
+        
+    } else {
+        lunghezza_test_sms = 0;
+    }
+    totale = document.getElementById("numero_totale").value = parseInt(chars) + parseInt(lunghezza_test_sms) + 1;
+    //alert('eccolo test ' + totale);
 }
 
 

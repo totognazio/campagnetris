@@ -229,6 +229,8 @@
       placeholder: "Select Stack"
       // allowClear: true
     });
+
+
     $('#stack_ins').on('select2:select', function() {
       var selected_stacks = $('#stack_ins').val();
       console.log('stack  ' + selected_stacks);
@@ -263,9 +265,11 @@
     });
 
     $('#channel_ins').select2({
-      placeholder: "Select Canale"
+      placeholder: "Select Canale",
+      //$('.select2-selection').css('background-color', 'blue');
       // allowClear: true
-    });
+   });
+    //$('#channel_ins').css('background-color', 'blue');
     $('#channel_ins').on('select2:select', function() {
       canale_0 = $('#channel_ins').val();
       document.getElementById("canale_zero").value = canale_0;
@@ -315,6 +319,7 @@
     $('#cate_ins').select2({
       placeholder: " Select"
     });
+  
     $('#cate_ins').on('select2:select', function() {
       var selected_cate = $('#cate_ins').val();
       $(this).parsley().validate();
@@ -326,6 +331,7 @@
       placeholder: "Select Squad",
       allowClear: true
     });
+
     $('#squad_ins').on('select2:select', function() {
       var selected_stacks = $('#squad_ins').val();
       $(this).parsley().validate();
@@ -333,10 +339,15 @@
 
     });
 
+    //select Tipo in Tab Canale
+    $('#idlevaselect').select2({
+      placeholder: "Select Type"
+    });
 
     $('#type_ins').select2({
       placeholder: "Select Type"
     });
+    
     $('#type_ins').on('select2:select', function() {
       var selected_type = $('#type_ins').val();
       $(this).parsley().validate();
@@ -715,20 +726,15 @@
 <script>
   $(document).ready(function() {
     autosize($('.resizable_textarea'));
-  });
-</script>
-<!-- /Autosize -->
 
-<script>
-  $(document).ready(function() {
     var min_data_offerta = moment().format('DD/MM/YYYY');
 
     $("body").tooltip({
       selector: '[data-toggle=tooltip]'
     });
 
-
-
+    console.log('stato '+stato);
+    highlither_min_required();
 
     $('#data_inizio_campagna').daterangepicker({
       singleDatePicker: true,
@@ -808,6 +814,8 @@
         $('#datatable-fixed-header').DataTable({
           fixedHeader: true
         });
+
+
 
 </script>  
 

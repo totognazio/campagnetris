@@ -69,8 +69,7 @@ $form->head_page_compat("Pianificazione Campagne", "Filtro");
                     echo '<div class="alert alert-info alert-dismissible fade in" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
                     </button>
-                    <strong>'. $result .'</strong></div>
-                  </div>
+                    <strong>'. $result .'</strong></div>                  
                     ';
                 }
               

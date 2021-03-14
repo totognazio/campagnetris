@@ -19,7 +19,7 @@
                       </div>  
                       <br>  
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="stack">Stack  <span class="required">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" style="color: black;" for="stack">Stack  <span class="required">*</span></label>
                         <?php #print_r($id_campaign); ?>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <select id="stack_ins" name="stack_id" class="select2_single form-control"  required="required" <?php echo $disabled_value;?> >      
@@ -38,7 +38,7 @@
                         </div>
                       </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Squad  <span class="required">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" style="color: black;">Squad  <span class="required">*</span></label>
                         <?php #print_r($stacks); ?>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <select id="squad_ins" name="squad_id" class="select2_single form-control"  required="required" <?php echo $disabled_value;?>>        
@@ -60,7 +60,7 @@
                         </div>
                       </div> 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipologia <span class="required">*</span></label>                     
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" style="color: black;">Tipologia <span class="required">*</span></label>                     
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <select id="type_ins" name="type_id" class="select2_single form-control"  required="required" <?php echo $disabled_value;?>>
                           <option value=""></option>
@@ -87,7 +87,7 @@
                       </div>
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Modalità  <span class="required">*</span></label>                       
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" style="color: black;">Modalità  <span class="required">*</span></label>                       
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <select id="moda_ins" name="modality_id" class="select2_single form-control"  required="required" <?php echo $disabled_value;?>>        
                               <option value=""></option>
@@ -105,7 +105,7 @@
                         </div>
                       </div>   
                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo Target  <span class="required">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" style="color: black;">Tipo Target  <span class="required">*</span></label>
                         <?php #print_r($stacks); ?>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <select id="cate_ins" name="category_id" class="select2_single form-control" tabindex="-1"  required="required" <?php echo $disabled_value;?>>        
@@ -125,7 +125,7 @@
                         </div>
                       </div>
                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Priorità PM <span class="required">*</span></label>                     
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" style="color: black;">Priorità PM <span class="required">*</span></label>                     
                         <div class="col-md-6 col-sm-6 col-xs-12">
  
                           <select id="priority" name="priority" class="select2_single form-control"  required="required" <?php echo $disabled_value;?>>
@@ -256,9 +256,9 @@
             document.getElementById('nomecampagna').value = moment().format('YYYYMMDD');
             stato = document.getElementById('campaign_state_id').value = 2; //stato RICHIESTA
             selected_channel_id = document.getElementById('channel_ins').value;   
-                  
             validazione(selected_channel_id, stato);
             validazione_criteri(stato);  
+            //highlither_min_required();            
         <?php        
     }
     if ($modifica) {
@@ -269,6 +269,9 @@
                 
                 validazione(selected_channel_id, stato); 
                 validazione_criteri(stato);
+                if (!get_required(stato)){
+                    highlither_min_required();
+                }
     <?php    
     }
         
