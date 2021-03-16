@@ -265,15 +265,21 @@
         ?>
                 document.getElementById("span_state").style.display = "inline";
                 stato = document.getElementById('campaign_state_id').value;
-                selected_channel_id = document.getElementById('channel_ins').value; 
-                
+                selected_channel_id = document.getElementById('channel_ins').value;                 
                 validazione(selected_channel_id, stato); 
                 validazione_criteri(stato);
-                if (!get_required(stato)){
-                    highlither_min_required();
-                }
+
     <?php    
     }
+    if (isset($azione) && ($azione=='duplica')){                
+        ?>      
+                stato = document.getElementById('campaign_state_id').value;
+
+        <?php        
+
+    }
+
+
         
     if ($modifica_codici) {
         ?>
@@ -375,6 +381,11 @@
             validazione_criteri(stato);
             //console.log('stato adesso '+stato);
             console.log('stato_info new ' + JSON.stringify(new_get_stato(stato)));
+            //if (typeof stato != "undefined" &&  !get_required(stato)){
+                    console.log('stato letto in Tab Campagna '+ stato);
+                    highlither_min_required(stato);
+            //}
+
 
     });
     

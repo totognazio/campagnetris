@@ -440,10 +440,11 @@ $('.add-contact').click(function (e) {
 
 
 
-$(document).ready(function() {  
+$(document).ready(function() { 
+
+//highlither_min_required(); 
 
 <?php 
- 
  if (isset($azione) && ($azione=='duplica' || $azione=='modifica' || $azione=='open')) {
 
     if(isset(json_decode($id_campaign['addcanale'],true)[1])){
@@ -511,7 +512,7 @@ $(function () {
             $("#alertvalidazione").fadeIn();
             $('#alertvalidazione').show();
     }
-    elseif(ok){
+    else if(ok){
             $("#alertvalidazione").fadeOut();
             $("#alertvalidazione").fadeIn();
             $('#alertvalidazione').hide();

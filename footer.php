@@ -12,8 +12,6 @@
 <!-- /footer content -->
 </div>
 </div>
-<!-- my JS -->
-<script src="javascript_controlla_form_insert.js"></script>
 <!-- Bootstrap -->
 <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- FastClick -->
@@ -65,6 +63,8 @@
 <script src="node_modules/parsleyjs/dist/parsley.min.js"></script>
 <script src="node_modules/parsleyjs/dist/i18n/it.js"></script>
 <script src="node_modules/parsleyjs/dist/i18n/it.extra.js"></script>
+<!-- my JS -->
+<script src="javascript_controlla_form_insert.js"></script>
 
 
 <!-- Initialize the plugin: -->
@@ -78,6 +78,7 @@
     var selected_typologies = $('#typologies').val();
     var selected_sprint;
     var canale_zero = $('#channel_ins').val();
+    var stato = null;
     <?php 
   //print_r($_SERVER['REQUEST_URI']); 
       $datatable = 'pianificazione';
@@ -733,8 +734,13 @@
       selector: '[data-toggle=tooltip]'
     });
 
-    console.log('stato '+stato);
-    highlither_min_required();
+    //console.log('stato '+ stato);
+    //highlither_min_required();
+
+    if (typeof stato != "undefined"){
+        console.log('stato letto nel footer '+ stato);
+        highlither_min_required(stato);
+    }
 
     $('#data_inizio_campagna').daterangepicker({
       singleDatePicker: true,

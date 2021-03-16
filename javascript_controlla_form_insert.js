@@ -1,19 +1,37 @@
             
-function highlither_min_required() {
-  console.log('--->highlither_min_required');
-  //Tab campagna
-  document.querySelector('#tab_content1 > div:nth-child(4) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
-  document.querySelector('#tab_content1 > div:nth-child(5) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
-  document.querySelector('#tab_content1 > div:nth-child(6) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
-  document.querySelector('#tab_content1 > div:nth-child(8) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
-  document.querySelector('#tab_content1 > div:nth-child(9) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
-  document.querySelector('#tab_content1 > div:nth-child(4) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
-  //Tab canale
-  document.querySelector('#tab_content3 > div > div:nth-child(1) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
-  document.querySelector('#tab_content3 > div > div:nth-child(2) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
-  document.querySelector('#volume_tot').style.backgroundColor = '#C1FFD5';
-  
-  
+function highlither_min_required(stato_id) {
+
+  if (typeof stato_id != "undefined" && !get_required(stato_id)) {
+    console.log('--->highlither_min_required');
+    //Tab campagna
+    document.querySelector('#tab_content1 > div:nth-child(4) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
+    document.querySelector('#tab_content1 > div:nth-child(5) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
+    document.querySelector('#tab_content1 > div:nth-child(6) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
+    document.querySelector('#tab_content1 > div:nth-child(8) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
+    document.querySelector('#tab_content1 > div:nth-child(9) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
+    document.querySelector('#tab_content1 > div:nth-child(4) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
+    //Tab canale
+    document.querySelector('#tab_content3 > div > div:nth-child(1) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
+    document.querySelector('#tab_content3 > div > div:nth-child(2) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
+    document.querySelector('#volume_tot').style.backgroundColor = '#C1FFD5';
+   
+  }
+  else {
+    console.log('--->All required as Normal');
+    //Tab campagna
+    document.querySelector('#tab_content1 > div:nth-child(4) > div > span > span.selection > span').style.backgroundColor = '';
+    document.querySelector('#tab_content1 > div:nth-child(5) > div > span > span.selection > span').style.backgroundColor = '';
+    document.querySelector('#tab_content1 > div:nth-child(6) > div > span > span.selection > span').style.backgroundColor = '';
+    document.querySelector('#tab_content1 > div:nth-child(8) > div > span > span.selection > span').style.backgroundColor = '';
+    document.querySelector('#tab_content1 > div:nth-child(9) > div > span > span.selection > span').style.backgroundColor = '';
+    document.querySelector('#tab_content1 > div:nth-child(4) > div > span > span.selection > span').style.backgroundColor = '';
+    //Tab canale
+    document.querySelector('#tab_content3 > div > div:nth-child(1) > div > span > span.selection > span').style.backgroundColor = '';
+    document.querySelector('#tab_content3 > div > div:nth-child(2) > div > span > span.selection > span').style.backgroundColor = '';
+    document.querySelector('#volume_tot').style.backgroundColor = '#C1FFD5';
+
+  }
+
 }
 
 
