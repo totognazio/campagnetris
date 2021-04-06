@@ -59,8 +59,8 @@ if (stripos($_SERVER['REQUEST_URI'],'campaign_cat_sott') !== false) { $cat_sottm
                 <?php if ($jobrole>6) { ?>
                  <li  <?php echo $adminmenu;?>><a><i class="fa fa-gears"></i> Amministrazione <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu" <?php echo $ul_admin; ?> >
-                <li <?php echo $kickOffmenu;?> ><a href="index.php?page=kickOff">Kick Off</a></li>
-
+                <li <?php echo $kickOffmenu;?> ><a href="index.php?page=gestioneStato">Gestione Stato Campagne</a></li>        
+                <li <?php echo $kickOffmenu;?> ><a href="index.php?page=kickOff">Gestione Stato Campagne</a></li>
                         <?php if ($jobrole>7) { ?>   
                                                         
                             <li <?php echo $usersmenu;?>><a href="index.php?page=gestioneUtenti&table=users"> Users</a></li>

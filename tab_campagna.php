@@ -156,6 +156,12 @@
                             <input type="text" id="descriz_target" name="descrizione_target"  class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['descrizione_target'])){ echo $id_campaign['descrizione_target']; } ?>" <?php echo $disabled_value;?>>
                         </div>
                       </div>
+                        <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="n_collateral" style="color: black;">N° Collateral <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="number" min=1 id="n_collateral" name="n_collateral"  required="required" class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['n_collateral'])){ echo $id_campaign['n_collateral']; }else{echo "1";} ?>" <?php echo $disabled_value;?>>
+                        </div>
+                      </div>
 
                     <div class="form-group"  id="span_cod_campagna" style="display:none;" >                    
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" id="label_cod_campagna">Cod_Campagna</label>

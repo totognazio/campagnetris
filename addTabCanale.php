@@ -69,6 +69,7 @@ else {
                             $display_ivr_outbound = ' style="display: none;"';
                             $display_jakala = ' style="display: none;"';
                             $display_mfh = ' style="display: none;"';
+                            $display_iow = ' style="display: none;"';
                             $required_app_inbound = ''; 
                             $required_app_outbound = ''; 
                             $required_dealer = ''; 
@@ -79,6 +80,7 @@ else {
                             $required_ivr_outbound = '';
                             $required_jakala = '';
                             $required_spai = '';
+                            $required_iow = '';
                             //$funzione->get_sender($addcanale_stored['sender_id']); 
    
                                                       
@@ -110,7 +112,9 @@ else {
                                 //watson
                                 if($valore_channel_id==29){$display_watson =  ''; $required_watson = ' required="required" ';} 
                                 //Spai
-                                if($valore_channel_id==35){$display_spai =  ''; $required_spai = ' required="required" ';}                                   
+                                if($valore_channel_id==35){$display_spai =  ''; $required_spai = ' required="required" ';}
+                                //InOrderWeb
+                                if($valore_channel_id==36){$display_iow =  ''; $required_iow = ' required="required" ';}                                     
                             }
                             else{
                                 $valore_channel_id = "";
@@ -575,7 +579,18 @@ $string.='</div>
                     $string .=' value="Tripletta CRM">Tripletta CRM</option>
                 </select>                           
         </div>
-    </span>
+    </span>';
+    $string .='<span id="span_inorderweb'.$id_canale.'" '.$display_iow.'>
+                      <div class="col-md-4 col-sm-6 col-xs-12">      
+                <label>Funnel<span class="required">*</span></label>          
+    <input id="funnel'.$id_canale.'" ';
+                    if ($readonly){$string .= $disabled_value;}
+                    $string .=' type="text" class="form-control has-feedback-rigth"  placeholder="alfanumerico" aria-describedby="inputSuccessSpai" required="required" name="addcanale['.$id_canale.'][funnel]" value="';
+                    if(isset($addcanale_stored['funnel'])){$string .= $addcanale_stored['funnel'];}
+                    $string .='">
+                <br>
+        </div>
+    </span> 
     </div>
     ';
 

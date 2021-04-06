@@ -18,8 +18,6 @@
     <!-- iCheck -->
     <link href="vendors/iCheck/skins/flat/green.css" rel="stylesheet">   
 
-    
- 
 <!-- Include the plugin multiselect -->
 <link rel="stylesheet" href="node_modules/bootstrap-multiselect/dist/css/bootstrap-multiselect.css" type="text/css"/>
 

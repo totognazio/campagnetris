@@ -3,17 +3,7 @@
 include_once 'db_config.php';
 include_once './classes/access_user/access_user_class.php';
 include_once './classes/funzioni_admin.php';
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- * Description of campaign_class
- *
- * @author vanhelsing
- */
 class campaign_class  {
 
 //put your code here
@@ -29,7 +19,7 @@ class campaign_class  {
         $mysqli = $this->connect_dbli();
         $this->filter_view = array();
         $this->radici_list = array('channel' => 'channels', 'stack' => 'campaign_stacks', 'state' => 'campaign_states', 'squad' => 'squads', 'type' => 'campaign_types');
-        $this->lista_parametri_campagna = array("nome_campagna", "pref_nome_campagna", "cod_comunicazione", "cod_campagna", "stack_id", "type_id", "squad_id", "user_id", "segment_id", "optimization", "priority", "data_inizio_validita_offerta", "data_fine_validita_offerta", "leva", "descrizione_leva", "campaign_state_id", "lista_preview", "lista_civetta", "control_group", "perc_control_group", "channel_id", "channel_type", "mod_invio", "sender_id", "storic", "testo_sms", "link", "sms_duration", "tipoMonitoring", "data_inizio", "volumeGiornaliero1", "volumeGiornaliero2", "volumeGiornaliero3", "volumeGiornaliero4", "volumeGiornaliero5", "volumeGiornaliero6", "volumeGiornaliero7", "data_fine", "escludi_sab_dom", "durata_campagna", "trial_campagna", "data_trial", "volume_trial", "perc_scostamento", "volume", "attivi", "sospesi", "disattivi", "consumer", "business", "microbusiness", "prepagato", "postpagato", "contratto_microbusiness", "cons_profilazione", "cons_commerciale", "cons_terze_parti", "cons_geolocalizzazione", "cons_enrichment", "cons_trasferimentidati", "voce", "dati", "fisso", "no_frodi", "altri_filtri", "etf", "vip", "dipendenti", "trial", "parlanti_ultimo", "profilo_rischio_ga", "profilo_rischio_standard", "profilo_rischio_high_risk", "altri_criteri", "data_inserimento", "redemption", "storicizza", "offer_id", "modality_id", "category_id", "tit_sott_id", "descrizione_target", "leva_offerta", "descrizione_offerta", "indicatore_dinamico", "tipo_leva", "cod_ropz", "cod_opz", "id_news", "note_operative","cat_sott_id","addcanale","note_camp","alias_attiv","day_val","sms_incarico","sms_target","sms_adesione","sms_nondisponibile","control_guide","numeric_control_group");
+        $this->lista_parametri_campagna = array("nome_campagna", "pref_nome_campagna", "cod_comunicazione", "cod_campagna", "stack_id", "type_id", "squad_id", "user_id", "segment_id", "optimization", "priority", "data_inizio_validita_offerta", "data_fine_validita_offerta", "leva", "descrizione_leva", "campaign_state_id", "lista_preview", "lista_civetta", "control_group", "perc_control_group", "channel_id", "channel_type", "mod_invio", "sender_id", "storic", "testo_sms", "link", "sms_duration", "tipoMonitoring", "data_inizio", "volumeGiornaliero1", "volumeGiornaliero2", "volumeGiornaliero3", "volumeGiornaliero4", "volumeGiornaliero5", "volumeGiornaliero6", "volumeGiornaliero7", "data_fine", "escludi_sab_dom", "durata_campagna", "trial_campagna", "data_trial", "volume_trial", "perc_scostamento", "volume", "attivi", "sospesi", "disattivi", "consumer", "business", "microbusiness", "prepagato", "postpagato", "contratto_microbusiness", "cons_profilazione", "cons_commerciale", "cons_terze_parti", "cons_geolocalizzazione", "cons_enrichment", "cons_trasferimentidati", "voce", "dati", "fisso", "no_frodi", "altri_filtri", "etf", "vip", "dipendenti", "trial", "parlanti_ultimo", "profilo_rischio_ga", "profilo_rischio_standard", "profilo_rischio_high_risk", "altri_criteri", "data_inserimento", "redemption", "storicizza", "offer_id", "modality_id", "category_id", "tit_sott_id", "descrizione_target", "leva_offerta", "descrizione_offerta", "indicatore_dinamico", "tipo_leva", "cod_ropz", "cod_opz", "id_news", "note_operative","cat_sott_id","addcanale","note_camp","alias_attiv","day_val","sms_incarico","sms_target","sms_adesione","sms_nondisponibile","control_guide","numeric_control_group","n_collateral");
         $this->lista_rules = array(
             'attivi'
             , 'sospesi'
@@ -736,6 +726,7 @@ LEFT JOIN users ON `user_id` = users.id
                 $sender_nome = $row['sender_nome'];
             $data_output[] = array('id' => $row['id'],
                 'nome_campagna' => $row['nome_campagna'],
+                'pref_nome_campagna' => $row['pref_nome_campagna'],
                 'stack_nome' => $row['stack_nome'],
                 'tipo_nome' => $row['tipo_nome'],
                 'channel_nome' => $row['channel_nome'],
@@ -1883,6 +1874,88 @@ LEFT JOIN users ON `user_id` = users.id
 
     }
 
+    function tableGestioneStato($lista) {            
+    //print_r($list);
+            ?>      
+            <form id="formCambiaStato" name="formCambiaStato" action="./index.php?page=gestioneStato" method="post">
+        <div class="col-md-12 col-sm-12 col-xs-12">      
+            <div style="float:left; width:150px; height:80px;  display:block ">
+                <label>Nuovo Stato<span>*</span></label>
+                <?php
+                $funzioni_admin = new funzioni_admin(); 
+                $list = $funzioni_admin->get_list_id('campaign_states');
+                $lista_field = array_column($list, 'id');
+                $lista_name = array_column($list, 'name');
+                $javascript = "  tabindex=\"7\" onfocus=\"seleziona('selectNuovoStato');\" onblur=\"deseleziona('selectNuovoStato');\" ";
+                $style = " style=\"width:150px;\" ";
+                $funzioni_admin->stampa_select2('selectNuovoStato', $lista_field, $lista_name, $javascript, $style);
+                if (isset($_POST['sel1']) && isset($_POST['sel3'])) {
+                    echo "<input type=\"hidden\" id=\"sel1\" name=\"sel1\" value=\"" . $_POST['sel1'] . "\" />";
+                    echo "<input type=\"hidden\" id=\"sel3\" name=\"sel3\" value=\"" . $_POST['sel3'] . "\" />";
+                }
+                ?>
+
+            </div>  
+            <div style="float:left; width:150px; height:100px; margin-top:10px; margin-left:30px;  display:block ">
+                <input class="btn btn btn-sm btn-info" type="submit" style="margin-top:15px;" id="cambia" name="cambia" tabindex=""  value="Cambia Stato" />
+                <input type="hidden" id="cambiaStato" name="cambiaStato" value="1" />
+            </div>  
+        </div>                                            
+         <div class="col-md-12 col-sm-12 col-xs-12">       
+         <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th>
+                              <input type="checkbox" id="check-all" class="flat">
+                            </th>                            
+                            <th class="column-title">Stack </th>
+                            <th class="column-title">Sprint </th>
+                            <th class="column-title">Squad </th>
+                            <th class="column-title">Nome Campagna </th>
+                            <th class="column-title">Tipologia </th>
+                            <th class="column-title">Canale </th>
+                            <th class="column-title">Data Inzio </th>
+                            <th class="column-title">Data Fine </th>
+                            <th class="column-title">Stato </th>                                                    
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            
+    <?php
+   
+    //print_r($list);              
+
+         $contatore = 1;
+        $string = '';    
+        foreach ($lista as $key => $value) {
+                        $string .= "<tr  id=\"riga" . $contatore . "\"  style=\"height:25px;\" onmouseover=\"selezionaRiga(this);\"  onmouseout=\"deselezionaRiga(this);\" > ";
+                        $string .= "
+                                <td align=\"center\"><input type=\"checkbox\" class=\"flat\" name=\"checkbox[]\" id=\"checkbox" . $contatore . "\" onclick=\"deselezionaCheckTot(295);\" value=\"" . $value['id'] . "\"/></td>                               
+                    
+                    <td>" . $value['stacks_nome'] . "</td>
+                    <td>" . $this->sprint_find($value['data_inizio']) . "</td>
+                    <td>" . $value['squads_nome'] . "</td>
+                    <td>" . $value['pref_nome_campagna'] . "</td>
+                    <td>" . $value['tipo_nome'] . "</td>
+                    <td>" . $this->tableChannelLabel($value). "</td>                    
+                    <td align=\"center\">" . $value['data_inizio'] . "</td>
+                    <td align=\"center\">" . $value['data_fine_validita_offerta'] . "</td>                    
+                    <td align=\"center\">" . $value['campaign_stato_nome'] . "</td>";
+        $string .= "</tr>";      
+                      $contatore++;
+     }
+      
+        $string .= "</tbody></table></div></div></form>";
+        $string .= "";
+        
+        echo $string;
+       
+        //return $string;
+ 
+    }
+    
 
 
  function tableGestione($list) {    

@@ -62,7 +62,7 @@ $sprints = $funzione->get_sprints();
 // print_r($sprints);
 $form->head_page("Gestione Campagne", "Filtro");
 //print_r($_SESSION);  
-//print_r($_POST); 
+
                 if (isset($result)) {
                     //echo "<div class=\"info\">";
                     //echo "<h2 style=\"color: #ff0000\">" . $result . "</h2>";
@@ -77,7 +77,7 @@ $form->head_page("Gestione Campagne", "Filtro");
               
 
 ?>
-                <form action="index.php?page=gestioneCampagne2" method="post" id="nofilter">
+                <form action="index.php?page=gestioneStato" method="post" id="nofilter">
                             <input type="hidden" name="nofiletr" value="nofiletr" />                            
                 </form>
                     <br>
@@ -158,7 +158,7 @@ $form->head_page("Gestione Campagne", "Filtro");
 $form->close_row();
 $form->open_row("Lista Campagne", "Filtrate");
 
-
+// print_r($_POST); 
 $livello_accesso = $page_protect->get_job_role();
 if ($livello_accesso > 1) {
     ?>
@@ -187,7 +187,16 @@ if ($livello_accesso > 0) {
 <!--<button class="btn btn btn-xs btn-success" id="createXLSX"  data-placement="top" data-toggle="tooltip" data-original-title="Export Gestione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>-->
 <button class="btn btn btn-xs btn-success" onclick="manageCamp('','exportgestione');" data-placement="top" data-toggle="tooltip" data-original-title="Export Gestione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>
 
-<?php }?>
+<?php }
+    
+            //Cambio di stato
+            if (isset($_POST['cambiaStato'])) {
+                echo "<div class=\"info\">";
+                echo "<h2>" . $campaign->update_kickoff($_POST['checkbox'], intval($_POST['selectNuovoStato'])) . "</h2>";
+                echo "</div>";
+            }
+
+?>
 </div>
 <div class="col-md-12 col-sm-12 col-xs-12" id="content_response">
 
@@ -196,7 +205,10 @@ if ($livello_accesso > 0) {
 
 <?php 
 
-$form->close_page(); ?> 
+$form->close_page(); 
+
+
+?> 
 
 <script>
 
@@ -244,5 +256,128 @@ btn.addEventListener("click", function () {
             alert("Non hai i permessi per inserire una campagna");
         else
             document.location.href = './index.php?page=inserisciCampagna2';
+    }
+
+        function controllaform() {
+
+        Errore = "Attenzione non hai compilato tutti i campi obbligatori:\n\n";
+
+        if (document.getElementById('sel1').value == "") {
+            Errore = Errore + "- data inizio\n";
+        }
+        if (document.getElementById('sel3').value == "") {
+            Errore = Errore + "- data fine\n";
+        }
+        if (document.getElementById('selectStato').value == "") {
+            Errore = Errore + "- stato\n";
+        }
+
+        if ((document.getElementById('sel1').value != "") && (document.getElementById('sel3').value != ""))
+        {
+
+            ctlDate = ctrlDate(document.getElementById('sel1').value, document.getElementById('sel3').value);
+
+            if (ctlDate)
+            {
+                //alert('Attenzione: La data di inizio è antecedente la data fine');
+                return false;
+
+            }
+
+        }
+
+        if (Errore == "Attenzione non hai compilato tutti i campi obbligatori:\n\n") {
+
+            return true;
+        }
+        else {
+            alert(Errore);
+            return false;
+        }
+    }
+    function controllaform2() {
+
+        Errore = "Attenzione non hai compilato tutti i campi obbligatori:\n\n";
+        temp = true;
+        if (document.getElementById('selectNuovoStato').value == "") {
+            Errore = Errore + "- Nuovo Stato\n";
+            temp = false;
+        }
+        if (temp) {
+
+            return true;
+        }
+        else {
+            alert(Errore);
+            return false;
+        }
+    }
+    function selectAll(num) {
+
+        if (document.getElementById('checkboxTot').checked)
+        {
+            for (i = 0; i < num; i++)
+                document.getElementById('checkbox' + i).checked = true;
+        }
+        else
+        {
+            for (i = 0; i < num; i++)
+                document.getElementById('checkbox' + i).checked = false;
+        }
+    }
+
+    function deselezionaCheckTot(num) {
+
+        var nocheck = 0;
+
+        for (i = 0; i < num; i++) {
+
+            if (document.getElementById('checkbox' + i).checked == false)
+                nocheck++;
+
+        }
+
+        if (nocheck == 0)
+            document.getElementById('checkboxTot').checked = true;
+        else
+            document.getElementById('checkboxTot').checked = false;
+
+    }
+
+    function controllaStato(num) {
+
+        var check = 0;
+
+        for (i = 0; i < num; i++) {
+
+            if (document.getElementById('checkbox' + i).checked == true)
+                check++;
+
+        }
+
+        if (check == 0) {
+            alert('Seleziona almeno una campagna'); // document.getElementById('checkboxTot').checked=true;
+            return false;
+        }
+
+
+        stato = document.getElementById('selectStato').value;
+        nuovoStato = document.getElementById('selectNuovoStato').value;
+
+        if (nuovoStato == "")
+        {
+            alert("Inserisci il nuovo stato");
+            return false;
+        }
+        else
+        if (stato == nuovoStato)
+        {
+            alert("Il nuovo stato deve essere diverso dal vecchio stato!");
+            return false;
+        }
+        else {
+            return true;
+        }
+
     }
   </script>

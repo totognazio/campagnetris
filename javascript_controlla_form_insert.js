@@ -9,7 +9,8 @@ function highlither_min_required(stato_id) {
     document.querySelector('#tab_content1 > div:nth-child(6) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
     document.querySelector('#tab_content1 > div:nth-child(8) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
     document.querySelector('#tab_content1 > div:nth-child(9) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
-    document.querySelector('#tab_content1 > div:nth-child(4) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
+    document.querySelector('#n_collateral').style.backgroundColor = '#C1FFD5';
+    document.querySelector('#priority').style.backgroundColor = '#C1FFD5';
     //Tab canale
     document.querySelector('#tab_content3 > div > div:nth-child(1) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
     document.querySelector('#tab_content3 > div > div:nth-child(2) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
@@ -24,16 +25,17 @@ function highlither_min_required(stato_id) {
     document.querySelector('#tab_content1 > div:nth-child(6) > div > span > span.selection > span').style.backgroundColor = '';
     document.querySelector('#tab_content1 > div:nth-child(8) > div > span > span.selection > span').style.backgroundColor = '';
     document.querySelector('#tab_content1 > div:nth-child(9) > div > span > span.selection > span').style.backgroundColor = '';
-    document.querySelector('#tab_content1 > div:nth-child(4) > div > span > span.selection > span').style.backgroundColor = '';
+    document.querySelector('#n_collateral').style.backgroundColor = '';
+    document.querySelector('#priority').style.backgroundColor = '';
+  
     //Tab canale
     document.querySelector('#tab_content3 > div > div:nth-child(1) > div > span > span.selection > span').style.backgroundColor = '';
     document.querySelector('#tab_content3 > div > div:nth-child(2) > div > span > span.selection > span').style.backgroundColor = '';
-    document.querySelector('#volume_tot').style.backgroundColor = '#C1FFD5';
+    document.querySelector('#volume_tot').style.backgroundColor = '';
 
   }
 
 }
-
 
 
 function validazione_canaleDealer(count, stato_id) {
@@ -133,6 +135,8 @@ function validazione(selected_channel_id, all_required) {
   //#span_watson
   $('#type_watson').attr('required', false);
   $('#contact_watson').attr('required', false);
+        //#span_inorderweb
+      $('#funnel').attr('required', false);
     
   //stato diverso  Richiesta, Da Approfondire, Oltre Capacity e Annullata    
   if (get_required(all_required)) {    
@@ -189,6 +193,8 @@ function validazione(selected_channel_id, all_required) {
       //#span_watson
       $('#type_watson').attr('required', false);
       $('#contact_watson').attr('required', false);
+            //#span_inorderweb
+      $('#funnel').attr('required', false);
 
 
     }
@@ -247,6 +253,8 @@ function validazione(selected_channel_id, all_required) {
       //#span_watson
       $('#type_watson').attr('required', false);
       $('#contact_watson').attr('required', false);
+            //#span_inorderweb
+      $('#funnel').attr('required', false);
 
     }
         
@@ -304,6 +312,8 @@ function validazione(selected_channel_id, all_required) {
       //#span_watson
       $('#type_watson').attr('required', false);
       $('#contact_watson').attr('required', false);
+            //#span_inorderweb
+      $('#funnel').attr('required', false);
     }
     else if (selected_channel_id === '21') {//canale ICM
 
@@ -359,6 +369,8 @@ function validazione(selected_channel_id, all_required) {
       //#span_watson
       $('#type_watson').attr('required', false);
       $('#contact_watson').attr('required', false);
+            //#span_inorderweb
+      $('#funnel').attr('required', false);
     }
     else if (selected_channel_id === '15') {//canale APP INBOUND
 
@@ -414,10 +426,10 @@ function validazione(selected_channel_id, all_required) {
       //#span_watson
       $('#type_watson').attr('required', false);
       $('#contact_watson').attr('required', false);
+            //#span_inorderweb
+      $('#funnel').attr('required', false);
     }
     else if (selected_channel_id === '16') {//canale APP OUTBOUND
-
-
       //sms
       $('#senders_ins').attr('required', false);
       $('#storicizza_ins').attr('required', false);
@@ -469,6 +481,8 @@ function validazione(selected_channel_id, all_required) {
       //#span_watson
       $('#type_watson').attr('required', false);
       $('#contact_watson').attr('required', false);
+            //#span_inorderweb
+      $('#funnel').attr('required', false);
     }
     else if (selected_channel_id === '33') {//canale DEALER
 
@@ -524,6 +538,8 @@ function validazione(selected_channel_id, all_required) {
       //#span_watson
       $('#type_watson').attr('required', false);
       $('#contact_watson').attr('required', false);
+            //#span_inorderweb
+      $('#funnel').attr('required', false);
 
     }
     else if (selected_channel_id === '22') {//canale IVR INBOUND
@@ -579,6 +595,8 @@ function validazione(selected_channel_id, all_required) {
       //#span_watson
       $('#type_watson').attr('required', false);
       $('#contact_watson').attr('required', false);
+            //#span_inorderweb
+      $('#funnel').attr('required', false);
     }
     else if (selected_channel_id === '23') {//canale IVR OUTBOUND
 
@@ -633,6 +651,8 @@ function validazione(selected_channel_id, all_required) {
       //#span_watson
       $('#type_watson').attr('required', false);
       $('#contact_watson').attr('required', false);
+            //#span_inorderweb
+      $('#funnel').attr('required', false);
     }
     else if (selected_channel_id === '24') {//canale JAKALA
       //sms
@@ -686,6 +706,8 @@ function validazione(selected_channel_id, all_required) {
       //#span_watson
       $('#type_watson').attr('required', false);
       $('#contact_watson').attr('required', false);
+            //#span_inorderweb
+      $('#funnel').attr('required', false);
     }
     else if (selected_channel_id === '31') {//canale MFH
       //sms
@@ -739,6 +761,8 @@ function validazione(selected_channel_id, all_required) {
       //#span_watson
       $('#type_watson').attr('required', false);
       $('#contact_watson').attr('required', false);
+            //#span_inorderweb
+      $('#funnel').attr('required', false);
     }
     else if (selected_channel_id === '35') {//canale SPAI
       //sms
@@ -792,6 +816,8 @@ function validazione(selected_channel_id, all_required) {
       //#span_watson
       $('#type_watson').attr('required', false);
       $('#contact_watson').attr('required', false);
+            //#span_inorderweb
+      $('#funnel').attr('required', false);
     }
     else if (selected_channel_id === '29') {//canale watson
       //sms
@@ -845,6 +871,62 @@ function validazione(selected_channel_id, all_required) {
       //#span_watson
       $('#type_watson').attr('required', true);
       $('#contact_watson').attr('required', true);
+            //#span_inorderweb
+      $('#funnel').attr('required', false);
+    }
+    else if (selected_channel_id === '36') {//canale watson
+      //sms
+      $('#senders_ins').attr('required', false);
+      $('#storicizza_ins').attr('required', false);
+      $('#notif_consegna').attr('required', false);
+      $('#testo_sms').attr('required', false);
+      $('#mod_invio').attr('required', false);
+      $('#link').attr('required', false);
+      //$('#tipoMonitoring').attr('required', false);
+      //$('#sms_duration').attr('required', false);
+      //pos
+      $('#cat_sott_ins').attr('required', false);
+      $('#tit_sott_pos').attr('required', false);
+      //$('#day_val_pos').attr('required', false);
+      //$('#callguide_pos').attr('required', false);
+      //#span_40400
+      $('#alias_attiv').attr('required', false);
+      $('#day_val').attr('required', false);
+      $('#sms_incarico').attr('required', false);
+      $('#sms_target').attr('required', false);
+      $('#sms_adesione').attr('required', false);
+      $('#sms_nondisponibile').attr('required', false);
+      //#span_app_inbound
+      //$('#day_val_app_inbound').attr('required', false);
+      $('#id_news_app_inbound').attr('required', false);
+      $('#prior_app_inbound').attr('required', false);
+      //$('#callguide_app_inbound').attr('required', false);
+      //#span_app_outbound
+      //$('#day_val_app_outbound').attr('required', false);
+      $('#id_news_app_outbound').attr('required', false);
+      $('#prior_app_outbound').attr('required', false);
+      $('#notif_app_outbound').attr('required', false);
+      //$('#callguide_app_outbound').attr('required', false);
+      //#span_dealer
+      $('#Cod_iniziativa').attr('required', false);
+      //#span_icm
+      $('#day_val_icm').attr('required', false);
+      $('#callguide_icm').attr('required', false);
+      //#span_ivr_inbound
+      $('#day_val_ivr_inbound').attr('required', false);
+      //#span_ivr_outbound
+      $('#day_val_ivr_outbound').attr('required', false);
+      //#span_jakala
+      $('#data_invio_jakala').attr('required', false);
+      //#span_spai
+      $('#data_invio_spai').attr('required', false);
+      //#span_mfh
+      $('#type_mfh').attr('required', false);
+      $('#note_mfh').attr('required', false);
+      //#span_watson
+      $('#type_watson').attr('required', false);
+      $('#contact_watson').attr('required', false);
+      $('#funnel').attr('required', true);
     }
     else {
       //sms
@@ -898,6 +980,8 @@ function validazione(selected_channel_id, all_required) {
       //#span_watson
       $('#type_watson').attr('required', false);
       $('#contact_watson').attr('required', false);
+      //#span_inorderweb
+      $('#funnel').attr('required', false);
     }
     
     console.log('validazione dentro ' + selected_channel_id);
@@ -1011,7 +1095,8 @@ function channels_view(selected_channel_id) {
             $('#span_app_inbound').hide();
             $('#span_app_outbound').hide();
             $('#span_icm').hide();
-            $('#span_watson').hide();
+      $('#span_watson').hide();
+      $('#span_inorderweb').hide();
             $('#pos_field').show();
 
         $.ajax({
@@ -1043,7 +1128,8 @@ function channels_view(selected_channel_id) {
             $('#span_app_inbound').hide();
             $('#span_app_outbound').hide();
             $('#span_icm').hide();
-            $('#span_watson').hide();
+      $('#span_watson').hide();
+      $('#span_inorderweb').hide();
             $('#span_40400').show();
       } 
       else if (selected_channel_id === '21') {//canale ICM
@@ -1058,7 +1144,8 @@ function channels_view(selected_channel_id) {
         $('#span_dealer').hide();
         $('#span_app_inbound').hide();
         $('#span_app_outbound').hide();
-        $('#span_watson').hide();
+      $('#span_watson').hide();
+      $('#span_inorderweb').hide();
         $('#span_icm').show();   
       }
       else if (selected_channel_id === '15') {//canale APP INBOUND
@@ -1073,7 +1160,8 @@ function channels_view(selected_channel_id) {
         $('#span_dealer').hide();
         $('#span_app_outbound').hide();
         $('#span_icm').hide();
-        $('#span_watson').hide();
+      $('#span_watson').hide();
+      $('#span_inorderweb').hide();
         $('#span_app_inbound').show();
       }
       else if (selected_channel_id === '16') {//canale APP OUTBOUND
@@ -1088,7 +1176,8 @@ function channels_view(selected_channel_id) {
         $('#span_dealer').hide();
         $('#span_app_inbound').hide();
         $('#span_icm').hide();
-        $('#span_watson').hide();
+      $('#span_watson').hide();
+      $('#span_inorderweb').hide();
         $('#span_app_outbound').show();
       }
       else if (selected_channel_id === '33') {//canale DEALER
@@ -1103,7 +1192,8 @@ function channels_view(selected_channel_id) {
         $('#span_app_inbound').hide();
         $('#span_app_outbound').hide();
         $('#span_icm').hide();
-        $('#span_watson').hide();
+      $('#span_watson').hide();
+      $('#span_inorderweb').hide();
         $('#span_dealer').show();
       }
      else if (selected_channel_id === '22') {//canale IVR INBOUND
@@ -1118,7 +1208,8 @@ function channels_view(selected_channel_id) {
         $('#span_app_inbound').hide();
         $('#span_app_outbound').hide();
         $('#span_icm').hide();
-        $('#span_watson').hide();
+      $('#span_watson').hide();
+      $('#span_inorderweb').hide();
         $('#span_ivr_inbound').show();
       }
       else if (selected_channel_id === '23') {//canale IVR OUTBOUND
@@ -1133,7 +1224,8 @@ function channels_view(selected_channel_id) {
         $('#span_app_inbound').hide();
         $('#span_app_outbound').hide();
         $('#span_icm').hide();
-        $('#span_watson').hide();
+      $('#span_watson').hide();
+      $('#span_inorderweb').hide();
         $('#span_ivr_outbound').show();
       }
       else if (selected_channel_id === '24') {//canale JAKALA
@@ -1148,7 +1240,8 @@ function channels_view(selected_channel_id) {
         $('#span_app_inbound').hide();
         $('#span_app_outbound').hide();
         $('#span_icm').hide();
-        $('#span_watson').hide();
+      $('#span_watson').hide();
+      $('#span_inorderweb').hide();
         $('#span_jakala').show();
       }
       else if (selected_channel_id === '31') {//canale MFH
@@ -1163,7 +1256,8 @@ function channels_view(selected_channel_id) {
         $('#span_app_inbound').hide();
         $('#span_app_outbound').hide();
         $('#span_icm').hide();
-        $('#span_watson').hide();
+      $('#span_watson').hide();
+      $('#span_inorderweb').hide();
         $('#span_mfh').show();
       }
       else if (selected_channel_id === '35') {//canale SPAI
@@ -1178,7 +1272,8 @@ function channels_view(selected_channel_id) {
         $('#span_app_inbound').hide();
         $('#span_app_outbound').hide();
         $('#span_icm').hide();
-        $('#span_watson').hide();
+      $('#span_watson').hide();
+      $('#span_inorderweb').hide();
         $('#span_spai').show();
       }
      else if (selected_channel_id === '29') {//canale watson
@@ -1193,8 +1288,25 @@ function channels_view(selected_channel_id) {
         $('#span_dealer').hide();
         $('#span_app_inbound').hide();
         $('#span_app_outbound').hide();
-        $('#span_icm').hide();
+      $('#span_icm').hide();
+      $('#span_inorderweb').hide();
         $('#span_watson').show();
+    }
+      else if (selected_channel_id === '36') {//canale In Order Web
+        $('#sms_field').hide();
+        $('#pos_field').hide();
+        $('#span_40400').hide();
+        $('#span_spai').hide();
+        $('#span_mfh').hide();
+        $('#span_jakala').hide();
+        $('#span_ivr_inbound').hide();
+        $('#span_ivr_outbound').hide();
+        $('#span_dealer').hide();
+        $('#span_app_inbound').hide();
+        $('#span_app_outbound').hide();
+        $('#span_icm').hide();
+      $('#span_watson').hide();
+      $('#span_inorderweb').show();
       }
       else {
         $('#sms_field').hide();
@@ -1209,7 +1321,8 @@ function channels_view(selected_channel_id) {
         $('#span_app_inbound').hide();
         $('#span_app_outbound').hide();
         $('#span_icm').hide();
-        $('#span_watson').hide();
+      $('#span_watson').hide();
+      $('#span_inorderweb').hide();
         
     }
     
@@ -1273,6 +1386,8 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
   //#span_watson
   $('#type_watson' + add_canale).attr('required', false);
   $('#contact_watson' + add_canale).attr('required', false);
+  //#span_inorderweb
+  $('#funnel' + add_canale).attr('required', false);
 
   //$(this).parsley().validate();
       
@@ -1331,6 +1446,8 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       //#span_watson
       $('#type_watson' + add_canale).attr('required', false);
       $('#contact_watson' + add_canale).attr('required', false);
+        //#span_inorderweb
+  $('#funnel' + add_canale).attr('required', false);
 
     }
     else if (selected_channel_id === '13') {//CRM DA POS
@@ -1385,6 +1502,8 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       //#span_watson
       $('#type_watson' + add_canale).attr('required', false);
       $('#contact_watson' + add_canale).attr('required', false);
+        //#span_inorderweb
+  $('#funnel' + add_canale).attr('required', false);
 
     }
     else if (selected_channel_id === '14') {// 40400
@@ -1439,6 +1558,8 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       //#span_watson
       $('#type_watson' + add_canale).attr('required', false);
       $('#contact_watson' + add_canale).attr('required', false);
+        //#span_inorderweb
+  $('#funnel' + add_canale).attr('required', false);
     }
     else if (selected_channel_id === '21') {//canale ICM
       //sms
@@ -1492,6 +1613,8 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       //#span_watson
       $('#type_watson' + add_canale).attr('required', false);
       $('#contact_watson' + add_canale).attr('required', false);
+        //#span_inorderweb
+  $('#funnel' + add_canale).attr('required', false);
     }
     else if (selected_channel_id === '15') {//canale APP INBOUND
       //sms
@@ -1545,6 +1668,8 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       //#span_watson
       $('#type_watson' + add_canale).attr('required', false);
       $('#contact_watson' + add_canale).attr('required', false);
+        //#span_inorderweb
+  $('#funnel' + add_canale).attr('required', false);
     }
     else if (selected_channel_id === '16') {//canale APP OUTBOUND
       //sms
@@ -1598,6 +1723,8 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       //#span_watson
       $('#type_watson' + add_canale).attr('required', false);
       $('#contact_watson' + add_canale).attr('required', false);
+        //#span_inorderweb
+  $('#funnel' + add_canale).attr('required', false);
     }
     else if (selected_channel_id === '22') {//canale IVR INBOUND
       //sms
@@ -1651,6 +1778,8 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       //#span_watson
       $('#type_watson' + add_canale).attr('required', false);
       $('#contact_watson' + add_canale).attr('required', false);
+        //#span_inorderweb
+  $('#funnel' + add_canale).attr('required', false);
     }
     else if (selected_channel_id === '23') {//canale IVR OUTBOUND
       //sms
@@ -1704,6 +1833,8 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       //#span_watson
       $('#type_watson' + add_canale).attr('required', false);
       $('#contact_watson' + add_canale).attr('required', false);
+        //#span_inorderweb
+  $('#funnel' + add_canale).attr('required', false);
     }
     else if (selected_channel_id === '24') {//canale Jakala
       //sms
@@ -1757,6 +1888,8 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       //#span_watson
       $('#type_watson' + add_canale).attr('required', false);
       $('#contact_watson' + add_canale).attr('required', false);
+        //#span_inorderweb
+  $('#funnel' + add_canale).attr('required', false);
     }
     else if (selected_channel_id === '31') {//canale MFH
       //sms
@@ -1810,6 +1943,8 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       //#span_watson
       $('#type_watson' + add_canale).attr('required', false);
       $('#contact_watson' + add_canale).attr('required', false);
+        //#span_inorderweb
+  $('#funnel' + add_canale).attr('required', false);
     }
     else if (selected_channel_id === '33') {//canale DEALER
       //sms
@@ -1863,6 +1998,8 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       //#span_watson
       $('#type_watson' + add_canale).attr('required', false);
       $('#contact_watson' + add_canale).attr('required', false);
+        //#span_inorderweb
+  $('#funnel' + add_canale).attr('required', false);
     }
     else if (selected_channel_id === '35') {//canale SPAI
       //sms
@@ -1916,6 +2053,8 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       //#span_watson
       $('#type_watson' + add_canale).attr('required', false);
       $('#contact_watson' + add_canale).attr('required', false);
+        //#span_inorderweb
+  $('#funnel' + add_canale).attr('required', false);
     }
         
     else if (selected_channel_id === '29') {//canale Watson
@@ -1970,6 +2109,63 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       //#span_watson
       $('#type_watson' + add_canale).attr('required', true);
       $('#contact_watson' + add_canale).attr('required', true);
+        //#span_inorderweb
+  $('#funnel' + add_canale).attr('required', false);
+    }
+    else if (selected_channel_id === '36') {//canale In Order Web
+      //sms
+      $('#senders_ins' + add_canale).attr('required', false);
+      $('#storicizza_ins' + add_canale).attr('required', false);
+      $('#notif_consegna' + add_canale).attr('required', false);
+      $('#testo_sms' + add_canale).attr('required', false);
+      $('#mod_invio' + add_canale).attr('required', false);
+      $('#link' + add_canale).attr('required', false);
+      //$('#tipoMonitoring'+add_canale).attr( 'required', false);
+      //$('#sms_duration'.attr( 'required', false);
+      //pos
+      $('#cat_sott_ins' + add_canale).attr('required', false);
+      $('#tit_sott_pos' + add_canale).attr('required', false);
+      //$( '#day_val_pos'+add_canale).attr( 'required', false);
+      //$( '#callguide_pos'+add_canale).attr( 'required', false);
+      //#span_40400
+      $('#alias_attiv' + add_canale).attr('required', false);
+      $('#day_val' + add_canale).attr('required', false);
+      $('#sms_incarico' + add_canale).attr('required', false);
+      $('#sms_target' + add_canale).attr('required', false);
+      $('#sms_adesione' + add_canale).attr('required', false);
+      $('#sms_nondisponibile' + add_canale).attr('required', false);
+      //#span_app_inbound
+      ////$('#day_val_app_inbound'+add_canale).attr('required', false);
+      $('#id_news_app_inbound' + add_canale).attr('required', false);
+      $('#prior_app_inbound' + add_canale).attr('required', false);
+      //$( '#callguide_app_inbound'+add_canale).attr( 'required', false);
+      //#span_app_outbound
+      ////$('#day_val_app_outbound'+add_canale).attr('required', false);
+      $('#id_news_app_outbound' + add_canale).attr('required', false);
+      $('#prior_app_outbound' + add_canale).attr('required', false);
+      $('#notif_app_outbound' + add_canale).attr('required', false);
+      //$('#callguide_app_outbound'+add_canale).attr('required', false);
+      //#span_dealer
+      $('#Cod_iniziativa' + add_canale).attr('required', false);
+      //#span_icm
+      $('#day_val_icm' + add_canale).attr('required', false);
+      $('#callguide_icm' + add_canale).attr('required', false);
+      //#span_ivr_inbound
+      $('#day_val_ivr_inbound' + add_canale).attr('required', false);
+      //#span_ivr_outbound
+      $('#day_val_ivr_outbound' + add_canale).attr('required', false);
+      //#span_jakala
+      $('#data_invio_jakala' + add_canale).attr('required', false);
+      //#span_spai
+      $('#data_invio_spai' + add_canale).attr('required', false);
+      //#span_mfh
+      $('#type_mfh' + add_canale).attr('required', false);
+      $('#note_mfh' + add_canale).attr('required', false);
+      //#span_watson
+      $('#type_watson' + add_canale).attr('required', false);
+      $('#contact_watson' + add_canale).attr('required', false);
+        //#span_inorderweb
+  $('#funnel' + add_canale).attr('required', true);
     }
         
     else {
@@ -2024,6 +2220,9 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       //#span_watson
       $('#type_watson' + add_canale).attr('required', false);
       $('#contact_watson' + add_canale).attr('required', false);
+              //#span_inorderweb
+      $('#funnel' + add_canale).attr('required', false
+      );
     }
   }
   
@@ -2078,7 +2277,10 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
     $('#note_mfh' + add_canale).attr('required', false);
     //#span_watson
     $('#type_watson' + add_canale).attr('required', false);
-    $('#contact_watson' + add_canale).attr('required', false);
+     $('#contact_watson' + add_canale).attr('required', false);
+             //#span_inorderweb
+     $('#funnel' + add_canale).attr('required', false
+     );
 
         
 
@@ -2102,7 +2304,8 @@ function add_canale_view(selected_channel_id, add_canale) {
           $('#span_app_inbound'+add_canale).hide();
           $('#span_icm'+add_canale).hide();
           $('#span_watson'+add_canale).hide();
-          $('#pos_field'+add_canale).hide();
+          $('#pos_field' + add_canale).hide();
+           $('#span_inorderweb'+add_canale).hide();
           $('#sms_field'+add_canale).show();
 
           $.ajax({
@@ -2138,7 +2341,8 @@ function add_canale_view(selected_channel_id, add_canale) {
           $('#span_icm'+add_canale).hide();
           $('#span_watson'+add_canale).hide();
           $('#pos_field'+add_canale).show();
-          $('#sms_field'+add_canale).hide();
+          $('#sms_field' + add_canale).hide();
+          $('#span_inorderweb'+add_canale).hide();
 
                  
           $.ajax({
@@ -2170,7 +2374,8 @@ function add_canale_view(selected_channel_id, add_canale) {
           $('#span_icm'+add_canale).hide();
           $('#span_watson'+add_canale).hide();
           $('#pos_field'+add_canale).hide();
-          $('#sms_field'+add_canale).hide();
+          $('#sms_field' + add_canale).hide();
+          $('#span_inorderweb'+add_canale).hide();
 
          
         }
@@ -2187,7 +2392,8 @@ function add_canale_view(selected_channel_id, add_canale) {
           $('#span_icm'+add_canale).show();
           $('#span_watson'+add_canale).hide();
           $('#pos_field'+add_canale).hide();
-          $('#sms_field'+add_canale).hide();
+          $('#sms_field' + add_canale).hide();
+          $('#span_inorderweb'+add_canale).hide();
         
         }
         else if (selected_channel_id === '15') {//canale APP INBOUND
@@ -2203,7 +2409,8 @@ function add_canale_view(selected_channel_id, add_canale) {
           $('#span_icm'+add_canale).hide();
           $('#span_watson'+add_canale).hide();
           $('#pos_field'+add_canale).hide();
-          $('#sms_field'+add_canale).hide();
+          $('#sms_field' + add_canale).hide();
+          $('#span_inorderweb'+add_canale).hide();
 
          
         }
@@ -2220,7 +2427,8 @@ function add_canale_view(selected_channel_id, add_canale) {
           $('#span_icm'+add_canale).hide();
           $('#span_watson'+add_canale).hide();
           $('#pos_field'+add_canale).hide();
-          $('#sms_field'+add_canale).hide();
+          $('#sms_field' + add_canale).hide();
+          $('#span_inorderweb'+add_canale).hide();
 
          
         }
@@ -2237,7 +2445,8 @@ function add_canale_view(selected_channel_id, add_canale) {
           $('#span_icm'+add_canale).hide();
           $('#span_watson'+add_canale).hide();
           $('#pos_field'+add_canale).hide();
-          $('#sms_field'+add_canale).hide();
+          $('#sms_field' + add_canale).hide();
+          $('#span_inorderweb'+add_canale).hide();
 
          
         }
@@ -2254,7 +2463,8 @@ function add_canale_view(selected_channel_id, add_canale) {
           $('#span_icm'+add_canale).hide();
           $('#span_watson'+add_canale).hide();
           $('#pos_field'+add_canale).hide();
-          $('#sms_field'+add_canale).hide();
+          $('#sms_field' + add_canale).hide();
+          $('#span_inorderweb'+add_canale).hide();
 
       
         }
@@ -2271,7 +2481,8 @@ function add_canale_view(selected_channel_id, add_canale) {
           $('#span_icm'+add_canale).hide();
           $('#span_watson'+add_canale).hide();
           $('#pos_field'+add_canale).hide();
-          $('#sms_field'+add_canale).hide();
+          $('#sms_field' + add_canale).hide();
+          $('#span_inorderweb'+add_canale).hide();
 
         }
         else if (selected_channel_id === '31') {//canale MFH
@@ -2287,7 +2498,8 @@ function add_canale_view(selected_channel_id, add_canale) {
           $('#span_icm'+add_canale).hide();
           $('#span_watson'+add_canale).hide();
           $('#pos_field'+add_canale).hide();
-          $('#sms_field'+add_canale).hide();
+          $('#sms_field' + add_canale).hide();
+          $('#span_inorderweb'+add_canale).hide();
 
           //sms
           $('#senders_ins'+add_canale).attr('required', false);
@@ -2354,7 +2566,8 @@ function add_canale_view(selected_channel_id, add_canale) {
           $('#span_icm'+add_canale).hide();
           $('#span_watson'+add_canale).hide();
           $('#pos_field'+add_canale).hide();
-          $('#sms_field'+add_canale).hide();
+          $('#sms_field' + add_canale).hide();
+          $('#span_inorderweb'+add_canale).hide();
 
           
         }
@@ -2371,7 +2584,8 @@ function add_canale_view(selected_channel_id, add_canale) {
           $('#span_icm'+add_canale).hide();
           $('#span_watson'+add_canale).hide();
           $('#pos_field'+add_canale).hide();
-          $('#sms_field'+add_canale).hide();
+          $('#sms_field' + add_canale).hide();
+          $('#span_inorderweb'+add_canale).hide();
 
         }
         
@@ -2388,7 +2602,25 @@ function add_canale_view(selected_channel_id, add_canale) {
           $('#span_icm'+add_canale).hide();
           $('#span_watson'+add_canale).show();
           $('#pos_field'+add_canale).hide();
-          $('#sms_field'+add_canale).hide();
+          $('#sms_field' + add_canale).hide();
+          $('#span_inorderweb'+add_canale).hide();
+
+        }
+        else if (selected_channel_id === '36') {//canale In Order Web
+          $('#span_40400'+add_canale).hide();
+          $('#span_spai'+add_canale).hide();
+          $('#span_mfh'+add_canale).hide();
+          $('#span_jakala'+add_canale).hide();
+          $('#span_ivr_inbound'+add_canale).hide();
+          $('#span_ivr_outbound'+add_canale).hide();
+          $('#span_dealer'+add_canale).hide();
+          $('#span_app_outbound'+add_canale).hide();
+          $('#span_app_inbound'+add_canale).hide();
+          $('#span_icm'+add_canale).hide();
+          $('#span_watson'+add_canale).hide();
+          $('#pos_field'+add_canale).hide();
+          $('#sms_field' + add_canale).hide();
+          $('#span_inorderweb'+add_canale).show();
 
         }
         
@@ -2405,7 +2637,8 @@ function add_canale_view(selected_channel_id, add_canale) {
           $('#span_icm'+add_canale).hide();
           $('#span_watson'+add_canale).hide();
           $('#pos_field'+add_canale).hide();
-          $('#sms_field'+add_canale).hide();
+          $('#sms_field' + add_canale).hide();
+          $('#span_inorderweb'+add_canale).hide();
 
         }
 

@@ -508,7 +508,7 @@ function export_capacity($list, $filter){//campaign proposal
     $colonna = 0;
 
 //$titolo = array('N', 'Stack','Sprint','Squad','Tipologia', 'Modalità', 'Categoria', 'Offerta',	'Canale',	'Volume Stimato (K)',	'Data Output',	'Data Inizio Offerta', 'Data Fine Offerta',	'Stato','Note operative');
-$titolo = array('N', 'Stack','Sprint','Squad','Tipologia', 'Modalità', 'Categoria', 'Descrizione Attivita',	'Canale', 'Lunghezza SMS','Delivery Report','Priorità', 'Volume','Data Inizio','Data Fine', 'Stato', 'Note Operative');
+$titolo = array('N', 'Stack','Sprint','Squad','Tipologia', 'Modalità', 'Categoria', 'Descrizione Attivita','N° Collateral','Canale', 'Lunghezza SMS','Delivery Report','Priorità', 'Volume','Data Inizio','Data Fine', 'Stato', 'Note Operative');
                    
 $tot_colonne = count($titolo) - 1;
 
@@ -616,16 +616,17 @@ foreach ($titolo as $key => $value) {
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(5, $riga, $row['modality_nome']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(6, $riga, $row['category_nome']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(7, $riga, $row['descrizione_target']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(8, $riga, $campaign->tableChannelLabel($row));
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(9, $riga, $canale['charTesto']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(10, $riga, $canale['notif_consegna']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(11, $riga, $row['priority']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(12, $riga, round($row['volume']));
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(13, $riga, $row['data_inizio']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(8, $riga, $row['n_collateral']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(9, $riga, $campaign->tableChannelLabel($row));
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(10, $riga, $canale['charTesto']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(11, $riga, $canale['notif_consegna']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(12, $riga, $row['priority']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(13, $riga, round($row['volume']));
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(14, $riga, $row['data_inizio']);
             //$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(11, $riga, $row['data_inizio_validita_offerta']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(14, $riga, $row['data_fine_validita_offerta']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(15, $riga, $row['campaign_stato_nome']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(16, $riga, $row['note_operative']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(15, $riga, $row['data_fine_validita_offerta']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(16, $riga, $row['campaign_stato_nome']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(17, $riga, $row['note_operative']);
             
             
             //$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(13, $riga, '');

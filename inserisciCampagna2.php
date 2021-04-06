@@ -360,7 +360,8 @@ function validitaoffer(){
     }
     
 }
- 
+
+/*
 function levaselect() {
     if($( "#idlevaselect" ).val()==='mono'){
         $('#monoleva').show();
@@ -380,6 +381,7 @@ function levaselect() {
         $('#opzione_leva').attr('required', false);
     }
 }
+*/
 
   
 

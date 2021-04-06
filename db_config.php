@@ -4,12 +4,12 @@
 // use this pathes and/or define the pathes for the "standard" pages
 define("CLASS_PATH", dirname($_SERVER['PHP_SELF']) . "/classes/"); // the location where the class is executed
 
-$sec_path = "/campagnetris/"; // a second location where the scripts should be 
+$sec_path = "/campagne/"; // a second location where the scripts should be 
 //$sec_path = "/"; // a second location where the scripts should be 
 define("APPLICATION_PATH", $sec_path);
 
 //define("DB_SERVER", "127.0.0.1");
-define("DB_SERVER", "localhost");  //usare localhost
+define("DB_SERVER", "127.0.0.1");  //usare localhost
 //define("DB_SERVER", "10.194.25.2");
 define("DB_NAME", "newcampaigns");
 define("DB_USER", "root");

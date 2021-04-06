@@ -85,8 +85,13 @@
       if(isset($_GET['page']) && $_GET['page']=='gestioneCampagne2'){
         $datatable = 'gestione';
       }
+      elseif(isset($_GET['page']) && $_GET['page']=='gestioneStato'){
+        $datatable = 'gestioneStato';
+      }
     ?>
     var datatable_name = '<?php echo $datatable; ?>';
+
+    
 
   $('#stacks').multiselect({
       enableClickableOptGroups: true,
@@ -344,6 +349,29 @@
     $('#idlevaselect').select2({
       placeholder: "Select Type"
     });
+    $('#idlevaselect').on('select2:select', function() {
+      //var selected_stacks = $('#idlevaselect').val();
+      $(this).parsley().validate();
+      console.log(' idlevaselect ' + $('#idlevaselect').val());
+      if($( "#idlevaselect" ).val()==='mono'){
+        $('#monoleva').show();
+        $('#opzione_leva').attr('required', true); 
+        $('#multileva').hide();
+        $('#dropzone-canale').attr('required', false);
+    }else if($( "#idlevaselect" ).val()==='multi'){
+        $('#monoleva').hide();
+        $('#multileva').show();
+        $('#dropzone-canale').attr('required', true);
+        $('#opzione_leva').attr('required', false);
+    }
+    else{
+        $('#monoleva').hide();
+        $('#multileva').hide();  
+        $('#dropzone-canale').attr('required', false);
+        $('#opzione_leva').attr('required', false);
+    }
+
+    });
 
     $('#type_ins').select2({
       placeholder: "Select Type"
@@ -535,7 +563,7 @@
             ],
           
             order: [1, 'asc'],            
-            ordering: <?php if($datatable=="pianificazione") {echo "false,";} elseif($datatable=="gestione"){echo "true,";}?>
+            ordering: <?php if($datatable=="pianificazione") {echo "false,";} elseif($datatable=="gestione"){echo "true,";}else{echo "true,";}?>
 
           });
           $('#table_pianificazione').dataTable( {
@@ -821,6 +849,71 @@
           fixedHeader: true
         });
 
+// iCheck
+$(document).ready(function() {
+    if ($("input.flat")[0]) {
+        $(document).ready(function () {
+            $('input.flat').iCheck({
+                checkboxClass: 'icheckbox_flat-green',
+                radioClass: 'iradio_flat-green'
+            });
+        });
+    }
+});
+// /iCheck
+
+// Table
+$('datatable-pianificazione input').on('ifChecked', function () {
+    checkState = '';
+    $(this).parent().parent().parent().addClass('selected');
+    countChecked();
+});
+$('datatable-pianificazione input').on('ifUnchecked', function () {
+    checkState = '';
+    $(this).parent().parent().parent().removeClass('selected');
+    countChecked();
+});
+
+var checkState = '';
+
+$('.bulk_action input').on('ifChecked', function () {
+    checkState = '';
+    $(this).parent().parent().parent().addClass('selected');
+    countChecked();
+});
+$('.bulk_action input').on('ifUnchecked', function () {
+    checkState = '';
+    $(this).parent().parent().parent().removeClass('selected');
+    countChecked();
+});
+$('.bulk_action input#check-all').on('ifChecked', function () {
+    checkState = 'all';
+    countChecked();
+});
+$('.bulk_action input#check-all').on('ifUnchecked', function () {
+    checkState = 'none';
+    countChecked();
+});
+
+function countChecked() {
+    if (checkState === 'all') {
+        $(".bulk_action input[name='table_records']").iCheck('check');
+    }
+    if (checkState === 'none') {
+        $(".bulk_action input[name='table_records']").iCheck('uncheck');
+    }
+
+    var checkCount = $(".bulk_action input[name='table_records']:checked").length;
+
+    if (checkCount) {
+        $('.column-title').hide();
+        $('.bulk-actions').show();
+        $('.action-cnt').html(checkCount + ' Records Selected');
+    } else {
+        $('.column-title').show();
+        $('.bulk-actions').hide();
+    }
+}
 
 
 </script>  

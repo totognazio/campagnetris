@@ -21,6 +21,8 @@
                             $display_pos =  ' style="display: none;"';
                             $display_40400 =  ' style="display: none;"';
                             $required_400 = '';
+                            $required_iow = '';
+                            $display_iow =  ' style="display: none;"';
                             $style = " style=\"width:100%; \" ";
                             $display_app_inbound = ' style="display: none;"';
                             $display_app_outbound = ' style="display: none;"';
@@ -42,6 +44,7 @@
                             $required_ivr_outbound = '';
                             $required_jakala = '';
                             $required_spai = '';
+                            
    
                                                       
                             if ($modifica){
@@ -72,7 +75,9 @@
                                 //watson
                                 if($valore_channel_id==29){$display_watson =  ''; $required_watson = ' required="required" ';} 
                                 //Spai
-                                if($valore_channel_id==35){$display_spai =  ''; $required_spai = ' required="required" ';}                                   
+                                if($valore_channel_id==35){$display_spai =  ''; $required_spai = ' required="required" ';} 
+                                //InOrderWeb
+                                if($valore_channel_id==36){$display_iow =  ''; $required_iow = ' required="required" ';}                                   
                             }
                             else{
                                 $valore_channel_id = "";
@@ -101,7 +106,7 @@
                 if($modifica and $id_campaign['tipo_leva']=='multi'){$select_multileva = ' selected';$display_multi='';}   
                 if($modifica and $id_campaign['tipo_leva']=='info'){$select_info = ' selected';$display_info='';}               
                 ?>
-                <select  id="idlevaselect" name="tipo_leva" class="select2_single form-control" style="width: 100%;" required="required" onchange="levaselect()"  <?php echo $disabled_value;?>>        
+                <select  id="idlevaselect" name="tipo_leva" class="select2_single form-control" style="width: 100%;" required="required"  <?php echo $disabled_value;?>>        
                     <option value=""></option>
                     <option <?php echo $select_info; ?> value="info">Informativa</option>
                     <option <?php echo $select_monoleva; ?> value="mono">MonoOfferta</option>
@@ -619,6 +624,13 @@
                 </select>                           
         </div>
     </span>
+    <span id="span_inorderweb" <?php echo $display_iow; ?>>
+        <div class="col-md-4 col-sm-6 col-xs-12">      
+                <label>Funnel<span class="required">*</span></label>
+                <input <?php if ($readonly){echo $disabled_value;}?>type="text" id="funnel" name="addcanale[0][funnel]"  <?php echo $required_iow ?> placeholder="alfanumerico"  class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['funnel'])){echo $canale['funnel']; }?>">
+                <br>
+        </div>
+    </span> 
 
 </div>                    
 

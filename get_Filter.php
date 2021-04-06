@@ -7,12 +7,12 @@ include_once (__DIR__.'/db_config.php');
 include_once (__DIR__.'/classes/campaign_class.php');
 
 $campaign = new campaign_class();
-
+// print_r($_POST);
 if(isset($_POST['datatable'])){
     $datatable = $_POST['datatable'];
 } 
 else{
-    //print_r($_POST);
+
     exit('ERROR DATATABLE ABSENT!!!');
 }   
 
@@ -26,12 +26,19 @@ if($datatable=='pianificazione'){
 else if($datatable=='gestione'){
     $list = $campaign->getCampaignsGestione($filter); 
 }
+else if($datatable=='gestioneStato'){
+    $list = $campaign->getCampaignsGestione($filter); 
+}
+
 
 if(count($list)>0  && $datatable=='pianificazione'){
     $campaign->tablePianificazione($list);
 }
 else if(count($list)>0  && $datatable=='gestione'){ 
     $campaign->tableGestione($list);
+}
+else if(count($list)>0  && $datatable=='gestioneStato'){ 
+    $campaign->tableGestioneStato($list);
 }
 else if(count($list)<=0  && $datatable=='gestione'){ 
     echo ' <br><h2></h2>Nessuna Campagna in Gestione per il tuo SQUAD !!!</h2>';

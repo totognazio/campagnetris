@@ -5,13 +5,14 @@ include_once './classes/campaign_class.php';
 $funzioni_admin = new funzioni_admin();
 $campaign_class = new campaign_class();
 $rand=  rand();
+
 ?>
     <script type="text/javascript" src="calendario/calendar.js<?php echo "?".$rand; ?>"></script>
     <script type="text/javascript" src="calendario/calendar-it.js<?php echo "?".$rand; ?>"></script>
     <script type="text/javascript" src="calendario/funzioniCalendario.js<?php echo "?".$rand; ?>"></script>
     <link rel="stylesheet" type="text/css" media="all" href="calendario/skins/aqua/theme.css " title="Aqua" />
 <script language="JavaScript" type="text/javascript">
-<!--  
+$(document).ready(function() {
     function seleziona(riga) {
         riga.className = "selezionata";
     }
@@ -197,8 +198,7 @@ $rand=  rand();
         }
 
     }
-
--->
+});
 </script>
 
         <!-- page content -->
@@ -243,6 +243,7 @@ $rand=  rand();
     <div class="finestra" style="width:97%; min-height:400px; padding:5px;">
         <div class="wufoo">
             <?php
+            print_r($_POST);
             if (isset($_POST['cambiaStato'])) {
                 echo "<div class=\"info\">";
                 echo "<h2>" . $campaign_class->update_kickoff($_POST['checkbox'], intval($_POST['selectNuovoStato'])) . "</h2>";
@@ -286,7 +287,7 @@ $rand=  rand();
                     $selectStato_default = $_POST['selectStato'];
                 } else
                     $selectStato_default = "";
-                $funzioni_admin->stampa_select('selectStato', $lista_field, $lista_name, $javascript, $style, $selectStato_default);
+                $funzioni_admin->stampa_select2('selectStato', $lista_field, $lista_name, $javascript, $style, $selectStato_default);
                 ?>
 
             </div>
@@ -316,7 +317,7 @@ $rand=  rand();
                 $lista_name = array_column($list, 'name');
                 $javascript = "  tabindex=\"7\" onfocus=\"seleziona('selectNuovoStato');\" onblur=\"deseleziona('selectNuovoStato');\" ";
                 $style = " style=\"width:150px;\" ";
-                $funzioni_admin->stampa_select('selectNuovoStato', $lista_field, $lista_name, $javascript, $style);
+                $funzioni_admin->stampa_select2('selectNuovoStato', $lista_field, $lista_name, $javascript, $style);
                 if (isset($_POST['sel1']) && isset($_POST['sel3'])) {
                     echo "<input type=\"hidden\" id=\"sel1\" name=\"sel1\" value=\"" . $_POST['sel1'] . "\" />";
                     echo "<input type=\"hidden\" id=\"sel3\" name=\"sel3\" value=\"" . $_POST['sel3'] . "\" />";
@@ -331,7 +332,7 @@ $rand=  rand();
             </div>
 
 
-            <table class="bordo tabella">
+            <table class="table table-striped table-bordered dataTable no-footer nowrap" role="grid" aria-describedby="datatable-fixed-header_info">
                 <tr style="height:25px; font-weight: bold; background: url('./images/wbg.gif') repeat-x 0px -1px;">
                     <td align="center" width="1%"><input type="checkbox" name="checkboxTot" id="checkboxTot" onclick="selectAll(295);" /></td>
                     <td align="center" width="1%">N.</td>
@@ -380,4 +381,5 @@ $rand=  rand();
           </div>
         </div>
         <!-- /page content -->
+
 

@@ -1,7 +1,6 @@
 <?php
 include_once './classes/funzioni_admin.php';
 include_once './classes/campaign_class.php';
-
 $funzioni_admin = new funzioni_admin();
 $campaign_class = new campaign_class();
 $rand=  rand();
@@ -197,6 +196,7 @@ $rand=  rand();
         }
 
     }
+
 </script>
 
         <!-- page content -->
@@ -225,7 +225,7 @@ $rand=  rand();
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Kick Off</h2>
+                    <h2>Modifica Stato Campagne</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -234,76 +234,21 @@ $rand=  rand();
                     </ul>
                     <div class="clearfix"></div>
                   </div>
-                  <div class="x_content"> 
+                  <div class="x_content">
 
 
-<div class="content">
-    <div class="finestra" style="width:97%; min-height:400px; padding:5px;">
-        <div class="wufoo">
             <?php
             if (isset($_POST['cambiaStato'])) {
                 echo "<div class=\"info\">";
                 echo "<h2>" . $campaign_class->update_kickoff($_POST['checkbox'], intval($_POST['selectNuovoStato'])) . "</h2>";
                 echo "</div>";
             }
-            ?>
-        </div>
-        <form id="formDate" name="formDate" action="index.php?page=kickOff" method="post" onsubmit="return controllaform();">
+          
 
-            <div style="float:left; width:150px; height:80px; margin-top:25px; margin-left:30px;">
-                <label>Data inizio<span id="req_1" class="req">*</span></label>
-                <input class="text" type="text" name="sel1" id="sel1"
-                <?php
-                if (isset($_POST['sel1'])) {
-                    echo " value=" . $_POST['sel1'];
-                }
-                ?>  tabindex="24"  readonly="readonly" onfocus="seleziona('sel1');" onblur="deseleziona('sel1');" onkeyup="cancella('sel1')"/>
-                <input style="width:15px" type="image" id="calendInizio" tabindex="25"  alt="Calendario" src="images/Calendario.gif" value="Calendario" onclick="return showCalendar('sel1', '%d/%m/%Y');" />         
-            </div>
-            <div style="float:left; width:150px; height:80px; margin-top:25px; margin-left:30px;">
-                <label>Data fine<span id="req_2" class="req">*</span></label>
-                <input class="text" type="text" name="sel3" id="sel3" tabindex="24" 
-                <?php
-                if (isset($_POST['sel3'])) {
-                    echo " value=" . $_POST['sel3'];
-                }
-                ?> 
-                       readonly="readonly" onfocus="seleziona('sel3');" onblur="deseleziona('sel3');" onkeyup="cancella('sel3')"/>
-                <input style="width:15px" type="image" id="calendFine" tabindex="25" alt="Calendario" src="images/Calendario.gif" value="Calendario" onclick="return showCalendar('sel3', '%d/%m/%Y');" />         
-            </div>
-
-            <div style="float:left; width:150px; height:80px; margin-top:25px; margin-left:30px;">
-                <label>Stato<span id="req_3" class="req">*</span></label>
-                <?php
-                $list = $funzioni_admin->get_list_id('campaign_states');
-                $lista_field = array_column($list, 'id');
-                $lista_name = array_column($list, 'name');
-                $javascript = " tabindex=\"7\" onfocus=\"seleziona('selectStato');\" onblur=\"deseleziona('selectStato');\" ";
-                $style = " style=\"width:150px;\" ";
-                if (isset($_POST['selectStato'])) {
-                    $selectStato_default = $_POST['selectStato'];
-                } else
-                    $selectStato_default = "";
-                $funzioni_admin->stampa_select2('selectStato', $lista_field, $lista_name, $javascript, $style, $selectStato_default);
-                ?>
-
-            </div>
-
-            <div style="float:left; width:150px; height:80px; margin-top:25px; margin-left:30px;">
-                <input type="submit" style="margin-top:15px;" id="vai" name="vai" tabindex="" value="Vai" />
-                <input type="hidden" id="esegui" name="esegui" value="1" />
-            </div>
-
-        </form>
-        <?php
-        $lista = array();
-        if (isset($_POST['esegui'])) {
-            $calendInizio = $campaign_class->data_it_to_eng_($_POST['sel1']);
-            $calendFine = $campaign_class->data_it_to_eng_($_POST['sel3']);
-
-            $lista = $campaign_class->get_list_kick_off($calendInizio, $calendFine, $_POST['selectStato']);
-        }
+            $lista = $campaign_class->getCampaignsGestione($_SESSION['filter'] ); 
+            // print_r($lista);
         ?>
+        
         <form id="formCambiaStato" name="formCambiaStato" action="./index.php?page=kickOff" method="post" onsubmit="return controllaStato(<?php echo count($lista); ?>);">
 
             <div style="float:left; width:150px; height:80px; margin-top:25px; margin-left:30px;  display:block ">
@@ -323,59 +268,67 @@ $rand=  rand();
 
             </div>
 
-            <div style="float:left; width:150px; height:80px; margin-top:25px; margin-left:30px;  display:block ">
-                <input type="submit" style="margin-top:15px;" id="cambia" name="cambia" tabindex=""  value="Cambia stato" />
+            <div style="float:left; width:150px; height:80px; margin-top:34px; margin-left:30px;  display:block ">
+                <input type="submit" class="btn btn btn-sm btn-info" style="margin-top:15px;" id="cambia" name="cambia" tabindex=""  value="Cambia stato" />
                 <input type="hidden" id="cambiaStato" name="cambiaStato" value="1" />
             </div>
+<div  class="col-md-12 col-sm-12 col-xs-12" >
 
-
-            <table class="table table-striped table-bordered dataTable no-footer nowrap" role="grid" aria-describedby="datatable-fixed-header_info">
-                <tr style="height:25px; font-weight: bold; background: url('./images/wbg.gif') repeat-x 0px -1px;">
-                    <td align="center" width="1%"><input type="checkbox" name="checkboxTot" id="checkboxTot" onclick="selectAll(295);" /></td>
-                    <td align="center" width="1%">N.</td>
-                    <td align="center" width="10%">Nome Campagna</td>
-                    <td align="center" width="15%">Gruppo</td>
-                    <td align="center" width="10%">Tipo</td>
-                    <td align="center" width="10%">Canale</td>
-                    <td align="center" width="10%">Ottimizz.</td>
-                    <td align="center" width="10%">Data inizio</td>
-                    <td align="center" width="10%">Data fine</td>
-                    <td align="center" width="10%">Volume Totale</td>
-                    <td align="center" width="10%">Stato</td>
-                </tr>
-
-                <?php
-                if (isset($_POST['esegui'])) {
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th>
+                              <input type="checkbox" id="check-all" class="flat">
+                            </th>
+                            
+                            <th class="column-title">Stack </th>
+                            <th class="column-title">Sprint </th>
+                            <th class="column-title">Squad </th>
+                            <th class="column-title">Nome Campagna </th>
+                            <th class="column-title">Tipologia </th>
+                            <th class="column-title">Canale </th>
+                            <th class="column-title">Data Inzio </th>
+                            <th class="column-title">Data Fine </th>
+                            <th class="column-title">Stato </th>                                                    
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+    
+                   <?php
+                if (1) {
                     $contatore = 1;
+                
                     foreach ($lista as $key => $value) {
                         echo "<tr  id=\"riga" . $contatore . "\"  style=\"height:25px;\" onmouseover=\"selezionaRiga(this);\"  onmouseout=\"deselezionaRiga(this);\" > ";
                         echo "
-                                <td align=\"center\"><input type=\"checkbox\" name=\"checkbox[]\" id=\"checkbox" . $contatore . "\" onclick=\"deselezionaCheckTot(295);\" value=\"" . $value['id'] . "\"/></td>
-                                <td align=\"center\">" . $contatore . "</td>
-                    <td>" . $value['nome_campagna'] . "</td>
-                    <td>" . $value['stack_nome'] . "</td>
+                                <td align=\"center\"><input type=\"checkbox\" class=\"flat\" name=\"checkbox[]\" id=\"checkbox" . $contatore . "\" onclick=\"deselezionaCheckTot(295);\" value=\"" . $value['id'] . "\"/></td>                               
+                    
+                    <td>" . $value['stacks_nome'] . "</td>
+                    <td>" . $campaign_class->sprint_find($value['data_inizio']) . "</td>
+                    <td>" . $value['squads_nome'] . "</td>
+                    <td>" . $value['pref_nome_campagna'] . "</td>
                     <td>" . $value['tipo_nome'] . "</td>
-                    <td>" . $value['channel_nome'] . "</td>
-                    <td align=\"center\">" . $value['optimization'] . "</td>
-                    <td align=\"center\">" . $campaign_class->data_eng_to_it_($value['data_inizio']) . "</td>
-                    <td align=\"center\">" . $campaign_class->data_eng_to_it_($value['data_fine']) . "</td>
-                    <td align=\"center\">" . $value['volume'] . "</td>
+                    <td>" . $campaign_class->tableChannelLabel($value). "</td>                    
+                    <td align=\"center\">" . $value['data_inizio'] . "</td>
+                    <td align=\"center\">" . $value['data_fine_validita_offerta'] . "</td>                    
                     <td align=\"center\">" . $value['campaign_stato_nome'] . "</td>";
                         echo "</tr>";
                         $contatore++;
                     }
                 }
-                ?></table></form>
+                ?><tbody></table>
+                </div>
+                </div>
+                </form>
 
     </div>
-
+     </div>
+     </div>
+ </div>
+ </div>
 </div><!-- end .content -->
 
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- /page content -->
+
 
