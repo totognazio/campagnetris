@@ -251,15 +251,18 @@ $sender = $funzione->get_allTable('senders');
         
                    
                   <div class="x_content">                     
-<!--inizio mega Form inserimento-->   
+<!--inizio mega Form inserimento  
 <div class="bs-callout bs-callout-warning hidden">
-  <h3><strong>Errore di validazione !!! Inserire i campi evidenziati in tutte le schede</strong></h3>
+  <h3><strong>Errore di validazione !!! Inserire i campi evidenziati in tutte le schede</strong></h3><br>
 </div>
+--> 
 <div id="alertvalidazione" class="alert alert-info alert-dismissible fade in" role="alert" hidden>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
                     </button>
                     <strong>Errore di validazione !!! Inserire i campi evidenziati in tutte le schede</strong>
+                    <br>
 </div> 
+
 
 <!--
 <div class="bs-callout bs-callout-info hidden">
@@ -510,13 +513,13 @@ $(function () {
     if(!ok){
             //$('#alertvalidazione').hide();
             
-            $("#alertvalidazione").fadeOut();
-            $("#alertvalidazione").fadeIn();
+            //$("#alertvalidazione").fadeOut();
+            //$("#alertvalidazione").fadeIn();
             $('#alertvalidazione').show();
     }
     else if(ok){
-            $("#alertvalidazione").fadeOut();
-            $("#alertvalidazione").fadeIn();
+            //$("#alertvalidazione").fadeOut();
+            //$("#alertvalidazione").fadeIn();
             $('#alertvalidazione').hide();
 
     }

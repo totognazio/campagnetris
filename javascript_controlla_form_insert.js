@@ -15,6 +15,7 @@ function highlither_min_required(stato_id) {
     document.querySelector('#tab_content3 > div > div:nth-child(1) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
     document.querySelector('#tab_content3 > div > div:nth-child(2) > div > span > span.selection > span').style.backgroundColor = '#C1FFD5';
     document.querySelector('#volume_tot').style.backgroundColor = '#C1FFD5';
+    document.querySelector('#testo_sms').style.backgroundColor = '#C1FFD5';
    
   }
   else {
@@ -32,6 +33,7 @@ function highlither_min_required(stato_id) {
     document.querySelector('#tab_content3 > div > div:nth-child(1) > div > span > span.selection > span').style.backgroundColor = '';
     document.querySelector('#tab_content3 > div > div:nth-child(2) > div > span > span.selection > span').style.backgroundColor = '';
     document.querySelector('#volume_tot').style.backgroundColor = '';
+    document.querySelector('#testo_sms').style.backgroundColor = '';
 
   }
 

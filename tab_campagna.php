@@ -215,6 +215,7 @@
                             else{
                                 $list = $funzioni_admin->get_list_state_id('campaign_states', 10);  
                             }
+                            //print_r($list);
                             ?>
                             <select id="campaign_state_id" name="campaign_state_id" class="select2_single form-control" required="required" <?php echo $disabled_value;?>>        
                               <option value=""></option>
@@ -226,12 +227,12 @@
                                     $campaign_state_id = 2; //default Draft per new campagne o duplica
                                 }
                                     
-                            foreach ($states as $key => $value) {
-                                if($modifica && $campaign_state_id==$key){
-                                   echo '<option selected value="'.$key.'">'.$value.'</option>'; 
+                            foreach ($list as $key => $value) {
+                                if($modifica && $campaign_state_id==$value['id']){
+                                   echo '<option selected value="'.$value['id'].'">'.$value['name'].'</option>'; 
                                 }
                                 else {
-                                    echo '<option value="'.$key.'">'.$value.'</option>';
+                                    echo '<option value="'.$value['id'].'">'.$value['name'].'</option>';
                                 }
                             }                                                  
                             ?>  
@@ -356,12 +357,7 @@
                 document.getElementById('nomecampagna').value = data_label + squad_label + channel_label + type_label + note_label;
         });
 
-         
-
-
         
-
- 
   
     $('#campaign_state_id').select2({
       placeholder: "Select Stato",

@@ -101,25 +101,7 @@ class dati_tacid_class extends socmanager   {
     
     
 
-    function get_tipo() {
-      $query = "select
-      ".TABLE_TACID.".Modello ,
-      ".TABLE_TACID.".Marca,
-      if(".TABLE_TACID.".Tecnologia is NULL,'n/a',".TABLE_TACID.".Tecnologia) as Tecnologia,
-      if(".TABLE_TACID.".Tipo is NULL,'n/a',".TABLE_TACID.".Tipo) as Tipo,
-      if(".TABLE_TACID.".classe_throughput is NULL,'n/a',".TABLE_TACID.".classe_throughput) as classe_throughput,
-      if(".TABLE_TACID.".OS is NULL,'n/a',".TABLE_TACID.".OS) as OS
-      from  ".TABLE_TACID." group by Tipo  order by Tipo";
-        //echo $query;
-        $risultato = array();
-        if ($result = mysqli_query($this->mysqli, $query)) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                $risultato[$row['Tipo']] = $row['Tipo'];
-            }
-            return $risultato;
-        } else
-            return array();
-    }
+
     
     function getDeviceType() {
       $query = "select name FROM devicetypes";

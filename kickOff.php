@@ -1,8 +1,169 @@
+<style type="text/css">
+                body {
+                    overflow-y: auto;
+                }
+                a:hover {                    
+                    color: black;
+                }
+
+table.dataTable thead th,
+table.dataTable tr td,
+table.dataTable tfoot th {
+  text-align: left;
+  padding-left: 2px;
+  padding-right: 2px;
+  margin-left: 0px;
+  margin-right: 0px;
+  height: 5px;
+}
+table.dataTable th { 
+    background-color: lightseagreen;
+    color: black;
+}
+table.dataTable tr:hover{
+    background-color: lightgray;
+    color: black; 
+}
+
+ </style>  
+ 
+
 <?php
+include_once './classes/form_class.php';
 include_once './classes/funzioni_admin.php';
 include_once './classes/campaign_class.php';
-$funzioni_admin = new funzioni_admin();
-$campaign_class = new campaign_class();
+include_once './classes/access_user/access_user_class.php';
+
+$page_protect = new Access_user;
+$form = new form_class();
+$funzione = new funzioni_admin();
+$campaign = new campaign_class();
+// $page_protect->login_page = "login.php"; // change this only if your login is on another page
+$page_protect->access_page(); // only set this this method to protect your page
+$page_protect->get_user_info();
+$hello_name = ($page_protect->user_full_name != "") ? $page_protect->user_full_name : $page_protect->user;
+if (isset($_GET['action']) && $_GET['action'] == "log_out") {
+    $page_protect->log_out(); // the method to log off
+}
+
+//rename("file/5fd3a759daa6e","file/19572");
+//copy ("file/5fd3a405b8b32","file/19573");
+//unlink("file/5fd3a405b8b32");
+include('action.php');
+
+$channels = $funzione->get_list_select('channels');
+$stacks = $funzione->get_list_select('campaign_stacks');
+//print_r($stacks);
+$typlogies = $funzione->get_list_select('campaign_types');
+//$squads = $funzione->get_squads_gestione();
+$squads = $funzione->get_list_select('squads');
+$states = $funzione->get_list_select('campaign_states'); 
+$sprints = $funzione->get_sprints();
+// print_r($sprints);
+$form->head_page("Gestione Campagne", "Filtro");
+//print_r($_SESSION);  
+//print_r($_POST); 
+$livello_accesso = $page_protect->get_job_role();
+            //Cambio di stato
+            if (isset($_POST['cambiaStato'])) {
+                $result = $campaign->update_kickoff($_POST['checkbox'], intval($_POST['selectNuovoStato']));
+            }
+
+                if (isset($result)) {
+                    //echo "<div class=\"info\">";
+                    //echo "<h2 style=\"color: #ff0000\">" . $result . "</h2>";
+                    //echo "</div>";
+                    echo '<div class="alert alert-info alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <strong>'. $result .'</strong></div>
+                  </div>
+                    ';
+                }
+              
+
+?>
+                <form action="index.php?page=gestioneStato" method="post" id="nofilter">
+                            <input type="hidden" name="nofiletr" value="nofiletr" />                            
+                </form>
+                    <br>
+                  <div class="well" style="overflow: auto">
+                                
+                      <div class="col-md-6 col-sm-6 col-xs-12"><h4>Date Range</h4>
+                        <div id="reportrange_right" class="pull-left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                          <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                          <span id="datarange">December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                        </div>
+                      </div>
+                     <div class="col-md-2 col-sm-2 col-xs-12">
+                                <h4>Sprints</h4>
+                             <select id="sprints" name="sprints" class="select2_single form-control">        
+                              
+                            <?php 
+                            //foreach ($sprints as $key => $value) {
+                            //    echo '<option value="'.$key.'">'.$value['name'].'</option>';
+                            //}                                                  
+                            ?>  
+                          </select>
+                    </div>       
+                     </div>          
+                
+                    <div class="col-md-12">
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                                <h4>Stacks</h4>
+                                <select id="stacks" name="stacks_id" multiple="multiple">
+                                   <?php
+                                   echo $campaign->multiselect_session($stacks, $_SESSION['filter']['stacks']);
+                                    ?>
+                                </select>
+                            </div>
+
+
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                                <h4>Squads</h4>
+                                <select id="squads" name="squad_id" multiple="multiple">
+                                   <?php
+                                   echo $campaign->multiselect_session($squads, $_SESSION['filter']['squads']);
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                                <h4>Channels</h4>
+                                <select id="channels" name="channel_id" multiple="multiple">
+                                   <?php
+                                   echo $campaign->multiselect_session($channels, $_SESSION['filter']['channels']);
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                                <h4>States</h4>
+                                <select id="states" name="campaign_state_id" multiple="multiple">
+                                   <?php
+                                    echo $campaign->multiselect_session($states, $_SESSION['filter']['states']);
+                                    ?>                                 
+                                </select>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                                <h4>Typlogies</h4>
+                                <select id="typologies" name="type_id" multiple="multiple">
+                                   <?php      
+                                    echo $campaign->multiselect_session($typlogies, $_SESSION['filter']['typologies']);
+                                    ?>                                       
+                                </select>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                                <p><br><br>
+                                    <button class="btn btn btn-sm btn-info" type="submit" onclick="manageCamp('','nofilter');" data-placement="top" data-toggle="tooltip" data-original-title="Cancella Filtro"><i class="fa fa-eraser"></i> Cancella Filtro</button>
+                                </p>
+                                
+                            </div> 
+                        </div>                    
+<div class="loader"></div>                       
+     </div>               
+<?php 
+$form->close_row();
+$form->open_row("Lista Campagne", "Filtrate");
+
 $rand=  rand();
 ?>
     <script type="text/javascript" src="calendario/calendar.js<?php echo "?".$rand; ?>"></script>
@@ -240,12 +401,12 @@ $rand=  rand();
             <?php
             if (isset($_POST['cambiaStato'])) {
                 echo "<div class=\"info\">";
-                echo "<h2>" . $campaign_class->update_kickoff($_POST['checkbox'], intval($_POST['selectNuovoStato'])) . "</h2>";
+                echo "<h2>" . $campaign->update_kickoff($_POST['checkbox'], intval($_POST['selectNuovoStato'])) . "</h2>";
                 echo "</div>";
             }
           
 
-            $lista = $campaign_class->getCampaignsGestione($_SESSION['filter'] ); 
+            $lista = $campaign->getCampaignsGestione($_SESSION['filter'] ); 
             // print_r($lista);
         ?>
         
@@ -254,12 +415,12 @@ $rand=  rand();
             <div style="float:left; width:150px; height:80px; margin-top:25px; margin-left:30px;  display:block ">
                 <label>Nuovo stato<span id="req_4" class="req">*</span></label>
                 <?php
-                $list = $funzioni_admin->get_list_id('campaign_states');
+                $list = $funzioni->get_list_id('campaign_states');
                 $lista_field = array_column($list, 'id');
                 $lista_name = array_column($list, 'name');
                 $javascript = "  tabindex=\"7\" onfocus=\"seleziona('selectNuovoStato');\" onblur=\"deseleziona('selectNuovoStato');\" ";
                 $style = " style=\"width:150px;\" ";
-                $funzioni_admin->stampa_select2('selectNuovoStato', $lista_field, $lista_name, $javascript, $style);
+                $funzioni->stampa_select2('selectNuovoStato', $lista_field, $lista_name, $javascript, $style);
                 if (isset($_POST['sel1']) && isset($_POST['sel3'])) {
                     echo "<input type=\"hidden\" id=\"sel1\" name=\"sel1\" value=\"" . $_POST['sel1'] . "\" />";
                     echo "<input type=\"hidden\" id=\"sel3\" name=\"sel3\" value=\"" . $_POST['sel3'] . "\" />";
@@ -306,11 +467,11 @@ $rand=  rand();
                                 <td align=\"center\"><input type=\"checkbox\" class=\"flat\" name=\"checkbox[]\" id=\"checkbox" . $contatore . "\" onclick=\"deselezionaCheckTot(295);\" value=\"" . $value['id'] . "\"/></td>                               
                     
                     <td>" . $value['stacks_nome'] . "</td>
-                    <td>" . $campaign_class->sprint_find($value['data_inizio']) . "</td>
+                    <td>" . $campaign->sprint_find($value['data_inizio']) . "</td>
                     <td>" . $value['squads_nome'] . "</td>
                     <td>" . $value['pref_nome_campagna'] . "</td>
                     <td>" . $value['tipo_nome'] . "</td>
-                    <td>" . $campaign_class->tableChannelLabel($value). "</td>                    
+                    <td>" . $campaign->tableChannelLabel($value). "</td>                    
                     <td align=\"center\">" . $value['data_inizio'] . "</td>
                     <td align=\"center\">" . $value['data_fine_validita_offerta'] . "</td>                    
                     <td align=\"center\">" . $value['campaign_stato_nome'] . "</td>";

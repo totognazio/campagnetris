@@ -817,8 +817,8 @@ LEFT JOIN users ON `user_id` = users.id
             $mail_list_string = $mail_list_string . ";" . $value;
         }
         $page_protect->send_mail_list($mail_list, $msg, $subj);
-
-        return "Record aggiornati: " . $numero_row . " ";
+        $result = "Record aggiornati: " . $numero_row . " ";
+        return $result;
     }
 
     function delete_campaign($id) {
@@ -1086,7 +1086,10 @@ function rcopy($src, $dst) {
   else if (file_exists($src)) copy($src, $dst);
 }
 
-function update($record, $id_campagne) {
+function update($record, $id_campagne) {    
+    //reset JSON ADDCANALE
+    //$sql = "UPDATE `campaigns` SET `addcanale`= '{\"0\": {}}' where id='" . $id_campagne . "';";
+    //$results = $this->mysqli->query($sql) or die($sql . " - " . $this->mysqli->error);
 //print_r($record);
         $send_email = 0;
         $id_state = $this->get_state($id_campagne);
@@ -1874,12 +1877,21 @@ LEFT JOIN users ON `user_id` = users.id
 
     }
 
+    function getAddCanale($row, $canale_var, $addcanale_numero=0){
+
+        if($canale_var=='link'){
+            return $row['addcanale'][$addcanale_numero]['link'];
+        }
+        
+
+    }
+
     function tableGestioneStato($lista) {            
     //print_r($list);
             ?>      
-            <form id="formCambiaStato" name="formCambiaStato" action="./index.php?page=gestioneStato" method="post">
+            <form id="formCambiaStato" name="formCambiaStato" action="./index.php?page=gestioneStato" method="post"  onsubmit="controllaStato(<?php echo count($lista); ?>);">
         <div class="col-md-12 col-sm-12 col-xs-12">      
-            <div style="float:left; width:150px; height:80px;  display:block ">
+            <div style="float:left; width:150px; height:80px; margin-left:280px; display:block ">
                 <label>Nuovo Stato<span>*</span></label>
                 <?php
                 $funzioni_admin = new funzioni_admin(); 
@@ -1887,7 +1899,7 @@ LEFT JOIN users ON `user_id` = users.id
                 $lista_field = array_column($list, 'id');
                 $lista_name = array_column($list, 'name');
                 $javascript = "  tabindex=\"7\" onfocus=\"seleziona('selectNuovoStato');\" onblur=\"deseleziona('selectNuovoStato');\" ";
-                $style = " style=\"width:150px;\" ";
+                $style = "  ";
                 $funzioni_admin->stampa_select2('selectNuovoStato', $lista_field, $lista_name, $javascript, $style);
                 if (isset($_POST['sel1']) && isset($_POST['sel3'])) {
                     echo "<input type=\"hidden\" id=\"sel1\" name=\"sel1\" value=\"" . $_POST['sel1'] . "\" />";
@@ -1903,7 +1915,7 @@ LEFT JOIN users ON `user_id` = users.id
         </div>                                            
          <div class="col-md-12 col-sm-12 col-xs-12">       
          <div class="table-responsive">
-                      <table class="table table-striped jambo_table bulk_action">
+                      <table class="table table-striped jambo_table bulk_action" >
                         <thead>
                           <tr class="headings">
                             <th>

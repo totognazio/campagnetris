@@ -292,7 +292,7 @@ function export_pianificazione($list, $tot_volume, $list_day, $filter){
     
 }
 
-function export_gestione($list,$filter){ 
+function export_gestione_old($list,$filter){ 
         
         $campaign = new campaign_class();
              /** Error reporting */
@@ -473,6 +473,198 @@ function export_gestione($list,$filter){
         $objWriter->save('php://output');
     
 }
+
+
+function export_gestione($list,$filter){ 
+        
+        $campaign = new campaign_class();
+             /** Error reporting */
+        error_reporting(E_ALL);
+        ini_set('display_errors', TRUE);
+        ini_set('display_startup_errors', TRUE);
+        date_default_timezone_set('Europe/Rome');
+
+        if (PHP_SAPI == 'cli')
+            die('This example should only be run from a Web Browser');
+ 
+        $objPHPExcel = new PHPExcel();   
+        // Set document properties
+        $objPHPExcel->getProperties()->setCreator("Tool Campaign")
+            ->setLastModifiedBy("Maarten Balliauw")
+            ->setTitle("Office 2007 XLSX Test Document")
+            ->setSubject("Office 2007 XLSX Test Document")
+            ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
+            ->setKeywords("office 2007 openxml php")
+            ->setCategory("Test result file");
+        $objPHPExcel->getActiveSheet()->mergeCells('A1:E1');
+        $objPHPExcel->getActiveSheet()->mergeCells('A2:E2');
+        $objPHPExcel->getActiveSheet()->setCellValue('A1', 'Gestione Campagne');
+        $objPHPExcel->getActiveSheet()->setCellValue('A2', 'Dal '.$filter['startDate'].' Al '.$filter['endDate']);
+        $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setName('Candara');
+        $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+        $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+        //$objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setUnderline(PHPExcel_Style_Font::UNDERLINE_SINGLE);
+        $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_BLACK);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:E1')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:E1')->getFill()->getStartColor()->setARGB('FFFFA500');
+        $objPHPExcel->getActiveSheet()->getStyle('A2:E2')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:E2')->getFill()->getStartColor()->setARGB('FFDDDDDD');
+
+    $riga = 3;
+    $colonna = 0;                   
+
+    $titolo = array('N', 'Stack', 'Sprint', 'Squad', 'Nome Campagna','Tipologia', 'Modalità','Tipo Target',  'Priorità','N° Collateral', 'Ropz','Popz','Stato','Username','Data Inserimento Campagna', 'Canale','Tipo', 'Data inizio Campagna','Data Fine Campagna','Volume','Stato (da criteri)', 'Tipo Offerta','Tipo Contratto','Consenso','Mercato','Altri Criteri(frodi/coll)','Altri Criteri(text box)','Indicatore Dinamico','Call guide','Control Group', 'Sender','Testo SMS','Link');
+
+    $tot_colonne = count($titolo) - 1;
+
+    foreach ($titolo as $key => $value) {
+    
+        $objPHPExcel->getActiveSheet()->getColumnDimensionByColumn($colonna)->setAutoSize(true);
+        $objPHPExcel->setActiveSheetIndex(0)->getStyleByColumnAndRow($colonna, $riga)
+                ->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER)
+                ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($colonna, $riga, $value);
+        $objPHPExcel->setActiveSheetIndex(0)->getStyleByColumnAndRow($colonna, $riga)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
+        //$objPHPExcel->setActiveSheetIndex(0)->getStyleByColumnAndRow($colonna, $riga)->getFill()->getStartColor()->setARGB('FFDDDDDD');
+        //$objPHPExcel->getActiveSheet()->getStyle('A2:I2')->getFill()->getStartColor()->setARGB('FFDDDDDD');
+        $colonna++;
+        
+    }
+
+    //tutta la riga 3
+    $objPHPExcel->getActiveSheet(0)->getStyleByColumnAndRow(0, 3, $tot_colonne, 3)->applyFromArray(
+            array(
+                'font' => array(
+                    'bold' => true
+                ),
+                'alignment' => array(
+                    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
+                ),
+                'borders' => array(
+                    'top' => array(
+                        'style' => PHPExcel_Style_Border::BORDER_THIN
+                    ), 'left' => array(
+                        'style' => PHPExcel_Style_Border::BORDER_THIN
+                    ), 'right' => array(
+                        'style' => PHPExcel_Style_Border::BORDER_THIN
+                    ), 'bottom' => array(
+                        'style' => PHPExcel_Style_Border::BORDER_THIN
+                    )
+                ),
+                'fill' => array(
+                    'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                    'color' => array(
+                        'argb' => 'FFDDDDDD'
+                    )
+                )
+            )
+    );
+
+    $riga = 4;
+    $colonna = 0;
+//print_r($list);
+    foreach ($list as $key => $row) {
+
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, $riga, $key+1);        
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, $riga, $row['stacks_nome']);    
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(2, $riga, $campaign->sprint_find($row['data_inizio']));        
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(3, $riga, $row['squads_nome']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(4, $riga, $row['pref_nome_campagna']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(5, $riga, $row['tipo_nome']);  
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(6, $riga, $row['modality_nome']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(7, $riga, $row['category_id']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(8, $riga, $row['priority']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(9, $riga, $row['n_collateral']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(10, $riga, $row['cod_ropz']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(11, $riga, $row['cod_opz']);            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(12, $riga, $row['campaign_stato_nome']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(13, $riga, $row['username']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(14, $riga, $row['data_inserimento']);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(15, $riga, $campaign->tableChannelLabel($row));
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(16, $riga, $campaign->getCriteri($row,'tipo_leva'));
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(17, $riga, $row['data_inizio']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(18, $riga, $row['data_fine_validita_offerta']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(19, $riga, round($row['volume']));
+
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(20, $riga, $campaign->getCriteri($row,'stato'));
+
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(21, $riga, $campaign->getCriteri($row,'tipo_offerta'));
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(22, $riga, $campaign->getCriteri($row,'tipo_contratto'));
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(23, $riga, $campaign->getCriteri($row,'consenso'));
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(24, $riga, $campaign->getCriteri($row,'mercato'));
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(25, $riga, $campaign->getCriteri($row,'frodatori'));
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(26, $riga, $row['altri_criteri']);    
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(27, $riga, $row['indicatore_dinamico']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(28, $riga, $row['redemption']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(29, $riga, $campaign->getCriteri($row,'control_group'));
+                        
+            $canale_zero = json_decode($row['addcanale'],true)[0]; 
+            $sender_name = $this->get_nome_campo('senders','id',$canale_zero['sender_id']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(30, $riga, $sender_name);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(31, $riga, $canale_zero['testo_sms']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(32, $riga, $canale_zero['link']);
+            $riga++;
+
+        }
+        
+
+        $objPHPExcel->getActiveSheet(0)->getStyleByColumnAndRow(0, $riga, $tot_colonne, $riga)->applyFromArray(
+            array(
+                'font' => array(
+                    'bold' => true
+                ),
+                'alignment' => array(
+                    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
+                ),
+                'borders' => array(
+                    'top' => array(
+                        'style' => PHPExcel_Style_Border::BORDER_THIN
+                    ), 'left' => array(
+                        'style' => PHPExcel_Style_Border::BORDER_THIN
+                    ), 'right' => array(
+                        'style' => PHPExcel_Style_Border::BORDER_THIN
+                    ), 'bottom' => array(
+                        'style' => PHPExcel_Style_Border::BORDER_THIN
+                    )
+                ),
+                'fill' => array(
+                    'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                    'color' => array(
+                        'argb' => 'FFDDDDDD'
+                    )
+                )
+            )
+    );
+
+
+    // Rename worksheet
+    $objPHPExcel->getActiveSheet()->setTitle('Export');
+
+
+    // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+    $objPHPExcel->setActiveSheetIndex(0);
+    $today = date("Ymd");
+
+        // Redirect output to a client’s web browser (Excel2007)
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $today . '_Export_PianificazioneCampagne.xlsx"');
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
+
+        // If you're serving to IE over SSL, then the following may be needed
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+        header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header('Pragma: public'); // HTTP/1.0
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save('php://output');
+    
+}
+
 
 
 

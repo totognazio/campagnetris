@@ -326,8 +326,7 @@ if ($page_protect->get_job_role() >= 2) {
                                 if ($modifica) {
                                     $value = $id_campaign['altri_criteri'];                                    
                                 } 
-                                if ($readonly){
-                                echo $disabled_value;}
+                                //if ($readonly){echo $disabled_value;}
                                 ?>               
               <textarea id="altri_criteri" required="required" class="form-control" rows="15" name="altri_criteri" <?php if ($readonly){echo $disabled_value;}?> data-parsley-trigger="keyup"  data-parsley-maxlength="2000" data-parsley-maxlength-message="Attenzione!! E' stata raggiunta la lunghezza massima..." data-parsley-validation-threshold="10"><?php echo stripslashes($value);?></textarea>  
             </div>                       

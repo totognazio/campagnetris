@@ -345,23 +345,9 @@
                                 <option value="Interattivo" <?php if($modifica and $canale['mod_invio']=='Interattivo'){ echo ' selected ';} ?>>Interattivo</option>
                                 
 
-                          </select>
-                        <?php if($modifica and $canale['mod_invio']=='Interattivo'){ ?>
-                            <script> 
-                                $('#spanLabelLinkTesto').show();                                
-                                $('#link').attr('required', true);
-                                //$('#tipoMonitoring').attr('required', true);                                                                
-                            </script>
-                        <?php } 
-                         else { ?>
-                            <script> 
-                                $('#spanLabelLinkTesto').hide();            
-                                $('#link').attr('required', false);
-                                //$('#tipoMonitoring').attr('required', false);                                                                 
-                            </script>
-                        <?php } ?>  
+                          </select> 
                         <span id="spanLabelLinkTesto" style="display: none;">
-                            <label style="margin-top:20px" id="labelLinkTesto">Link<span id="req_19" class="req">*</span></label>
+                            <label style="margin-top:20px" id="labelLinkTesto">Link<span  class="req">*</span></label>
                             <input  id="link" name="addcanale[0][link]" type="url" class="form-control col-md-7 col-xs-12"  data-parsley-type='url' maxlength="400" data-parsley-maxlength='400' 
                             <?php
                             if ($modifica)
@@ -386,7 +372,21 @@
                                 <option <?php //if($modifica and $canale['tipoMonitoring']=='2'){echo ' selected';}?> value="2">Orphan page</option>
                                 <option <?php //if($modifica and $canale['tipoMonitoring']=='3'){echo ' selected';}?> value="3">No monitoring</option>
                           </select>-->
-                      </span>     
+                      </span>
+                        <?php if($modifica and $canale['mod_invio']=='Interattivo'){ ?>
+                            <script> 
+                                $('#spanLabelLinkTesto').show();                                
+                                $('#link').attr('required', true);
+                                //$('#tipoMonitoring').attr('required', true);                                                                
+                            </script>
+                        <?php } 
+                         else { ?>
+                            <script> 
+                                $('#spanLabelLinkTesto').hide();            
+                                $('#link').attr('required', false);
+                                //$('#tipoMonitoring').attr('required', false);                                                                 
+                            </script>
+                        <?php } ?>      
   
         </div> 
 
