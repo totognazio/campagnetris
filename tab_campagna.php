@@ -308,8 +308,8 @@
              channel_label = "_" + myarr[2];
             if (myarr[3])
              type_label = "_" + myarr[3];
-            if (myarr[4]) 
-                note_label = "_" + myarr[4];
+            
+                note_label = '_'+document.getElementById('note_camp').value;
     
         }
             $.getJSON("get_label.php", {squad_id: $(this).val()}, function (dati) {
@@ -329,8 +329,8 @@
              channel_label = "_" + myarr[2];
             if (myarr[3])
              type_label = "_" + myarr[3];
-            if (myarr[4]) 
-                note_label = "_" + myarr[4];
+        
+                note_label = '_'+document.getElementById('note_camp').value;
     
         }
             $.getJSON("get_label.php", {type_id: $(this).val()}, function (dati) {
@@ -338,6 +338,7 @@
                 document.getElementById('nomecampagna').value = data_label + squad_label + channel_label + type_label + note_label;
             });
         });
+        
         $('#note_camp').on('change', function() {   
             if (document.getElementById('nomecampagna').value.length > 0) {
             var pref_nome_campagna = document.getElementById('nomecampagna').value;
@@ -349,8 +350,7 @@
              channel_label = "_" + myarr[2];
             if (myarr[3])
              type_label = "_" + myarr[3];
-            if (myarr[4]) 
-                note_label = "_" + myarr[4];
+            
     
         }
                 note_label = '_'+document.getElementById('note_camp').value;     

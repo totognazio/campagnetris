@@ -669,18 +669,20 @@ $(document).ready(function() {
     
     //gestione nome campagna
     $('#channel_ins').on('select2:select', function () {  
-            console.log ('eccociii '+ $('#channel_ins :selected').text());
-            
-            if (document.getElementById('nomecampagna').value.length > 0) {
+        console.log ('eccociii '+ $('#channel_ins :selected').text());
+        if (document.getElementById('nomecampagna').value.length > 0) {
             var pref_nome_campagna = document.getElementById('nomecampagna').value;
             var myarr = pref_nome_campagna.split("_");
+            //if (myarr[0].value.length > 0)
             data_label = myarr[0];
-            //if (myarr[1].value.length > 0)
-            squad_label = "_" + myarr[1];
-            channel_label = "_" + myarr[2];
-            //if (myarr[2].value.length > 0)
-            type_label = "_" + myarr[3];
-            note_lable = "_" + myarr[4];
+            if (myarr[1])
+                squad_label = "_" + myarr[1];
+            if (myarr[2])    
+             channel_label = "_" + myarr[2];
+            if (myarr[3])
+             type_label = "_" + myarr[3];
+            
+            note_label = '_'+document.getElementById('note_camp').value;
     
         }
             $.getJSON("get_label.php", {channel_id: $(this).val()}, function (dati) {
@@ -688,6 +690,7 @@ $(document).ready(function() {
                 document.getElementById('nomecampagna').value = data_label + squad_label + channel_label + type_label + note_label;
             });
         });
+
       
         
  

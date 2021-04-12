@@ -2855,7 +2855,7 @@ function get_required(stato_id) {
 }
 
 function new_get_stato(stato_id) {
-              let stato_info = JSON.parse($.ajax({
+              var stato_info = JSON.parse($.ajax({
                     url: "get_stato_info.php",
                     method: "POST",
                     data: { stato_id: stato_id },
