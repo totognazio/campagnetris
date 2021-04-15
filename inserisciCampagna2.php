@@ -146,7 +146,7 @@ elseif ( isset($azione) && $azione=='duplica') {
 $channels = $funzione->get_list_select('channels');
 $stacks = $funzione->get_list_select('campaign_stacks');
 //$offers = $funzione->get_offers();
-$offers = $funzione->get_list_select('campaign_offers2');
+//$offers = $funzione->get_list_select('campaign_offers2');
 
 // print_r($offers);
 $typlogies = $funzione->get_list_select('campaign_types');
@@ -325,7 +325,8 @@ $sender = $funzione->get_allTable('senders');
                         <input type="hidden" name="modifica_confim" id="modifica_confim" value="modifica_confim" />
                         <input type="hidden" name="id" id="id" value="<?php echo $_POST['id']; ?>"/>
                         <?php
-                    } else {                        
+                    } 
+                    else {                        
                         ?>
                         <input style="<?php echo $display_none; ?>" id="salva" class="btn btn-success" name="salva" tabindex="64" type="submit" value="Salva" />
                         <input type="hidden" name="campaign_state_id" value="2" />

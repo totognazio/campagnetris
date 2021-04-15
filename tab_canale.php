@@ -333,7 +333,7 @@
           
             
               <label style="margin-top:20px" for="message">Testo SMS<span class="required">*</span></label>
-              <textarea id="testo_sms" <?php echo $disabled_value; ?><?php echo $required_sms; ?> class="form-control" name="addcanale[0][testo_sms]" rows="8"	data-parsley-pattern="/^[a-zA-Z0-9-#/()%&\[\]{}!,.?£$@$' ]+$/gi" data-parsley-pattern-message="Caratteri come '€' ' ’ ' ed altri caratteri speciali non sono accettati come testo SMS !!" onkeyup="checklength(0, 640, 'testo_sms', 'charTesto', 'numero_sms')" ><?php if($modifica){echo $canale['testo_sms'];}else{echo'';}?></textarea>  
+              <textarea id="testo_sms" <?php echo $disabled_value; ?><?php echo $required_sms; ?> class="form-control" name="addcanale[0][testo_sms]" rows="8"  data-parsley-pattern-message="Caratteri come '€' ' ’ ' ed altri caratteri speciali non sono accettati come testo SMS !!" onkeyup="checklength(0, 640, 'testo_sms', 'charTesto', 'numero_sms')" ><?php if($modifica){echo $canale['testo_sms'];}else{echo'';}?></textarea>  
               <label style="width:100%;"><small>Numeri caratteri utilizzati</small><input type="text" name="addcanale[0][charTesto]" id="charTesto" value="<?php if($modifica and isset($canale['charTesto'])){echo $canale['charTesto'];} ?>" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" onfocus="this.blur();" /></label>
               <label style="width:100%;"><small>Numero SMS</small><input type="text" name="addcanale[0][numero_sms]" id="numero_sms" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="<?php if($modifica and isset($canale['numero_sms'])){echo $canale['numero_sms'];} else{echo 0;} ?>" onfocus="this.blur();" /></label>                  
                      
@@ -393,8 +393,8 @@
     </span>   
     <span id="pos_field" <?php echo $display_pos; ?>> 
             <div class="col-md-4 col-sm-6 col-xs-12">      
-                <label  class="control-label">Titolo & Sottotitolo<span class="required">*</span></label>
-                <input <?php if ($readonly){echo $disabled_value;}?> type="text" id="tit_sott_pos" name="addcanale[0][tit_sott_pos]" placeholder="testo"  data-parsley-trigger="keyup" data-parsley-maxlength="200" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['tit_sott_pos'])){echo $canale['tit_sott_pos']; }?>" <?php echo $required_pos; ?> >                         
+                <label  class="control-label">Titolo & Sottotitolo<span class="required">*</span></label>                
+                <textarea id="tit_sott_pos" name="addcanale[0][tit_sott_pos]" <?php echo $required_pos; ?> class="form-control" rows="3" data-parsley-trigger="keyup"  data-parsley-maxlength="2000"  <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica and (isset($canale['tit_sott_pos']))){echo stripslashes($canale['tit_sott_pos']); }?></textarea>                    
             </div>
             <div class="col-md-4 col-sm-6 col-xs-12"><br>
                 <label>Categoria & Sottocategoria<span class="required">*</span></label></label>
@@ -403,7 +403,7 @@
                     foreach ($cat_sott as $key => $value) {
                         if($modifica and $canale['cat_sott_id']==$value['id']){$selected = ' selected';}
                         else{$selected = '';}
-                        echo '<option '. $selected. ' value="' . $value['id'] .'">'  . $value['name'] . ' - ' . $value['label'] . '</option>';
+                        echo '<option '. $selected. ' value="' . $value['id'] .'">'  . $value['name'] . '</option>';
                     }
                     ?>  
                 </select>
@@ -429,13 +429,13 @@
                 <label  class="control-label" for="note">SMS Presa in carico<span class="required">*</span></label>
                 <textarea <?php if ($readonly){echo $disabled_value;}?> rows="2" id="sms_incarico" name="addcanale[0][sms_incarico]"  <?php echo $required_400 ?> placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" ><?php if(isset($canale['sms_incarico'])){echo $canale['sms_incarico']; }?></textarea>
                 <br><br>
-                <label class="control-label" for="sms_target">SMS Non in Tanget<span class="required">*</span></label>            
+                <label class="control-label" for="sms_target">SMS Non in Target<span class="required">*</span></label>            
                 <textarea <?php if ($readonly){echo $disabled_value;}?> rows="2" id="sms_target" name="addcanale[0][sms_target]"   <?php echo $required_400 ?> placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160"   data-parsley-trigger="keyup"  class="form-control col-md-7 col-xs-12" ><?php if(isset($canale['sms_target'])){echo $canale['sms_target']; }?></textarea>
                 <br><br>
                 <label class="control-label" for="sms_adesione">SMS Adesione già Avvenuta<span class="required">*</span></label>
                 <textarea <?php if ($readonly){echo $disabled_value;}?> rows="2" id="sms_adesione" name="addcanale[0][sms_adesione]"    <?php echo $required_400 ?>placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" ><?php if(isset($canale['sms_adesione'])){echo $canale['sms_adesione']; }?></textarea>
                 <br><br>
-                <label class="control-label" for="sms_adesione">SMS Non Disponibile<span class="required">*</span></label>
+                <label class="control-label" for="sms_adesione">SMS per Sistema Non Disponibile<span class="required">*</span></label>
                 <textarea <?php if ($readonly){echo $disabled_value;}?> rows="2" id="sms_nondisponibile" name="addcanale[0][sms_nondisponibile]"   <?php echo $required_400 ?>placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" ><?php if(isset($canale['sms_nondisponibile'])){echo $canale['sms_nondisponibile']; }?></textarea>
         </div>
     </span> 
@@ -638,7 +638,44 @@
 
 <script>
 $(document).ready(function() { 
-        
+      
+    var testo_sms = document.getElementById("testo_sms");
+    testo_sms.addEventListener(
+        'keypress',
+        function (e) {
+            // Test for the key codes you want to filter out.
+            if (e.which == 8364) {
+                alert('  Attenzione il carattere \'€\' non è consentito!!');
+                // Prevent the default event action (adding the
+                // character to the textarea).
+                e.preventDefault();
+            }
+            else if (e.which == 86) {
+                alert('  Attenzione il carattere \'’\' non è consentito!!');
+                // Prevent the default event action (adding the
+                // character to the textarea).
+                e.preventDefault();
+            }
+            else if (!validaTesto()) {
+                 alert('Testo non valido!!! Introdotto carattere non consentito !!!');
+            }
+
+
+        }
+);
+testo_sms.addEventListener('paste', (event) => {
+    let paste = (event.clipboardData || window.clipboardData).getData('text');
+    
+    const re = /^[¡§¿ÄÖÑÜäöñüà@£$¥èéùìòÇØøÅå_\[\]ΘΞ^{}~|¤ÆæßÉ'<=>?,!"#%+&()*=:;/@\.a-zA-Z0-9_-\w\s]{1,640}$/;
+        //testo_sms = document.getElementById('testo_sms').value;
+        if (!(re.test(paste))) {
+            alert('Test validaione SMS fallito !!!');
+            event.preventDefault();
+            //return false;
+        }
+    
+});
+/*
     var testo_sms = document.getElementById("testo_sms");
     testo_sms.addEventListener(
         'keypress',

@@ -284,7 +284,7 @@ if ($page_protect->get_job_role() >= 2) {
         <div class="col-md-2 col-sm-6 col-xs-12">
             <label>Altri Criteri </label><span class="required"></span>
             <p style="padding: 5px;">
-                <input type="checkbox" name="no_frodi" id="no_frodi" data-parsley-multiple="frodatori" required data-parsley-errors-container="#checkbox-errors1"    
+                <input type="checkbox" name="no_frodi" id="no_frodi" data-parsley-multiple="frodatori"  data-parsley-errors-container="#checkbox-errors1"    
                                                                   <?php
                                 if ($modifica) {
                                     if ($id_campaign['no_frodi'] == 1){

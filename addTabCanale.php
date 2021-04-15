@@ -7,6 +7,7 @@ $campaign = new campaign_class();
 $channels = $funzione->get_list_select('channels');
 //$tit_sott = $funzione->get_allTable('campaign_titolo_sottotitolo');
 $cat_sott = $funzione->get_allTable('campaign_cat_sott');
+
 $id_campaign = array();
 $addcanale_stored = array();
 
@@ -74,7 +75,7 @@ else {
                             $required_app_outbound = ''; 
                             $required_dealer = ''; 
                             $required_mfh = ''; 
-                            $required_watson = '';                         
+                            $required_watson = '';                                                     
                             $required_icm = ''; 
                             $required_ivr_inbound = ''; 
                             $required_ivr_outbound = '';
@@ -139,7 +140,7 @@ $string .='<span id="sms_field'.$id_canale.'" '.$display_sms.' data-parsley-chec
         <div class="col-md-3 col-sm-6 col-xs-12">
                                 
                         <label>Sender  <span class="required">*</span></label>
-                            <select id="senders_ins'.$id_canale.'" name="addcanale['.$id_canale.'][sender_id]" class="select2_single form-control" style="width:100%" '.$required_sms.'  '.$disabled_value.'>
+                            <select id="senders_ins'.$id_canale.'" name="addcanale['.$id_canale.'][sender_id]" class="select2_single form-control" style="width:100%"  '.$disabled_value.'>
                                 <option></option>';   
                             if($modifica){
                                         $sender = $funzione->get_allTable('senders');                                                    
@@ -175,7 +176,7 @@ $string .='<span id="sms_field'.$id_canale.'" '.$display_sms.' data-parsley-chec
                           </select>
               <label style="margin-top:20px" for="message">Testo SMS <span class="required">*</span></label>
               <textarea id="testo_sms'.$id_canale.'" ';
-            $string .= ' '.$disabled_value.' '.$required_sms.' class="form-control" name="addcanale['.$id_canale.'][testo_sms'.$id_canale.']" rows="8" data-parsley-pattern="/^[a-zA-Z0-9-#/()%&\[\]{}!,.?£$@$\' ]+$/gi" data-parsley-pattern-message="Caratteri come \'€\' \' ’ \' ed altri caratteri speciali non sono accettati come testo SMS !!"onkeyup="checklength(0, 640, \'testo_sms'.$id_canale.'\', \'charTesto'.$id_canale.'\', \'numero_sms'.$id_canale.'\')" >';
+            $string .= ' '.$disabled_value.' '.$required_sms.' class="form-control" name="addcanale['.$id_canale.'][testo_sms'.$id_canale.']" rows="8"  data-parsley-pattern-message="Caratteri come \'€\' \' ’ \' ed altri caratteri speciali non sono accettati come testo SMS !!"onkeyup="checklength(0, 640, \'testo_sms'.$id_canale.'\', \'charTesto'.$id_canale.'\', \'numero_sms'.$id_canale.'\')" >';
             if($modifica and isset($addcanale_stored['testo_sms'.$id_canale.''])){$string .= $addcanale_stored['testo_sms'.$id_canale.''];}else{$string .= '';}
             $string .='</textarea>  
               <label style="width:100%;"><small>Numeri caratteri utilizzati</small><input type="text" name="addcanale['.$id_canale.'][charTesto'.$id_canale.']" id="charTesto'.$id_canale.'"  class="text" value="';
@@ -239,18 +240,23 @@ $string .='<span id="sms_field'.$id_canale.'" '.$display_sms.' data-parsley-chec
 $string .='<span id="pos_field'.$id_canale.'" '.$display_pos.'>                                         
             <div class="col-md-4 col-sm-6 col-xs-12">
                 <label  class="control-label">Titolo e Sottotitolo<span class="required">*</span></label>
-                <input'; if ($readonly){$string .=' '.$disabled_value;}
-                $string .=' type="text" id="tit_sott_pos'.$id_canale.'" name="addcanale['.$id_canale.'][tit_sott_pos]"  '.$required_pos.' placeholder="numerico"  data-parsley-trigger="keyup" data-parsley-maxlength="200" class="form-control col-md-7 col-xs-12" value="';
-                if(isset($addcanale_stored['tit_sott_pos'])){$string .= $addcanale_stored['tit_sott_pos']; }
-                $string .=' "><br> 
+               <textarea id="tit_sott_pos'.$id_canale.'" name="addcanale['.$id_canale.'][tit_sott_pos]"  '.$required_pos.' class="form-control" rows="3" data-parsley-trigger="keyup"  data-parsley-maxlength="2000"';
+                if ($readonly){
+                    $string .=$disabled_value;}
+                    $string .='>';
+                    if ($modifica and (isset($addcanale_stored['tit_sott_pos']))){
+                        $string.= stripslashes($addcanale_stored['tit_sott_pos']); }
+                        $string.='</textarea><br>                    
                 <label>Categoria & Sottocategoria<span class="required">*</span></label>
-                <select id="cat_sott_ins'.$id_canale.'" style="width: 100%" name="addcanale['.$id_canale.'][cat_sott_id]" class="select2_single form-control" '.$required_pos.' '.$disabled_value.'>';        
+                <select id="cat_sott_ins'.$id_canale.'" style="width: 100%" name="addcanale['.$id_canale.'][cat_sott_id]" class="select2_single form-control" '.$required_pos.' '.$disabled_value.' > ';        
                                                  
+                                            
                     foreach ($cat_sott as $key => $value) {
-                        if($modifica and isset($addcanale_stored['cat_sott_id']) and $addcanale_stored['cat_sott_id']==$value['id']){$selected = ' selected ';}
+                        if($modifica and isset($addcanale_stored['cat_sott_id']) and $addcanale_stored['cat_sott_id']==$value['id']){$selected = ' selected';}
                         else{$selected = '';}
-                        $string .=  '<option '. $selected. ' value="' . $value['id'] .'">'  . $value['name'] . ' - ' . $value['label'] . '</option>';
+                        $string .= '<option '. $selected. ' value="' . $value['id'] .'">'  . $value['name'] . '</option>';
                     }
+                    
                      
                 $string .= '</select>
                 <label  class="control-label">Giorni di Validità</label>
@@ -283,11 +289,11 @@ $string .='<span id="span_40400'.$id_canale.'" '.$display_40400.'>
                 if ($readonly){$string .=  $disabled_value;}
                 $string .= 'type="number" id="day_val'.$id_canale.'" name="addcanale['.$id_canale.'][day_val]"  min="1" max="31" placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="';
                 if($modifica and isset($addcanale_stored['day_val'])) {$string .= $addcanale_stored['day_val']; }
-                $string .= '"><br><br><br><br><label  class="control-label" for="note">SMS Presa in carico</label><textarea';
+                $string .= '"><br><br><br><br><label  class="control-label" for="note">SMS Presa in carico</label><textarea ';
                 if ($readonly){$string .= $disabled_value;}
-                $string .= ' rows="2" id="sms_incarico'.$id_canale.'" name="addcanale['.$id_canale.'][sms_incarico]"  placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" >';
+                $string .= ' rows="2" id="sms_incarico'.$id_canale.'" name="addcanale['.$id_canale.'][sms_incarico]"  placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" > ';
                 if($modifica and isset($addcanale_stored['sms_incarico'])){$string .= $addcanale_stored['sms_incarico']; }
-                $string .= '</textarea>
+                $string .= ' </textarea>
                 <br><br>
                 <label class="control-label" for="sms_target">SMS Non in Tanget<span class="required">*</span></label>         
                 <textarea ';
@@ -303,9 +309,9 @@ $string .='<span id="span_40400'.$id_canale.'" '.$display_40400.'>
                 if($modifica and isset($addcanale_stored['sms_adesione'])){$string .=$addcanale_stored['sms_adesione']; }
                 $string .= '</textarea>
                 <br><br>
-                <label class="control-label" for="sms_adesione">SMS Non Disponibile<span class="required">*</span></label>
+                <label class="control-label" for="sms_adesione">SMS per Sistema Non Disponibile<span class="required">*</span></label>
                 <textarea ';if ($readonly){$string .=  $disabled_value;}
-                $string .= ' rows="2" id="sms_nondisponibile'.$id_canale.'" name="addcanale['.$id_canale.'][sms_nondisponibile]"  placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" >';
+                $string .= ' rows="2" id="sms_nondisponibile'.$id_canale.'" name="addcanale['.$id_canale.'][sms_nondisponibile]"  placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" > ';
                 if($modifica and isset($addcanale_stored['sms_nondisponibile'])){$string .=$addcanale_stored['sms_nondisponibile']; }
                 $string .='</textarea>
         </div>
@@ -585,7 +591,7 @@ $string.='</div>
                 <label>Funnel<span class="required">*</span></label>          
     <input id="funnel'.$id_canale.'" ';
                     if ($readonly){$string .= $disabled_value;}
-                    $string .=' type="text" class="form-control has-feedback-rigth"  placeholder="alfanumerico" aria-describedby="inputSuccessSpai" required="required" name="addcanale['.$id_canale.'][funnel]" value="';
+                    $string .=' type="text" class="form-control has-feedback-rigth"  placeholder="alfanumerico" aria-describedby="inputSuccessSpai" '.$required_iow.'  name="addcanale['.$id_canale.'][funnel]" value="';
                     if(isset($addcanale_stored['funnel'])){$string .= $addcanale_stored['funnel'];}
                     $string .='">
                 <br>

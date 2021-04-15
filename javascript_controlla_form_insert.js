@@ -100,6 +100,7 @@ function validazione(selected_channel_id, all_required) {
         
   //$('#day_val_pos').attr('required', false);
   //$('#callguide_pos').attr('required', false);
+  
   //#span_40400
   $('#alias_attiv').attr('required', false);
   $('#day_val').attr('required', false);
@@ -1394,7 +1395,7 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
   //$(this).parsley().validate();
       
   //stato diverso  Draft, Da Approfondire, Oltre Capacity e Annullata 
-  // OK Validazione    
+  // Validazione completa
   if (get_required(all_required)) {
     if (selected_channel_id === '12') {
       //sms
@@ -2230,7 +2231,7 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
   
    if (!get_required(all_required) && (selected_channel_id === '12')){
     //sms
-    //$('#senders_ins' + add_canale).attr('required', true);
+    $('#senders_ins' + add_canale).attr('required', false);
     //$('#storicizza_ins' + add_canale).attr('required', true);
     $('#notif_consegna' + add_canale).attr('required', true);
     $('#testo_sms' + add_canale).attr('required', true);
@@ -2502,7 +2503,7 @@ function add_canale_view(selected_channel_id, add_canale) {
           $('#pos_field'+add_canale).hide();
           $('#sms_field' + add_canale).hide();
           $('#span_inorderweb'+add_canale).hide();
-
+/*
           //sms
           $('#senders_ins'+add_canale).attr('required', false);
           $('#storicizza_ins'+add_canale).attr('required', false);
@@ -2554,6 +2555,7 @@ function add_canale_view(selected_channel_id, add_canale) {
           //#span_watson
           $('#type_watson'+add_canale).attr('required', false);
           $('#contact_watson'+add_canale).attr('required', false);
+          */
         }
         else if (selected_channel_id === '33') {//canale DEALER
           $('#span_40400'+add_canale).hide();
@@ -2669,7 +2671,7 @@ function validazione_criteri(all_required) {
     //contratto_microbusiness cons_profilazione cons_commerciale cons_terze_parti cons_geolocalizzazione cons_enrichment cons_trasferimentidati
   }
   else {
-        $('#attivi').attr('required', true);
+      $('#attivi').attr('required', true);
     $('#sospesi').attr('required', true);
     $('#disattivi').attr('required', true);
     $('#consumer').attr('required', true);
@@ -2680,8 +2682,8 @@ function validazione_criteri(all_required) {
     $('#voce').attr('required', true);
     $('#dati').attr('required', true);
     $('#fisso').attr('required', true);
-    $('#no_frodi').attr('required', true);
-    $('#altri_filtri').attr('required', true);
+    $('#no_frodi').attr('required', false);
+    $('#altri_filtri').attr('required', false);
     $('#altri_criteri').attr('required', true);
     $('#select_control_indic').attr('required', true);
   }
@@ -2984,12 +2986,32 @@ function new_get_stato(stato_id) {
 
  }
 
- function checklength(areaText, maxchars, input, char, char_count_sms) {
+ function validaTesto() {
+   
+   var re = /^[¡§¿ÄÖÑÜäöñüà@£$¥èéùìòÇØøÅå_\[\]ΘΞ^{}~|¤ÆæßÉ'<=>?,!"#%+&()*=:;/@\.a-zA-Z0-9_-\w\s]{1,640}$/;
+        //testo_sms = document.getElementById('testo_sms').value;
+        if (!(re.test(paste))) {
+            alert('Test validaione SMS fallito !!!');
+            //event.preventDefault();
+            return false;
+        }
+   return true;
+ }
+
+
+function checklength(areaText, maxchars, input, char, char_count_sms) {
+   
     lunghezza_sms = 160;
     lunghezza_sms_concatenato = 153;
     lunghezza_link = 28;
-    chars = document.getElementById(input).value;
-    if ((document.getElementById("mod_invio").value == "Interattivo") && (input == "testo_sms")) {
+  chars = document.getElementById(input).value;
+  /*
+  if (!validaTesto()) {
+    alert('Testo sms non valido!!! Introdotti caratteri non consentiti!!');
+  }
+  */
+  
+  if ((document.getElementById("mod_invio").value == "Interattivo") && (input == "testo_sms")) {
         lunghezza_link = 28;
     } else {
         lunghezza_link = 0;

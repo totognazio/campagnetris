@@ -7,7 +7,7 @@ var selected_channel_id1;
 var testo_sms1 = document.getElementById("testo_sms1");
     testo_sms1.addEventListener(
         'keypress',
-        function (e) {
+              function (e) {
             // Test for the key codes you want to filter out.
             if (e.which == 8364) {
                 alert('  Attenzione il carattere \'€\' non è consentito!!');
@@ -15,8 +15,31 @@ var testo_sms1 = document.getElementById("testo_sms1");
                 // character to the textarea).
                 e.preventDefault();
             }
+            else if (e.which == 86) {
+                alert('  Attenzione il carattere \'’\' non è consentito!!');
+                // Prevent the default event action (adding the
+                // character to the textarea).
+                e.preventDefault();
+            }
+            else if (!validaTesto()) {
+                 alert('Testo non valido!!! Introdotto carattere non consentito !!!');
+            }
+
+
         }
 );
+testo_sms1.addEventListener('paste', (event) => {
+    let paste = (event.clipboardData || window.clipboardData).getData('text');
+    
+    const re = /^[¡§¿ÄÖÑÜäöñüà@£$¥èéùìòÇØøÅå_\[\]ΘΞ^{}~|¤ÆæßÉ'<=>?,!"#%+&()*=:;/@\.a-zA-Z0-9_-\w\s]{1,640}$/;
+        //testo_sms = document.getElementById('testo_sms').value;
+        if (!(re.test(paste))) {
+            alert('Test validaione SMS fallito !!!');
+            event.preventDefault();
+            //return false;
+        }
+    
+});
     
 
 $( '#mod_invio1').select2({
@@ -110,13 +133,14 @@ $('#channel_ins1').on('select2:select ', function () {
       //count1 = document.getElementById('iniziative_dealer1').value;
                  count1 =  $('#iniziative_dealer1').val();
       
-           add_canale_view(selected_channel_id1, 1);
-            validazione_add_canaleDealer(count1, stato);            
-            add_canale_validazione(selected_channel_id1, stato, 1);    
-          
+      add_canale_validazione(selected_channel_id1, stato, 1); 
+      validazione_add_canaleDealer(count1, stato);       
+      // add_canale_view(selected_channel_id1, 1);
 
     });
 
+    
+    
     
   
 

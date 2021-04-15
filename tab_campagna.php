@@ -43,9 +43,9 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <select id="squad_ins" name="squad_id" class="select2_single form-control"  required="required" <?php echo $disabled_value;?>>        
                             <?php
-                                if($page_protect->get_job_role()!=2){
+                                //if($page_protect->get_job_role()!=2){
                                     echo'<option value=""></option>';
-                                }                                                  
+                                //}                                                  
                                 foreach ($squads as $key => $value) {
                                     if($modifica && $id_campaign['squad_id']==$key){
                                     echo '<option selected value="'.$key.'">'.$value.'</option>'; 
@@ -258,12 +258,32 @@
 
     
     <?php
-    if (isset($azione) && ($azione=='new')){
-        ?>
-            document.getElementById('nomecampagna').value = moment().format('YYYYMMDD');
+        
+    
+if (isset($azione) && ($azione=='new')){
+    //PM   
+         if($page_protect->get_job_role()==2){
+             
+            $squad_id = $funzioni_admin->user_get_info($page_protect->id)['squad_id'];
+            //echo "eccolo $squad_id";
+            
+
+    ?>       
+            $.getJSON("get_label.php", {squad_id: <?php echo $squad_id;?>}, function (dati) {
+                squad_label = "_" + dati[0].etichetta;
+                document.getElementById('nomecampagna').value = moment().format('YYYYMMDD') + squad_label;
+            });
+     <?php 
+            }
+            else{ ?>
+                document.getElementById('nomecampagna').value = moment().format('YYYYMMDD');
+    <?php
+            }
+           ?>        
+            
             stato = document.getElementById('campaign_state_id').value = 2; //stato RICHIESTA
             selected_channel_id = document.getElementById('channel_ins').value;   
-            validazione(selected_channel_id, stato);
+            validazione(selected_channel_id, stato);   
             validazione_criteri(stato);  
             //highlither_min_required();            
         <?php        
@@ -384,8 +404,8 @@
             //console.log('stato adesso '+stato);
             console.log('stato_info new ' + JSON.stringify(new_get_stato(stato)));
             //if (typeof stato != "undefined" &&  !get_required(stato)){
-                    console.log('stato letto in Tab Campagna '+ stato);
-                    highlither_min_required(stato);
+            console.log('stato letto in Tab Campagna '+ stato);
+            highlither_min_required(stato);
             //}
 
 

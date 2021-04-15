@@ -1161,8 +1161,8 @@ function update($record, $id_campagne) {
             }
             //}
         }
+        //$lista_variabili = $lista_variabili . " `data_inserimento` = '" . date("Y-m-d  H:i:s") . "'";
         $lista_variabili = $lista_variabili . " `data_inserimento` = '" . date("Y-m-d  H:i:s") . "'";
-
         //$lista_variabili = substr($lista_variabili, 0, -1);
         $sql = "UPDATE `campaigns` SET " . $lista_variabili . " where id='" . $id_campagne . "';";
         //echo $sql;

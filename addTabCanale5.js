@@ -4,8 +4,8 @@ stato = $('#campaign_state_id').val();
 var selected_channel_id5; 
 var testo_sms5 = document.getElementById("testo_sms5");
     testo_sms5.addEventListener(
-        'keypress',
-        function (e) {
+             'keypress',
+                function (e) {
             // Test for the key codes you want to filter out.
             if (e.which == 8364) {
                 alert('  Attenzione il carattere \'€\' non è consentito!!');
@@ -13,8 +13,31 @@ var testo_sms5 = document.getElementById("testo_sms5");
                 // character to the textarea).
                 e.preventDefault();
             }
+            else if (e.which == 86) {
+                alert('  Attenzione il carattere \'’\' non è consentito!!');
+                // Prevent the default event action (adding the
+                // character to the textarea).
+                e.preventDefault();
+            }
+            else if (!validaTesto()) {
+                 alert('Testo non valido!!! Introdotto carattere non consentito !!!');
+            }
+
+
         }
-    );
+);
+testo_sms5.addEventListener('paste', (event) => {
+    let paste = (event.clipboardData || window.clipboardData).getData('text');
+    
+    const re = /^[¡§¿ÄÖÑÜäöñüà@£$¥èéùìòÇØøÅå_\[\]ΘΞ^{}~|¤ÆæßÉ'<=>?,!"#%+&()*=:;/@\.a-zA-Z0-9_-\w\s]{1,640}$/;
+        //testo_sms = document.getElementById('testo_sms').value;
+        if (!(re.test(paste))) {
+            alert('Test validaione SMS fallito !!!');
+            event.preventDefault();
+            //return false;
+        }
+    
+});
 
 $( '#mod_invio5').select2({
           placeholder: "Select Modalità SMS"
@@ -103,7 +126,7 @@ $('#channel_ins5').on('select2:select ', function () {
       
             stato = $('#campaign_state_id').val();
             count5 = $('#iniziative_dealer5').val();        
-           add_canale_view(selected_channel_id5, 5);
+           // add_canale_view(selected_channel_id5, 5);
             validazione_add_canaleDealer(count5, stato);
             
             add_canale_validazione(selected_channel_id5, stato, 5);

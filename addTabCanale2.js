@@ -5,7 +5,7 @@ var selected_channel_id2;
 var testo_sms2 = document.getElementById("testo_sms2");
     testo_sms2.addEventListener(
         'keypress',
-        function (e) {
+           function (e) {
             // Test for the key codes you want to filter out.
             if (e.which == 8364) {
                 alert('  Attenzione il carattere \'€\' non è consentito!!');
@@ -13,9 +13,31 @@ var testo_sms2 = document.getElementById("testo_sms2");
                 // character to the textarea).
                 e.preventDefault();
             }
-        }
-    );
+            else if (e.which == 86) {
+                alert('  Attenzione il carattere \'’\' non è consentito!!');
+                // Prevent the default event action (adding the
+                // character to the textarea).
+                e.preventDefault();
+            }
+            else if (!validaTesto()) {
+                 alert('Testo non valido!!! Introdotto carattere non consentito !!!');
+            }
 
+
+        }
+);
+testo_sms2.addEventListener('paste', (event) => {
+    let paste = (event.clipboardData || window.clipboardData).getData('text');
+    
+    const re = /^[¡§¿ÄÖÑÜäöñüà@£$¥èéùìòÇØøÅå_\[\]ΘΞ^{}~|¤ÆæßÉ'<=>?,!"#%+&()*=:;/@\.a-zA-Z0-9_-\w\s]{1,640}$/;
+        //testo_sms = document.getElementById('testo_sms').value;
+        if (!(re.test(paste))) {
+            alert('Test validaione SMS fallito !!!');
+            event.preventDefault();
+            //return false;
+        }
+    
+});
 $( '#mod_invio2').select2({
           placeholder: "Select Modalità SMS"
         });    
@@ -102,10 +124,12 @@ $('#channel_ins2').on('select2:select ', function () {
       selected_channel_id2 = $('#channel_ins2').val();
       stato = $('#campaign_state_id').val();
       count2 = $('#iniziative_dealer2').val();      
-      add_canale_view(selected_channel_id2, 2);   
+      // add_canale_view(selected_channel_id2, 2);   
       validazione_add_canaleDealer(count2, stato);
       
-      add_canale_validazione(selected_channel_id2, stato, 2);   
+      add_canale_validazione(selected_channel_id2, stato, 2);
+      
+      
           
 
     });
