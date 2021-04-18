@@ -1207,8 +1207,7 @@ LEFT JOIN campaign_states ON `campaign_state_id` = campaign_states.id
 
     function get_states_info() {
         $query3 = "SELECT * FROM campaign_states where 1";
-        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
-        $obj3 = $result3->fetch_array(MYSQLI_ASSOC);
+        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);        
         while ($obj3 = $result3->fetch_array(MYSQLI_ASSOC)) {
             $rows[$obj3['id']] = $obj3;
         }

@@ -5,7 +5,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nomecampagna">Nome Campagna  <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="nomecampagna" name="pref_nome_campagna"  class="form-control col-md-7 col-xs-12" required="required" data-parsley-maxlength="40" data-parsley-trigger="keyup" readonly="readonly"  
+                          <input type="text" id="nomecampagna" name="pref_nome_campagna"  class="form-control col-md-7 col-xs-12" required="required" data-parsley-maxlength="40" data-parsley-trigger="input keyup change" disabled  
                            <?php
                             if ($modifica){
                                 echo " value=\"" . substr(stripslashes($id_campaign['pref_nome_campagna']), 0) . "\"";
@@ -82,7 +82,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="note_camp">Note
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" id="note_camp" name="note_camp"  class="form-control col-md-7 col-xs-12" placeholder="alfanumerico (parte del nome campagna)" value="<?php if(isset($id_campaign['note_camp'])){ echo $id_campaign['note_camp']; } ?>" <?php echo $disabled_value;?>>
+                            <input type="text" id="note_camp" name="note_camp"  class="form-control col-md-7 col-xs-12"  placeholder="alfanumerico (parte del nome campagna)" value="<?php if(isset($id_campaign['note_camp'])){ echo $id_campaign['note_camp']; } ?>" <?php echo $disabled_value;?>>
                         </div>
                       </div>
 
@@ -272,11 +272,13 @@ if (isset($azione) && ($azione=='new')){
             $.getJSON("get_label.php", {squad_id: <?php echo $squad_id;?>}, function (dati) {
                 squad_label = "_" + dati[0].etichetta;
                 document.getElementById('nomecampagna').value = moment().format('YYYYMMDD') + squad_label;
+                 $("#nomecampagna").parsley().validate(); 
             });
      <?php 
             }
             else{ ?>
                 document.getElementById('nomecampagna').value = moment().format('YYYYMMDD');
+                 $("#nomecampagna").parsley().validate(); 
     <?php
             }
            ?>        
@@ -335,6 +337,7 @@ if (isset($azione) && ($azione=='new')){
             $.getJSON("get_label.php", {squad_id: $(this).val()}, function (dati) {
                 squad_label = "_" + dati[0].etichetta;
                 document.getElementById('nomecampagna').value = data_label + squad_label + channel_label + type_label + note_label;
+                 $("#nomecampagna").parsley().validate(); 
             });
         }); 
 
@@ -356,6 +359,7 @@ if (isset($azione) && ($azione=='new')){
             $.getJSON("get_label.php", {type_id: $(this).val()}, function (dati) {
                 type_label = "_" + dati[0].etichetta;
                 document.getElementById('nomecampagna').value = data_label + squad_label + channel_label + type_label + note_label;
+                $("#nomecampagna").parsley().validate(); 
             });
         });
         
@@ -375,6 +379,9 @@ if (isset($azione) && ($azione=='new')){
         }
                 note_label = '_'+document.getElementById('note_camp').value;     
                 document.getElementById('nomecampagna').value = data_label + squad_label + channel_label + type_label + note_label;
+                           
+                $("#nomecampagna").parsley().validate();    
+                          
         });
 
         

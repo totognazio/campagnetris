@@ -178,7 +178,7 @@ if ($page_protect->get_job_role() >= 2) {
                 <input type="checkbox" name="cons_commerciale" id="cons_commerciale" 
                                                                               <?php
                                 if ($modifica) {
-                                    if ($id_campaign['cons_profilazione'] == 1){
+                                    if ($id_campaign['cons_commerciale'] == 1){
                                     echo " checked=\"checked\" ";}
                                 } else{
                                         echo "";}

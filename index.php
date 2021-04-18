@@ -4,7 +4,7 @@ ob_start();
 include_once ('db_config.php');
 //include($_SERVER['DOCUMENT_ROOT'] . APPLICATION_PATH . "access_user_class.php");
 include_once("./classes/access_user/access_user_class.php");
-
+date_default_timezone_set('Europe/Rome');
 //include_once 'socmanager_class.php';
 
 //session_start();

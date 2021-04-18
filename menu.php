@@ -39,17 +39,18 @@ if (stripos($_SERVER['REQUEST_URI'],'campaign_cat_sott') !== false) { $cat_sottm
     <br><br>
     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">        
         <div class="menu_section">
+    
+    <ul class="nav side-menu">
+        <li><a href="#" ><i class="fa fa-dropbox"></i> Archivio Campagne  </a></li>
+        <!--<li><a href="http://device-tools.h3g.it/campagneold/index.php?page=gestioneCampagne" target="_blank"><i class="fa fa-dropbox"></i> Archivio Campagne  </a></li>-->
+    </ul>
     <br><br>
             <ul class="nav side-menu">   
                
                   
               
                 <li <?php echo $gestioneCampagne2;?>><a href="index.php?page=gestioneCampagne2"><i class="fa fa-pencil-square-o"></i> Gestione </a></li>                                                       
-                <li <?php echo $pianificazione2;?>><a href="index.php?page=pianificazione2"><i class="fa fa-table"></i> Pianificazione </a></li>  
-
-                   
-                
-            
+                <li <?php echo $pianificazione2;?>><a href="index.php?page=pianificazione2"><i class="fa fa-table"></i> Pianificazione </a></li>                                                 
             
              <!--<h3> Administrator </h3>-->            
                

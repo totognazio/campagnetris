@@ -725,6 +725,7 @@ testo_sms.addEventListener('paste', (event) => {
             $.getJSON("get_label.php", {channel_id: $(this).val()}, function (dati) {
                 channel_label = "_" + dati[0].etichetta;
                 document.getElementById('nomecampagna').value = data_label + squad_label + channel_label + type_label + note_label;
+                 $("#nomecampagna").parsley().validate(); 
             });
         });
 

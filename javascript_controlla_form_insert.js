@@ -2991,7 +2991,7 @@ function new_get_stato(stato_id) {
    var re = /^[¡§¿ÄÖÑÜäöñüà@£$¥èéùìòÇØøÅå_\[\]ΘΞ^{}~|¤ÆæßÉ'<=>?,!"#%+&()*=:;/@\.a-zA-Z0-9_-\w\s]{1,640}$/;
         //testo_sms = document.getElementById('testo_sms').value;
         if (!(re.test(paste))) {
-            alert('Test validaione SMS fallito !!!');
+            alert('Test validazione SMS fallito !!!');
             //event.preventDefault();
             return false;
         }
