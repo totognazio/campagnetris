@@ -946,7 +946,7 @@ function check_addCanale($record){
 
 function insert($record) {
 //print_r($lista_id);
-    //print_r($_POST);
+    //print_r($record);
 
     //$addcanale = $this->check_addCanale($record);
     //echo "<br/>addcanale " . $addcanale . "<br/>";
@@ -1029,10 +1029,10 @@ function insert($record) {
             $page_protect = new Access_user;
             $user_info = $page_protect->get_user_id();
 //L'utente Rattini Marco ha modificato lo stato della campagna “Nome Campagna�? in RICHIESTA. Data inizio campagna 21/03/2016.
-            $this->send_email("[CTM] La campagna " .$record['pref_nome_campagna']. " ha cambiato stato", "L'utente '" . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . "' ha modificato lo stato della campagna '" .$record['pref_nome_campagna']. " in " . $this->get_state_name($this->get_state($id_campagne)) . ". Data inizio campagna: " . $_POST['data_inizio'] . ".");
+            $this->send_email("[CTM] La campagna " .$record['pref_nome_campagna']. " ha cambiato stato", "L'utente '" . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . "' ha modificato lo stato della campagna '" .$record['pref_nome_campagna']. " in " . $this->get_state_name($record['campaign_state_id']) . ". Data inizio campagna: " . $_POST['data_inizio'] . ".");
             //$this->send_email("[CTM] Nuova campagna: " . $record['pref_nome_campagna'] . "", "L'utente '" . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . "' ha inserito una nuova campagna '" . $_POST['nome_campagna'] . "'. Data inizio campagna: " . $_POST['data_inizio'] . ".");
-            // $stringa_mail ="[CTM] Nuova campagna: " . $record['pref_nome_campagna'] . ", L'utente " . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . " ha inserito una nuova campagna. Data inizio campagna: " . $record['data_inizio'] . ".";            
-            // echo '<script type="text/javascript">alert("SIMULAZIONE Invio Email' . $stringa_mail . '")</script>';
+            //$stringa_mail ="[CTM] La campagna " .$record['pref_nome_campagna']. " ha cambiato stato L'utente '" . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . "' ha modificato lo stato della campagna '" .$record['pref_nome_campagna']. " in " . $this->get_state_name($record['campaign_state_id']) . ". Data inizio campagna: " . $_POST['data_inizio'] . ".";
+            //echo '<script type="text/javascript">alert("SIMULAZIONE Invio Email' . $stringa_mail . '")</script>';
         } catch (Exception $e) {
             echo 'ERROR:'.$e->getMessage(). " - " . $sql;
         }
