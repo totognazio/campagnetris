@@ -120,7 +120,7 @@ if (isset($_GET['function']))
                     #include "serverbusy.html";
                     #include "./".gestioneLSoc&pg=admin_lsoc
                 }
-                
+print_r($_SESSION);                
 			
 include "footer.php"; 
 

@@ -5,7 +5,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nomecampagna">Nome Campagna  <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="nomecampagna" name="pref_nome_campagna"  class="form-control col-md-7 col-xs-12" required="required" data-parsley-maxlength="40" data-parsley-trigger="input keyup change" disabled  
+                          <input type="text" id="nomecampagna" name="pref_nome_campagna"  class="form-control col-md-7 col-xs-12" required="required" data-parsley-maxlength="40" data-parsley-trigger="input keyup change" readonly  
                            <?php
                             if ($modifica){
                                 echo " value=\"" . substr(stripslashes($id_campaign['pref_nome_campagna']), 0) . "\"";
@@ -320,7 +320,7 @@ if (isset($azione) && ($azione=='new')){
        
        $('#squad_ins').on('select2:select', function () {  
             if (document.getElementById('nomecampagna').value.length > 0) {
-            var pref_nome_campagna = document.getElementById('nomecampagna').value;
+            var pref_nome_campagna= document.getElementById('nomecampagna').value;
             var myarr = pref_nome_campagna.split("_");
             //if (myarr[0].value.length > 0)
             data_label = myarr[0];

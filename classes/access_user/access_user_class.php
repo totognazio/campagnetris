@@ -135,7 +135,7 @@ class Access_user {
                 $sql = sprintf("SELECT COUNT(*) AS test FROM %s WHERE BINARY login = %s AND pw = %s AND active = 'y'", $this->table_name, $this->ins_string($this->user), $this->ins_string($this->user_pw));
         }
         //$result = mysql_query($sql) or die(mysql_error());
-        $result = mysqli_query($this->mysqli,$sql) or die(mysqli_error($this->db));
+        $result = mysqli_query($this->mysqli,$sql) or die(mysqli_error($this->mysqli));
         if (mysqli_fetch_assoc($result)["test"] == 1) {
             return true;
         } else {

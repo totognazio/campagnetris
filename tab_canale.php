@@ -669,7 +669,7 @@ testo_sms.addEventListener('paste', (event) => {
     const re = /^[¡§¿ÄÖÑÜäöñüà@£$¥èéùìòÇØøÅå_\[\]ΘΞ^{}~|¤ÆæßÉ'<=>?,!"#%+&()*=:;/@\.a-zA-Z0-9_-\w\s]{1,640}$/;
         //testo_sms = document.getElementById('testo_sms').value;
         if (!(re.test(paste))) {
-            alert('Test validaione SMS fallito !!!');
+            alert('Test validazione SMS fallito !!!');
             event.preventDefault();
             //return false;
         }
@@ -725,7 +725,7 @@ testo_sms.addEventListener('paste', (event) => {
             $.getJSON("get_label.php", {channel_id: $(this).val()}, function (dati) {
                 channel_label = "_" + dati[0].etichetta;
                 document.getElementById('nomecampagna').value = data_label + squad_label + channel_label + type_label + note_label;
-                 $("#nomecampagna").parsley().validate(); 
+                 // $("#nomecampagna").parsley().validate(); 
             });
         });
 

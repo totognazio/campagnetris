@@ -37,7 +37,7 @@
   <link href="vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">   
   
    
- <!--<style> 
+ <style> 
 .loader {
     display: none;
     position: absolute;
@@ -45,8 +45,8 @@
     background: rgba(255,255,255,0.8) url(images/Preloader_8.gif) center center no-repeat;
     z-index: 1000;
 }   
-</style>-->   
-    
+</style>
+
 <!-- jQuery -->
 <script src="vendors/jquery/dist/jquery.min.js"></script>   
 

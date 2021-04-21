@@ -1029,9 +1029,10 @@ function insert($record) {
             $page_protect = new Access_user;
             $user_info = $page_protect->get_user_id();
 //L'utente Rattini Marco ha modificato lo stato della campagna “Nome Campagna�? in RICHIESTA. Data inizio campagna 21/03/2016.
-            //$this->send_email("[CTM] Nuova campagna: " . $_POST['nome_campagna'] . "", "L'utente '" . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . "' ha inserito una nuova campagna '" . $_POST['nome_campagna'] . "'. Data inizio campagna: " . $_POST['data_inizio'] . ".");
-            $stringa_mail ="[CTM] Nuova campagna: " . $record['pref_nome_campagna'] . ", L'utente " . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . " ha inserito una nuova campagna. Data inizio campagna: " . $record['data_inizio'] . ".";            
-            echo '<script type="text/javascript">alert("SIMULAZIONE Invio Email' . $stringa_mail . '")</script>';
+            $this->send_email("[CTM] La campagna " .$record['pref_nome_campagna']. " ha cambiato stato", "L'utente '" . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . "' ha modificato lo stato della campagna '" .$record['pref_nome_campagna']. " in " . $this->get_state_name($this->get_state($id_campagne)) . ". Data inizio campagna: " . $_POST['data_inizio'] . ".");
+            //$this->send_email("[CTM] Nuova campagna: " . $record['pref_nome_campagna'] . "", "L'utente '" . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . "' ha inserito una nuova campagna '" . $_POST['nome_campagna'] . "'. Data inizio campagna: " . $_POST['data_inizio'] . ".");
+            // $stringa_mail ="[CTM] Nuova campagna: " . $record['pref_nome_campagna'] . ", L'utente " . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . " ha inserito una nuova campagna. Data inizio campagna: " . $record['data_inizio'] . ".";            
+            // echo '<script type="text/javascript">alert("SIMULAZIONE Invio Email' . $stringa_mail . '")</script>';
         } catch (Exception $e) {
             echo 'ERROR:'.$e->getMessage(). " - " . $sql;
         }
@@ -1090,7 +1091,7 @@ function update($record, $id_campagne) {
     //reset JSON ADDCANALE
     //$sql = "UPDATE `campaigns` SET `addcanale`= '{\"0\": {}}' where id='" . $id_campagne . "';";
     //$results = $this->mysqli->query($sql) or die($sql . " - " . $this->mysqli->error);
-//print_r($record);
+// print_r($record);
         $send_email = 0;
         $id_state = $this->get_state($id_campagne);
         $lista_variabili = "";
@@ -1171,9 +1172,9 @@ function update($record, $id_campagne) {
         $results = $this->mysqli->query($sql) or die($sql . " - " . $this->mysqli->error);
         if ($send_email) {
 //L'utente Rattini Marco ha modificato lo stato della campagna “Nome Campagna�? in RICHIESTA. Data inizio campagna 21/03/2016.
-            //$this->send_email("[CTM] La campagna " .$_POST['pref_nome_campagna']. " ha cambiato stato", "L'utente '" . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . "' ha modificato lo stato della campagna '" .$_POST['pref_nome_campagna']. " in " . $this->get_state_name($this->get_state($id_campagne)) . ". Data inizio campagna: " . $_POST['data_inizio'] . ".");
-            $stringa_mail ="[CTM] La campagna: " . $record['pref_nome_campagna'] . " ha cambiato stato. L'utente " . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . " ha modificato lo stato della campagna in ". $this->get_state_name($this->get_state($id_campagne)) . ". Data inizio campagna: " . $_POST['data_inizio'];           
-            echo '<script type="text/javascript">alert("SIMULAZIONE Invio Email' . $stringa_mail . '")</script>';
+            $this->send_email("[CTM] La campagna " .$record['pref_nome_campagna']. " ha cambiato stato", "L'utente '" . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . "' ha modificato lo stato della campagna '" .$record['pref_nome_campagna']. " in " . $this->get_state_name($this->get_state($id_campagne)) . ". Data inizio campagna: " . $_POST['data_inizio'] . ".");
+            // $stringa_mail ="[CTM] La campagna: " . $record['pref_nome_campagna'] . " ha cambiato stato. L'utente " . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . " ha modificato lo stato della campagna in ". $this->get_state_name($this->get_state($id_campagne)) . ". Data inizio campagna: " . $_POST['data_inizio'];           
+            // echo '<script type="text/javascript">alert("SIMULAZIONE Invio Email' . $stringa_mail . '")</script>';
         }
         return "Campagna modificata correttamente";
     }
@@ -1666,7 +1667,7 @@ LEFT JOIN users ON `user_id` = users.id
     }
     
     function tablePianificazione($list) {   
-    //print_r($list);
+    // print_r($list);
         ?>                                                    
                     <!--<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                     <table id="datatable-responsive" cellspacing="0" width="100%">
@@ -1689,7 +1690,7 @@ LEFT JOIN users ON `user_id` = users.id
                             <th><small>Data_inizio</small></th>                                                  
                             <th><small>Stato</small></th>
                             <th><small>Vol. (k)</small></th>
-                            <?php $this->datePeriod(); ?>
+                        <?php $this->datePeriod(); ?>
                             </tr>
                         </thead>
                         <tbody>
@@ -1700,35 +1701,25 @@ LEFT JOIN users ON `user_id` = users.id
     $riga = 1;
     $tot_volume = $this->tot_volume();
     $tot_volume['totale'] = 0;
-    
-    //print_r($list);              
+               
      foreach ($list as $key => $row) {
         $stato_elimina = $row['elimina'];
-        //echo $this->tableChannelLabel($row);
+        
         $permission = $page_protect->check_permission($row['squad_id']); 
-        $string .= "<tr><td>".'   
-                        <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaModifica'.$row['id'].'"> 
-                            <input type="hidden" name="id" value="'.$row['id'].'" />
-                            <input type="hidden" name="azione" value="modifica" />                                                                
-                        </form>
+        $string .= '<tr align="left"><td><form action="index.php?page=inserisciCampagna2" method="post" id="campagnaModifica'.$row['id'].'"><input type="hidden" name="id" value="'.$row['id'].'" /><input type="hidden" name="azione" value="modifica"></form>
                         <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaDuplica'.$row['id'].'"> 
-                            <input type="hidden" name="id" value="'.$row['id'].'" />
-                            <input type="hidden" name="azione" value="duplica" />                                                                
+                            <input type="hidden" name="id" value="'.$row['id'].'">
+                            <input type="hidden" name="azione" value="duplica">                                                                
                         </form>
                         <form action="index.php?page=pianificazione2"  method="post" id="campagnaElimina'.$row['id'].'"> 
                             <input type="hidden" name="id" value="'.$row['id'].'" />
                             <input type="hidden" name="azione" value="elimina" />                                                                
                         </form>
-                        
+
                     <button class="btn btn-xs btn-primary" type="submit" onclick="manageCamp('.$row['id'].', \'modifica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Modifica" title="Modifica"><i class="fa fa-edit" ></i></button>
                     <button class="btn btn-xs btn-default" type="submit" onclick="manageCamp('.$row['id'].',\'duplica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone" ></i></button>
-                    <button class="btn btn-xs btn-danger" type="submit" onclick="manageCamp('.$row['id'].',\'elimina\','.$permission.','.$stato_elimina.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></button>                    
-        
-                '.  "</td>";
-                    //<button class="btn btn-xs btn-primary" type="submit" onclick="manageCamp('.$row['id'].', \'modifica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Modifica" title="Modifica"><i class="fa fa-edit" ></i></button>
-                    //<button class="btn btn-xs btn-default" type="submit" onclick="manageCamp('.$row['id'].',\'duplica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone" ></i></button>
-                    //<button class="btn btn-xs btn-danger" type="submit" onclick="manageCamp('.$row['id'].',\'elimina\','.$permission.','.$stato_elimina.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></button>                                
-        
+                    <button class="btn btn-xs btn-danger" type="submit" onclick="manageCamp('.$row['id'].',\'elimina\','.$permission.','.$stato_elimina.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></button></td>';
+                  
         $string .= "<td><small>$riga</small></td><td><small>".$row['stacks_nome']."</small></td>";
         $string .= "<td><small>".$this->sprint_find($row['data_inizio'])."</small></td>";
         $string .= "<td><small>".$row['squads_nome']."</small></td>";
@@ -1758,7 +1749,7 @@ LEFT JOIN users ON `user_id` = users.id
         foreach($daterange as $key=>$daytimestamp){
                
                 if(array_key_exists($daytimestamp, $volume_giorno)){                   
-                    $string .= "<td  class=\"valore\" bgcolor=\"".$row['colore']."\"><small><strong><font color=\"black\">".$this->round_volume($volume_giorno[$daytimestamp])."<font></strong><small></td>";                    
+                    $string .= "<td  class=\"valore\" bgcolor=\"".strtolower($row['colore'])."\" ><small><strong><font color=\"black\">".$this->round_volume($volume_giorno[$daytimestamp])."<font></strong><small></td>";                    
                     
                     $tot_volume[$daytimestamp] =  $tot_volume[$daytimestamp] + $volume_giorno[$daytimestamp];
                 } 
@@ -1768,7 +1759,9 @@ LEFT JOIN users ON `user_id` = users.id
         }
         $string .= "</tr>";      
         $riga++; 
-     }
+
+    }
+     
      
         $string .= "<tr><td><strong></strong></td><td><small>$riga</small></td><td></td>";
         $string .= "<td></td>";
@@ -1823,42 +1816,53 @@ LEFT JOIN users ON `user_id` = users.id
     function getCriteri($row, $criterio){
 
         if($criterio=='stato'){
-            if($row['attivi']==1) return 'Attivi';
-            if($row['sospesi']==1) return 'Sospesi';
-            if($row['disattivi']==1) return 'Disattivi';
+            $stringa = '';
+            if($row['attivi']==1) $stringa .= 'Attivi ';
+            if($row['sospesi']==1) $stringa .= 'Sospesi ';
+            if($row['disattivi']==1) $stringa .= 'Disattivi ';
+            return $stringa;
+
         }
         if($criterio=='tipo_offerta'){
-            if($row['consumer']==1) return 'Consumer';
-            if($row['business']==1) return 'Business';
-            if($row['microbusiness']==1) return 'MicroBusiness';
+            $stringa = '';
+            if($row['consumer']==1) $stringa .= 'Consumer ';
+            if($row['business']==1) $stringa .= 'Business ';
+            if($row['microbusiness']==1) $stringa .= 'MicroBusiness ';
+            return $stringa;
         }
         if($criterio=='tipo_contratto'){
-            if($row['prepagato']==1) return 'Prepagato';
-            if($row['postpagato']==1) return 'Postpagato';
-            if($row['contratto_microbusiness']==1) return 'MicroBusiness';
+            $stringa = '';
+            if($row['prepagato']==1) $stringa .= 'Prepagato ';
+            if($row['postpagato']==1) $stringa .= 'Postpagato ';
+            if($row['contratto_microbusiness']==1) $stringa .= 'MicroBusiness ';
+            return $stringa;
         }
         if($criterio=='consenso'){
-            if($row['cons_profilazione']==1) return 'Profilazione';
-            if($row['cons_commerciale']==1) return 'commerciale';
-            if($row['cons_terze_parti']==1) return 'Terze Parti (Wind)';
-            if($row['cons_geolocalizzazione']==1) return 'Geolocalizzazione';
-            if($row['cons_enrichment']==1) return 'Enrichment';
-            if($row['cons_trasferimentidati']==1) return 'Trasferimento dati a terzi (Tre)';
-            else return ' ';
+            $stringa = '';
+            if($row['cons_profilazione']==1) $stringa .= 'Profilazione';
+            if($row['cons_commerciale']==1) $stringa .= 'commerciale';
+            if($row['cons_terze_parti']==1) $stringa .= 'Terze Parti (Wind)';
+            if($row['cons_geolocalizzazione']==1) $stringa .= 'Geolocalizzazione';
+            if($row['cons_enrichment']==1) $stringa .= 'Enrichment';
+            if($row['cons_trasferimentidati']==1) $stringa .= 'Trasferimento dati a terzi (Tre)';
+            return $stringa;
         }
 
         if($criterio=='mercato'){
-            if($row['voce']==1) return 'Mobile Voce';
-            if($row['dati']==1) return 'Mobile Dati';
-            if($row['fisso']==1) return 'Fisso';
+            $stringa = '';
+            if($row['voce']==1) $stringa .= 'Mobile Voce ';
+            if($row['dati']==1) $stringa .= 'Mobile Dati ';
+            if($row['fisso']==1) $stringa .= 'Fisso ';
+            return $stringa;
         }
         if($criterio=='frodatori'){
-            if($row['no_frodi']==1) return 'No Frodi';
-            if($row['altri_filtri']==1) return 'No Collection';    
+            $stringa = '';
+            if($row['no_frodi']==1) $stringa .= 'No Frodi';
+            if($row['altri_filtri']==1) $stringa .= 'No Collection';    
             else return ' ';        
         }
         //Tab Comunicazione
-        if($criterio=='control_group'){
+        if($criterio=='control_group'){            
             if($row['control_group']==0) return 'No';
             if($row['control_group']==1) return 'Si (Percentuale)';    
             if($row['control_group']==2) return 'Si (Volume)'; 
@@ -2012,18 +2016,18 @@ LEFT JOIN users ON `user_id` = users.id
                         </thead>
                         <tbody>
                             
- <?php
-    $page_protect = new Access_user;
-    $string = '';
-    $riga = 1;
-    $tot_volume = $this->tot_volume();
-    $tot_volume['totale'] = 0;
+    <?php
+        $page_protect = new Access_user;
+        $string = '';
+        $riga = 1;
+        $tot_volume = $this->tot_volume();
+        $tot_volume['totale'] = 0;
     
-    //print_r($list);              
-     foreach ($list as $key => $row) {
-        $stato_elimina = $row['elimina'];        
-        $permission = $page_protect->check_permission($row['squad_id']); 
-        $string .= "<tr><td>".'   
+        //print_r($list);              
+        foreach ($list as $key => $row) {
+            $stato_elimina = $row['elimina'];        
+            $permission = $page_protect->check_permission($row['squad_id']); 
+            $string .= "<tr><td>".'   
                         <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaModifica'.$row['id'].'"> 
                             <input type="hidden" name="id" value="'.$row['id'].'" />
                             <input type="hidden" name="azione" value="modifica" />                                                                
@@ -2278,13 +2282,22 @@ function datePeriod(){
 
    $begin = new DateTime($filter_view["startDate"]);
    $end = new DateTime($filter_view["endDate"]);
+   
+////////////////////////////////////
+   $differenza = $begin->diff($end);
+   if($differenza->format('%a')<=7){
+        $day_add = 30 - $differenza->format('%a');
+        $stringa = '+'.$day_add. 'day';
+        $end = $end->modify($stringa);
+   }
+ /////////////////////////////////
    $end = $end->modify( '+1 day' );
 
    $interval = new DateInterval('P1D');
    $daterange = new DatePeriod($begin, $interval ,$end);
 
    foreach($daterange as $date){
-       echo "<td><small>".$date->format("d D") . "</small></td>";
+       echo "<th><small>".$date->format("d D") . "</small></th>";
    }
 }
 
@@ -2320,7 +2333,22 @@ function daterange(){
 
    $begin = new DateTime($filter_view["startDate"]);
    $end = new DateTime($filter_view["endDate"]);
-   
+
+
+////////////////////////////////////
+   $differenza = $begin->diff($end);
+   if($differenza->format('%a')<=7){
+        $day_add = 30 - $differenza->format('%a');
+        $stringa = '+'.$day_add. 'day';
+        $end = $end->modify($stringa);
+   }
+ /////////////////////////////////
+   $differenza = $begin->diff($end);
+
+   if($differenza->format('%a')<=7){
+        $end = $end->modify( '+7 day' );
+   }
+ /////////////////////////////////  
    $end = $end->modify( '+1 day' );
 
    $interval = new DateInterval('P1D');
@@ -2346,6 +2374,15 @@ function tot_volume(){
     
    $begin = new DateTime($filter_view["startDate"]);
    $end = new DateTime($filter_view["endDate"]);
+
+////////////////////////////////////
+   $differenza = $begin->diff($end);
+   if($differenza->format('%a')<=7){
+        $day_add = 30 - $differenza->format('%a');
+        $stringa = '+'.$day_add. 'day';
+        $end = $end->modify($stringa);
+   }
+ /////////////////////////////////
    $end = $end->modify( '+1 day' );
 
    $interval = new DateInterval('P1D');
@@ -2369,11 +2406,20 @@ function tot_volume2(){
     
    $begin = new DateTime($filter_view["startDate"]);
    $end = new DateTime($filter_view["endDate"]);
+
+////////////////////////////////////
+   $differenza = $begin->diff($end);
+   if($differenza->format('%a')<=7){
+        $day_add = 30 - $differenza->format('%a');
+        $stringa = '+'.$day_add. 'day';
+        $end = $end->modify($stringa);
+   }
+ ///////////////////////////////// 
    $end = $end->modify( '+1 day' );
 
    $interval = new DateInterval('P1D');
    $daterange = new DatePeriod($begin, $interval ,$end);
-   $day_list = array();
+   
    foreach($daterange as $date){
 
        $tot_volume[date_timestamp_get($date)] = 0;

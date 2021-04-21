@@ -601,10 +601,12 @@ function export_gestione($list,$filter){
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(29, $riga, $campaign->getCriteri($row,'control_group'));
                         
             $canale_zero = json_decode($row['addcanale'],true)[0]; 
-            $sender_name = $this->get_nome_campo('senders','id',$canale_zero['sender_id']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(30, $riga, $sender_name);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(31, $riga, $canale_zero['testo_sms']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(32, $riga, $canale_zero['link']);
+            if($canale_zero['channel_id']==12){                
+                $sender_name = $this->get_nome_campo('senders','id',$canale_zero['sender_id']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(30, $riga, $sender_name);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(31, $riga, $canale_zero['testo_sms']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(32, $riga, $canale_zero['link']);
+            }
             $riga++;
 
         }
@@ -649,7 +651,7 @@ function export_gestione($list,$filter){
 
         // Redirect output to a client’s web browser (Excel2007)
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="' . $today . '_Export_PianificazioneCampagne.xlsx"');
+        header('Content-Disposition: attachment;filename="' . $today . '_Export_GestioneCampagne.xlsx"');
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');

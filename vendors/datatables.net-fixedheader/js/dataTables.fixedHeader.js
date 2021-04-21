@@ -281,8 +281,8 @@ $.extend( FixedHeader.prototype, {
 			itemDom.floating = $( dt.table().node().cloneNode( false ) )
 				.css( 'table-layout', 'fixed' )
 				.removeAttr( 'id' )
-				.append( itemElement )
-				.appendTo( 'body' );
+				.append( itemElement );
+				.appendTo( 'div' );
 
 			// Insert a fake thead/tfoot into the DataTable to stop it jumping around
 			itemDom.placeholder = itemElement.clone( false );
