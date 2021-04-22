@@ -416,6 +416,13 @@
                 <label class="control-label">Call Guide (4000 chars max)</label>
                 <textarea id="callguide_pos" name="addcanale[0][callguide_pos]" class="form-control" rows="10" data-parsley-trigger="keyup"  data-parsley-maxlength="4000"  <?php if ($readonly){echo $disabled_value;}?>><?php if ($modifica and (isset($canale['callguide_pos']))){echo stripslashes($canale['callguide_pos']); }?></textarea>                    
             </div>
+            <div  class="col-md-4 col-sm-6 col-xs-12" ><br>            
+              <label style="margin-top:20px" for="message">POS Testo SMS<span class="required">*</span></label>
+              <textarea id="testo_sms_pos" <?php echo $disabled_value; ?> class="form-control" name="addcanale[0][testo_sms_pos]" rows="8"  data-parsley-pattern-message="Caratteri come '€' ' ’ ' ed altri caratteri speciali non sono accettati come testo SMS !!" onkeyup="checklength(0, 640, 'testo_sms_pos', 'charTesto_pos', 'numero_sms_pos')" ><?php if($modifica){echo $canale['testo_sms_pos'];}else{echo'';}?></textarea>  
+              <label style="width:100%;"><small>Numeri caratteri utilizzati</small><input type="text" name="addcanale[0][charTesto_pos]" id="charTesto_pos" value="<?php if($modifica and isset($canale['charTesto_pos'])){echo $canale['charTesto_pos'];} ?>" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" onfocus="this.blur();" /></label>
+              <label style="width:100%;"><small>Numero SMS</small><input type="text" name="addcanale[0][numero_sms_pos]" id="numero_sms_pos" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="<?php if($modifica and isset($canale['numero_sms_pos'])){echo $canale['numero_sms_pos'];} else{echo 0;} ?>" onfocus="this.blur();" /></label>                  
+            </div>
+
 
     </span> 
     <span id="span_40400" <?php echo $display_40400; ?>>
@@ -640,6 +647,7 @@
 $(document).ready(function() { 
       
     var testo_sms = document.getElementById("testo_sms");
+    var testo_sms_pos = document.getElementById("testo_sms_pos");
     testo_sms.addEventListener(
         'keypress',
         function (e) {
@@ -675,34 +683,42 @@ testo_sms.addEventListener('paste', (event) => {
         }
     
 });
-/*
-    var testo_sms = document.getElementById("testo_sms");
-    testo_sms.addEventListener(
+ testo_sms_pos.addEventListener(
         'keypress',
-        function (event) {
-            //alert('apostrofo word ' + parseInt(event.which) );
-
-            
-            // escludo caratteri € ed apostrofo word 86
-            if (parseInt(event.which) == 69 || parseInt(event.which) == 86) {
+        function (e) {
+            // Test for the key codes you want to filter out.
+            if (e.which == 8364) {
                 alert('  Attenzione il carattere \'€\' non è consentito!!');
                 // Prevent the default event action (adding the
                 // character to the textarea).
-                event.preventDefault();
+                e.preventDefault();
             }
-            
-            
-        }
-    );
-    /*
-    testo_sms.bind("paste input",function(){
-      $(this).val($(this).val().replace (/[<>]/g ,"")) 
-    });
-    */
+            else if (e.which == 86) {
+                alert('  Attenzione il carattere \'’\' non è consentito!!');
+                // Prevent the default event action (adding the
+                // character to the textarea).
+                e.preventDefault();
+            }
+            else if (!validaTesto()) {
+                 alert('Testo non valido!!! Introdotto carattere non consentito !!!');
+            }
 
- document.addEventListener("keydown", function(event) {
-  console.log('testo sms ' + parseInt(event.which));
-})
+
+        }
+);
+testo_sms_pos.addEventListener('paste', (event) => {
+    let paste = (event.clipboardData || window.clipboardData).getData('text');
+    
+    const re = /^[¡§¿ÄÖÑÜäöñüà@£$¥èéùìòÇØøÅå_\[\]ΘΞ^{}~|¤ÆæßÉ'<=>?,!"#%+&()*=:;/@\.a-zA-Z0-9_-\w\s]{1,640}$/;
+        //testo_sms = document.getElementById('testo_sms').value;
+        if (!(re.test(paste))) {
+            alert('Test validazione SMS fallito !!!');
+            event.preventDefault();
+            //return false;
+        }
+    
+});
+
     
     //gestione nome campagna
     $('#channel_ins').on('select2:select', function () {  

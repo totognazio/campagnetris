@@ -269,9 +269,20 @@ $string .='<span id="pos_field'.$id_canale.'" '.$display_pos.'>
                 if ($readonly){$string .= $disabled_value;}
                 $string .=' >';
                 if ($modifica and (isset($addcanale_stored['callguide_pos']))){$string .= stripslashes($addcanale_stored['callguide_pos']); }
-                $string .='</textarea>                    
+                $string .='</textarea> 
+            
+            <label style="margin-top:20px" for="message">POS Testo SMS <span class="required">*</span></label>
+              <textarea id="testo_sms_pos'.$id_canale.'" ';
+            $string .= ' '.$disabled_value.' '.$required_pos.' class="form-control" name="addcanale['.$id_canale.'][testo_sms_pos'.$id_canale.']" rows="8"  data-parsley-pattern-message="Caratteri come \'€\' \' ’ \' ed altri caratteri speciali non sono accettati come testo SMS !!"onkeyup="checklength(0, 640, \'testo_sms_pos'.$id_canale.'\', \'charTesto_pos'.$id_canale.'\', \'numero_sms_pos'.$id_canale.'\')" >';
+            if($modifica and isset($addcanale_stored['testo_sms_pos'.$id_canale.''])){$string .= $addcanale_stored['testo_sms_pos'.$id_canale.''];}else{$string .= '';}
+            $string .='</textarea>  
+              <label style="width:100%;"><small>Numeri caratteri utilizzati</small><input type="text" name="addcanale['.$id_canale.'][charTesto_pos'.$id_canale.']" id="charTesto_pos'.$id_canale.'"  class="text" value="';
+              if($modifica and isset($addcanale_stored['charTesto_pos'.$id_canale.''])){$string.= ''.$addcanale_stored['charTesto_pos'.$id_canale.''].'';}
+              $string.='" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3"  onfocus="this.blur()" /></label>
+              <label style="width:100%;"><small>Numero SMS</small><input type="text" name="addcanale['.$id_canale.'][numero_sms_pos'.$id_canale.']" id="numero_sms_pos'.$id_canale.'" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="';
+              if($modifica and isset($addcanale_stored['numero_sms_pos'.$id_canale.''])){$string.= ''.$addcanale_stored['numero_sms_pos'.$id_canale.''].'';} else{ $string .='0';}
+              $string.='" onfocus="this.blur()" /></label>
             </div>
-
         </span>';
 
 $string .='<span id="span_40400'.$id_canale.'" '.$display_40400.'> 
