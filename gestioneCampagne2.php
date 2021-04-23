@@ -152,7 +152,7 @@ $form->head_page("Gestione Campagne", "Filtro");
                                 
                             </div> 
                         </div>                    
-<div class="loader"></div>                       
+                       
                     
 <?php 
 $form->close_row();
@@ -189,6 +189,7 @@ if ($livello_accesso > 0) {
 
 <?php }?>
 </div>
+<div class="loader"></div>
 <div class="col-md-12 col-sm-12 col-xs-12" id="content_response">
 
 

@@ -41,7 +41,7 @@ else if(count($list)>0  && $datatable=='gestioneStato'){
     $campaign->tableGestioneStato($list);
 }
 else if(count($list)<=0  && $datatable=='gestione'){ 
-    echo ' <br><h2></h2>Nessuna Campagna in Gestione per il tuo SQUAD !!!</h2>';
+    echo ' <br><h2>Nessuna Campagna in Gestione !!!</h2>';
 }
 else if(count($list)<=0  && $datatable=='pianificazione'){ 
     echo ' <br><h2>Nessuna Campagna Pianificata !!!</h2>';

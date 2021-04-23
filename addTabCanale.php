@@ -271,7 +271,7 @@ $string .='<span id="pos_field'.$id_canale.'" '.$display_pos.'>
                 if ($modifica and (isset($addcanale_stored['callguide_pos']))){$string .= stripslashes($addcanale_stored['callguide_pos']); }
                 $string .='</textarea> 
             
-            <label style="margin-top:20px" for="message">POS Testo SMS <span class="required">*</span></label>
+            <label style="margin-top:20px" for="message">POS Testo SMS </label>
               <textarea id="testo_sms_pos'.$id_canale.'" ';
             $string .= ' '.$disabled_value.' '.$required_pos.' class="form-control" name="addcanale['.$id_canale.'][testo_sms_pos'.$id_canale.']" rows="8"  data-parsley-pattern-message="Caratteri come \'€\' \' ’ \' ed altri caratteri speciali non sono accettati come testo SMS !!"onkeyup="checklength(0, 640, \'testo_sms_pos'.$id_canale.'\', \'charTesto_pos'.$id_canale.'\', \'numero_sms_pos'.$id_canale.'\')" >';
             if($modifica and isset($addcanale_stored['testo_sms_pos'.$id_canale.''])){$string .= $addcanale_stored['testo_sms_pos'.$id_canale.''];}else{$string .= '';}

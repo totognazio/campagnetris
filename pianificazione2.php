@@ -148,7 +148,7 @@ $form->head_page_compat("Pianificazione Campagne", "Filtro");
                                 
                             </div> 
             </div>  
-<div class="loader"></div>                       
+                     
                     
 <?php 
 $form->close_row();
@@ -213,10 +213,14 @@ if ($livello_accesso > 0) {
                                                 
                                             </div>
 <?php }?>
+
 </div>
 <p style="padding-top: 16px;"></p>
+<div class="loader"></div>
 <div class="col-md-12 col-sm-12 col-xs-12" id="content_response">
+
 </div>
+
 
 <?php $form->close_page(); ?> 
 

@@ -1673,7 +1673,7 @@ LEFT JOIN users ON `user_id` = users.id
                     <table id="datatable-responsive" cellspacing="0" width="100%">
                     <table id="datatable-scroll" class="table table-bordered nowrap">
                     <table id="datatable-scroll" class="table table-bordered nowrap" style="width:100%">
-                    <table id="datatable-pianificazione" class="display compact table-bordered table-striped  nowrap table-hover no-margin" cellspacing="0"> -->   
+                    <table id="datatable-pianificazione" class="display compact table-bordered table-striped  nowrap table-hover no-margin" cellspacing="0"> -->               
               <table id="datatable-pianificazione" class="display compact table-bordered text-nowrap table-hover no-margin nowrap" cellspacing="0" cellpadding="0" defer>
                         <thead>
                             <tr>                            
@@ -1857,9 +1857,9 @@ LEFT JOIN users ON `user_id` = users.id
         }
         if($criterio=='frodatori'){
             $stringa = '';
-            if($row['no_frodi']==1) $stringa .= 'No Frodi';
-            if($row['altri_filtri']==1) $stringa .= 'No Collection';    
-            else return ' ';        
+            if($row['no_frodi']==1) $stringa .= 'No Frodi ';
+            if($row['altri_filtri']==1) $stringa .= 'No Collection ';    
+            return $stringa;
         }
         //Tab Comunicazione
         if($criterio=='control_group'){            
@@ -1974,7 +1974,7 @@ LEFT JOIN users ON `user_id` = users.id
 
 
  function tableGestione($list) {    
-    //print_r($list);
+    // print_r($list);
             ?>                                                    
                     <!--<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                     <table id="datatable-responsive" cellspacing="0" width="100%">
