@@ -633,17 +633,6 @@
       timePicker: false,
       timePickerIncrement: 1,
       timePicker12Hour: true,
-      ranges: {
-        'Oggi': [moment(), moment()],
-        'Ieri': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-        'Domani': [moment().add(1, 'days'), moment().add(1, 'days')],
-        'Ultimi 7 giorni': [moment().subtract(6, 'days'), moment()],
-        'Ultimi 30 giorni': [moment().subtract(29, 'days'), moment()],
-        'Settimana corrente': [moment().startOf('isoWeek'), moment().endOf('isoWeek')],
-        'Settimana prossima': [moment().add(1, 'Week').startOf('isoWeek'), moment().add(1, 'Week').endOf('isoWeek')],
-        'Mese corrente': [moment().startOf('month'), moment().endOf('month')],
-        'Mese precedente': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-      },
       opens: 'right',
       buttonClasses: ['btn btn-default'],
       applyClass: 'btn-small btn-primary',
@@ -660,7 +649,20 @@
         daysOfWeek: ['Do', 'Lu', 'Ma', 'Me', 'Gi', 'Ve', 'Sa'],
         monthNames: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
         firstDay: 1
-      }
+      },
+      ranges: {
+        'Oggi': [moment(), moment()],
+        'Ieri': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Domani': [moment().add(1, 'days'), moment().add(1, 'days')],
+        'Ultimi 7 giorni': [moment().subtract(6, 'days'), moment()],
+        'Ultimi 30 giorni': [moment().subtract(29, 'days'), moment()],
+        'Settimana corrente': [moment().startOf('isoWeek'), moment().endOf('isoWeek')],
+        'Settimana prossima': [moment().add(1, 'Week').startOf('isoWeek'), moment().add(1, 'Week').endOf('isoWeek')],
+        'Mese precedente': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+        'Mese corrente': [moment().startOf('month'), moment().endOf('month')],
+        'Mese successivo': [moment().add(1, 'month').startOf('month'), moment().add(1, 'month').endOf('month')]
+        
+      },
     };
 
     //solo al primo caricamento
@@ -820,7 +822,7 @@
 
     $('#data_fine_validita_offerta').daterangepicker({
       
-      minDate: min_data_offerta,
+      minDate: $('#data_inizio_campagna').data('daterangepicker').startDate,
       //startDate: min_data_offerta,
       singleDatePicker: true,
       singleClasses: "picker_3",

@@ -217,7 +217,7 @@ function validazione(selected_channel_id, all_required) {
       //pos
       $('#cat_sott_ins').attr('required', true);
       $('#tit_sott_pos').attr('required', true);
-      $('#testo_sms_pos').attr('required', true);      
+      $('#testo_sms_pos').attr('required', false);      
     
       //$('#day_val_pos').attr('required', true);
       //$('#callguide_pos').attr('required', true);
@@ -1484,7 +1484,7 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       //pos
       $('#cat_sott_ins' + add_canale).attr('required', true);
       $('#tit_sott_pos' + add_canale).attr('required', true);
-      $('#testo_sms_pos' + add_canale).attr('required', true);      
+      $('#testo_sms_pos' + add_canale).attr('required', false);      
       //$( '#day_val_pos'+add_canale).attr( 'required', true);
       //$( '#callguide_pos'+add_canale).attr( 'required', true);
       //#span_40400

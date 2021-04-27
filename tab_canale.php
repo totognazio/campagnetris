@@ -302,7 +302,8 @@
                                 
                         <label>Sender  <span class="required">*</span></label>
                             <select id="senders_ins" name="addcanale[0][sender_id]" class="select2_single form-control" style="width:100%"  <?php echo $required_sms; ?> <?php echo $disabled_value;?>>      
-                                <?php                               
+                                <?php
+                                echo '<option  value=""></option>';                               
                                 foreach ($sender as $key => $value) {
                                     if($modifica and isset($canale['sender_id']) && $canale['sender_id']==$value['id']){$selected = ' selected';}
                                     else{$selected = '';}
@@ -399,7 +400,8 @@
             <div class="col-md-4 col-sm-6 col-xs-12"><br>
                 <label>Categoria & Sottocategoria<span class="required">*</span></label></label>
                 <select id="cat_sott_ins" style="width: 100%" name="addcanale[0][cat_sott_id]" class="select2_single form-control" <?php echo $required_pos; ?> <?php echo $disabled_value; ?>>        
-                    <?php                               
+                    <?php
+                    echo '<option  value=""></option>';                               
                     foreach ($cat_sott as $key => $value) {
                         if($modifica and $canale['cat_sott_id']==$value['id']){$selected = ' selected';}
                         else{$selected = '';}
@@ -418,10 +420,11 @@
             </div>
             <div  class="col-md-4 col-sm-6 col-xs-12" ><br>            
               <label style="margin-top:20px" for="message">POS Testo SMS</label>
-              <textarea id="testo_sms_pos" <?php echo $disabled_value; ?> class="form-control" name="addcanale[0][testo_sms_pos]" rows="8"  data-parsley-pattern-message="Caratteri come '€' ' ’ ' ed altri caratteri speciali non sono accettati come testo SMS !!" onkeyup="checklength(0, 640, 'testo_sms_pos', 'charTesto_pos', 'numero_sms_pos')" ><?php if($modifica){echo $canale['testo_sms_pos'];}else{echo'';}?></textarea>  
+              <textarea id="testo_sms_pos" <?php echo $disabled_value; ?> class="form-control" name="addcanale[0][testo_sms_pos]" rows="8"  data-parsley-pattern-message="Caratteri come '€' ' ’ ' ed altri caratteri speciali non sono accettati come testo SMS !!" onkeyup="checklength(0, 640, 'testo_sms_pos', 'charTesto_pos', 'numero_sms_pos')" ><?php if($modifica and isset($canale['testo_sms_pos'])){echo $canale['testo_sms_pos'];}else{echo'';}?></textarea>  
               <label style="width:100%;"><small>Numeri caratteri utilizzati</small><input type="text" name="addcanale[0][charTesto_pos]" id="charTesto_pos" value="<?php if($modifica and isset($canale['charTesto_pos'])){echo $canale['charTesto_pos'];} ?>" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" onfocus="this.blur();" /></label>
               <label style="width:100%;"><small>Numero SMS</small><input type="text" name="addcanale[0][numero_sms_pos]" id="numero_sms_pos" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="<?php if($modifica and isset($canale['numero_sms_pos'])){echo $canale['numero_sms_pos'];} else{echo 0;} ?>" onfocus="this.blur();" /></label>                  
             </div>
+    
 
 
     </span> 
@@ -645,6 +648,7 @@
 
 <script>
 $(document).ready(function() { 
+    var min_data_offerta = <?php if(isset($id_campaign['data_inizio'])){echo date('d/m/Y', strtotime($id_campaign['data_inizio']));} else {?> moment().format('DD/MM/YYYY');<?php };?>
       
     var testo_sms = document.getElementById("testo_sms");
     var testo_sms_pos = document.getElementById("testo_sms_pos");

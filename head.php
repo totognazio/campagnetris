@@ -36,7 +36,7 @@
     <!-- bootstrap-daterangepicker -->
   <link href="vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">   
   
- 
+ <!--
  <style> 
 .loader {
     display: none;
@@ -46,6 +46,7 @@
     z-index: 1000;
 }   
 </style>
+-->
 
 
 <!-- jQuery -->

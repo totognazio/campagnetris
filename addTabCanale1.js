@@ -2,7 +2,8 @@
 //const id_tab = document.getElementById('tab_id').value;
 
 stato = $('#campaign_state_id').val();
-var selected_channel_id1; 
+var selected_channel_id1 = $('#channel_ins1').val();
+add_canale_validazione(selected_channel_id1, stato, 1); 
 
 var testo_sms1 = document.getElementById("testo_sms1");
     testo_sms1.addEventListener(

@@ -68,8 +68,8 @@
                 
                 </label>
 
-                    <textarea id="redemption" name="redemption" class="form-control" rows="10" <?php if ($readonly){echo $disabled_value;}?> onkeyup="checklength(0, 1000, 'redemption', 'charRedemption', '');" ><?php if ($modifica){echo stripslashes($id_campaign['redemption']); }?></textarea>
-                    <label style="width:100%;"><input type="text" name="charRedemption" id="charRedemption" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="4" value="1000" onfocus="this.blur()" /></label>
+                    <textarea id="redemption" name="redemption" class="form-control" rows="10" <?php if ($readonly){echo $disabled_value;}?> onkeyup="checklength(0, 4001, 'redemption', 'charRedemption', '');" data-parsley-trigger="keyup"  data-parsley-maxlength="4000" data-parsley-maxlength-message="Attenzione!! E' stata raggiunta la lunghezza massima di 4000 caratteri!!!" data-parsley-validation-threshold="10"><?php if ($modifica){echo stripslashes($id_campaign['redemption']); }?></textarea>                    
+                    <label style="width:100%;"><input type="text" name="charRedemption" id="charRedemption" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="4" value="4001" onfocus="this.blur()" /></label>
             </div> 
         </span>                    
             <span id="spanControlGroup" name="spanControlGroup" <?php echo $display; ?>>

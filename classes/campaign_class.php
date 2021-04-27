@@ -1030,7 +1030,7 @@ function insert($record) {
             $user_info = $page_protect->get_user_id();
 //L'utente Rattini Marco ha modificato lo stato della campagna “Nome Campagna�? in RICHIESTA. Data inizio campagna 21/03/2016.
             $this->send_email("[CTM] La campagna " .$record['pref_nome_campagna']. " ha cambiato stato", "L'utente '" . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . "' ha modificato lo stato della campagna '" .$record['pref_nome_campagna']. " in " . $this->get_state_name($record['campaign_state_id']) . ". Data inizio campagna: " . $_POST['data_inizio'] . ".");
-            //$this->send_email("[CTM] Nuova campagna: " . $record['pref_nome_campagna'] . "", "L'utente '" . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . "' ha inserito una nuova campagna '" . $_POST['nome_campagna'] . "'. Data inizio campagna: " . $_POST['data_inizio'] . ".");
+            
             //$stringa_mail ="[CTM] La campagna " .$record['pref_nome_campagna']. " ha cambiato stato L'utente '" . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . "' ha modificato lo stato della campagna '" .$record['pref_nome_campagna']. " in " . $this->get_state_name($record['campaign_state_id']) . ". Data inizio campagna: " . $_POST['data_inizio'] . ".";
             //echo '<script type="text/javascript">alert("SIMULAZIONE Invio Email' . $stringa_mail . '")</script>';
         } catch (Exception $e) {
@@ -1779,7 +1779,7 @@ LEFT JOIN users ON `user_id` = users.id
             $string .= "<td><small><strong>".$this->round_volume($tot_volume[$daytimestamp])."</strong></small></td>";
          }
          else{
-             $string .= "<td><small><strong></strong></small></td>";
+             $string .= "<td><small><strong>0</strong></small></td>";
          }
      }
      $string .= "</tr>"; 
@@ -1839,12 +1839,12 @@ LEFT JOIN users ON `user_id` = users.id
         }
         if($criterio=='consenso'){
             $stringa = '';
-            if($row['cons_profilazione']==1) $stringa .= 'Profilazione';
-            if($row['cons_commerciale']==1) $stringa .= 'commerciale';
-            if($row['cons_terze_parti']==1) $stringa .= 'Terze Parti (Wind)';
-            if($row['cons_geolocalizzazione']==1) $stringa .= 'Geolocalizzazione';
-            if($row['cons_enrichment']==1) $stringa .= 'Enrichment';
-            if($row['cons_trasferimentidati']==1) $stringa .= 'Trasferimento dati a terzi (Tre)';
+            if($row['cons_profilazione']==1) $stringa .= 'Profilazione ';
+            if($row['cons_commerciale']==1) $stringa .= 'commerciale ';
+            if($row['cons_terze_parti']==1) $stringa .= 'Terze Parti (Wind) ';
+            if($row['cons_geolocalizzazione']==1) $stringa .= 'Geolocalizzazione ';
+            if($row['cons_enrichment']==1) $stringa .= 'Enrichment ';
+            if($row['cons_trasferimentidati']==1) $stringa .= 'Trasferimento dati a terzi (Tre) ';
             return $stringa;
         }
 

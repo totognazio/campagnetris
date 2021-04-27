@@ -150,7 +150,8 @@ $stacks = $funzione->get_list_select('campaign_stacks');
 
 // print_r($offers);
 $typlogies = $funzione->get_list_select('campaign_types');
-$squads = $funzione->get_squads_gestione();
+//$squads = $funzione->get_squads_gestione();
+$squads = $funzione->get_list_select('squads');
 $states = $funzione->get_list_select('campaign_states');
 $category = $funzione->get_list_select('campaign_categories');
 $modality = $funzione->get_list_select('campaign_modalities');
