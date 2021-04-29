@@ -116,6 +116,7 @@ elseif ( isset($azione) && $azione=='open') {
 elseif ( isset($azione) && $azione=='duplica') {    
     $title = "Duplicazione Campagna ";
     $id_campaign = $campaign->get_list_campaign(" where campaigns.id=" . intval($id))->fetch_array();
+    $id_upload = uniqid();
     //$nome_campagna = $campaign->name_camp($id_campaign);
     $nome_campagna = $id_campaign['pref_nome_campagna'];
     // print_r($id_campaign);
@@ -162,7 +163,7 @@ $cat_sott = $funzione->get_allTable('campaign_cat_sott');
 $sender = $funzione->get_allTable('senders');
 
 
-//print_r($_POST);
+// print_r($_POST);
 //print_r($id_campaign);
 
 ?>

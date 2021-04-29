@@ -42,12 +42,15 @@ else if(count($list)>0  && $datatable=='gestioneStato'){
 }
 else if(count($list)<=0  && $datatable=='gestione'){ 
     echo ' <br><h2>Nessuna Campagna in Gestione !!!</h2>';
+    echo "<script>$('.loader').hide();</script>";
 }
-else if(count($list)<=0  && $datatable=='pianificazione'){ 
+else if(count($list)<=0  && $datatable=='pianificazione'){    
     echo ' <br><h2>Nessuna Campagna Pianificata !!!</h2>';
+    echo "<script>$('.loader').hide();</script>";
 }
 else { 
     echo ' <br><h2>Nessuna Campagna !!!</h2>';
+    echo "<script>$('.loader').hide();</script>";
 }
 
             //print_r($list_campaign);

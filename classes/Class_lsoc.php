@@ -605,27 +605,42 @@ function export_gestione($list,$filter){
             $objPHPExcel->setActiveSheetIndex(0)->getStyleByColumnAndRow(28, $riga)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER)
                         ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT)->setWrapText(true);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(29, $riga, $campaign->getCriteri($row,'control_group'));
-                        
-            $canale_zero = json_decode($row['addcanale'],true)[0]; 
-            if($canale_zero['channel_id']==12){
-                $sender_name = '';
-                $link = '';  
-                if(isset($canale_zero['sender_id'])){
-                        $sender_name = $this->get_nome_campo('senders','id',$canale_zero['sender_id']);
+            
+            $sender_name = '';
+            $link = '';
+            $testo_sms = '';
+
+            // $canale_zero = json_decode($row['addcanale'],true)[0];
+
+            $canale = json_decode($row['addcanale'],true); 
+            $escape = true;
+            for ($i=0; $i <=5; $i++) { 
+                $testo_sms_var = 'testo_sms'.$i;
+                if($escape && isset($canale[$i]) && $canale[$i]['channel_id']==12){
+                    $escape = false;
+                    if(!empty($canale[$i]['sender_id'])){
+                            $sender_name = $this->get_nome_campo('senders','id',$canale[$i]['sender_id']);
+                    }
+                    if(!empty($canale[$i]['link'])){
+                            $link = $canale[$i]['link'];
+                    }
+                    if(!empty($canale[$i][$testo_sms_var])){
+                            $testo_sms = $canale[$i][$testo_sms_var];
+                    }            
                 }
-                if(isset($canale_zero['link'])){
-                        $link = $this->get_nome_campo('senders','id',$canale_zero['link']);
-                }            
                 
+            }
+    
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(30, $riga, $sender_name);
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(31, $riga, $canale_zero['testo_sms']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(31, $riga, $testo_sms);
                 $objPHPExcel->setActiveSheetIndex(0)->getStyleByColumnAndRow(31, $riga)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER)
                         ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT)->setWrapText(true);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(32, $riga, $link);
-            }
+            
             $riga++;
 
         }
+
         
 
         $objPHPExcel->getActiveSheet(0)->getStyleByColumnAndRow(0, $riga, $tot_colonne, $riga)->applyFromArray(

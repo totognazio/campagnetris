@@ -2,9 +2,10 @@
 //const id_tab = document.getElementById('tab_id').value;
 //const id_tab = document.getElementById('tab_id').value;
 stato = $('#campaign_state_id').val();
-
 var selected_channel_id3 = $('#channel_ins3').val();
 add_canale_validazione(selected_channel_id3, stato, 3); 
+count3 =  $('#iniziative_dealer3').val();
+validazione_add_canaleDealer(count3, stato, 3);
 
 var testo_sms3 = document.getElementById("testo_sms3");
     testo_sms3.addEventListener(
@@ -141,7 +142,7 @@ $( '#mod_invio3').on( 'select2:select ', function () {
      $('#iniziative_dealer3').change(function() {
             //alert('canale 1 '+$(this).val());
             count = $(this).val();
-            for(i=2; i<10; i++){
+            for(i=1; i<10; i++){
                 if(i<=count){
                   $('#3adddealer_' + i).show();
                   if (get_required(stato)) {                    
@@ -170,7 +171,7 @@ $( '#mod_invio3').on( 'select2:select ', function () {
             stato = $('#campaign_state_id').val();
             count3 = $('#iniziative_dealer3').val();       
            // add_canale_view(selected_channel_id3, 3);
-            validazione_add_canaleDealer(count3, stato);
+            validazione_add_canaleDealer(count3, stato,3);
             
       add_canale_validazione(selected_channel_id3, stato, 3);
            

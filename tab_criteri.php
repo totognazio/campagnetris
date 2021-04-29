@@ -154,7 +154,7 @@ if ($page_protect->get_job_role() >= 2) {
                                 if ($readonly){
                                 echo $disabled_value;}
                                 ?>  
-                       value="1" class="flat" /> MicroBusiness
+                       value="1" class="flat" /> Pre NoTax
                 <br />
                 <div id="checkbox-errors4"></div>
             <p>     

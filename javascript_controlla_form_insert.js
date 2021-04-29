@@ -61,26 +61,25 @@ function validazione_canaleDealer(count, stato_id) {
 }
 
 
-function validazione_add_canaleDealer(count, stato) {
-
-        //alert('canale 1 '+$(this).val());
-        //count = $(this).val();
-        for (i = 2; i < 10; i++) {
-            if (i <= count) {
-                if (get_required(stato)) {
-                    $('#addCod_iniziativa' + i).attr('required', true);
-                }
-                else {
-                    $('#addCod_iniziativa' + i).attr('required', false);
-                }
-                //$('#adddealer_'+i).show();                                        
-            }
-            else {
-                //$('#adddealer_'+i).hide();
-                $('#addCod_iniziativa' + i).attr('required', false);
-            }
+function validazione_add_canaleDealer(count, stato, add_canale) {
+  if (count > 1) {
+    for (i = 2; i < 10; i++) {
+      if (i <= count) {
+        if (get_required(stato)) {
+          $('#' + add_canale + 'addCod_iniziativa' + i).attr('required', true);
         }
+        else {
+          $('#' + add_canale + 'addCod_iniziativa' + i).attr('required', false);
+        }
+        //$('#adddealer_'+i).show();                                        
+      }
+      else {
+        //$('#adddealer_'+i).hide();
+        $('#' + add_canale + 'addCod_iniziativa' + i).attr('required', false);
+      }
+    }
 
+  }
 }
 
 

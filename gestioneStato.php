@@ -158,7 +158,7 @@ $livello_accesso = $page_protect->get_job_role();
                                 
                             </div> 
                         </div>                    
-<div class="loader"></div>                       
+                     
                     
 <?php 
 $form->close_row();

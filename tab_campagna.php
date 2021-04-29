@@ -46,10 +46,14 @@
                                 
                         ?>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select id="squad_ins" name="squad_id" class="select2_single form-control"  required="required" <?php echo $disabled_value;?>>        
+                            <select id="squad_ins" name="squad_id" class="select2_single form-control"  required="required" <?php echo $disabled_value;?>>
+                                <option></option>
                             <?php                                                                                                                  
                                 foreach ($squads as $key => $value) {
                                     if($modifica && $id_campaign['squad_id']==$key){
+                                        echo '<option selected value="'.$key.'">'.$value.'</option>'; 
+                                    }
+                                    elseif($page_protect->get_job_role()==2 and $_POST['azione']=='new'){
                                         echo '<option selected value="'.$key.'">'.$value.'</option>'; 
                                     }
                                     else {
@@ -222,7 +226,7 @@
                             <select id="campaign_state_id" name="campaign_state_id" class="select2_single form-control" required="required" <?php echo $disabled_value;?>>        
                               <option value=""></option>
                             <?php 
-                                if ($modifica){
+                                if ($modifica && !$action_duplica){ //solo in caso di Azione Modifica
                                     $campaign_state_id = $id_campaign['campaign_state_id'];
                                 }                                    
                                 else {

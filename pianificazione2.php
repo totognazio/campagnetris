@@ -203,9 +203,13 @@ if ($livello_accesso > 0) {
                                                 <ul class="dropdown-menu" role="menu">
                                                     <li> <a href="#" onclick="manageCamp('','exportpianificazione');" > Export Pianificazione</a> 
                                                     </li>
+                                                    <?php 
+                                                    if ($livello_accesso > 1) {
+                                                    ?>
                                                     <li class="divider"></li>
                                                     <li><a href="#" onclick="manageCamp('','exportgestione');" > Export Gestione</a>
                                                     </li>
+                                                    <?php } ?>
                                                     <li class="divider"></li>
                                                     <li><a href="#" onclick="manageCamp('','exportcapacity');" > Export Campaign Proposal </a>
                                                     </li>

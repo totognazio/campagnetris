@@ -441,7 +441,7 @@
           $("#content_response").html(data);
 
         var table_pianificazione = $('#datatable-pianificazione').DataTable({
-            scrollY: "300px",
+            scrollY: "430px",
             scrollX: true,
             scrollCollapse: true,
             paging: false,
@@ -570,7 +570,7 @@
               
               'drawCallback': function () {
                       //$( 'table_pianificazione tbody tr td' ).css( 'padding', '0px 0px 0px 0px' );
-                    $( 'table_pianificazione tbody tr td' ).css( 'height', '5px');  
+                    $( 'table_pianificazione tbody tr td' ).css( 'height', '4px');  
                   }
                   
           } );
@@ -809,9 +809,11 @@
              channel_label = "_" + myarr[2];
             if (myarr[3])
              type_label = "_" + myarr[3];
-            if (myarr[4]) 
-                note_label = "_" + myarr[4];
+
+            note_label = '_'+document.getElementById('note_camp').value;
+            
             document.getElementById('nomecampagna').value = moment(start.toISOString()).format('YYYYMMDD') + squad_label + channel_label + type_label + note_label;
+            
         }
         else{
             document.getElementById('nomecampagna').value = moment(start.toISOString()).format('YYYYMMDD');

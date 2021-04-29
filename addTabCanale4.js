@@ -3,7 +3,11 @@
 stato = $('#campaign_state_id').val();
 
 var selected_channel_id4 = $('#channel_ins4').val();
-add_canale_validazione(selected_channel_id4, stato, 4); 
+add_canale_validazione(selected_channel_id4, stato, 4);
+  
+count4 =  $('#iniziative_dealer4').val();
+validazione_add_canaleDealer(count4, stato, 4);
+
 
 var testo_sms4 = document.getElementById("testo_sms4");
     testo_sms4.addEventListener(
@@ -141,7 +145,7 @@ $('#channel_ins4').on('select2:select ', function () {
      $('#iniziative_dealer4').change(function() {
             //alert('canale 1 '+$(this).val());
             count = $(this).val();
-            for(i=2; i<10; i++){
+            for(i=1; i<10; i++){
                 if(i<=count){
                   $('#4adddealer_' + i).show();
                   if (get_required(stato)) {                   
@@ -170,7 +174,7 @@ $('#channel_ins4').on('select2:select ', function () {
             stato = $('#campaign_state_id').val();
             count4 = $('#iniziative_dealer4').val();      
            // add_canale_view(selected_channel_id4, 4);
-            validazione_add_canaleDealer(count4, stato);
+            validazione_add_canaleDealer(count4,stato,4);
             
             add_canale_validazione(selected_channel_id4, stato, 4);
   

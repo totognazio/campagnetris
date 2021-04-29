@@ -806,8 +806,8 @@ LEFT JOIN users ON `user_id` = users.id
 
         $results = $this->mysqli->query($sql) or die($sql . " - " . $this->mysqli->error);
         $numero_row = $this->mysqli->affected_rows;
-        $msg = "Sono stati modificate " . $numero_row . " campagne";
-        $subj = "Campaign managment: Cambio Stato";
+        $msg = "Sono state modificate " . $numero_row . " campagne in stato --> " . $this->get_state_name($value_update);
+        $subj = "Campaign management: Cambio Stato";
         $page_protect = new Access_user();
 
         $mail_list = $page_protect->get_maillist();
@@ -946,7 +946,7 @@ function check_addCanale($record){
 
 function insert($record) {
 //print_r($lista_id);
-    //print_r($record);
+    print_r($record);
 
     //$addcanale = $this->check_addCanale($record);
     //echo "<br/>addcanale " . $addcanale . "<br/>";

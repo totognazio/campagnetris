@@ -514,7 +514,7 @@
                     $required_dealer_plus[$i] = '';
                     if($modifica and isset($canale['count_iniziative_dealer']) and ($i<=$canale['count_iniziative_dealer'])){
                         $display_cod[$i] = ' ';
-                        $required_dealer_plus[$i] = ' required="requuired" ';
+                        $required_dealer_plus[$i] = ' required="required" ';
                     }
                 }    
                 
@@ -757,11 +757,11 @@ testo_sms_pos.addEventListener('paste', (event) => {
 var myDropzoneCanale = new Dropzone(
         '#dropzone-canale',
         {   
-            <?php if($readonly){echo 'clickable: false,';} else{echo 'clickable: true,';}?>       
+            <?php if($readonly){echo 'clickable: false,addRemoveLinks: false,';} else{echo 'clickable: true,';}?>                   
             init: function () {
              this.options.dictRemoveFileConfirmation = "Confermi di voler eliminare il File?";   
-           //solo su Modifica o Duplica     
-           <?php if($modifica) {?>     
+           //solo su Modifica o Open
+           <?php if(isset($_POST['azione']) && (($_POST['azione']=='modifica')||($_POST['azione']=='open'))) {?>     
             thisCanale = this;        
             $.ajax({
                 type: "POST",
