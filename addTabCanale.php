@@ -290,22 +290,22 @@ $string .='<span id="span_40400'.$id_canale.'" '.$display_40400.'>
                 <label class="control-label" for="alias_attiv">Alias Attivazione<span class="required">*</span></label>
                 <input ';
                 if ($readonly){$string .= $disabled_value;}
-                $string .= 'type="text" id="alias_attiv'.$id_canale.'" name="addcanale['.$id_canale.'][alias_attiv]"  placeholder="alfanumerico"  class="form-control col-md-7 col-xs-12" value="';                
+                $string .= ' type="text" id="alias_attiv'.$id_canale.'" name="addcanale['.$id_canale.'][alias_attiv]"  placeholder="alfanumerico"  class="form-control col-md-7 col-xs-12" value="';                
                 if($modifica and isset($addcanale_stored['alias_attiv'])) {$string .= $addcanale_stored['alias_attiv']; }
                 $string .= '">
                 <br><br><br><br>
                 <label  class="control-label" for="day_val">Giorni di Validità<span class="required">*</span></label>
                 <input ';
                 if ($readonly){$string .=  $disabled_value;}
-                $string .= 'type="number" id="day_val'.$id_canale.'" name="addcanale['.$id_canale.'][day_val]"  min="1" max="31" placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="';
+                $string .= ' type="number" id="day_val'.$id_canale.'" name="addcanale['.$id_canale.'][day_val]"  min="1" max="31" placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="';
                 if($modifica and isset($addcanale_stored['day_val'])) {$string .= $addcanale_stored['day_val']; }
-                $string .= '"><br><br><br><br><label  class="control-label" for="note">SMS Presa in carico</label><textarea ';
+                $string .= '"><br><br><br><br><label  class="control-label" for="note">SMS Presa in carico<span class="required">*</span></label><textarea ';
                 if ($readonly){$string .= $disabled_value;}
                 $string .= ' rows="2" id="sms_incarico'.$id_canale.'" name="addcanale['.$id_canale.'][sms_incarico]"  placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" >';
                 if($modifica and isset($addcanale_stored['sms_incarico'])){$string .= $addcanale_stored['sms_incarico']; }
                 $string .= '</textarea>
                 <br><br>
-                <label class="control-label" for="sms_target">SMS Non in Tanget<span class="required">*</span></label>         
+                <label class="control-label" for="sms_target">SMS Non in Target<span class="required">*</span></label>
                 <textarea ';
                 if ($readonly){$string .= $disabled_value;}
                 $string .= ' rows="2" id="sms_target'.$id_canale.'" name="addcanale['.$id_canale.'][sms_target]"  placeholder="alfanumerico (max 160 char.)" data-parsley-maxlength="160" data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" >';

@@ -441,6 +441,9 @@
           $("#content_response").html(data);
 
         var table_pianificazione = $('#datatable-pianificazione').DataTable({
+            //"processing": true,
+            //"serverSide": true,
+            deferRender: true,
             scrollY: "430px",
             scrollX: true,
             scrollCollapse: true,
@@ -566,6 +569,7 @@
             ordering: <?php if($datatable=="pianificazione") {echo "false,";} elseif($datatable=="gestione"){echo "true,";}else{echo "true,";}?>
 
           });
+          /*
           $('#table_pianificazione').dataTable( {
               
               'drawCallback': function () {
@@ -574,8 +578,8 @@
                   }
                   
           } );
-    
-          table_pianificazione.columns.adjust().responsive.recalc();
+    */
+          //table_pianificazione.columns.adjust().responsive.recalc();
          
           console.log(' conteggio righe '+ table_pianificazione.rows().count());
           var tot_rows = parseInt(table_pianificazione.rows().count());

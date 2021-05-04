@@ -18,8 +18,8 @@ else{
 
 $filter = $campaign->getFilter();
 
-#echo'prima del render campagne dopo il get_filter';
-#print_r($filter);
+//echo'prima del render campagne dopo il get_filter';
+//print_r($filter);
 if($datatable=='pianificazione'){
     $list = $campaign->getCampaigns($filter); 
 }

@@ -614,8 +614,11 @@ function export_gestione($list,$filter){
 
             $canale = json_decode($row['addcanale'],true); 
             $escape = true;
-            for ($i=0; $i <=5; $i++) { 
+            for ($i=0; $i <=5; $i++) {
                 $testo_sms_var = 'testo_sms'.$i;
+                if($i==0){
+                    $testo_sms_var = 'testo_sms';
+                }
                 if($escape && isset($canale[$i]) && $canale[$i]['channel_id']==12){
                     $escape = false;
                     if(!empty($canale[$i]['sender_id'])){

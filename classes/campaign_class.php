@@ -905,6 +905,7 @@ LEFT JOIN users ON `user_id` = users.id
 
     function my_mysql_query($query, $conn = false) {
         $res = $this->mysqli->query($query);
+        $id_camp = $this->mysqli->insert_id;
         if (!$res) {
             $errno = $this->mysqli->errno;
             $error = $this->mysqli->error;
@@ -918,7 +919,7 @@ LEFT JOIN users ON `user_id` = users.id
                     break;
             }
         }
-        return $res;
+        return array('res'=>$res, 'id_camp'=>$id_camp);
 // ...
 // doing something
 // ...
@@ -946,7 +947,7 @@ function check_addCanale($record){
 
 function insert($record) {
 //print_r($lista_id);
-    print_r($record);
+    //print_r($record);
 
     //$addcanale = $this->check_addCanale($record);
     //echo "<br/>addcanale " . $addcanale . "<br/>";
@@ -1033,6 +1034,12 @@ function insert($record) {
             
             //$stringa_mail ="[CTM] La campagna " .$record['pref_nome_campagna']. " ha cambiato stato L'utente '" . $this->get_firtname($user_info) . " " . $this->get_lastname($user_info) . "' ha modificato lo stato della campagna '" .$record['pref_nome_campagna']. " in " . $this->get_state_name($record['campaign_state_id']) . ". Data inizio campagna: " . $_POST['data_inizio'] . ".";
             //echo '<script type="text/javascript">alert("SIMULAZIONE Invio Email' . $stringa_mail . '")</script>';
+                    // copy and remove files and dir of related file upload
+                if(isset($record['id_upload'])){
+                    //$id_camp = $this->mysqli->insert_id;
+                    $this->rcopy("file/".$record['id_upload'],"file/".$res['id_camp']);
+                    $this->rrmdir("file/".$record['id_upload']);
+                }
         } catch (Exception $e) {
             echo 'ERROR:'.$e->getMessage(). " - " . $sql;
         }
@@ -1054,14 +1061,10 @@ function insert($record) {
         //copy("file/".$record['id_upload'],"file/".$this->mysqli->insert_id);
         //unlink("file/".$record['id_upload']);
         
-        // copy and remove files and dir of related file upload
-        if(isset($record['id_upload'])){
-            $this->rcopy("file/".$record['id_upload'],"file/".$this->mysqli->insert_id);
-            $this->rrmdir("file/".$record['id_upload']);
-        }
         
         
-        return $res;
+        
+        return $res['res'];
     }
 
 // removes files and non-empty directories
@@ -2154,7 +2157,7 @@ LEFT JOIN users ON `user_id` = users.id
     
     function getFilter(){
         
-        //echo 'dentro getFilter';
+        //echo 'dentro getFilter prima';
         //print_r($_POST); 
         if(isset($_POST)){
             $filter_view = $_POST;           
@@ -2202,22 +2205,115 @@ LEFT JOIN users ON `user_id` = users.id
         }else{
                 $endDate = date('Y-m-t');
             }
+
         
         if(isset($filter_view["sprint"])){
-            $sprint = $filter_view["sprint"];            
+            $sprint = $filter_view["sprint"]; 
+            
+            //Modifica Start End Data quando lo sprint finesce o iizia prma del Range Data
+            if($this->sprint_overDate($endDate,$sprint)){
+                $endDate = $this->sprint_date($sprint,'data_fine');
+                $_POST['endDate'] = $endDate; 
+                $startDate = $filter_view["startDate"]; 
+            }
+            elseif($this->sprint_anteDate($startDate,$sprint)){
+                $startDate = $this->sprint_date($sprint,'data_inizio');
+                $endDate = $filter_view["endDate"];
+                $_POST['startDate'] = $startDate; 
+
+            }
+
         }else{
                 $sprint = '';
-            }    
+            }     
         
         //$sprint = $_POST['sprint'];
                     
         //print_r($filter_view);
+        
+        //echo 'dentro getFilter dopo modifica';
+        //print_r($_POST); 
 
         $_SESSION['filter'] = array("sprint"=>$sprint,"startDate"=>$startDate,"endDate"=>$endDate,"channels"=>$channels,"squads"=>$squads,"stacks"=>$stacks,"states"=>$states,"typologies"=>$typologies);
         
         return array("sprint"=>$sprint, "startDate"=>$startDate,"endDate"=>$endDate,"channels"=>$channels,"squads"=>$squads,"stacks"=>$stacks,"states"=>$states,"typologies"=>$typologies);
    
     }
+
+		
+	function sprint_overDate($endDate, $sprint_id) {
+        
+    
+        $query3 = "SELECT * FROM `sprints` WHERE id=$sprint_id ";
+        
+        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+        /*
+        $r = array();
+        while ($obj3 = $result3->fetch_array(MYSQLI_ASSOC)) {
+            $r[$obj3['id']] = $obj3;
+
+         
+        }
+        */
+        $obj3 = $result3->fetch_array(MYSQLI_ASSOC);
+        if(strtotime($obj3['data_fine'])>strtotime($endDate)){
+            return true;
+        }
+        return false;
+        
+    }
+
+    function sprint_anteDate($startDate, $sprint_id) {
+        
+    
+        $query3 = "SELECT * FROM `sprints` WHERE id=$sprint_id ";
+        
+        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+        /*
+        $r = array();
+        while ($obj3 = $result3->fetch_array(MYSQLI_ASSOC)) {
+            $r[$obj3['id']] = $obj3;
+
+         
+        }
+        */
+        $obj3 = $result3->fetch_array(MYSQLI_ASSOC);
+        if(strtotime($obj3['data_inizio'])<strtotime($startDate)){
+            return true;
+        }
+        return false;
+        
+    }
+
+    function sprint_date($sprint_id, $data_flag='both') {
+        
+        
+        $query3 = "SELECT * FROM `sprints` WHERE id=$sprint_id ";
+        
+        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+        /*
+        $r = array();
+        while ($obj3 = $result3->fetch_array(MYSQLI_ASSOC)) {
+            $r[$obj3['id']] = $obj3;
+
+         
+        }
+        */
+        $obj3 = $result3->fetch_array(MYSQLI_ASSOC);
+        if($data_flag=='data_inizio'){
+            return $obj3['data_inizio'];
+        }
+        if($data_flag=='data_fine'){
+            return $obj3['data_fine'];
+        }
+        if($data_flag=='both'){
+            return array('data_inizio'=>$obj3['data_inizio'],'data_fine'=>$obj3['data_fine']);
+        }
+        return false;
+        
+    }
+
+
 
     function reset_filter(){
         unset($_SESSION['filter']); 
