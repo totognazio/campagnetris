@@ -11,8 +11,8 @@ table.dataTable tfoot th {
   text-align: left;
   padding-left: 2px;
   padding-right: 2px;
-  margin-left: 0px;
-  margin-right: 0px;
+  margin-left: 2px;
+  margin-right: 2px;
   height: 5px;
 }
 table.dataTable th { 
@@ -27,6 +27,7 @@ table.dataTable tr:hover{
 
  </style>  
  
+
 
 <?php
 include_once './classes/form_class.php';
@@ -56,13 +57,15 @@ $stacks = $funzione->get_list_select('campaign_stacks');
 $typlogies = $funzione->get_list_select('campaign_types');
 $squads = $funzione->get_list_select('squads');
 $states = $funzione->get_list_select('campaign_states'); 
-$sprints = $funzione->get_sprints();
-// print_r($sprints);
+//$sprints = $funzione->get_sprints();
+$sprints = $funzione->get_list_select('sprints'); 
+//print_r($sprints);
 $form->head_page_compat("Pianificazione Campagne", "Filtro");
 //print_r($_SESSION);  
+//echo 'POSTTTTTTTT';
 //print_r($_POST); 
                 
-                if (isset($result)) {
+                if (isset($result)&& is_string($result)) {
                     //echo "<div class=\"info\">";
                     //echo "<h2 style=\"color: #ff0000\">" . $result . "</h2>";
                     //echo "</div>";
@@ -90,9 +93,10 @@ $form->head_page_compat("Pianificazione Campagne", "Filtro");
                              <select id="sprints" name="sprints" class="select2_single form-control">        
                               
                             <?php 
-                            //foreach ($sprints as $key => $value) {
-                            //    echo '<option value="'.$key.'">'.$value['name'].'</option>';
-                            //}                                                  
+                            foreach ($sprints as $key => $value) {
+                                if(isset($_SESSION['filter']['sprint']) && $_SESSION['filter']['sprint']==$key)
+                                echo '<option selected value="'.$key.'">'.$value.'</option>';
+                            }                                                  
                             ?>  
                           </select>
                     </div>
@@ -219,10 +223,151 @@ if ($livello_accesso > 0) {
 <?php }?>
 
 </div>
-<p style="padding-top: 16px;"></p>
+<p style="padding-top: 32px;"></p>
 <div class="loader"></div>
-<div class="col-md-12 col-sm-12 col-xs-12" id="content_response">
+<div  style="overflow-y: scroll;max-height: 440px">
+<?php
 
+$campaign = new campaign_class();
+// print_r($_POST);
+
+$datatable ='pianificazione';
+//$filter = $campaign->getFilter();
+
+//echo'prima del render campagne dopo il get_filter';
+//print_r($filter);
+
+
+       //$filter = $_SESSION['filter'];
+//$filter = $campaign->reset_filter_session_new();
+if(isset($_SESSION['filter'])){
+            $filter = $_SESSION['filter'];     
+            
+            if($datatable=='pianificazione'){
+                $list = $campaign->getCampaignsPianificazione($filter); 
+            }
+            else if($datatable=='gestione'){
+                $list = $campaign->getCampaignsGestione($filter); 
+            }
+            else if($datatable=='gestioneStato'){
+                $list = $campaign->getCampaignsGestione($filter); 
+            }
+
+
+            if(count($list)>0  && $datatable=='pianificazione'){
+                echo "<script>$('.loader').hide();</script>";
+                $campaign->tablePianificazione($list);
+                
+            }
+            else if(count($list)>0  && $datatable=='gestione'){ 
+                echo "<script>$('.loader').hide();</script>";
+                $campaign->tableGestione($list);
+            }
+            else if(count($list)>0  && $datatable=='gestioneStato'){ 
+                $campaign->tableGestioneStato($list);
+            }
+            else if(count($list)<=0  && $datatable=='gestione'){ 
+                echo " <br><h2>Nessuna Campagna in Gestione !!!</h2><script>$('.loader').hide();</script>";
+            }
+            else if(count($list)<=0  && $datatable=='pianificazione'){    
+                echo " <br><h2>Nessuna Campagna Pianificata !!!</h2><script>$('.loader').hide();</script>";
+            }
+            else { 
+                echo " <br><h2>Nessuna Campagna !!!</h2><script>$('.loader').hide();</script>";
+            }
+
+      
+        }
+elseif(isset($_POST['filter'])){
+             $filter = $_POST['filter'];
+             if($datatable=='pianificazione'){
+                $list = $campaign->getCampaignsPianificazione($filter); 
+            }
+            else if($datatable=='gestione'){
+                $list = $campaign->getCampaignsGestione($filter); 
+            }
+            else if($datatable=='gestioneStato'){
+                $list = $campaign->getCampaignsGestione($filter); 
+            }
+
+
+            if(count($list)>0  && $datatable=='pianificazione'){
+                echo "<script>$('.loader').hide();</script>";
+                $campaign->tablePianificazione($list);
+                
+            }
+            else if(count($list)>0  && $datatable=='gestione'){ 
+                $campaign->tableGestione($list);
+            }
+            else if(count($list)>0  && $datatable=='gestioneStato'){ 
+                $campaign->tableGestioneStato($list);
+            }
+            else if(count($list)<=0  && $datatable=='gestione'){ 
+                echo " <br><h2>Nessuna Campagna in Gestione !!!</h2><script>$('.loader').hide();</script>";
+            }
+            else if(count($list)<=0  && $datatable=='pianificazione'){    
+                echo " <br><h2>Nessuna Campagna Pianificata !!!</h2><script>$('.loader').hide();</script>";
+            }
+            else { 
+                echo " <br><h2>Nessuna Campagna !!!</h2><script>$('.loader').hide();</script>";
+            }
+
+
+        }  
+ else{
+
+    $filter2 = $campaign->reset_filter();
+    //echo " --------------- Reset avvenuto  ------ ";
+    //print_r($filter);   
+    //print_r($_SESSION);
+            $filter = $_SESSION['filter'];
+            if($datatable=='pianificazione'){
+                $list = $campaign->getCampaignsPianificazione($filter); 
+            }
+            else if($datatable=='gestione'){
+                $list = $campaign->getCampaignsGestione($filter); 
+            }
+            else if($datatable=='gestioneStato'){
+                $list = $campaign->getCampaignsGestione($filter); 
+            }
+
+
+            if(count($list)>0  && $datatable=='pianificazione'){
+                echo "<script>$('.loader').hide();</script>";
+                $campaign->tablePianificazione($list);
+                
+            }
+            else if(count($list)>0  && $datatable=='gestione'){ 
+                $campaign->tableGestione($list);
+            }
+            else if(count($list)>0  && $datatable=='gestioneStato'){ 
+                $campaign->tableGestioneStato($list);
+            }
+            else if(count($list)<=0  && $datatable=='gestione'){ 
+                echo " <br><h2>Nessuna Campagna in Gestione !!!</h2><script>$('.loader').hide();</script>";
+            }
+            else if(count($list)<=0  && $datatable=='pianificazione'){    
+                echo " <br><h2>Nessuna Campagna Pianificata !!!</h2><script>$('.loader').hide();</script>";
+            }
+            else { 
+                echo " <br><h2>Nessuna Campagna !!!</h2><script>$('.loader').hide();</script>";
+            }
+    //print_r($filter);
+ }   
+ 
+/*
+        echo 'dentro Pianificazione DOPO RESET FILTER POST';
+        print_r($_POST); 
+        echo 'dentro Pianificazione DOPO RESET FILTER SESSION';
+        print_r($_SESSION);
+*/
+
+//$filter = $campaign->getFilter3();
+
+
+$righe = count($list)+1;
+
+?>
 </div>
 
 
@@ -230,6 +375,7 @@ if ($livello_accesso > 0) {
 
 <script>
 
+$('.loader').hide();
     function conferma(stato, permesso_elimina) {
         if (permesso_elimina == 0) {
             alert("Non hai i permessi per eliminare la campagna!");
@@ -263,5 +409,108 @@ if ($livello_accesso > 0) {
             document.location.href = './index.php?page=inserisciCampagna2';
     }
 
-    
+  $(document).ready(function() {  
+      
+      //$('.loader').hide();
+      
+    //$('#datatable-pianificazione').DataTable({
+        var table_pianificazione = $('#datatable-pianificazione').DataTable({
+            processing: true,
+            serverSide: true,
+            //deferRender: true,  
+            //scrollY: '50vh',
+            paging: false,
+            //scrollY: "430px",
+            //scrollX: true,
+            scrollCollapse: true,
+            searching: false,
+            dom: 'Bfrtip',    
+            //deferRender: true,   
+            
+            ajax: function ( dataSrc, callback, settings ) {
+            /*var out = [];
+ 
+            for ( var i=data.start, ien=data.start+data.length ; i<ien ; i++ ) {
+                out.push( [ i+'-1', i+'-2', i+'-3', i+'-4', i+'-5' ] );
+            }
+ */         
+                  
+            setTimeout( function () {
+                callback( {
+                    draw: <?php echo $righe; ?>,
+                    recordsTotal: <?php echo $righe; ?>,
+                    recordsFiltered: <?php echo $righe; ?>,
+                } );
+            });
+            
+        },
+            buttons: [
+           /*     
+            {              
+              extend: 'colvis',
+              className: 'btn-xs btn-primary',
+              text: '<i class="fa fa-table"></i> Vista Colonne', 
+              titleAttr: 'Seleziona le colonne da visualizzare', 
+            }
+            */
+          
+          ],
+            
+            columnDefs: [
+               {
+                  className: "dt-head-left",
+                },
+            /*  
+                { 
+                    
+                  targets: 0,
+                  searchable: false,
+                  orderable: false,              
+                  //width: 35,
+              },
+              
+              {      
+                  targets: 1,                   
+                  searchable: false,                  
+                  orderable: false,
+                  visible: false,
+              },
+              
+              */
+                         
+            ],
+          
+            //order: [1, 'asc'],            
+            //ordering: false,
+            ordering: false,
+
+          });
+          /*
+          $('#table_pianificazione').dataTable( {
+              
+              'drawCallback': function () {
+                      //$( 'table_pianificazione tbody tr td' ).css( 'padding', '0px 0px 0px 0px' );
+                    $( 'table_pianificazione tbody tr td' ).css( 'height', '4px');  
+                  }
+                  
+          } );
+    */
+          //table_pianificazione.columns.adjust().responsive.recalc();
+         
+         // console.log(' conteggio righe '+ table_pianificazione.rows().count());
+          
+         
+        //var tot_rows = parseInt(table_pianificazione.rows().count());
+        var tot_rows = <?php echo $righe; ?>;
+          if(tot_rows>0){
+            tot_rows = tot_rows-1;
+            if(document.getElementById('conteggio_righe')){
+             document.getElementById('conteggio_righe').textContent = '   filtrate n°' + tot_rows + '';
+             document.getElementById('datatable-pianificazione_info').textContent = ' Campagne filtrate n°' + tot_rows + '';
+          }
+        }         
+         
+            
+        });
+
   </script>

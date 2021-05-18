@@ -264,6 +264,23 @@ class Access_user {
             return 0;
     }
 
+    function check_permission_fast($squad_id, $user_info) {
+        $job_role = $user_info['job_role'];
+        $squad_user = $user_info['squad_id'];
+        //echo $squad_id ." - ". $this->get_department();
+        if ($job_role > 1) {
+            if ($job_role < 4) {
+
+                if ($squad_id == $squad_user) {
+                    return 1;
+                } else
+                    return 0;
+            } else
+                return 1;
+        } else
+            return 0;
+    }
+
     function check_top_user($squad_id) {
         $job_role = $this->get_job_role();
         if ($job_role < 4) {

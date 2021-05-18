@@ -170,7 +170,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="note">Note Operative
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input <?php if ($readonly){echo $disabled_value;}?>type="text" id="note_operative" name="note_operative"  placeholder="campo alfanumerico" class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['note_operative'])){echo $id_campaign['note_operative']; }?>">
+                <input <?php if ($readonly){echo $disabled_value;}?>type="text" id="note_operative" name="note_operative"  placeholder="campo alfanumerico" class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['note_operative'])){echo stripslashes($id_campaign['note_operative']); }?>">
             </div>
         </div>
 

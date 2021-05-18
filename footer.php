@@ -1,3 +1,4 @@
+
 <!-- footer content -->
 <footer>
   <div class="pull-right">
@@ -20,7 +21,7 @@
 <script src="vendors/nprogress/nprogress.js"></script>
 <!-- Include the plugin multiselect -->
 <script type="text/javascript" src="node_modules/bootstrap-multiselect/dist/js/bootstrap-multiselect.js"></script>
-<!-- Datatables -->
+<!-- Datatables
 <script src="./vendors/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="./vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 <script src="./vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
@@ -42,11 +43,12 @@
 <script src="./vendors/datatables.net-responsive/js/FileSaver.js"></script>
 <script src="./vendors/datatables.net-responsive/js/buttons.html5.min.js"></script>
 <script src="./vendors/datatables.net-responsive/js/buttons.print.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.colVis.min.js"></script>
-<script src="./node_modules/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>
+<script src="./vendors/datatables.net-responsive/js/buttons.colVis.min.js"></script>
+<script src="./node_modules/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>-->
 
-<script type="text/javascript" src="./node_modules/xlsx/dist/shim.min.js"></script>
-<script src="./node_modules/xlsx/xlsx.mini.js"></script>
+
+<script type="text/javascript" src="./vendors/DataTables/datatables.min.js"></script>
+<script src="./vendors/datatables.net-responsive/js/buttons.colVis.min.js"></script>
 
 <!-- bootstrap-daterangepicker -->
 <script src="vendors/moment/min/moment.min.js"></script>
@@ -76,9 +78,14 @@
     var selected_states = $('#states').val();
     var selected_channels = $('#channels').val();
     var selected_typologies = $('#typologies').val();
-    var selected_sprint;
+    var selected_sprint = $('#sprints').val();
     var canale_zero = $('#channel_ins').val();
     var stato = null;
+    var change_typologies = 0;
+    var change_stacks = 0;
+    var change_squads = 0;
+    var change_channels = 0;
+    var change_states = 0;
     <?php 
   //print_r($_SERVER['REQUEST_URI']); 
       $datatable = 'pianificazione';
@@ -104,20 +111,28 @@
       selectAllName: 'select-all',
       buttonWidth: '150px',
 
-      onSelectAll: function(option, checked) {
-
-        selected_stacks = $('#stacks').val();
-        campagnTable();
-      },
-      onDeselectAll: function(option, checked) {
-
-        selected_stacks = $('#stacks').val();
-        campagnTable();
-      },
+      
       onChange: function(option, checked) {
 
-        selected_stacks = $('#stacks').val();
-        campagnTable();
+        change_stacks = 1;
+      },
+        onDeselectAll: function(option, checked) {
+
+        change_stacks = 1;
+      },
+        onSelectAll: function(option, checked) {
+
+        change_stacks = 1;
+      },
+      
+      onDropdownHide: function(option, checked) {
+        if(change_stacks){
+            selected_stacks = $('#stacks').val();
+            change_stacks = 0;
+            campagnTable();
+            location.reload();
+        }
+        
       }
 
 
@@ -133,20 +148,27 @@
       allSelectedText: 'All',
       selectAllName: 'select-all',
       buttonWidth: '150px',
-      onSelectAll: function(option, checked) {
+      
+      onChange: function(option, checked) {
 
-        selected_channels = $('#channels').val();
-        campagnTable();
+        change_channels = 1;
       },
       onDeselectAll: function(option, checked) {
 
-        selected_channels = $('#channels').val();
-        campagnTable();
+        change_channels = 1;
       },
-      onChange: function(option, checked) {
+        onSelectAll: function(option, checked) {
 
-        selected_channels = $('#channels').val();
-        campagnTable();
+        change_channels = 1;
+      },
+      onDropdownHide: function(option, checked) {
+        if(change_channels){
+            selected_channels = $('#channels').val();
+            change_channels = 0;
+            campagnTable();
+            location.reload();
+        }
+        
       }
     });
     $('#squads').multiselect({
@@ -159,20 +181,27 @@
       allSelectedText: 'All',
       selectAllName: 'select-all',
       buttonWidth: '150px',
-      onSelectAll: function(option, checked) {
+      
+      onChange: function(option, checked) {
 
-        selected_squads = $('#squads').val();
-        campagnTable();
+        change_squads = 1;
       },
       onDeselectAll: function(option, checked) {
 
-        selected_squads = $('#squads').val();
-        campagnTable();
+        change_squads = 1;
       },
-      onChange: function(option, checked) {
+        onSelectAll: function(option, checked) {
 
-        selected_squads = $('#squads').val();
-        campagnTable();
+        change_squads = 1;
+      },
+      onDropdownHide: function(option, checked) {
+        if(change_squads){
+            selected_squads = $('#squads').val();
+            change_squads = 0;
+            campagnTable();
+            location.reload();
+        }
+        
       }
     });
     $('#states').multiselect({
@@ -185,20 +214,27 @@
       allSelectedText: 'All',
       selectAllName: 'select-all',
       buttonWidth: '150px',
-      onSelectAll: function(option, checked) {
+      
+      onChange: function(option, checked) {
 
-        selected_states = $('#states').val();
-        campagnTable();
+        change_states = 1;
       },
       onDeselectAll: function(option, checked) {
 
-        selected_states = $('#states').val();
-        campagnTable();
+        change_states = 1;
       },
-      onChange: function(option, checked) {
+        onSelectAll: function(option, checked) {
 
-        selected_states = $('#states').val();
-        campagnTable();
+        change_states = 1;
+      },
+      onDropdownHide: function(option, checked) {
+        if(change_states){
+            selected_states = $('#states').val();
+            change_states = 0;
+            campagnTable();
+            location.reload();
+        }
+        
       }
     });
     $('#typologies').multiselect({
@@ -211,20 +247,28 @@
       allSelectedText: 'All',
       selectAllName: 'select-all',
       buttonWidth: '150px',
-      onSelectAll: function(option, checked) {
+      
+      onChange: function(option, checked) {
 
-        selected_typologies = $('#typologies').val();
-        campagnTable();
+        change_typologies = 1;
       },
       onDeselectAll: function(option, checked) {
 
-        selected_typologies = $('#typologies').val();
-        campagnTable();
+        change_typologies = 1;
       },
-      onChange: function(option, checked) {
+        onSelectAll: function(option, checked) {
 
-        selected_typologies = $('#typologies').val();
-        campagnTable();
+        change_typologies = 1;
+      },
+      onDropdownHide: function(option, checked) {
+        if(change_typologies){
+            selected_typologies = $('#typologies').val();
+            change_typologies = 0;
+            campagnTable();
+            location.reload();
+            
+        }
+        
       }
     });
 
@@ -418,8 +462,9 @@
       console.log('enddate in camp ' + select_endDate);
       console.log('sprint inside camp ' + selected_sprint);
 
-      $("#content_response").fadeOut();
-      $('.loader').show();
+      //$("#content_response").fadeOut();
+      //$('.loader').show();
+      
       $.ajax({
         url: "get_Filter.php",
         method: "POST",
@@ -434,170 +479,15 @@
           selected_typologies: selected_typologies,
           datatable: datatable_name,
         },
-        //dataType:"html",    
+        dataType:"html",    
         success: function(data) {
-          $("#content_response").fadeOut();
-          $("#content_response").fadeIn();
+          //$("#content_response").fadeOut();
+          //$("#content_response").fadeIn();
           $("#content_response").html(data);
-
-        var table_pianificazione = $('#datatable-pianificazione').DataTable({
-            //"processing": true,
-            //"serverSide": true,
-            deferRender: true,
-            scrollY: "430px",
-            scrollX: true,
-            scrollCollapse: true,
-            paging: false,
-            dom: 'Bfrtip',            
-            buttons: [
-
-            {              
-              extend: 'colvis',
-              className: 'btn-xs btn-primary',
-              text: '<i class="fa fa-table"></i> Vista Colonne', 
-              titleAttr: 'Seleziona le colonne da visualizzare', 
-            }
-          
-          ],
-            
-            columnDefs: [
-               
-                {
-                  className: "dt-head-left"
-                },
-              
-                { 
-                    
-                  targets: 0,
-                  searchable: false,
-                  orderable: false,              
-                  //width: 35,
-              },
-              {      
-                  targets: 1,                   
-                  searchable: false,                  
-                  orderable: false,
-                  visible: false,
-              },
- 
-              {      
-                  targets: 2, 
-                  searchable: true,
-                  //width: 95,
-                  orderable: false,
-              },
-                            {      
-                  targets: 3,
-                  searchable: true,
-                  //width: 95,
-                  orderable: false,
-              },
-                            {      
-                  targets: 4,
-                  searchable: true,
-                  //width: 95,
-                  orderable: false,
-              },
-              {      
-                  targets: 5, 
-                  searchable: true,
-                  //width: 95,
-                  orderable: false,
-              },
-                            {      
-                  targets: 6,
-                  orderable: false,  
-                  searchable: true,
-                  //width: 95,
-                  
-              },
-                            {      
-                  targets: 7,
-                  searchable: true,
-                  //width: 95,
-                  orderable: false,
-              },
-                            {      
-                  targets: 8,
-                  searchable: true,
-                  //width: 95,
-                  orderable: false,
-              },
-                            {      
-                  targets: 9,
-                  searchable: true,
-                  //width: 95,
-                  orderable: false,
-              },
-                                          {      
-                  targets: 10,
-                  searchable: true,
-                  //width: 95,
-                  orderable: false,
-              },
-                                          {      
-                  targets: 11,
-                  searchable: true,
-                  //width: 95,
-                  orderable: false,
-              },
-                                                   {      
-                  targets: 12,
-                  searchable: true,
-                  //width: 95,
-                  orderable: false,
-              },
-              
-              {
-                  targets: '_all',
-                  searchable: true,
-                  //width: 10,
-                /*  
-                  createdCell: function (th, td, cellData, rowData, row, col) {                      
-                      //$(th).css('padding-left', '5px');
-                      //$(th).css('text-align', 'left');
-                      $(td).css('text-align','left');
-                      $(td).css('padding-left', '5px');
-                                            
-                  }, 
-                  */
-                  
-              },             
-            ],
-          
-            order: [1, 'asc'],            
-            ordering: <?php if($datatable=="pianificazione") {echo "false,";} elseif($datatable=="gestione"){echo "true,";}else{echo "true,";}?>
-
-          });
-          /*
-          $('#table_pianificazione').dataTable( {
-              
-              'drawCallback': function () {
-                      //$( 'table_pianificazione tbody tr td' ).css( 'padding', '0px 0px 0px 0px' );
-                    $( 'table_pianificazione tbody tr td' ).css( 'height', '4px');  
-                  }
-                  
-          } );
-    */
-          //table_pianificazione.columns.adjust().responsive.recalc();
-         
-          console.log(' conteggio righe '+ table_pianificazione.rows().count());
-          var tot_rows = parseInt(table_pianificazione.rows().count());
-          if(datatable_name==='pianificazione' && tot_rows>0){
-            tot_rows = parseInt(table_pianificazione.rows().count()-1);
-          }
-          if(document.getElementById('conteggio_righe')){
-             document.getElementById('conteggio_righe').textContent = '   filtrate n°' + tot_rows + '';
-             document.getElementById('datatable-pianificazione_info').textContent = ' Campagne filtrate n°' + tot_rows + '';
-          }
-
           $('.loader').hide();
-        },
-        error: function(data) {
-          console.log('An error occurred.');
-          console.log(data);
         }
       });
+      
     }
 
     
@@ -608,6 +498,7 @@
     var select_startDate = moment().startOf('month').format('YYYY-MM-DD');
     var select_endDate = moment().endOf('month').format('YYYY-MM-DD');     
     // valori di session 
+    
     var select_startDate = '<?php if (isset($_SESSION['filter'])) {
                               echo $_SESSION['filter']['startDate'];
                             } else {
@@ -618,6 +509,7 @@
                           } else {
                             echo date('Y-m-t');
                           } ?>';
+                          
     $('#reportrange_right span').html(moment(select_startDate, 'D MMMM, YYYY') + ' - ' + moment(select_endDate, 'D MMMM, YYYY'));
 
     var cb = function(start, end, label) {
@@ -670,7 +562,7 @@
     };
 
     //solo al primo caricamento
-    campagnTable();
+    //campagnTable();
     $('#reportrange_right span').html(select_startDate + ' - ' + select_endDate);
     $('#reportrange_right').daterangepicker(optionSet1, cb);
 
@@ -690,14 +582,16 @@
 
       $('#sprints').select2('val', ' ');
       $('#sprints').select2({
+        placeholder: " Select a Sprint",
+        allowClear: true,
         ajax: ({
           url: "get_sprints.php",
           dataType: 'json',
-          delay: 10,
           method: "POST",
           data: {
             startDate: select_startDate,
-            endDate: select_endDate
+            endDate: select_endDate,
+            sprint: $('#sprint').val,
           },
           //dataType:"html",    
           success: function(data) {
@@ -708,6 +602,7 @@
         })
       });
       campagnTable();
+      location.reload();
     });
     $('#reportrange_right').on('cancel.daterangepicker', function(ev, picker) {
       console.log("cancel event fired");
@@ -718,6 +613,7 @@
       $('#reportrange_right').data('daterangepicker').remove();
     });
 
+    
     $('#sprints').select2({
       placeholder: " Select a Sprint",
       allowClear: true,
@@ -732,7 +628,7 @@
         },
         //dataType:"html",    
         success: function(data) {
-          console.log('data eccoliii ' + JSON.stringify(data)); 
+          console.log(' Start select degli sprints ' + JSON.stringify(data)); 
         }
       })
 
@@ -741,12 +637,14 @@
       selected_sprint = '';
       console.log('sprints cancellato  ' + selected_sprint);
       campagnTable();
+      location.reload();
 
     });
     $('#sprints').on('select2:select', function() {
       selected_sprint = $('#sprints').val();
       console.log('sprints  ' + selected_sprint);
       campagnTable();
+      location.reload();
 
     });
 

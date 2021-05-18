@@ -3057,10 +3057,15 @@ function checklength(areaText, maxchars, input, char, char_count_sms) {
     //document.getElementById(char).value = maxchars - document.getElementById(input).value.length;
     document.getElementById(char).value = document.getElementById(input).value.length;
     if (char_count_sms != '') {
-        if (document.getElementById(input).value.length <= 160 - lunghezza_link)
-            document.getElementById(char_count_sms).value = 1;
-        else
-            document.getElementById(char_count_sms).value = Math.floor((document.getElementById(input).value.length - lunghezza_link) / 153) + 1;
+        if (document.getElementById(input).value.length <= 160 - lunghezza_link) {
+          document.getElementById(char_count_sms).value = 1;
+        }    
+      else if( (document.getElementById(input).value.length > 160 - lunghezza_link)&&(document.getElementById(input).value.length <= 268 - lunghezza_link)){
+          document.getElementById(char_count_sms).value = 2;
+        }
+        else {
+          document.getElementById(char_count_sms).value = Math.floor((document.getElementById(input).value.length - lunghezza_link) / 133) + 1;
+        }
     }
 }
 

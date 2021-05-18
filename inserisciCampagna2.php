@@ -171,7 +171,7 @@ $sender = $funzione->get_allTable('senders');
           <div class="">
             <div class="page-title">
               <div class="title_center">
-                <h3><?php echo $title; ?> - <?php echo $nome_campagna; ?></h3>
+                <h3><?php echo $title; ?> - <?php echo stripslashes($nome_campagna); ?></h3>
 
               </div>
 
@@ -275,7 +275,7 @@ $sender = $funzione->get_allTable('senders');
 <form id="form-campagna-ins"  data-parsley-validate="" class="form-horizontal form-label-left" enctype="multipart/form-data" action="<?php echo $back_url; ?>" method="post">  
                 <input type="hidden" name="azione" value="<?php echo $_POST['azione']; ?>">
                 <input type="hidden" name="user_id" id="user_id" value="<?php echo $page_protect->id; ?>"> 
-                <input type="hidden" name="id_upload" id="id_upload" value="<?php echo $id_upload; ?>">  
+                <input type="hidden" name="id_upload" id="fileid" value="<?php echo $id_upload; ?>">  
                 <div  id="myTab" class="" role="tabpanel" data-example-id="togglable-tabs">
                        
                       <ul  id="myTab-ul" class="nav nav-tabs bar_tabs" role="tablist">
