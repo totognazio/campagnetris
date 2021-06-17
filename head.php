@@ -22,15 +22,14 @@
 <link rel="stylesheet" href="node_modules/bootstrap-multiselect/dist/css/bootstrap-multiselect.css" type="text/css"/>
 
 
-    <!-- Datatables 
+    <!-- Datatables -->
     <link href="./vendors/DataTables/Buttons-1.6.5/css/buttons.bootstrap.min.css" rel="stylesheet"/>
     <link href="./vendors/DataTables/Buttons-1.6.5/css/buttons.bootstrap4.min.css" rel="stylesheet"/>
     <link href="./vendors/DataTables/FixedHeader-3.1.7/css/fixedHeader.bootstrap.min.css" rel="stylesheet"/>
     <link href="./vendors/DataTables/Responsive-2.2.7/css/responsive.bootstrap.min.css" rel="stylesheet"/>
     <link href="./vendors/DataTables/Scroller-2.0.3/css/scroller.bootstrap.min.css" rel="stylesheet"/>
 
-    <link rel="stylesheet" type="text/css" href="./vendors/DataTables/datatables.min.css"/>-->
-    <link rel="stylesheet" type="text/css" href="DataTables/datatables.min.css"/>
+   <!-- <link rel="stylesheet" type="text/css" href="./vendors/DataTables/datatables.min.css"/>-->
 <!-- Select2 -->
     <link href="vendors/select2/dist/css/select2.min.css" rel="stylesheet">
 
@@ -51,6 +50,17 @@
 </style>
 -->
 <style>
+table.dataTable thead th,
+table.dataTable tr td,
+table.dataTable tfoot th {
+  font: 30%/0.35em;
+  text-align: left;
+  padding-left: 2px;
+  padding-right: 2px;
+  margin-left: 0px;
+  margin-right: 0px;
+  height: 5px;
+}
 .loader {
   border: 10px solid #f3f3f3;
   border-radius: 50%;

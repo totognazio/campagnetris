@@ -6,14 +6,21 @@ $dati = array();
 
 $startDate = "";
 $endDate = "";
+
 if (isset($_POST['startDate']) && isset($_POST['endDate'])) {
     $startDate = $_POST['startDate'];
     $endDate = $_POST['endDate'];
-    $sprints = $funzione->get_sprints($startDate,$endDate);
+    $sprints_list = $funzione->get_sprints($startDate,$endDate);
+    
 }
 else{
 
-    $sprints = $funzione->get_sprints();
+    $sprints_list = $funzione->get_sprints();
+}
+
+$sprint_sel = '';
+if(isset($_POST['sprint'])){
+    $sprint_sel = $_POST['sprint'];
 }
 
 

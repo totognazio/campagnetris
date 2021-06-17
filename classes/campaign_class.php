@@ -18,7 +18,7 @@ class campaign_class  {
     function __construct() {
         $mysqli = $this->connect_dbli();
         $this->filter_view = array();
-        $this->radici_list = array('channel' => 'channels', 'stack' => 'campaign_stacks', 'state' => 'campaign_states', 'squad' => 'squads', 'type' => 'campaign_types');
+        $this->radici_list = array('channels' => 'channels', 'stacks' => 'campaign_stacks', 'states' => 'campaign_states', 'squads' => 'squads', 'typologies' => 'campaign_types');
         $this->lista_parametri_campagna = array("nome_campagna", "pref_nome_campagna", "cod_comunicazione", "cod_campagna", "stack_id", "type_id", "squad_id", "user_id", "segment_id", "optimization", "priority", "data_inizio_validita_offerta", "data_fine_validita_offerta", "leva", "descrizione_leva", "campaign_state_id", "lista_preview", "lista_civetta", "control_group", "perc_control_group", "channel_id", "channel_type", "mod_invio", "sender_id", "storic", "testo_sms", "link", "sms_duration", "tipoMonitoring", "data_inizio", "volumeGiornaliero1", "volumeGiornaliero2", "volumeGiornaliero3", "volumeGiornaliero4", "volumeGiornaliero5", "volumeGiornaliero6", "volumeGiornaliero7", "data_fine", "escludi_sab_dom", "durata_campagna", "trial_campagna", "data_trial", "volume_trial", "perc_scostamento", "volume", "attivi", "sospesi", "disattivi", "consumer", "business", "microbusiness", "prepagato", "postpagato", "contratto_microbusiness", "cons_profilazione", "cons_commerciale", "cons_terze_parti", "cons_geolocalizzazione", "cons_enrichment", "cons_trasferimentidati", "voce", "dati", "fisso", "no_frodi", "altri_filtri", "etf", "vip", "dipendenti", "trial", "parlanti_ultimo", "profilo_rischio_ga", "profilo_rischio_standard", "profilo_rischio_high_risk", "altri_criteri", "data_inserimento", "redemption", "storicizza", "offer_id", "modality_id", "category_id", "tit_sott_id", "descrizione_target", "leva_offerta", "descrizione_offerta", "indicatore_dinamico", "tipo_leva", "cod_ropz", "cod_opz", "id_news", "note_operative","cat_sott_id","addcanale","note_camp","alias_attiv","day_val","sms_incarico","sms_target","sms_adesione","sms_nondisponibile","control_guide","numeric_control_group","n_collateral");
         $this->lista_rules = array(
             'attivi'
@@ -1406,6 +1406,38 @@ LEFT JOIN users ON `user_id` = users.id
         }
     }
 
+function reset_filter_session_new() {
+        $funzioni_admin = new funzioni_admin();
+        foreach ($this->radici_list as $key_table => $value_table) {
+            $list = $funzioni_admin->get_list_id($value_table);
+            $radice = $key_table;
+            foreach ($list as $key => $value) {
+//if (isset($_POST[$radice . $value['id']])) {
+                $_SESSION['filter'][$radice][] = $value['id'];
+//} 
+            }
+        }
+
+        return $_SESSION['filter'][$radice];
+    }
+
+function reset_filter() {
+        $funzioni_admin = new funzioni_admin();
+        foreach ($this->radici_list as $key_table => $value_table) {
+            $list = $funzioni_admin->get_list_id($value_table);
+            $radice = $key_table;
+            foreach ($list as $key => $value) {
+//if (isset($_POST[$radice . $value['id']])) {
+                $_SESSION['filter'][$radice][] = $value['id'];
+//} 
+            }
+        }
+        $_SESSION['filter']['endDate'] = date('Y-m-t');
+        $_SESSION['filter']['startDate'] = date('Y-m-01');
+
+        return $_SESSION['filter'][$radice];
+    }
+
     function set_filter_session_single($nome_filtro, $nome_tabella, $nome_canale) {
         $funzioni_admin = new funzioni_admin();
         $list = $funzioni_admin->get_list_id($nome_tabella);
@@ -1501,6 +1533,80 @@ LEFT JOIN users ON `user_id` = users.id
         LEFT JOIN campaign_types ON `type_id` = campaign_types.id
         LEFT JOIN senders ON `sender_id` = senders.id
         LEFT JOIN channels ON campaigns.`channel_id` = channels.id
+        LEFT JOIN campaign_states ON `campaign_state_id` = campaign_states.id
+        LEFT JOIN users ON `user_id` = users.id";
+
+       
+         $sql .= " WHERE (`data_inizio` <= '".$filter['endDate']."' AND (`data_fine` >= '".$filter['startDate']."' )) and $sql_and";
+         
+         $sql .= "  and squads.id  IN ('" . implode("', '", $filter["squads"]). "')"
+               . " and campaign_stacks.id  IN ('" . implode("', '", $filter["stacks"]). "') "
+               . "and campaign_states.id  IN ('" . implode("', '", $filter["states"]). "') "
+               . "and campaign_types.id IN ('" . implode("', '", $filter["typologies"]). "')";
+               //SELECT `addcanale`, `id` from `campaigns` WHERE `addcanale` like '%"channel_id":"12"%'
+           
+       
+
+       $sql .= $sql_canali." order by data_inizio ASC ";
+       
+      //echo $sql;
+  
+        $result3 = $this->mysqli->query($sql) or die($sql . " - " . $this->mysqli->error);
+        $list = array();
+
+        while ($obj3 = $result3->fetch_array(MYSQLI_ASSOC)) {
+            $list[] = $obj3;
+        }
+
+        return $list;
+    }
+
+    function getCampaignsPianificazione($filter){
+      $funzioni = new funzioni_admin();
+        if(!empty($filter['sprint'])){
+          
+          $sprint = $funzioni->get_sprint($filter['sprint']);
+          //echo 'eccolo quiiiiiiiii';
+          //print_r($sprint);
+          $sql_and = " (`data_inizio` <= '".$sprint['data_fine']."' AND (`data_fine` >= '".$sprint['data_inizio']."' ))";
+      } 
+      else {
+          $sql_and = " 1 ";
+      } 
+
+     $sql_canali = '';
+     if(count($filter["channels"])< count($funzioni->get_list_select('channels'))) {
+        
+            $sql_canali = ' and ( ';
+            
+            foreach ($filter["channels"] as $key => $value) {
+
+                    $sql_canali .= " `addcanale` like '%\"channel_id\":\"".$filter["channels"][$key]."\"%' OR ";
+                }
+                $sql_canali = rtrim($sql_canali,'OR ');
+
+
+            $sql_canali .= ' ) '; 
+     }           
+        
+       $sql = "SELECT durata_campagna
+        ,escludi_sab_dom
+        ,users.LOGIN AS username
+        ,campaign_types.NAME AS tipo_nome
+        ,campaign_stacks.NAME AS stacks_nome 
+        ,squads.NAME AS squads_nome  
+        
+        ,campaign_states.NAME AS campaign_stato_nome
+        ,campaign_states.colore AS colore
+        ,campaign_states.elimina AS elimina
+        ,campaign_states.ordinamento AS ordinamento_stato
+
+	    ,campaigns.*
+        FROM campaigns
+        LEFT JOIN campaign_stacks ON `stack_id` = campaign_stacks.id
+        LEFT JOIN squads ON `squad_id` = squads.id
+        LEFT JOIN campaign_types ON `type_id` = campaign_types.id
+        
         LEFT JOIN campaign_states ON `campaign_state_id` = campaign_states.id
         LEFT JOIN users ON `user_id` = users.id";
 
@@ -1718,8 +1824,7 @@ LEFT JOIN users ON `user_id` = users.id
         return $list;
     }
 
-
-     function tablePianificazioneHeader($list) {   
+    function tablePianificazione($list) {   
     // print_r($list);
         ?>                                                    
               <table id="datatable-pianificazione" data-order='[[ 1, "asc" ]]' class="display compact table-bordered text-nowrap table-hover no-margin nowrap" cellspacing="0" cellpadding="0" defer>
@@ -1760,164 +1865,41 @@ LEFT JOIN users ON `user_id` = users.id
     $daterange = $this->daterange();
     $user_info['job_role'] = $page_protect->get_job_role();
     $user_info['squad_id'] = $page_protect->get_squad();
-
-    $data = array();
-    $data_row = array();
-            
-     foreach ($list as $key => $row) {
-        $stato_elimina = $row['elimina'];
-        
-        $permission = $page_protect->check_permission_fast($row['squad_id'], $user_info); 
-        $data['azione'] = $row['id'].'_'.$permission;
-        $data['riga'] =  $riga; 
-        $data['stacks_nome'] = $row['stacks_nome'];
-        $data['sprint_nome'] = $this->sprint_find($row['data_inizio']);
-        $data['squad_nome'] = $row['squads_nome'];
-        $data['nome_campagna'] = $row['id'].'_'.$row['pref_nome_campagna'];
-        $data['tipo_nome'] = $row['tipo_nome'];
-        $data['cod_campagna'] = $row['cod_campagna'];
-        $data['cod_comunicazione'] = $row['cod_comunicazione'];
-        $data['canale'] = $this->tableChannelLabel($row);
-        $data['data_inizio'] = $row['data_inizio'];
-        $data['campaign_stato_nome'] = $row['campaign_stato_nome'];
-        $data['volume'] = $this->round_volume($row['volume']);
-
-        $tot_volume['totale'] = $tot_volume['totale'] + $row['volume'];
-        $volume_giorno = $this->day_volume($row);        
-        
-        //print_r($volume_giorno);
-        //print_r($daterange);
-
-        foreach($daterange as $key=>$daytimestamp){
                
-                if(isset($volume_giorno[$daytimestamp])){  
-                    $data[$daytimestamp] = strtolower($row['colore']).'_'.$this->round_volume($volume_giorno[$daytimestamp]);          
-                    
-                    $tot_volume[$daytimestamp] =  $tot_volume[$daytimestamp] + $volume_giorno[$daytimestamp];
-                } 
-                else {
-                    //$data[$daytimestamp] = $this->bgcolor($daytimestamp); 
-                    $data[$daytimestamp] = $daytimestamp;         
-                }
-        }
-
-        $data_row[] = json_encode(array_values($data));
-        $riga++; 
-    }
-
-    // ultima riga Totali
-        $data['azione'] = '';
-        $data['riga'] =  $riga; 
-        $data['stacks_nome'] = '';
-        $data['sprint_nome'] = '';
-        $data['squad_nome'] = '';
-        $data['nome_campagna'] = '';
-        $data['tipo_nome'] = '';
-        $data['cod_campagna'] = '';
-        $data['cod_comunicazione'] = '';
-        $data['canale'] = '';
-        $data['data_inizio'] = '';
-        $data['campaign_stato_nome'] = '';
-        $data['volume'] = $this->round_volume($tot_volume['totale']);
-
-     foreach($daterange as $key=>$daytimestamp){
-         if(intval($tot_volume[$daytimestamp])>0){
-            $data[$daytimestamp] = $this->round_volume($tot_volume[$daytimestamp]);
-         }
-         else{
-             $data[$daytimestamp] = 0;
-         }
-     }
-
-    $data_row[] = json_encode(array_values($data));
-    //$data_row[] = array_values($data);
-    /*
-    $output = array(
-        'draw' => 1,
-        'recordsTotal'=> $riga,
-        'recordsFiltered' => $riga,
-        'data' => $data_row,
-    );
-    */
-    $stringa = '[';
-    $first = true;
-    foreach ($data_row as $key => $value) {
-        if(!empty($value)){
-            if($first){
-            $stringa .= $value;
-            $first = false;
-            }
-            else {
-                $stringa .= ','.$value;
-            }
-        }
-        
-        
-    }
-    $stringa .= ']';
-    $output = '{"draw": 1,"recordsTotal": '.$riga.',"recordsFiltered": '.$riga.',"data": '.$stringa.'}';
-
-     return $output;
-     
-    }
-
-
-    function tablePianificazione($list) {   
-    // print_r($list);
-        ?>   
-                          
-              <table id="datatable-pianificazione" class="display compact table-bordered text-nowrap table-hover no-margin nowrap" cellspacing="0" cellpadding="0" defer>
-                        <thead>
-                            <tr>                            
-                            <th class="not-export-col">Azione</th> 
-                            <th class="not-export-col">N.</th>                            
-                            <th>Stack</th>  
-                            <th>Sprint</th>                          
-                            <th>Squad</th>
-                            <th>Nome_Campagna</th>
-                            <th>Tipologia</th>
-                            <th>Cod. Camp.</th>
-                            <th>Cod. Com.</th>                            
-                            <th>Canale</th>
-                            <th>Data_inizio</th>                                                  
-                            <th>Stato</th>
-                            <th>Vol. (k)</th>
-                        <?php $this->datePeriod(); ?>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
- <?php
-    $page_protect = new Access_user;
-    $string = '';
-    $riga = 1;
-    $tot_volume = $this->tot_volume();
-    $tot_volume['totale'] = 0;
-    $daterange = $this->daterange();
-    $user_info['job_role'] = $page_protect->get_job_role();
-    $user_info['squad_id'] = $page_protect->get_squad();
-            
      foreach ($list as $key => $row) {
         $stato_elimina = $row['elimina'];
         
         $permission = $page_protect->check_permission_fast($row['squad_id'], $user_info); 
         ?>
-        <tr align="left"><td>        
+        <tr align="left"><td><form action="index.php?page=inserisciCampagna2" method="post" id="campagnaModifica<?php echo $row['id'];?>"><input type="hidden" name="id" value="<?php echo $row['id'];?>" /><input type="hidden" name="azione" value="modifica"></form>
+                        <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaDuplica<?php echo $row['id'];?>"> 
+                            <input type="hidden" name="id" value="<?php echo $row['id'];?>">
+                            <input type="hidden" name="azione" value="duplica">                                                                
+                        </form>
+                        <form action="index.php?page=pianificazione2"  method="post" id="campagnaElimina<?php echo $row['id'];?>"> 
+                            <input type="hidden" name="id" value="<?php echo$row['id'];?>" />
+                            <input type="hidden" name="azione" value="elimina" />                                                                
+                        </form>
+
                     <button class="btn btn-xs btn-primary" type="submit" onclick="manageCamp('<?php echo $row['id'];?>', 'modifica','<?php echo $permission;?>');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Modifica" title="Modifica"><i class="fa fa-edit" ></i></button>
                     <button class="btn btn-xs btn-default" type="submit" onclick="manageCamp('<?php echo $row['id'];?>','duplica','<?php echo $permission;?>');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone" ></i></button>
                     <button class="btn btn-xs btn-danger" type="submit" onclick="manageCamp('<?php echo $row['id'];?>','elimina','<?php echo $permission;?>','<?php echo $stato_elimina;?>');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></button></td>
-                    <td><?php echo $riga; ?></td><td><?php echo $row['stacks_nome'];?></td>
+                  
+        <td><?php echo $riga; ?></td><td><?php echo $row['stacks_nome'];?></td>
         <td><?php echo $this->sprint_find($row['data_inizio']);?></td>
         <td><?php echo $row['squads_nome'];?></td>
         <td>
-
+                         <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaOpen<?php echo $row['id'];?>"> 
+                            <input type="hidden" name="id" value="<?php echo $row['id'];?>" />
+                            <input type="hidden" name="azione" value="open" />                                                                
+                        </form>
                         <a href="#" data-placement="bottom" data-toggle="tooltip" title="Open" onclick="manageCamp('<?php echo $row['id'];?>', 'open');"><?php echo stripslashes($row['pref_nome_campagna']);?></a>
                 
                 </td>
         <td><?php echo $row['tipo_nome'];?></td>
         <td><?php echo $row['cod_campagna'];?></td>
         <td><?php echo $row['cod_comunicazione'];?></td>
-        <td><?php echo $this->tableChannelLabel($row);?></td>
+        <td><?php echo $this->tableChannelLabelPianificazione($row);?></td>
         <td><?php echo $row['data_inizio'];?></td>
         <td class="stato"><?php echo $row['campaign_stato_nome'];?></td>
         <td><strong><?php echo $this->round_volume($row['volume']);?></strong></td>
@@ -1948,6 +1930,10 @@ LEFT JOIN users ON `user_id` = users.id
         <?php     
         $riga++; 
     }
+    $stringa .= ']';
+    $output = '{"draw": 1,"recordsTotal": '.$riga.',"recordsFiltered": '.$riga.',"data": '.$stringa.'}';
+
+     return $output;
      
      ?>
         <tr><td><strong></strong></td><td><?php echo $riga;?></td><td></td>
@@ -1993,7 +1979,31 @@ LEFT JOIN users ON `user_id` = users.id
         }
 
     }
-    
+
+    function tableChannelLabelPianificazione($row) { 
+        $funzione = new funzioni_admin();
+        $addcanale = json_decode($row['addcanale'], true);
+        if(isset($addcanale[1])){
+                        
+            $addcanale = json_decode($row['addcanale'], true);            
+            foreach($addcanale as $key => $value ){
+                //print_r($value['channel_id']);
+                
+                    $str[] = $funzione->get_channel_label($value['channel_id']);  
+                    
+                
+                
+            }
+
+            return implode('/',$str);
+        }
+        else{
+            $str = $funzione->get_channel_label($addcanale[0]['channel_id']); 
+            return $str;
+        }
+
+    }
+
     function getCriteri($row, $criterio){
 
         if($criterio=='stato'){
@@ -2287,6 +2297,10 @@ LEFT JOIN users ON `user_id` = users.id
         $string .= "<td>".$this->sprint_find($row['data_inizio'])."</td>";
         $string .= "<td>".$row['squads_nome']."</td>";
         $string .= "<td>".'
+                         <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaOpen'.$row['id'].'"> 
+                            <input type="hidden" name="id" value="'.$row['id'].'" />
+                            <input type="hidden" name="azione" value="open" />                                                                
+                        </form>
                         <a href="#" data-placement="bottom" data-toggle="tooltip" title="Open" onclick="manageCamp('.$row['id'].', \'open\');">'.stripslashes($row['pref_nome_campagna']).'</a>
                 '
                 . "</td>";
@@ -2297,7 +2311,7 @@ LEFT JOIN users ON `user_id` = users.id
         $string .= "<td>".$row['priority']."</td>";
         $string .= "<td>".$row['descrizione_target']."</td>";
         $string .= "<td>".$this->tableChannelLabel($row)."</td>";
-        $string .= "<td>".$criteri['tipo_leva']."</td>";
+        $string .= "<td>".$this->getCriteri($row,'tipo_leva')."</td>";
         $string .= "<td>".$row['data_inizio']."</td>";
         $string .= "<td>".$row['data_fine_validita_offerta']."</td>";
         $string .= "<td><strong>".$this->round_volume($row['volume'])."</strong></td>";
@@ -2306,14 +2320,14 @@ LEFT JOIN users ON `user_id` = users.id
         $string .= "<td>".$row['username']."</td>";        
         $string .= "<td>".$row['data_inserimento']."</td>";
 
-        $string .= "<td>".$criteri['stato']."</td>";
-        $string .= "<td>".$criteri['tipo_offerta']."</td>";
-        $string .= "<td>".$criteri['tipo_contratto']."</td>";
-        $string .= "<td>".$criteri['consenso']."</td>";
-        $string .= "<td>".$criteri['mercato']."</td>";
-        $string .= "<td>".$criteri['frodatori']."</td>";        
+        $string .= "<td>".$this->getCriteri($row,'stato')."</td>";
+        $string .= "<td>".$this->getCriteri($row,'tipo_offerta')."</td>";
+        $string .= "<td>".$this->getCriteri($row,'tipo_contratto')."</td>";
+        $string .= "<td>".$this->getCriteri($row,'consenso')."</td>";
+        $string .= "<td>".$this->getCriteri($row,'mercato')."</td>";
+        $string .= "<td>".$this->getCriteri($row,'frodatori')."</td>";        
         $string .= "<td>".$row['indicatore_dinamico']."</td>";        
-        $string .= "<td>".$criteri['control_group']."</td>";
+        $string .= "<td>".$this->getCriteri($row,'control_group')."</td>";
         
         $string .= "</tr>";      
         $riga++; 
@@ -2470,6 +2484,94 @@ LEFT JOIN users ON `user_id` = users.id
    
     }
 
+    function getFilter2(){
+        
+        //echo 'dentro getFilter prima';
+        //print_r($_POST); 
+        if(isset($_POST)){
+            $filter_view = $_POST;           
+        }
+        elseif($_SESSION['filter']){    
+            $filter_view = $_SESSION['filter'];
+        }
+        else{
+            $filter_view= $this->reset_filter();
+        }
+
+        if(is_array($filter_view["selected_channels"]) && count($filter_view["selected_channels"])>0){
+            $channels = $filter_view["selected_channels"];            
+        } else{
+            exit('<h2> Nessuna Campagna !!! </h2>');
+            }
+        if(is_array($filter_view["selected_squads"]) && count($filter_view["selected_squads"])>0){
+            $squads = $filter_view["selected_squads"];            
+        }else{
+                exit('<h2> Nessuna Campagna !!! </h2>');
+            }
+        if(is_array($filter_view["selected_stacks"]) && count($filter_view["selected_stacks"])>0){
+            $stacks = $filter_view["selected_stacks"];        
+        }else{
+                exit('<h2> Nessuna Campagna !!! </h2>');
+            }
+        
+        if(is_array($filter_view["selected_states"]) && count($filter_view["selected_states"])>0){
+            $states = $filter_view["selected_states"];         
+        }else{
+                exit('<h2> Nessuna Campagna !!! </h2>');
+            }
+        if(is_array($filter_view["selected_typologies"]) && count($filter_view["selected_typologies"])>0){
+            $typologies = $filter_view["selected_typologies"];            
+        }else{
+                exit('<h2> Nessuna Campagna !!! </h2>');
+            }
+     
+            
+            
+        if(isset($filter_view["startDate"])){
+            $startDate = $filter_view["startDate"];            
+        }else{
+                $startDate = date('Y-m-01');
+            }  
+        if(isset($filter_view["endDate"])){
+            $endDate = $filter_view["endDate"];            
+        }else{
+                $endDate = date('Y-m-t');
+            }
+
+        
+        if(!empty($filter_view["sprint"])){
+            $sprint = $filter_view["sprint"]; 
+            
+            //Modifica Start End Data quando lo sprint finesce o iizia prma del Range Data
+            if($this->sprint_overDate($endDate,$sprint)){
+                $endDate = $this->sprint_date($sprint,'data_fine');
+                $_POST['endDate'] = $endDate; 
+                $startDate = $filter_view["startDate"]; 
+            }
+            elseif($this->sprint_anteDate($startDate,$sprint)){
+                $startDate = $this->sprint_date($sprint,'data_inizio');
+                $endDate = $filter_view["endDate"];
+                $_POST['startDate'] = $startDate; 
+
+            }
+
+        }else{
+                $sprint = '';
+            }     
+        
+        //$sprint = $_POST['sprint'];
+                    
+        //print_r($filter_view);
+        
+        //echo 'dentro getFilter dopo modifica';
+        //print_r($_POST); 
+
+        $_SESSION['filter'] = array("sprint"=>$sprint,"startDate"=>$startDate,"endDate"=>$endDate,"channels"=>$channels,"squads"=>$squads,"stacks"=>$stacks,"states"=>$states,"typologies"=>$typologies);
+        
+        return array("sprint"=>$sprint, "startDate"=>$startDate,"endDate"=>$endDate,"channels"=>$channels,"squads"=>$squads,"stacks"=>$stacks,"states"=>$states,"typologies"=>$typologies);
+   
+    }
+
 		
 	function sprint_overDate($endDate, $sprint_id) {
         
@@ -2545,7 +2647,7 @@ LEFT JOIN users ON `user_id` = users.id
 
 
 
-    function reset_filter(){
+    function reset_filter2(){
         unset($_SESSION['filter']); 
     }
 

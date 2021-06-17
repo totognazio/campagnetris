@@ -17,7 +17,7 @@ else{
 }   
 
 $filter = $campaign->getFilter();
-/*
+
 //echo'prima del render campagne dopo il get_filter';
 //print_r($filter);
 if($datatable=='pianificazione'){
@@ -33,7 +33,6 @@ else if($datatable=='gestioneStato'){
 
 if(count($list)>0  && $datatable=='pianificazione'){
     $campaign->tablePianificazione($list);
-    //$campaign->tablePianificazioneHeader($list);
 }
 else if(count($list)>0  && $datatable=='gestione'){ 
     $campaign->tableGestione($list);
@@ -51,7 +50,6 @@ else {
     echo " <br><h2>Nessuna Campagna !!!</h2><script>$('.loader').hide();</script>";
 }
 
-*/
             //print_r($list_campaign);
             //$html = $campaign->campaign_table($list_campaign, "sottotitolo");
             

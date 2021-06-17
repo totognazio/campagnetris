@@ -1,4 +1,3 @@
-
 <!-- footer content -->
 <footer>
   <div class="pull-right">
@@ -21,7 +20,7 @@
 <script src="vendors/nprogress/nprogress.js"></script>
 <!-- Include the plugin multiselect -->
 <script type="text/javascript" src="node_modules/bootstrap-multiselect/dist/js/bootstrap-multiselect.js"></script>
-<!-- Datatables
+<!-- Datatables -->
 <script src="./vendors/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="./vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 <script src="./vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
@@ -45,12 +44,9 @@
 <script src="./vendors/datatables.net-responsive/js/buttons.print.min.js"></script>
 <script src="./vendors/datatables.net-responsive/js/buttons.colVis.min.js"></script>
 <script src="./node_modules/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>
-<!--
-<script type="text/javascript" src="DataTables/datatables.min.js"></script>
-
 
 <script type="text/javascript" src="./node_modules/xlsx/dist/shim.min.js"></script>
-<script src="./node_modules/xlsx/xlsx.mini.js"></script>-->
+<script src="./node_modules/xlsx/xlsx.mini.js"></script>
 
 <!-- bootstrap-daterangepicker -->
 <script src="vendors/moment/min/moment.min.js"></script>
@@ -454,129 +450,6 @@
     
 
 
-    function campagnTable_new() {
-      console.log('startdate in camp ' + select_startDate);
-      console.log('enddate in camp ' + select_endDate);
-      console.log('sprint inside camp ' + selected_sprint);
-
-      //$("#content_response").fadeOut();
-      //$('.loader').show();
-      
-      $.ajax({
-        url: "get_Filter.php",
-        method: "POST",
-        data: {
-          sprint: selected_sprint,
-          startDate: select_startDate,
-          endDate: select_endDate,
-          selected_stacks: selected_stacks,
-          selected_squads: selected_squads,
-          selected_states: selected_states,
-          selected_channels: selected_channels,
-          selected_typologies: selected_typologies,
-          datatable: datatable_name,
-        },
-        dataType:"html",    
-        success: function(data) {
-          //$("#content_response").fadeOut();
-          //$("#content_response").fadeIn();
-          $("#content_response").html(data);
-          $('.loader').hide();
-        var table_pianificazione = $('#datatable-pianificazione').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: {
-                url: "get_FilterData.php?datatable="+datatable_name,
-                data: {
-                    sprint: selected_sprint,
-                    startDate: select_startDate,
-                    endDate: select_endDate,
-                    selected_stacks: selected_stacks,
-                    selected_squads: selected_squads,
-                    selected_states: selected_states,
-                    selected_channels: selected_channels,
-                    selected_typologies: selected_typologies,
-                    datatable: datatable_name,
-                },
-                type: "POST"
-            },
-            scrollY: "430px",
-            //deferRender: true,
-            //orderClasses: false,
-            //scrollY: '50vh',
-            
-            scrollX: true,
-            scrollCollapse: true,
-            paging: false,
-            dom: 'Bfrtip',   
-                      
-           
-            buttons: [
-            {              
-              extend: 'colvis',
-              className: 'btn-xs btn-primary',
-              text: '<i class="fa fa-table"></i> Vista Colonne', 
-              titleAttr: 'Seleziona le colonne da visualizzare', 
-            }
-          
-          ],
-
-            columnDefs: [
-                             
-                { 
-                    
-                  targets: 0,
-                  searchable: false,
-                  orderable: false,              
-                  //width: 35,
-              },
-              {      
-                  targets: 1,                   
-                  searchable: false,                  
-                  orderable: false,
-                  visible: false,
-              },
- 
-                         
-            ],
-          
-            order: [1, 'asc'],            
-            ordering: <?php if($datatable=="pianificazione") {echo "false,";} elseif($datatable=="gestione"){echo "true,";}else{echo "true,";}?>
-            //ordering: true,
-
-          });
-          /*
-          $('#table_pianificazione').dataTable( {
-              
-              'drawCallback': function () {
-                      //$( 'table_pianificazione tbody tr td' ).css( 'padding', '0px 0px 0px 0px' );
-                    $( 'table_pianificazione tbody tr td' ).css( 'height', '4px');  
-                  }
-                  
-          } );
-    */
-          // table_pianificazione.columns.adjust().responsive.recalc();
-         
-         // console.log(' conteggio righe '+ table_pianificazione.rows().count());
-          var tot_rows = parseInt(table_pianificazione.rows().count());
-          if(datatable_name==='pianificazione' && tot_rows>0){
-            tot_rows = parseInt(table_pianificazione.rows().count()-1);
-          }
-          if(document.getElementById('conteggio_righe')){
-             document.getElementById('conteggio_righe').textContent = '   filtrate n°' + tot_rows + '';
-             document.getElementById('datatable-pianificazione_info').textContent = ' Campagne filtrate n°' + tot_rows + '';
-          }
-
-          
-        },
-        error: function(data) {
-          console.log('An error occurred.');
-          console.log(data);
-        }
-      });
-    }
-
-
     function campagnTable() {
       console.log('startdate in camp ' + select_startDate);
       console.log('enddate in camp ' + select_endDate);
@@ -602,23 +475,22 @@
         success: function(data) {
           $("#content_response").fadeOut();
           $("#content_response").fadeIn();
-          $("#content_response").html(data);
+          //$("#content_response").html(data);
           $('.loader').hide();
         var table_pianificazione = $('#datatable-pianificazione').DataTable({
             //"processing": true,
             //"serverSide": true,
-            scrollY: "430px",
             deferRender: true,
             //orderClasses: false,
             //scrollY: '50vh',
-            
+            scrollY: "430px",
             scrollX: true,
             scrollCollapse: true,
             paging: false,
-            dom: 'Bfrtip',   
-                      
+            dom: 'Bfrtip',             
            
             buttons: [
+
             {              
               extend: 'colvis',
               className: 'btn-xs btn-primary',
@@ -627,9 +499,14 @@
             }
           
           ],
-
+        
+            
             columnDefs: [
-                             
+               
+                {
+                  className: "dt-head-left"
+                },
+              
                 { 
                     
                   targets: 0,
@@ -662,7 +539,7 @@
                   
           } );
     */
-          // table_pianificazione.columns.adjust().responsive.recalc();
+          //table_pianificazione.columns.adjust().responsive.recalc();
          
          // console.log(' conteggio righe '+ table_pianificazione.rows().count());
           var tot_rows = parseInt(table_pianificazione.rows().count());
@@ -681,7 +558,6 @@
           console.log(data);
         }
       });
-      
     }
 
     
@@ -689,21 +565,21 @@
     moment.locale('it');
     moment().format('LL');
     // valori iniziali se session vuota
-    //var select_startDate = moment().startOf('month').format('YYYY-MM-DD');
-    //var select_endDate = moment().endOf('month').format('YYYY-MM-DD');     
+    var select_startDate = moment().startOf('month').format('YYYY-MM-DD');
+    var select_endDate = moment().endOf('month').format('YYYY-MM-DD');     
     // valori di session 
-    
-   var select_startDate = '<?php if (isset($_SESSION['filter']['startDate'])) {
+    /*
+    var select_startDate = '<?php if (isset($_SESSION['filter'])) {
                               echo $_SESSION['filter']['startDate'];
                             } else {
                               echo date('Y-m-01');
                             } ?>';
-    var select_endDate = '<?php if (isset($_SESSION['filter']['endDate'])) {
+    var select_endDate = '<?php if (isset($_SESSION['filter'])) {
                             echo $_SESSION['filter']['endDate'];
                           } else {
                             echo date('Y-m-t');
                           } ?>';
-                          
+                          */
     $('#reportrange_right span').html(moment(select_startDate, 'D MMMM, YYYY') + ' - ' + moment(select_endDate, 'D MMMM, YYYY'));
 
     var cb = function(start, end, label) {
@@ -756,7 +632,7 @@
     };
 
     //solo al primo caricamento
-    //campagnTable();
+    campagnTable();
     $('#reportrange_right span').html(select_startDate + ' - ' + select_endDate);
     $('#reportrange_right').daterangepicker(optionSet1, cb);
 
@@ -781,6 +657,7 @@
         ajax: ({
           url: "get_sprints.php",
           dataType: 'json',
+          delay: 10,
           method: "POST",
           data: {
             startDate: select_startDate,
@@ -796,7 +673,6 @@
         })
       });
       campagnTable();
-      location.reload();
     });
     $('#reportrange_right').on('cancel.daterangepicker', function(ev, picker) {
       console.log("cancel event fired");
@@ -807,7 +683,6 @@
       $('#reportrange_right').data('daterangepicker').remove();
     });
 
-    
     $('#sprints').select2({
       placeholder: " Select a Sprint",
       allowClear: true,
@@ -831,14 +706,12 @@
       selected_sprint = '';
       console.log('sprints cancellato  ' + selected_sprint);
       campagnTable();
-      location.reload();
 
     });
     $('#sprints').on('select2:select', function() {
       selected_sprint = $('#sprints').val();
       console.log('sprints  ' + selected_sprint);
       campagnTable();
-      location.reload();
 
     });
 

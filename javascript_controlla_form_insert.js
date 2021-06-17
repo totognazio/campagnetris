@@ -3079,19 +3079,9 @@ function checklength(areaText, maxchars, input, char, char_count_sms, id_canale)
       else if( (document.getElementById(input).value.length > 160 - lunghezza_link)&&(document.getElementById(input).value.length <= 268 - lunghezza_link)){
           document.getElementById(char_count_sms).value = 2;
         }
-      else if( (document.getElementById(input).value.length > 268 - lunghezza_link)&&(document.getElementById(input).value.length <= 402 - lunghezza_link)){
-          document.getElementById(char_count_sms).value = 3;
-        }
-        else if( (document.getElementById(input).value.length > 402 - lunghezza_link)&&(document.getElementById(input).value.length <= 536 - lunghezza_link)){
-          document.getElementById(char_count_sms).value = 4;
-        }
         else {
           document.getElementById(char_count_sms).value = Math.floor((document.getElementById(input).value.length - lunghezza_link) / 133) + 1;
         }
-      
-  
-  // aggiorno contatore caratteri sms + link
-  document.getElementById('numero_totale'+id_canale).value = chars.length + lunghezza_link;
     }
   
   

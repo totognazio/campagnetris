@@ -4,7 +4,7 @@
 // use this pathes and/or define the pathes for the "standard" pages
 define("CLASS_PATH", dirname($_SERVER['PHP_SELF']) . "/classes/"); // the location where the class is executed
 
-$sec_path = "/campagne/"; // a second location where the scripts should be 
+$sec_path = "/campagne_dev/"; // a second location where the scripts should be 
 //$sec_path = "/"; // a second location where the scripts should be 
 define("APPLICATION_PATH", $sec_path);
 
