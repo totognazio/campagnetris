@@ -5,6 +5,7 @@
                 a:hover {                    
                     color: black;
                 }
+                
 table.dataTable thead th,
 table.dataTable tr td,
 table.dataTable tfoot th {
@@ -23,6 +24,16 @@ table.dataTable tr:hover{
     background-color: lightgray;
     color: black; 
 }
+
+table.dataTable.compact thead th, table.dataTable.compact thead td {
+    padding-left: 2px;
+    font-size: 11px;
+}
+
+table.dataTable.compact tr td, table.dataTable.compact tr td {
+    font-size: 11px;
+}
+
 
 
  </style>  
@@ -56,11 +67,25 @@ $stacks = $funzione->get_list_select('campaign_stacks');
 $typlogies = $funzione->get_list_select('campaign_types');
 $squads = $funzione->get_list_select('squads');
 $states = $funzione->get_list_select('campaign_states'); 
-$sprints = $funzione->get_sprints();
+//$sprints = $funzione->get_sprints();
+$sprints = $funzione->get_list_select('sprints'); 
 // print_r($sprints);
 $form->head_page_compat("Pianificazione Campagne", "Filtro");
 //print_r($_SESSION);  
 //print_r($_POST); 
+
+//solo al primo accesso imposto lo Squad 
+        if(!isset($_SESSION['filter'])){
+          $page_protect = new Access_user;
+          $sql_squad = '';
+          $job_role = $page_protect->get_job_role();
+          if ($job_role==2 OR $job_role==6) {
+              $squad_id = $page_protect->get_squad();
+              
+              $_SESSION['filter']['squads'][0] = $squad_id;
+          }
+        }
+////////////////////
                 
                 if (isset($result)) {
                     //echo "<div class=\"info\">";
@@ -88,12 +113,18 @@ $form->head_page_compat("Pianificazione Campagne", "Filtro");
                      <div class="col-md-2 col-sm-6 col-xs-12">
                                 <h4>Sprints</h4>
                              <select id="sprints" name="sprints" class="select2_single form-control">        
+                              <?php
                               
-                            <?php 
-                            //foreach ($sprints as $key => $value) {
-                            //    echo '<option value="'.$key.'">'.$value['name'].'</option>';
-                            //}                                                  
-                            ?>  
+                                   if(!empty($_SESSION['filter']['sprint'])){
+                                       $sp = $funzione->get_sprint($_SESSION['filter']['sprint']);
+                                       echo '<option value="' . $sp['id'] . '" selected>' . $sp['name'] . '</option>';
+                                   }
+                                   elseif(!empty($_POST['sprint'])){
+                                       $sp = $funzione->get_sprint($_POST['sprint']);
+                                       echo '<option value="' . $sp['id'] . '" selected>' . $sp['name'] . '</option>';
+                                   }
+                              ?>
+                              
                           </select>
                     </div>
         </div>                             
@@ -221,7 +252,21 @@ if ($livello_accesso > 0) {
 </div>
 <p style="padding-top: 16px;"></p>
 <div class="loader"></div>
+        <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaModifica">		     
+            <input type="hidden" name="azione" value="modifica">
+        </form>      
+        <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaDuplica">            
+            <input type="hidden" name="azione" value="duplica">
+        </form>
+                        <form action="index.php?page=pianificazione2"  method="post" id="campagnaElimina">                             
+                            <input type="hidden" name="azione" value="elimina" />                                                                
+                        </form>     
+                                                 <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaOpen"> 
+                        
+                            <input type="hidden" name="azione" value="open" />                                                                
+                        </form>  
 <div class="col-md-12 col-sm-12 col-xs-12" id="content_response">
+<!--<div  id="content_response" style="clear:both;min-height: 450px; max-height: 600px; width: 100%;overflow: auto;">-->
 
 </div>
 
@@ -263,5 +308,7 @@ if ($livello_accesso > 0) {
             document.location.href = './index.php?page=inserisciCampagna2';
     }
 
-    
+  
+
+
   </script>

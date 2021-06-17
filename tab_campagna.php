@@ -88,7 +88,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="note_camp">Note
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" id="note_camp" name="note_camp"  class="form-control col-md-7 col-xs-12"  placeholder="alfanumerico (parte del nome campagna)" value="<?php if(isset($id_campaign['note_camp'])){ echo $id_campaign['note_camp']; } ?>" <?php echo $disabled_value;?>>
+                            <input type="text" id="note_camp" name="note_camp"  class="form-control col-md-7 col-xs-12"  placeholder="alfanumerico (parte del nome campagna)" value="<?php if(isset($id_campaign['note_camp'])){ echo stripslashes($id_campaign['note_camp']); } ?>" <?php echo $disabled_value;?>>
                         </div>
                       </div>
 

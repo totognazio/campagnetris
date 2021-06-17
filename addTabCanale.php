@@ -175,10 +175,12 @@ $string .='<span id="sms_field'.$id_canale.'" '.$display_sms.' data-parsley-chec
                                 $string .=' value="1">Si</option>
                           </select>
               <label style="margin-top:20px" for="message">Testo SMS <span class="required">*</span></label>
-              <textarea id="testo_sms'.$id_canale.'" ';
-            $string .= ' '.$disabled_value.' '.$required_sms.' class="form-control" name="addcanale['.$id_canale.'][testo_sms'.$id_canale.']" rows="8"  data-parsley-pattern-message="Caratteri come \'€\' \' ’ \' ed altri caratteri speciali non sono accettati come testo SMS !!"onkeyup="checklength(0, 640, \'testo_sms'.$id_canale.'\', \'charTesto'.$id_canale.'\', \'numero_sms'.$id_canale.'\')" >';
+             
+            <textarea id="testo_sms'.$id_canale.'" ';
+            $string .= ' '.$disabled_value.' '.$required_sms.' class="form-control" name="addcanale['.$id_canale.'][testo_sms'.$id_canale.']" rows="8"  data-parsley-pattern-message="Caratteri come \'€\' \' ’ \' ed altri caratteri speciali non sono accettati come testo SMS !!"onkeyup="checklength(0, 640, \'testo_sms'.$id_canale.'\', \'charTesto'.$id_canale.'\', \'numero_sms'.$id_canale.'\','.$id_canale.')" >';
             if($modifica and isset($addcanale_stored['testo_sms'.$id_canale.''])){$string .= $addcanale_stored['testo_sms'.$id_canale.''];}else{$string .= '';}
             $string .='</textarea>  
+
               <label style="width:100%;"><small>Numeri caratteri utilizzati</small><input type="text" name="addcanale['.$id_canale.'][charTesto'.$id_canale.']" id="charTesto'.$id_canale.'"  class="text" value="';
               if($modifica and isset($addcanale_stored['charTesto'.$id_canale.''])){$string.= ''.$addcanale_stored['charTesto'.$id_canale.''].'';}
               $string.='" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3"  onfocus="this.blur()" /></label>
@@ -216,7 +218,7 @@ $string .='<span id="sms_field'.$id_canale.'" '.$display_sms.' data-parsley-chec
                         $string .=' 
                         <span id="spanLabelLinkTesto'.$id_canale.'" style="display: none;">
                                     <label style="margin-top:20px" id="labelLinkTesto'.$id_canale.'">Link<span id="req_19" class="req">*</span></label>
-                                    <input  id="link'.$id_canale.'" name="addcanale['.$id_canale.'][link]" type="text" class="form-control col-md-7 col-xs-12" style="text-align:left" tabindex="23" maxlength="400" ';
+                                    <input  id="link'.$id_canale.'" name="addcanale['.$id_canale.'][link]"  type="url" data-parsley-type="url" class="form-control col-md-7 col-xs-12" autocomplete="on" placeholder="http://mywebsite.com" style="text-align:left" maxlength="400" ';
                                     
                                     if ($modifica and isset($addcanale_stored['link'])){
                                         $string .=' value="' . $addcanale_stored['link'].'" ';
@@ -229,9 +231,9 @@ $string .='<span id="sms_field'.$id_canale.'" '.$display_sms.' data-parsley-chec
                                             $string .= $disabled_value;
                                     }
                                         
-                                    $string .= ' onkeyup="checklength(0, 255, \'link\', \'charLink\', \'\'); checklengthTotal(\'charLink\',\'charTesto'.$id_canale.'\',\'numero_totale'.$id_canale.'\');"/>
-                                    <label style="width:100%;"><small>Numero</small><input type="text" name="charLink" id="charLink'.$id_canale.'" class="text" readonly="readonly"  size="3" value="255" placeholder="max 255"onfocus="this.blur()" /></label>   
-                                    <label style="width:100%;"><small>Totale (SMS+Link)</small><input type="text" name="numero_totale'.$id_canale.'" id="numero_totale'.$id_canale.'" value="" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>                  
+                                    $string .= ' onkeyup="checklength(0, 255, \'link'.$id_canale.'\', \'charLink'.$id_canale.'\', \'\', \''.$id_canale.'\'); checklengthTotal(\'charLink'.$id_canale.'\',\'charTesto'.$id_canale.'\',\''.$id_canale.'\');checklength(0, 640, \'testo_sms'.$id_canale.'\', \'charTesto'.$id_canale.'\', \'numero_sms'.$id_canale.'\',\''.$id_canale.'\');"/>
+                                    <label style="width:100%;"><small>Numero</small><input type="text" name="addcanale['.$id_canale.'][charLink'.$id_canale.']"  id="charLink'.$id_canale.'" class="text" readonly="readonly"  size="3" value="255" placeholder="max 255"onfocus="this.blur()" /></label>   
+                                    <label style="width:100%;"><small>Totale (SMS+Link)</small><input type="number" id="numero_totale'.$id_canale.'"  name="addcanale['.$id_canale.'][numero_totale]"  value="" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>                  
                                 
                         </span>      
                 </div>

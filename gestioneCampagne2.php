@@ -24,6 +24,14 @@ table.dataTable tr:hover{
     background-color: lightgray;
     color: black; 
 }
+table.dataTable.compact thead th, table.dataTable.compact thead td {
+    padding-left: 2px;
+    font-size: 11px;
+}
+
+table.dataTable.compact tr td, table.dataTable.compact tr td {
+    font-size: 11px;
+}
 
  </style>  
  
@@ -57,9 +65,11 @@ $stacks = $funzione->get_list_select('campaign_stacks');
 $typlogies = $funzione->get_list_select('campaign_types');
 //$squads = $funzione->get_squads_gestione();
 $squads = $funzione->get_list_select('squads');
+
 $states = $funzione->get_list_select('campaign_states'); 
-$sprints = $funzione->get_sprints();
-// print_r($sprints);
+//$sprints = $funzione->get_sprints();
+$sprints = $funzione->get_list_select('sprints'); 
+//print_r($sprints);
 $form->head_page("Gestione Campagne", "Filtro");
 //print_r($_SESSION);  
 //print_r($_POST); 
@@ -92,12 +102,16 @@ $form->head_page("Gestione Campagne", "Filtro");
                      <div class="col-md-2 col-sm-2 col-xs-12">
                                 <h4>Sprints</h4>
                              <select id="sprints" name="sprints" class="select2_single form-control">        
-                              
-                            <?php 
-                            //foreach ($sprints as $key => $value) {
-                            //    echo '<option value="'.$key.'">'.$value['name'].'</option>';
-                            //}                                                  
-                            ?>  
+                              <?php
+                                   if(!empty($_SESSION['filter']['sprint'])){
+                                       $sp = $funzione->get_sprint($_SESSION['filter']['sprint']);
+                                       echo '<option value="' . $sp['id'] . '" selected>' . $sp['name'] . '</option>';
+                                   }
+                                   elseif(!empty($_POST['sprint'])){
+                                       $sp = $funzione->get_sprint($_POST['sprint']);
+                                       echo '<option value="' . $sp['id'] . '" selected>' . $sp['name'] . '</option>';
+                                   }
+                              ?>
                           </select>
                     </div>       
                      </div>          
@@ -190,7 +204,21 @@ if ($livello_accesso > 1) {
 <?php }?>
 </div>
 <div class="loader"></div>
+        <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaModifica">		     
+            <input type="hidden" name="azione" value="modifica">
+        </form>      
+        <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaDuplica">            
+            <input type="hidden" name="azione" value="duplica">
+        </form>
+                        <form action="index.php?page=pianificazione2"  method="post" id="campagnaElimina">                             
+                            <input type="hidden" name="azione" value="elimina" />                                                                
+                        </form>     
+                                                 <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaOpen"> 
+                        
+                            <input type="hidden" name="azione" value="open" />                                                                
+                        </form>  
 <div class="col-md-12 col-sm-12 col-xs-12" id="content_response">
+<!--<div  id="content_response" style="clear:both;min-height: 450px; max-height: 600px; width: 100%;overflow: auto;">-->
 
 
 </div>

@@ -2736,21 +2736,33 @@ function deseleziona(campo) {
 
 function manageCamp(id, azione, permesso_elimina, stato){
     //alert('eccoloooo ' + id +' '+ azione);
-        if(azione==='modifica'){
-            document.getElementById("campagnaModifica"+id).submit();  
+  if (azione === 'modifica') {
+          
+    $('#campagnaModifica').append('<input type="hidden" name="id" value="' + id + '" />');
+    //alert("Submitted");
+    document.getElementById("campagnaModifica").submit(); 
+          
+    
         }
     
         if (azione === 'duplica') {
-            if (duplica())
-                document.getElementById("campagnaDuplica"+id).submit(); 
+          if (duplica()) {
+                $('#campagnaDuplica').append('<input type="hidden" name="id" value="' + id + '" />');
+                document.getElementById("campagnaDuplica").submit(); 
+          }
+ 
             
         } 
         if (azione === 'elimina') {
-            if(conferma(stato, permesso_elimina))
-                document.getElementById("campagnaElimina"+id).submit(); 
-            } 
-        if(azione==='open'){
-            document.getElementById("campagnaOpen"+id).submit(); 
+          if (conferma(stato, permesso_elimina)) {
+                $('#campagnaElimina').append('<input type="hidden" name="id" value="' + id + '" />');
+                  document.getElementById("campagnaElimina").submit(); 
+                }
+                
+        } 
+  if (azione === 'open') {
+            $('#campagnaOpen').append('<input type="hidden" name="id" value="' + id + '" />');
+            document.getElementById("campagnaOpen").submit(); 
         } 
         if(azione==='new'){
             document.getElementById("campagnaNew"+id).submit(); 
@@ -3030,12 +3042,16 @@ function new_get_stato(stato_id) {
    return true;
  }
 
+ 
 
-function checklength(areaText, maxchars, input, char, char_count_sms) {
+
+
+function checklength(areaText, maxchars, input, char, char_count_sms, id_canale) {
    
-    lunghezza_sms = 160;
-    lunghezza_sms_concatenato = 153;
-    lunghezza_link = 28;
+  
+  lunghezza_link = 0;
+    
+    
   chars = document.getElementById(input).value;
   /*
   if (!validaTesto()) {
@@ -3043,11 +3059,11 @@ function checklength(areaText, maxchars, input, char, char_count_sms) {
   }
   */
   
-  if ((document.getElementById("mod_invio").value == "Interattivo") && (input == "testo_sms")) {
-        lunghezza_link = 28;
-    } else {
-        lunghezza_link = 0;
-    }
+  if ((document.getElementById("mod_invio").value == "Interattivo")) {
+    
+    lunghezza_link = document.getElementById('link'+id_canale).value.length + 1;
+  }
+    
     maxchars = maxchars - lunghezza_link;
     if (chars.length > maxchars)
     {
@@ -3057,14 +3073,31 @@ function checklength(areaText, maxchars, input, char, char_count_sms) {
     //document.getElementById(char).value = maxchars - document.getElementById(input).value.length;
     document.getElementById(char).value = document.getElementById(input).value.length;
     if (char_count_sms != '') {
-        if (document.getElementById(input).value.length <= 160 - lunghezza_link)
-            document.getElementById(char_count_sms).value = 1;
-        else
-            document.getElementById(char_count_sms).value = Math.floor((document.getElementById(input).value.length - lunghezza_link) / 153) + 1;
+        if (document.getElementById(input).value.length <= 160 - lunghezza_link) {
+          document.getElementById(char_count_sms).value = 1;
+        }    
+      else if( (document.getElementById(input).value.length > 160 - lunghezza_link)&&(document.getElementById(input).value.length <= 268 - lunghezza_link)){
+          document.getElementById(char_count_sms).value = 2;
+        }
+      else if( (document.getElementById(input).value.length > 268 - lunghezza_link)&&(document.getElementById(input).value.length <= 402 - lunghezza_link)){
+          document.getElementById(char_count_sms).value = 3;
+        }
+        else if( (document.getElementById(input).value.length > 402 - lunghezza_link)&&(document.getElementById(input).value.length <= 536 - lunghezza_link)){
+          document.getElementById(char_count_sms).value = 4;
+        }
+        else {
+          document.getElementById(char_count_sms).value = Math.floor((document.getElementById(input).value.length - lunghezza_link) / 133) + 1;
+        }
+      
+  
+  // aggiorno contatore caratteri sms + link
+  document.getElementById('numero_totale'+id_canale).value = chars.length + lunghezza_link;
     }
+  
+  
 }
 
-function checklengthTotal(input, char) {   
+function checklengthTotal(input, char, id_canale) {   
     lunghezza_test_sms = 0;
     chars = document.getElementById(input).value;
     if ((document.getElementById("mod_invio").value === "Interattivo")) {
@@ -3073,9 +3106,7 @@ function checklengthTotal(input, char) {
     } else {
         lunghezza_test_sms = 0;
     }
-    totale = document.getElementById("numero_totale").value = parseInt(chars) + parseInt(lunghezza_test_sms) + 1;
+    totale = document.getElementById('numero_totale'+id_canale).value = parseInt(chars) + parseInt(lunghezza_test_sms) + 1;
     //alert('eccolo test ' + totale);
 }
-
-
 

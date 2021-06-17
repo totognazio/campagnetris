@@ -171,7 +171,7 @@ $sender = $funzione->get_allTable('senders');
           <div class="">
             <div class="page-title">
               <div class="title_center">
-                <h3><?php echo $title; ?> - <?php echo $nome_campagna; ?></h3>
+                <h3><?php echo $title; ?> - <?php echo stripslashes($nome_campagna); ?></h3>
 
               </div>
 
@@ -199,15 +199,15 @@ $sender = $funzione->get_allTable('senders');
             $permission = $page_protect->check_permission($squad_id);
 
             ?>
-                        <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaModifica<?php echo $id; ?>">
+                        <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaModifica">
                             <input type="hidden" name="id" value="<?php echo $id; ?>" />
                             <input type="hidden" name="azione" value="modifica" />                                                                
                         </form>
-                        <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaDuplica<?php echo $id; ?>"> 
+                        <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaDuplica"> 
                             <input type="hidden" name="id" value="<?php echo $id; ?>" />
                             <input type="hidden" name="azione" value="duplica" />                                                                
                         </form>
-                        <form action="index.php?page=pianificazione2"  method="post" id="campagnaElimina<?php echo $id; ?>"> 
+                        <form action="index.php?page=pianificazione2"  method="post" id="campagnaElimina"> 
                             <input type="hidden" name="id" value="<?php echo $id; ?>" />
                             <input type="hidden" name="azione" value="elimina" />                                                                
                     </form>
@@ -275,7 +275,7 @@ $sender = $funzione->get_allTable('senders');
 <form id="form-campagna-ins"  data-parsley-validate="" class="form-horizontal form-label-left" enctype="multipart/form-data" action="<?php echo $back_url; ?>" method="post">  
                 <input type="hidden" name="azione" value="<?php echo $_POST['azione']; ?>">
                 <input type="hidden" name="user_id" id="user_id" value="<?php echo $page_protect->id; ?>"> 
-                <input type="hidden" name="id_upload" id="id_upload" value="<?php echo $id_upload; ?>">  
+                <input type="hidden" name="id_upload" id="fileid" value="<?php echo $id_upload; ?>">  
                 <div  id="myTab" class="" role="tabpanel" data-example-id="togglable-tabs">
                        
                       <ul  id="myTab-ul" class="nav nav-tabs bar_tabs" role="tablist">
@@ -321,14 +321,18 @@ $sender = $funzione->get_allTable('senders');
                     <input id="annulla" style="<?php echo $display_none; ?>"  class="btn btn-primary" name="annulla" tabindex="63" type="button" value="Annulla" onclick="javascript:window.location.href = './index.php?page=gestioneCampagne2'"/>
                     <?php
                     if ( isset($azione) && $azione=='modifica') {
+						//Il PM non puo modificare una campagna in stato Eseguita o Annullata
+                        if (!(($page_protect->get_job_role() == 2) && ($id_campaign['campaign_state_id']==1 || $id_campaign['campaign_state_id']==6))) {
                         ?>
                         <input id="modifica" style="<?php echo $display_none; ?>" class="btn btn-warning" name="modifica" tabindex="64" type="submit" value="modifica" />
-
+                        <?php
+                        }
+                        ?>    
                         <input type="hidden" name="modifica_confim" id="modifica_confim" value="modifica_confim" />
                         <input type="hidden" name="id" id="id" value="<?php echo $_POST['id']; ?>"/>
                         <?php
                     } 
-                    else {                        
+                    else {                                                                 
                         ?>
                         <input style="<?php echo $display_none; ?>" id="salva" class="btn btn-success" name="salva" tabindex="64" type="submit" value="Salva" />
                         <input type="hidden" name="campaign_state_id" value="2" />

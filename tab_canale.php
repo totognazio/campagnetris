@@ -170,7 +170,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="note">Note Operative
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input <?php if ($readonly){echo $disabled_value;}?>type="text" id="note_operative" name="note_operative"  placeholder="campo alfanumerico" class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['note_operative'])){echo $id_campaign['note_operative']; }?>">
+                <input <?php if ($readonly){echo $disabled_value;}?>type="text" id="note_operative" name="note_operative"  placeholder="campo alfanumerico" class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['note_operative'])){echo stripslashes($id_campaign['note_operative']); }?>">
             </div>
         </div>
 
@@ -334,7 +334,7 @@
           
             
               <label style="margin-top:20px" for="message">Testo SMS<span class="required">*</span></label>
-              <textarea id="testo_sms" <?php echo $disabled_value; ?><?php echo $required_sms; ?> class="form-control" name="addcanale[0][testo_sms]" rows="8"  data-parsley-pattern-message="Caratteri come '€' ' ’ ' ed altri caratteri speciali non sono accettati come testo SMS !!" onkeyup="checklength(0, 640, 'testo_sms', 'charTesto', 'numero_sms')" ><?php if($modifica){echo $canale['testo_sms'];}else{echo'';}?></textarea>  
+              <textarea id="testo_sms" <?php echo $disabled_value; ?><?php echo $required_sms; ?> class="form-control" name="addcanale[0][testo_sms]" rows="8"  data-parsley-pattern-message="Caratteri come '€' ' ’ ' ed altri caratteri speciali non sono accettati come testo SMS !!" onkeyup="checklength(0, 640, 'testo_sms', 'charTesto', 'numero_sms', '')" ><?php if($modifica){echo $canale['testo_sms'];}else{echo'';}?></textarea>  
               <label style="width:100%;"><small>Numeri caratteri utilizzati</small><input type="text" name="addcanale[0][charTesto]" id="charTesto" value="<?php if($modifica and isset($canale['charTesto'])){echo $canale['charTesto'];} ?>" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" onfocus="this.blur();" /></label>
               <label style="width:100%;"><small>Numero SMS</small><input type="text" name="addcanale[0][numero_sms]" id="numero_sms" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="<?php if($modifica and isset($canale['numero_sms'])){echo $canale['numero_sms'];} else{echo 0;} ?>" onfocus="this.blur();" /></label>                  
                      
@@ -349,7 +349,7 @@
                           </select> 
                         <span id="spanLabelLinkTesto" style="display: none;">
                             <label style="margin-top:20px" id="labelLinkTesto">Link<span  class="req">*</span></label>
-                            <input  id="link" name="addcanale[0][link]" type="url" class="form-control col-md-7 col-xs-12"  data-parsley-type='url' maxlength="400" data-parsley-maxlength='400' 
+                            <input  id="link" name="addcanale[0][link]" type="url" class="form-control col-md-7 col-xs-12"  data-parsley-type='url' autocomplete="on" placeholder="http://mywebsite.com" maxlength="400" data-parsley-maxlength='400' 
                             <?php
                             if ($modifica)
                                 echo "value=\"" . $canale['link'] . "\"";
@@ -361,9 +361,9 @@
                                 echo $disabled_value;
                             ?>
                             
-                            onkeyup="checklength(0, 255, 'link', 'charLink', ''); checklengthTotal('charLink','charTesto','numero_totale');"/>
+                            onkeyup="checklength(0, 255, 'link', 'charLink', '', ''); checklengthTotal('charLink','charTesto','');checklength(0, 640, 'testo_sms', 'charTesto', 'numero_sms','');"/>
                             <label style="width:100%;"><small>Numero</small><input type="text" name="addcanale[0][charLink]" id="charLink" class="text" readonly="readonly"  size="3" value="255" placeholder="max 255"onfocus="this.blur()" /></label>   
-                            <label style="width:100%;"><small>Totale (SMS+Link)</small><input type="text" name="addcanale[0][numero_totale]" id="numero_totale" value="" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>                  
+                            <label style="width:100%;"><small>Totale (SMS+Link)</small><input type="number" name="addcanale[0][numero_totale]" id="numero_totale" value="" class="text" readonly="readonly" style="width:50px; float:right; text-align:right;" size="3" value="0" onfocus="this.blur()" /></label>                  
                           
                           <br>
                        <!--<label style="margin-top:20px">Tipo Monitoring  <span class="required">*</span></label>                                    

@@ -16,12 +16,20 @@ else{
     $sprints = $funzione->get_sprints();
 }
 
+
+
 //$dati[] = array('id' => 0,'text' => '');
 foreach ($sprints as $key => $row) {
+    $flag = false;
+    if($_SESSION['filter']['sprint']==$row['id'] ){
+            $flag = true;
+    }
     $dati[] = array(
         'id' => $row['id'],
         'text' => $row['name'],
+        'selected'=> $flag
     );
 }
+
 echo json_encode(array("results"=>$dati));
 ?>

@@ -1453,8 +1453,9 @@ LEFT JOIN users ON `user_id` = users.id
        
     
     function getCampaigns($filter){
-      if(!empty($filter['sprint'])){
-          $funzioni = new funzioni_admin();
+      $funzioni = new funzioni_admin();
+        if(!empty($filter['sprint'])){
+          
           $sprint = $funzioni->get_sprint($filter['sprint']);
           //echo 'eccolo quiiiiiiiii';
           //print_r($sprint);
@@ -1463,6 +1464,21 @@ LEFT JOIN users ON `user_id` = users.id
       else {
           $sql_and = " 1 ";
       } 
+
+     $sql_canali = '';
+     if(count($filter["channels"])< count($funzioni->get_list_select('channels'))) {
+        
+            $sql_canali = ' and ( ';
+            
+            foreach ($filter["channels"] as $key => $value) {
+
+                    $sql_canali .= " `addcanale` like '%\"channel_id\":\"".$filter["channels"][$key]."\"%' OR ";
+                }
+                $sql_canali = rtrim($sql_canali,'OR ');
+
+
+            $sql_canali .= ' ) '; 
+     }           
         
        $sql = "SELECT durata_campagna
         ,escludi_sab_dom
@@ -1492,14 +1508,14 @@ LEFT JOIN users ON `user_id` = users.id
          $sql .= " WHERE (`data_inizio` <= '".$filter['endDate']."' AND (`data_fine` >= '".$filter['startDate']."' )) and $sql_and";
          
          $sql .= "  and squads.id  IN ('" . implode("', '", $filter["squads"]). "')"
-               . " and campaign_stacks.id  IN ('" . implode("', '", $filter["stacks"]). "') and "
-               . "channels.id  IN ('" . implode("', '", $filter["channels"]). "') "
+               . " and campaign_stacks.id  IN ('" . implode("', '", $filter["stacks"]). "') "
                . "and campaign_states.id  IN ('" . implode("', '", $filter["states"]). "') "
                . "and campaign_types.id IN ('" . implode("', '", $filter["typologies"]). "')";
-
+               //SELECT `addcanale`, `id` from `campaigns` WHERE `addcanale` like '%"channel_id":"12"%'
+           
        
 
-       $sql .= " order by data_inizio ASC ";
+       $sql .= $sql_canali." order by data_inizio ASC ";
        
       //echo $sql;
   
@@ -1514,7 +1530,7 @@ LEFT JOIN users ON `user_id` = users.id
     }
 
     function getCampaignsGestione($filter){
-
+        $funzioni = new funzioni_admin();
         //controllo Squad
         $page_protect = new Access_user;
         $sql_squad = '';
@@ -1525,7 +1541,7 @@ LEFT JOIN users ON `user_id` = users.id
         }
 
       if(!empty($filter['sprint'])){
-          $funzioni = new funzioni_admin();
+          
           $sprint = $funzioni->get_sprint($filter['sprint']);
           //echo 'eccolo quiiiiiiiii';
           //print_r($sprint);
@@ -1534,6 +1550,23 @@ LEFT JOIN users ON `user_id` = users.id
       else {
           $sql_and = " 1 ";
       } 
+
+
+     $sql_canali = '';
+     if(count($filter["channels"])< count($funzioni->get_list_select('channels'))) {
+        
+            $sql_canali = ' and ( ';
+            
+            foreach ($filter["channels"] as $key => $value) {
+
+                    $sql_canali .= " `addcanale` like '%\"channel_id\":\"".$filter["channels"][$key]."\"%' OR ";
+                }
+                $sql_canali = rtrim($sql_canali,'OR ');
+
+
+            $sql_canali .= ' ) '; 
+     }   
+      
         
        $sql = "SELECT durata_campagna
         ,escludi_sab_dom
@@ -1567,17 +1600,17 @@ LEFT JOIN users ON `user_id` = users.id
         ";
 
        
-         $sql .= " WHERE  $sql_squad  (`data_inizio` <= '".$filter['endDate']."' AND (`data_fine` >= '".$filter['startDate']."' )) and $sql_and";
+         $sql .= " WHERE  $sql_squad  (`data_inizio` <= '".$filter['endDate']."' AND (`data_fine` >= '".$filter['startDate']."' )) and $sql_and ";
          
          $sql .= "  and squads.id  IN ('" . implode("', '", $filter["squads"]). "')"
-               . " and campaign_stacks.id  IN ('" . implode("', '", $filter["stacks"]). "') and "
-               . "channels.id  IN ('" . implode("', '", $filter["channels"]). "') "
-               . "and campaign_states.id  IN ('" . implode("', '", $filter["states"]). "') "
-               . "and campaign_types.id IN ('" . implode("', '", $filter["typologies"]). "')";
+               . " and campaign_stacks.id  IN ('" . implode("', '", $filter["stacks"]). "') "
+               . " and campaign_states.id  IN ('" . implode("', '", $filter["states"]). "') "
+               . " and campaign_types.id IN ('" . implode("', '", $filter["typologies"]). "')";
 
        
 
-       $sql .= " order by data_inizio ASC ";
+       //$sql .= " order by data_inizio ASC ";
+       $sql .= $sql_canali." order by data_inizio ASC ";
        
       //echo $sql;
   
@@ -1592,7 +1625,7 @@ LEFT JOIN users ON `user_id` = users.id
     }
 
     function getCampaignsCapacity($filter){
-
+        $funzioni = new funzioni_admin();
         //controllo Squad
         $page_protect = new Access_user;
         $sql_squad = '';
@@ -1603,7 +1636,7 @@ LEFT JOIN users ON `user_id` = users.id
         }
 
       if(!empty($filter['sprint'])){
-          $funzioni = new funzioni_admin();
+          
           $sprint = $funzioni->get_sprint($filter['sprint']);
           //echo 'eccolo quiiiiiiiii';
           //print_r($sprint);
@@ -1612,8 +1645,24 @@ LEFT JOIN users ON `user_id` = users.id
       else {
           $sql_and = " 1 ";
       } 
+
+
+      $sql_canali = '';
+     if(count($filter["channels"])< count($funzioni->get_list_select('channels'))) {
         
-       $sql = "SELECT durata_campagna
+            $sql_canali = ' and ( ';
+            
+            foreach ($filter["channels"] as $key => $value) {
+
+                    $sql_canali .= " `addcanale` like '%\"channel_id\":\"".$filter["channels"][$key]."\"%' OR ";
+                }
+                $sql_canali = rtrim($sql_canali,'OR ');
+
+
+            $sql_canali .= ' ) '; 
+     } 
+        
+    $sql = "SELECT durata_campagna
         ,escludi_sab_dom
         ,users.LOGIN AS username
         ,campaign_types.NAME AS tipo_nome
@@ -1645,17 +1694,17 @@ LEFT JOIN users ON `user_id` = users.id
         ";
 
        
-         $sql .= " WHERE  $sql_squad  (`data_inizio` <= '".$filter['endDate']."' AND (`data_fine` >= '".$filter['startDate']."' )) and $sql_and";
+         $sql .= " WHERE  $sql_squad  (`data_inizio` <= '".$filter['endDate']."' AND (`data_fine` >= '".$filter['startDate']."' )) and $sql_and ";
          
          $sql .= "  and squads.id  IN ('" . implode("', '", $filter["squads"]). "')"
-               . " and campaign_stacks.id  IN ('" . implode("', '", $filter["stacks"]). "') and "
-               . "channels.id  IN ('" . implode("', '", $filter["channels"]). "') "
-               . "and campaign_states.id  IN ('" . implode("', '", $filter["states"]). "') "
-               . "and campaign_types.id IN ('" . implode("', '", $filter["typologies"]). "')";
+               . " and campaign_stacks.id  IN ('" . implode("', '", $filter["stacks"]). "') "
+               . " and campaign_states.id  IN ('" . implode("', '", $filter["states"]). "') "
+               . " and campaign_types.id IN ('" . implode("', '", $filter["typologies"]). "')";
 
        
 
-       $sql .= " order by data_inizio ASC ";
+       //$sql .= " order by data_inizio ASC ";
+       $sql .= $sql_canali." order by data_inizio ASC ";
        
       //echo $sql;
   
@@ -1668,31 +1717,171 @@ LEFT JOIN users ON `user_id` = users.id
 
         return $list;
     }
-    
-    function tablePianificazione($list) {   
+
+
+     function tablePianificazioneHeader($list) {   
     // print_r($list);
         ?>                                                    
-                    <!--<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-                    <table id="datatable-responsive" cellspacing="0" width="100%">
-                    <table id="datatable-scroll" class="table table-bordered nowrap">
-                    <table id="datatable-scroll" class="table table-bordered nowrap" style="width:100%">
-                    <table id="datatable-pianificazione" class="display compact table-bordered table-striped  nowrap table-hover no-margin" cellspacing="0"> -->               
+              <table id="datatable-pianificazione" data-order='[[ 1, "asc" ]]' class="display compact table-bordered text-nowrap table-hover no-margin nowrap" cellspacing="0" cellpadding="0" defer>
+                        <thead>
+                            <tr>                            
+                            <th class="not-export-col">Azione</th> 
+                            <th class="not-export-col">N.</th>                            
+                            <th>Stack</th>  
+                            <th>Sprint</th>                          
+                            <th>Squad</th>
+                            <th>Nome_Campagna</th>
+                            <th>Tipologia</th>
+                            <th>Cod. Camp.</th>
+                            <th>Cod. Com.</th>                            
+                            <th>Canale</th>
+                            <th>Data_inizio</th>                                                  
+                            <th>Stato</th>
+                            <th>Vol. (k)</th>
+                        <?php $this->datePeriod(); ?>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+    
+    </tbody></table>
+    <?php
+         
+    }
+
+    function tablePianificazioneData($list) {   
+    // print_r($list);
+
+    $page_protect = new Access_user;
+    $string = '';
+    $riga = 1;
+    $tot_volume = $this->tot_volume();
+    $tot_volume['totale'] = 0;
+    $daterange = $this->daterange();
+    $user_info['job_role'] = $page_protect->get_job_role();
+    $user_info['squad_id'] = $page_protect->get_squad();
+
+    $data = array();
+    $data_row = array();
+            
+     foreach ($list as $key => $row) {
+        $stato_elimina = $row['elimina'];
+        
+        $permission = $page_protect->check_permission_fast($row['squad_id'], $user_info); 
+        $data['azione'] = $row['id'].'_'.$permission;
+        $data['riga'] =  $riga; 
+        $data['stacks_nome'] = $row['stacks_nome'];
+        $data['sprint_nome'] = $this->sprint_find($row['data_inizio']);
+        $data['squad_nome'] = $row['squads_nome'];
+        $data['nome_campagna'] = $row['id'].'_'.$row['pref_nome_campagna'];
+        $data['tipo_nome'] = $row['tipo_nome'];
+        $data['cod_campagna'] = $row['cod_campagna'];
+        $data['cod_comunicazione'] = $row['cod_comunicazione'];
+        $data['canale'] = $this->tableChannelLabel($row);
+        $data['data_inizio'] = $row['data_inizio'];
+        $data['campaign_stato_nome'] = $row['campaign_stato_nome'];
+        $data['volume'] = $this->round_volume($row['volume']);
+
+        $tot_volume['totale'] = $tot_volume['totale'] + $row['volume'];
+        $volume_giorno = $this->day_volume($row);        
+        
+        //print_r($volume_giorno);
+        //print_r($daterange);
+
+        foreach($daterange as $key=>$daytimestamp){
+               
+                if(isset($volume_giorno[$daytimestamp])){  
+                    $data[$daytimestamp] = strtolower($row['colore']).'_'.$this->round_volume($volume_giorno[$daytimestamp]);          
+                    
+                    $tot_volume[$daytimestamp] =  $tot_volume[$daytimestamp] + $volume_giorno[$daytimestamp];
+                } 
+                else {
+                    //$data[$daytimestamp] = $this->bgcolor($daytimestamp); 
+                    $data[$daytimestamp] = $daytimestamp;         
+                }
+        }
+
+        $data_row[] = json_encode(array_values($data));
+        $riga++; 
+    }
+
+    // ultima riga Totali
+        $data['azione'] = '';
+        $data['riga'] =  $riga; 
+        $data['stacks_nome'] = '';
+        $data['sprint_nome'] = '';
+        $data['squad_nome'] = '';
+        $data['nome_campagna'] = '';
+        $data['tipo_nome'] = '';
+        $data['cod_campagna'] = '';
+        $data['cod_comunicazione'] = '';
+        $data['canale'] = '';
+        $data['data_inizio'] = '';
+        $data['campaign_stato_nome'] = '';
+        $data['volume'] = $this->round_volume($tot_volume['totale']);
+
+     foreach($daterange as $key=>$daytimestamp){
+         if(intval($tot_volume[$daytimestamp])>0){
+            $data[$daytimestamp] = $this->round_volume($tot_volume[$daytimestamp]);
+         }
+         else{
+             $data[$daytimestamp] = 0;
+         }
+     }
+
+    $data_row[] = json_encode(array_values($data));
+    //$data_row[] = array_values($data);
+    /*
+    $output = array(
+        'draw' => 1,
+        'recordsTotal'=> $riga,
+        'recordsFiltered' => $riga,
+        'data' => $data_row,
+    );
+    */
+    $stringa = '[';
+    $first = true;
+    foreach ($data_row as $key => $value) {
+        if(!empty($value)){
+            if($first){
+            $stringa .= $value;
+            $first = false;
+            }
+            else {
+                $stringa .= ','.$value;
+            }
+        }
+        
+        
+    }
+    $stringa .= ']';
+    $output = '{"draw": 1,"recordsTotal": '.$riga.',"recordsFiltered": '.$riga.',"data": '.$stringa.'}';
+
+     return $output;
+     
+    }
+
+
+    function tablePianificazione($list) {   
+    // print_r($list);
+        ?>   
+                          
               <table id="datatable-pianificazione" class="display compact table-bordered text-nowrap table-hover no-margin nowrap" cellspacing="0" cellpadding="0" defer>
                         <thead>
                             <tr>                            
-                            <th class="not-export-col"><small>Azione</small></th> 
-                            <th class="not-export-col"><small>N.</small></th>                            
-                            <th><small>Stack</small></th>  
-                            <th><small>Sprint</small></th>                          
-                            <th><small>Squad</small></th>
-                            <th><small>Nome_Campagna</small></th>
-                            <th><small>Tipologia</small></th>
-                            <th><small>Cod. Camp.</small></th>
-                            <th><small>Cod. Com.</small></th>                            
-                            <th><small>Canale</small></th>
-                            <th><small>Data_inizio</small></th>                                                  
-                            <th><small>Stato</small></th>
-                            <th><small>Vol. (k)</small></th>
+                            <th class="not-export-col">Azione</th> 
+                            <th class="not-export-col">N.</th>                            
+                            <th>Stack</th>  
+                            <th>Sprint</th>                          
+                            <th>Squad</th>
+                            <th>Nome_Campagna</th>
+                            <th>Tipologia</th>
+                            <th>Cod. Camp.</th>
+                            <th>Cod. Com.</th>                            
+                            <th>Canale</th>
+                            <th>Data_inizio</th>                                                  
+                            <th>Stato</th>
+                            <th>Vol. (k)</th>
                         <?php $this->datePeriod(); ?>
                             </tr>
                         </thead>
@@ -1704,96 +1893,85 @@ LEFT JOIN users ON `user_id` = users.id
     $riga = 1;
     $tot_volume = $this->tot_volume();
     $tot_volume['totale'] = 0;
-               
+    $daterange = $this->daterange();
+    $user_info['job_role'] = $page_protect->get_job_role();
+    $user_info['squad_id'] = $page_protect->get_squad();
+            
      foreach ($list as $key => $row) {
         $stato_elimina = $row['elimina'];
         
-        $permission = $page_protect->check_permission($row['squad_id']); 
-        $string .= '<tr align="left"><td><form action="index.php?page=inserisciCampagna2" method="post" id="campagnaModifica'.$row['id'].'"><input type="hidden" name="id" value="'.$row['id'].'" /><input type="hidden" name="azione" value="modifica"></form>
-                        <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaDuplica'.$row['id'].'"> 
-                            <input type="hidden" name="id" value="'.$row['id'].'">
-                            <input type="hidden" name="azione" value="duplica">                                                                
-                        </form>
-                        <form action="index.php?page=pianificazione2"  method="post" id="campagnaElimina'.$row['id'].'"> 
-                            <input type="hidden" name="id" value="'.$row['id'].'" />
-                            <input type="hidden" name="azione" value="elimina" />                                                                
-                        </form>
+        $permission = $page_protect->check_permission_fast($row['squad_id'], $user_info); 
+        ?>
+        <tr align="left"><td>        
+                    <button class="btn btn-xs btn-primary" type="submit" onclick="manageCamp('<?php echo $row['id'];?>', 'modifica','<?php echo $permission;?>');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Modifica" title="Modifica"><i class="fa fa-edit" ></i></button>
+                    <button class="btn btn-xs btn-default" type="submit" onclick="manageCamp('<?php echo $row['id'];?>','duplica','<?php echo $permission;?>');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone" ></i></button>
+                    <button class="btn btn-xs btn-danger" type="submit" onclick="manageCamp('<?php echo $row['id'];?>','elimina','<?php echo $permission;?>','<?php echo $stato_elimina;?>');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></button></td>
+                    <td><?php echo $riga; ?></td><td><?php echo $row['stacks_nome'];?></td>
+        <td><?php echo $this->sprint_find($row['data_inizio']);?></td>
+        <td><?php echo $row['squads_nome'];?></td>
+        <td>
 
-                    <button class="btn btn-xs btn-primary" type="submit" onclick="manageCamp('.$row['id'].', \'modifica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Modifica" title="Modifica"><i class="fa fa-edit" ></i></button>
-                    <button class="btn btn-xs btn-default" type="submit" onclick="manageCamp('.$row['id'].',\'duplica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone" ></i></button>
-                    <button class="btn btn-xs btn-danger" type="submit" onclick="manageCamp('.$row['id'].',\'elimina\','.$permission.','.$stato_elimina.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></button></td>';
-                  
-        $string .= "<td><small>$riga</small></td><td><small>".$row['stacks_nome']."</small></td>";
-        $string .= "<td><small>".$this->sprint_find($row['data_inizio'])."</small></td>";
-        $string .= "<td><small>".$row['squads_nome']."</small></td>";
-        $string .= "<td><small>".'
-                         <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaOpen'.$row['id'].'"> 
-                            <input type="hidden" name="id" value="'.$row['id'].'" />
-                            <input type="hidden" name="azione" value="open" />                                                                
-                        </form>
-                        <a href="#" data-placement="bottom" data-toggle="tooltip" title="Open" onclick="manageCamp('.$row['id'].', \'open\');">'.$row['pref_nome_campagna'].'</a>
-                '
-                . "</small></td>";
-        $string .= "<td><small>".$row['tipo_nome']."</small></td>";
-        $string .= "<td><small>".$row['cod_campagna']."</small></td>";
-        $string .= "<td><small>".$row['cod_comunicazione']."</small></td>";
-        //$string .= "<td><small>".$row['channel_label']."</small></td>";
-        $string .= "<td><small>".$this->tableChannelLabel($row)."</small></td>";
-        $string .= "<td><small>".$row['data_inizio']."</small></td>";      
-        $string .= "<td class=\"stato\"><small>".$row['campaign_stato_nome']."</small></td>";
-        $string .= "<td><small><strong>".$this->round_volume($row['volume'])."</strong></small></td>";
+                        <a href="#" data-placement="bottom" data-toggle="tooltip" title="Open" onclick="manageCamp('<?php echo $row['id'];?>', 'open');"><?php echo stripslashes($row['pref_nome_campagna']);?></a>
+                
+                </td>
+        <td><?php echo $row['tipo_nome'];?></td>
+        <td><?php echo $row['cod_campagna'];?></td>
+        <td><?php echo $row['cod_comunicazione'];?></td>
+        <td><?php echo $this->tableChannelLabel($row);?></td>
+        <td><?php echo $row['data_inizio'];?></td>
+        <td class="stato"><?php echo $row['campaign_stato_nome'];?></td>
+        <td><strong><?php echo $this->round_volume($row['volume']);?></strong></td>
         
+        <?php 
         $tot_volume['totale'] = $tot_volume['totale'] + $row['volume'];
         $volume_giorno = $this->day_volume($row);        
-        $daterange = $this->daterange();
+        
         //print_r($volume_giorno);
         //print_r($daterange);
 
         foreach($daterange as $key=>$daytimestamp){
                
-                if(array_key_exists($daytimestamp, $volume_giorno)){                   
-                    $string .= "<td  class=\"valore\" bgcolor=\"".strtolower($row['colore'])."\" ><small><strong><font color=\"black\">".$this->round_volume($volume_giorno[$daytimestamp])."<font></strong><small></td>";                    
-                    
+                if(isset($volume_giorno[$daytimestamp])){                   
+                    ?>
+                    <td  class="valore" bgcolor="<?php echo strtolower($row['colore']);?>" ><strong><font color="black"><?php echo $this->round_volume($volume_giorno[$daytimestamp]);?><font></strong></td>                    
+                    <?php 
                     $tot_volume[$daytimestamp] =  $tot_volume[$daytimestamp] + $volume_giorno[$daytimestamp];
                 } 
                 else {
-                    $string .= "<td" .$this->bgcolor($daytimestamp)."><small></small></td>";
+                        ?>
+                        <td <?php echo $this->bgcolor($daytimestamp);?> ></td>
+             <?php           
                 }
         }
-        $string .= "</tr>";      
+    ?>
+        </tr>
+        <?php     
         $riga++; 
-
     }
      
-     
-        $string .= "<tr><td><strong></strong></td><td><small>$riga</small></td><td></td>";
-        $string .= "<td></td>";
-        $string .= "<td></td>";
-        $string .= "<td></td>";
-        $string .= "<td></td>";
-        $string .= "<td></td>";
-        $string .= "<td></td>";
-        $string .= "<td></td>";
-        $string .= "<td></td>";
-        $string .= "<td><strong>Totale<strong></td>";
-        $string .= "<td><small><strong>".$this->round_volume($tot_volume['totale'])."</strong></small></td>";
+     ?>
+        <tr><td><strong></strong></td><td><?php echo $riga;?></td><td></td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><strong>Totale<strong></td>
+        <td><strong><?php echo $this->round_volume($tot_volume['totale']);?></strong></td>
+    <?php 
      foreach($daterange as $key=>$daytimestamp){
          if(intval($tot_volume[$daytimestamp])>0){
-            $string .= "<td><small><strong>".$this->round_volume($tot_volume[$daytimestamp])."</strong></small></td>";
+            ?>
+            <td><strong><?php echo $this->round_volume($tot_volume[$daytimestamp]);?></strong></td>
+            <?php
          }
          else{
-             $string .= "<td><small><strong>0</strong></small></td>";
+             ?>
+             <td><strong>0</strong></td>
+         <?php    
          }
      }
-     $string .= "</tr>"; 
+     ?>
+     </tr> 
  
-        $string .= "</tbody></table>";
-        $string .= "";
-        
-        echo $string;
-       
-        //return $string;
- 
+    </tbody></table>
+    <?php
+         
     }
 
     function tableChannelLabel($row) { 
@@ -1881,6 +2059,74 @@ LEFT JOIN users ON `user_id` = users.id
 
         
 
+    }
+
+    function getCriteriAll($row){
+        $data = array();
+        
+                //if($criterio=='stato'){
+                    $stringa = '';
+                    if($row['attivi']==1) $stringa .= 'Attivi ';
+                    if($row['sospesi']==1) $stringa .= 'Sospesi ';
+                    if($row['disattivi']==1) $stringa .= 'Disattivi ';
+                    $data['stato'] = $stringa;
+
+               // }
+               // if($criterio=='tipo_offerta'){
+                    $stringa = '';
+                    if($row['consumer']==1) $stringa .= 'Consumer ';
+                    if($row['business']==1) $stringa .= 'Business ';
+                    if($row['microbusiness']==1) $stringa .= 'MicroBusiness ';
+                    $data['tipo_offerta'] = $stringa;
+               // }
+               // if($criterio=='tipo_contratto'){
+                    $stringa = '';
+                    if($row['prepagato']==1) $stringa .= 'Prepagato ';
+                    if($row['postpagato']==1) $stringa .= 'Postpagato ';
+                    if($row['contratto_microbusiness']==1) $stringa .= 'MicroBusiness ';
+                    $data['tipo_contratto'] = $stringa;
+               // }
+               // if($criterio=='consenso'){
+                    $stringa = '';
+                    if($row['cons_profilazione']==1) $stringa .= 'Profilazione ';
+                    if($row['cons_commerciale']==1) $stringa .= 'commerciale ';
+                    if($row['cons_terze_parti']==1) $stringa .= 'Terze Parti (Wind) ';
+                    if($row['cons_geolocalizzazione']==1) $stringa .= 'Geolocalizzazione ';
+                    if($row['cons_enrichment']==1) $stringa .= 'Enrichment ';
+                    if($row['cons_trasferimentidati']==1) $stringa .= 'Trasferimento dati a terzi (Tre) ';
+                    $data['consenso'] = $stringa;
+                //}
+
+                //if($criterio=='mercato'){
+                    $stringa = '';
+                    if($row['voce']==1) $stringa .= 'Mobile Voce ';
+                    if($row['dati']==1) $stringa .= 'Mobile Dati ';
+                    if($row['fisso']==1) $stringa .= 'Fisso ';
+                    $data['mercato'] = $stringa;
+                //}
+                //if($criterio=='frodatori'){
+                    $stringa = '';
+                    if($row['no_frodi']==1) $stringa .= 'No Frodi ';
+                    if($row['altri_filtri']==1) $stringa .= 'No Collection ';    
+                    $data['frodatori'] = $stringa;
+               // }
+                //Tab Comunicazione
+               // if($criterio=='control_group'){            
+                    if($row['control_group']==0) $data['control_group'] = 'No';
+                    if($row['control_group']==1) $data['control_group'] = 'Si (Percentuale)';    
+                    if($row['control_group']==2) $data['control_group'] = 'Si (Volume)'; 
+                    else $data['control_group'] = ' ';        
+                //}
+                //Tab Comunicazione
+                //if($criterio=='tipo_leva'){
+                    if($row['tipo_leva']=='info') $data['tipo_leva'] = 'Informativa';
+                    if($row['tipo_leva']=='mono') $data['tipo_leva'] = 'MonoOfferta';    
+                    if($row['tipo_leva']=='multi') $data['tipo_leva'] = 'MultOfferta'; 
+                    else $data['tipo_leva'] = ' ';        
+                //}
+           
+        return $data;
+    
     }
 
     function getAddCanale($row, $canale_var, $addcanale_numero=0){
@@ -1987,34 +2233,34 @@ LEFT JOIN users ON `user_id` = users.id
                     <table id="datatable-pianificazione" class="display compact table-bordered text-nowrap table-hover no-margin nowrap" cellspacing="0" cellpadding="0" defer>
                         <thead>
                             <tr>
-                            <th class="not-export-col"><small>Azione</small></th>
-                            <th><small>N°</small></th>
-                            <th><small>Stack</small></th> 
-                            <th><small>Sprint</small></th>                                                       
-                            <th><small>Squad</small></th>
-                            <th><small>Nome_Campagna</small></th>
-                            <th><small>Tipologia</small></th>                         
-                            <th><small>Cod. Camp.</small></th>                                                        
-                            <th><small>Cod. Com.</small></th>
-                            <th><small>Modalità</small></th>                            
-                            <th><small>Priorità</small></th>
-                            <th><small>Descrizione Attvità</small></th>
-                            <th><small>Canale</small></th>
-                            <th><small>Tipo</small></th>
-                            <th><small>Data Inizio Campagna</small></th>
-                            <th><small>Data Fine Campagna</small></th> 
-                            <th><small>Volume (k)</small></th>
-                            <th><small>Stato</small></th>
-                            <th><small>Username</small></th>
-                            <th><small>Data Inserimento</small></th>  
-                            <th><small>Stato</small></th>
-                            <th><small>Tipo Offerta</small></th>
-                            <th><small>Tipo Contratto</small></th>
-                            <th><small>Consenso</small></th>                            
-                            <th><small>Mercato</small></th>                            
-                            <th><small>Frodatori</small></th>                                                                                             
-                            <th><small>Indicatore Dinamico</small></th>                            
-                            <th><small>Control Group</small></th>                                                                                                                                  
+                            <th class="not-export-col">Azione</th>
+                            <th>N°</th>
+                            <th>Stack</th> 
+                            <th>Sprint</th>                                                       
+                            <th>Squad</th>
+                            <th>Nome_Campagna</th>
+                            <th>Tipologia</th>                         
+                            <th>Cod. Camp.</th>                                                        
+                            <th>Cod. Com.</th>
+                            <th>Modalità</th>                            
+                            <th>Priorità</th>
+                            <th>Descrizione Attvità</th>
+                            <th>Canale</th>
+                            <th>Tipo</th>
+                            <th>Data Inizio Campagna</th>
+                            <th>Data Fine Campagna</th> 
+                            <th>Volume (k)</th>
+                            <th>Stato</th>
+                            <th>Username</th>
+                            <th>Data Inserimento</th>  
+                            <th>Stato</th>
+                            <th>Tipo Offerta</th>
+                            <th>Tipo Contratto</th>
+                            <th>Consenso</th>                            
+                            <th>Mercato</th>                            
+                            <th>Frodatori</th>                                                                                             
+                            <th>Indicatore Dinamico</th>                            
+                            <th>Control Group</th>                                                                                                                                  
                             </tr>
                         </thead>
                         <tbody>
@@ -2030,60 +2276,44 @@ LEFT JOIN users ON `user_id` = users.id
         foreach ($list as $key => $row) {
             $stato_elimina = $row['elimina'];        
             $permission = $page_protect->check_permission($row['squad_id']); 
-            $string .= "<tr><td>".'   
-                        <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaModifica'.$row['id'].'"> 
-                            <input type="hidden" name="id" value="'.$row['id'].'" />
-                            <input type="hidden" name="azione" value="modifica" />                                                                
-                        </form>
-                        <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaDuplica'.$row['id'].'"> 
-                            <input type="hidden" name="id" value="'.$row['id'].'" />
-                            <input type="hidden" name="azione" value="duplica" />                                                                
-                        </form>
-                        <form action="index.php?page=pianificazione2"  method="post" id="campagnaElimina'.$row['id'].'"> 
-                            <input type="hidden" name="id" value="'.$row['id'].'" />
-                            <input type="hidden" name="azione" value="elimina" />                                                                
-                        </form>
-
+            $criteri = $this->getCriteriAll($row);
+            $string .= "<tr><td>".'                           
                     <button class="btn btn-xs btn-primary" type="submit" onclick="manageCamp('.$row['id'].', \'modifica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Modifica" title="Modifica"><i class="fa fa-edit" ></i></button>
                     <button class="btn btn-xs btn-default" type="submit" onclick="manageCamp('.$row['id'].',\'duplica\','.$permission.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Duplica" title="Duplica"><i class="fa fa-clone" ></i></button>
                     <button class="btn btn-xs btn-danger" type="submit" onclick="manageCamp('.$row['id'].',\'elimina\','.$permission.','.$stato_elimina.');"  data-placement="bottom" data-toggle="tooltip" data-original-title="Elimina" title="Elimina"><i class="fa fa-trash-o"></i></button>                    
                 '.  "</td>";
-        $string .= "<td><small>".$riga."</small></td>";
-        $string .= "<td><small>".$row['stacks_nome']."</small></td>";
-        $string .= "<td><small>".$this->sprint_find($row['data_inizio'])."</small></td>";
-        $string .= "<td><small>".$row['squads_nome']."</small></td>";
-        $string .= "<td><small>".'
-                         <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaOpen'.$row['id'].'"> 
-                            <input type="hidden" name="id" value="'.$row['id'].'" />
-                            <input type="hidden" name="azione" value="open" />                                                                
-                        </form>
-                        <a href="#" data-placement="bottom" data-toggle="tooltip" title="Open" onclick="manageCamp('.$row['id'].', \'open\');">'.$row['pref_nome_campagna'].'</a>
+        $string .= "<td>".$riga."</td>";
+        $string .= "<td>".$row['stacks_nome']."</td>";
+        $string .= "<td>".$this->sprint_find($row['data_inizio'])."</td>";
+        $string .= "<td>".$row['squads_nome']."</td>";
+        $string .= "<td>".'
+                        <a href="#" data-placement="bottom" data-toggle="tooltip" title="Open" onclick="manageCamp('.$row['id'].', \'open\');">'.stripslashes($row['pref_nome_campagna']).'</a>
                 '
-                . "</small></td>";
-        $string .= "<td><small>".$row['tipo_nome']."</small></td>"; 
-        $string .= "<td><small>".$row['cod_campagna']."</small></td>"; 
-        $string .= "<td><small>".$row['cod_comunicazione']."</small></td>";               
-        $string .= "<td><small>".$row['modality_nome']."</small></td>";
-        $string .= "<td><small>".$row['priority']."</small></td>";
-        $string .= "<td><small>".$row['descrizione_target']."</small></td>";
-        $string .= "<td><small>".$this->tableChannelLabel($row)."</small></td>";
-        $string .= "<td><small>".$this->getCriteri($row,'tipo_leva')."</small></td>";
-        $string .= "<td><small>".$row['data_inizio']."</small></td>";
-        $string .= "<td><small>".$row['data_fine_validita_offerta']."</small></td>";
-        $string .= "<td><small><strong>".$this->round_volume($row['volume'])."</strong></small></td>";
+                . "</td>";
+        $string .= "<td>".$row['tipo_nome']."</td>"; 
+        $string .= "<td>".$row['cod_campagna']."</td>"; 
+        $string .= "<td>".$row['cod_comunicazione']."</td>";               
+        $string .= "<td>".$row['modality_nome']."</td>";
+        $string .= "<td>".$row['priority']."</td>";
+        $string .= "<td>".$row['descrizione_target']."</td>";
+        $string .= "<td>".$this->tableChannelLabel($row)."</td>";
+        $string .= "<td>".$criteri['tipo_leva']."</td>";
+        $string .= "<td>".$row['data_inizio']."</td>";
+        $string .= "<td>".$row['data_fine_validita_offerta']."</td>";
+        $string .= "<td><strong>".$this->round_volume($row['volume'])."</strong></td>";
         
-        $string .= "<td class=\"stato\"><small>".$row['campaign_stato_nome']."</small></td>";
-        $string .= "<td><small>".$row['username']."</small></td>";        
-        $string .= "<td><small>".$row['data_inserimento']."</small></td>";
+        $string .= "<td class=\"stato\">".$row['campaign_stato_nome']."</td>";
+        $string .= "<td>".$row['username']."</td>";        
+        $string .= "<td>".$row['data_inserimento']."</td>";
 
-        $string .= "<td><small>".$this->getCriteri($row,'stato')."</small></td>";
-        $string .= "<td><small>".$this->getCriteri($row,'tipo_offerta')."</small></td>";
-        $string .= "<td><small>".$this->getCriteri($row,'tipo_contratto')."</small></td>";
-        $string .= "<td><small>".$this->getCriteri($row,'consenso')."</small></td>";
-        $string .= "<td><small>".$this->getCriteri($row,'mercato')."</small></td>";
-        $string .= "<td><small>".$this->getCriteri($row,'frodatori')."</small></td>";        
-        $string .= "<td><small>".$row['indicatore_dinamico']."</small></td>";        
-        $string .= "<td><small>".$this->getCriteri($row,'control_group')."</small></td>";
+        $string .= "<td>".$criteri['stato']."</td>";
+        $string .= "<td>".$criteri['tipo_offerta']."</td>";
+        $string .= "<td>".$criteri['tipo_contratto']."</td>";
+        $string .= "<td>".$criteri['consenso']."</td>";
+        $string .= "<td>".$criteri['mercato']."</td>";
+        $string .= "<td>".$criteri['frodatori']."</td>";        
+        $string .= "<td>".$row['indicatore_dinamico']."</td>";        
+        $string .= "<td>".$criteri['control_group']."</td>";
         
         $string .= "</tr>";      
         $riga++; 
@@ -2207,7 +2437,7 @@ LEFT JOIN users ON `user_id` = users.id
             }
 
         
-        if(isset($filter_view["sprint"])){
+        if(!empty($filter_view["sprint"])){
             $sprint = $filter_view["sprint"]; 
             
             //Modifica Start End Data quando lo sprint finesce o iizia prma del Range Data
@@ -2393,7 +2623,7 @@ function datePeriod(){
    $daterange = new DatePeriod($begin, $interval ,$end);
 
    foreach($daterange as $date){
-       echo "<th><small>".$date->format("d D") . "</small></th>";
+       echo "<th>".$date->format("d D") . "</th>";
    }
 }
 
@@ -2699,6 +2929,7 @@ function day_volume($row) {
         $string = '';
         foreach ($param as $key => $value) {
             if (count(array_values($session_array)) == 0 || (in_array($key, array_values($session_array)))) {
+				
                 $string .= '<option value="' . $key . '" selected>' . $value . '</option>';
             } else {
                 $string .= '<option value="' . $key . '">' . $value . '</option>';

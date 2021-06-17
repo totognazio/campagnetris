@@ -601,7 +601,7 @@ function export_gestione($list,$filter){
                         ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT)->setWrapText(true);
             
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(27, $riga, $row['indicatore_dinamico']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(28, $riga, $row['redemption']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(28, $riga, stripslashes($row['redemption']));
             $objPHPExcel->setActiveSheetIndex(0)->getStyleByColumnAndRow(28, $riga)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER)
                         ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT)->setWrapText(true);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(29, $riga, $campaign->getCriteri($row,'control_group'));

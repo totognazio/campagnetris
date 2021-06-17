@@ -31,7 +31,7 @@ set_time_limit(1000);
       $file_ext = $info->getExtension();
       $file_basename = $info->getBasename();
       
-      $file_name = $file_basename;
+      $file_name = preg_replace("/[^a-z0-9\_\-\.]/i", '_', $file_basename);
 
       $extensions= array("xlsx","txt","xls","xlsm", "doc", "docx");
       
