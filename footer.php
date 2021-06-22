@@ -1,4 +1,3 @@
-
 <!-- footer content -->
 <footer>
   <div class="pull-right">
@@ -21,7 +20,7 @@
 <script src="vendors/nprogress/nprogress.js"></script>
 <!-- Include the plugin multiselect -->
 <script type="text/javascript" src="node_modules/bootstrap-multiselect/dist/js/bootstrap-multiselect.js"></script>
-<!-- Datatables
+<!-- Datatables -->
 <script src="./vendors/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="./vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 <script src="./vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
@@ -459,9 +458,8 @@
       console.log('enddate in camp ' + select_endDate);
       console.log('sprint inside camp ' + selected_sprint);
 
-      //$("#content_response").fadeOut();
-      //$('.loader').show();
-      
+      $("#content_response").fadeOut();
+      $('.loader').show();
       $.ajax({
         url: "get_Filter.php",
         method: "POST",
@@ -478,8 +476,8 @@
         },
         dataType:"html",    
         success: function(data) {
-          //$("#content_response").fadeOut();
-          //$("#content_response").fadeIn();
+          $("#content_response").fadeOut();
+          $("#content_response").fadeIn();
           $("#content_response").html(data);
           $('.loader').hide();
         var table_pianificazione = $('#datatable-pianificazione').DataTable({
@@ -681,7 +679,6 @@
           console.log(data);
         }
       });
-      
     }
 
     
@@ -756,7 +753,7 @@
     };
 
     //solo al primo caricamento
-    //campagnTable();
+    campagnTable();
     $('#reportrange_right span').html(select_startDate + ' - ' + select_endDate);
     $('#reportrange_right').daterangepicker(optionSet1, cb);
 
@@ -781,6 +778,7 @@
         ajax: ({
           url: "get_sprints.php",
           dataType: 'json',
+          delay: 10,
           method: "POST",
           data: {
             startDate: select_startDate,
@@ -796,7 +794,6 @@
         })
       });
       campagnTable();
-      location.reload();
     });
     $('#reportrange_right').on('cancel.daterangepicker', function(ev, picker) {
       console.log("cancel event fired");
@@ -807,7 +804,6 @@
       $('#reportrange_right').data('daterangepicker').remove();
     });
 
-    
     $('#sprints').select2({
       placeholder: " Select a Sprint",
       allowClear: true,
@@ -831,14 +827,12 @@
       selected_sprint = '';
       console.log('sprints cancellato  ' + selected_sprint);
       campagnTable();
-      location.reload();
 
     });
     $('#sprints').on('select2:select', function() {
       selected_sprint = $('#sprints').val();
       console.log('sprints  ' + selected_sprint);
       campagnTable();
-      location.reload();
 
     });
 

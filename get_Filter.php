@@ -17,7 +17,7 @@ else{
 }   
 
 $filter = $campaign->getFilter();
-/*
+
 //echo'prima del render campagne dopo il get_filter';
 //print_r($filter);
 if($datatable=='pianificazione'){
@@ -51,7 +51,6 @@ else {
     echo " <br><h2>Nessuna Campagna !!!</h2><script>$('.loader').hide();</script>";
 }
 
-*/
             //print_r($list_campaign);
             //$html = $campaign->campaign_table($list_campaign, "sottotitolo");
             
