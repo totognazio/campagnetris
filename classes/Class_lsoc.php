@@ -855,7 +855,7 @@ foreach ($titolo as $key => $value) {
             //$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(11, $riga, $row['data_inizio_validita_offerta']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(15, $riga, $row['data_fine_validita_offerta']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(16, $riga, $row['campaign_stato_nome']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(17, $riga, $row['note_operative']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(17, $riga, stripslashes($row['note_operative']));
             
             
             //$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(13, $riga, '');

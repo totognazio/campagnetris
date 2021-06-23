@@ -30,6 +30,7 @@ if ($_POST['funzione'] == "export_gestione"){
     //print_r($list);
     $gestore->export_gestione($list, $filter); 
 }
+// export Proposal
 if ($_POST['funzione'] == "export_capacity"){
 
     $list = $campaign->getCampaignsCapacity($filter); 
