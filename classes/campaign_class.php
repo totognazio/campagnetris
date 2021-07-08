@@ -13,6 +13,7 @@ class campaign_class  {
     var $lista_rules;
     var $filter_view;
     var $the_msg;
+    var $minimum_range =14;
     
     
     function __construct() {
@@ -1909,11 +1910,7 @@ LEFT JOIN users ON `user_id` = users.id
                     <td><?php echo $riga; ?></td><td><?php echo $row['stacks_nome'];?></td>
         <td><?php echo $this->sprint_find($row['data_inizio']);?></td>
         <td><?php echo $row['squads_nome'];?></td>
-        <td>
-
-                        <a href="#" data-placement="bottom" data-toggle="tooltip" title="Open" onclick="manageCamp('<?php echo $row['id'];?>', 'open');"><?php echo stripslashes($row['pref_nome_campagna']);?></a>
-                
-                </td>
+        <td><a href="#" data-placement="bottom" data-toggle="tooltip" title="Open" onclick="manageCamp('<?php echo $row['id'];?>', 'open');"><?php echo stripslashes($row['pref_nome_campagna']);?></a></td>
         <td><?php echo $row['tipo_nome'];?></td>
         <td><?php echo $row['cod_campagna'];?></td>
         <td><?php echo $row['cod_comunicazione'];?></td>
@@ -1938,7 +1935,7 @@ LEFT JOIN users ON `user_id` = users.id
                     $tot_volume[$daytimestamp] =  $tot_volume[$daytimestamp] + $volume_giorno[$daytimestamp];
                 } 
                 else {
-                        ?>
+            ?>
                         <td <?php echo $this->bgcolor($daytimestamp);?> ></td>
              <?php           
                 }
@@ -2609,9 +2606,9 @@ function datePeriod(){
    $begin = new DateTime($filter_view["startDate"]);
    $end = new DateTime($filter_view["endDate"]);
    
-////////////////////////////////////
+////////////////// Defect table misaligned //////////////////
    $differenza = $begin->diff($end);
-   if($differenza->format('%a')<=7){
+   if($differenza->format('%a')<=$this->minimum_range){
         $day_add = 30 - $differenza->format('%a');
         $stringa = '+'.$day_add. 'day';
         $end = $end->modify($stringa);
@@ -2661,9 +2658,9 @@ function daterange(){
    $end = new DateTime($filter_view["endDate"]);
 
 
-////////////////////////////////////
+////////////////// Defect table misaligned //////////////////
    $differenza = $begin->diff($end);
-   if($differenza->format('%a')<=7){
+   if($differenza->format('%a')<=$this->minimum_range){
         $day_add = 30 - $differenza->format('%a');
         $stringa = '+'.$day_add. 'day';
         $end = $end->modify($stringa);
@@ -2671,8 +2668,10 @@ function daterange(){
  /////////////////////////////////
    $differenza = $begin->diff($end);
 
-   if($differenza->format('%a')<=7){
-        $end = $end->modify( '+7 day' );
+   if($differenza->format('%a')<=$this->minimum_range){
+       $add_days = '+'.$this->minimum_range. ' day';
+        $end = $end->modify($add_days);
+        //$end = $end->modify( '+7 day' );
    }
  /////////////////////////////////  
    $end = $end->modify( '+1 day' );
@@ -2701,9 +2700,9 @@ function tot_volume(){
    $begin = new DateTime($filter_view["startDate"]);
    $end = new DateTime($filter_view["endDate"]);
 
-////////////////////////////////////
+////////////////// Defect table misaligned //////////////////
    $differenza = $begin->diff($end);
-   if($differenza->format('%a')<=7){
+   if($differenza->format('%a')<=$this->minimum_range){
         $day_add = 30 - $differenza->format('%a');
         $stringa = '+'.$day_add. 'day';
         $end = $end->modify($stringa);
@@ -2733,9 +2732,9 @@ function tot_volume2(){
    $begin = new DateTime($filter_view["startDate"]);
    $end = new DateTime($filter_view["endDate"]);
 
-////////////////////////////////////
+////////////////// Defect table misaligned //////////////////
    $differenza = $begin->diff($end);
-   if($differenza->format('%a')<=7){
+   if($differenza->format('%a')<=$this->minimum_range){
         $day_add = 30 - $differenza->format('%a');
         $stringa = '+'.$day_add. 'day';
         $end = $end->modify($stringa);
