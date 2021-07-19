@@ -62,6 +62,7 @@ table.dataTable tfoot th {
   height: 5px;
 }
 .loader {
+  position:absolute;
   border: 10px solid #f3f3f3;
   border-radius: 50%;
   border-top: 10px solid #3498db;
@@ -70,6 +71,11 @@ table.dataTable tfoot th {
   height: 120px;
   -webkit-animation: spin 1s linear infinite; /* Safari */
   animation: spin 1s linear infinite;
+}
+
+footer {
+      padding-top: 5px;
+      padding-bottom: 5px;
 }
 
 /* Safari */

@@ -1,8 +1,9 @@
+             
 <!-- footer content -->
 <footer>
   <div class="pull-right">
 
-    <a href="mailto:francesco.forti@windtre.it?Subject=Segnalazioni%20e%20Consigli" target="_top" title="Invia mail">
+    <a href="mailto:ignazio.toto.fullsystem@windtre.it?Subject=Segnalazioni%20e%20Consigli" target="_top" title="Invia mail">
       Tool Campaign - Powered by Device Engineering </a>
     <?php #print_r($_SESSION); 
     ?>
@@ -87,6 +88,7 @@
     var change_squads = 0;
     var change_channels = 0;
     var change_states = 0;
+    var table_pianificazione = $('#datatable-pianificazione').DataTable();
     <?php 
   //print_r($_SERVER['REQUEST_URI']); 
       $datatable = 'pianificazione';
@@ -98,6 +100,7 @@
       }
     ?>
     var datatable_name = '<?php echo $datatable; ?>';
+    
 
     
 
@@ -453,13 +456,13 @@
     
 
 
-    function campagnTable_new() {
+    function campagnTable() {
       console.log('startdate in camp ' + select_startDate);
       console.log('enddate in camp ' + select_endDate);
       console.log('sprint inside camp ' + selected_sprint);
 
       $("#content_response").fadeOut();
-      $('.loader').show();
+      //$('.loader').show();
       $.ajax({
         url: "get_Filter.php",
         method: "POST",
@@ -479,10 +482,36 @@
           $("#content_response").fadeOut();
           $("#content_response").fadeIn();
           $("#content_response").html(data);
-          $('.loader').hide();
-        var table_pianificazione = $('#datatable-pianificazione').DataTable({
+          //$('.loader').hide();
+          dataTable();
+          
+        },
+        error: function(data) {
+          console.log('An error occurred.');
+          console.log(data);
+        }
+      });
+    }
+
+    function dataTable() {
+      console.log('startdate in camp ' + select_startDate);
+      console.log('enddate in camp ' + select_endDate);
+      console.log('sprint inside camp ' + selected_sprint);
+
+      $("#datatable-pianificazione").fadeOut();
+      //$('.loader').show();
+      
+          $("#datatable-pianificazione").fadeOut();
+          $("#datatable-pianificazione").fadeIn();
+          
+          //$('.loader').hide();
+          var table_pianificazione = $('#datatable-pianificazione').DataTable({                      
             processing: true,
-            serverSide: true,
+            language: {processing: '<img src="images/ajax.gif">'},                       
+            //serverSide: true,
+            //searching: true,
+            filter: true, 
+            // info: true,
             ajax: {
                 url: "get_FilterData.php?datatable="+datatable_name,
                 data: {
@@ -498,124 +527,18 @@
                 },
                 type: "POST"
             },
-            scrollY: "430px",
-            //deferRender: true,
-            //orderClasses: false,
-            //scrollY: '50vh',
-            
-            scrollX: true,
-            scrollCollapse: true,
-            paging: false,
-            dom: 'Bfrtip',   
-                      
-           
-            buttons: [
-            {              
-              extend: 'colvis',
-              className: 'btn-xs btn-primary',
-              text: '<i class="fa fa-table"></i> Vista Colonne', 
-              titleAttr: 'Seleziona le colonne da visualizzare', 
-            }
-          
-          ],
-
-            columnDefs: [
-                             
-                { 
-                    
-                  targets: 0,
-                  searchable: false,
-                  orderable: false,              
-                  //width: 35,
-              },
-              {      
-                  targets: 1,                   
-                  searchable: false,                  
-                  orderable: false,
-                  visible: false,
-              },
- 
-                         
-            ],
-          
-            order: [1, 'asc'],            
-            ordering: <?php if($datatable=="pianificazione") {echo "false,";} elseif($datatable=="gestione"){echo "true,";}else{echo "true,";}?>
-            //ordering: true,
-
-          });
-          /*
-          $('#table_pianificazione').dataTable( {
-              
-              'drawCallback': function () {
-                      //$( 'table_pianificazione tbody tr td' ).css( 'padding', '0px 0px 0px 0px' );
-                    $( 'table_pianificazione tbody tr td' ).css( 'height', '4px');  
-                  }
-                  
-          } );
-    */
-          // table_pianificazione.columns.adjust().responsive.recalc();
-         
-         // console.log(' conteggio righe '+ table_pianificazione.rows().count());
-          var tot_rows = parseInt(table_pianificazione.rows().count());
-          if(datatable_name==='pianificazione' && tot_rows>0){
-            tot_rows = parseInt(table_pianificazione.rows().count()-1);
-          }
-          if(document.getElementById('conteggio_righe')){
-             document.getElementById('conteggio_righe').textContent = '   filtrate n°' + tot_rows + '';
-             document.getElementById('datatable-pianificazione_info').textContent = ' Campagne filtrate n°' + tot_rows + '';
-          }
-
-          
-        },
-        error: function(data) {
-          console.log('An error occurred.');
-          console.log(data);
-        }
-      });
-    }
-
-
-    function campagnTable() {
-      console.log('startdate in camp ' + select_startDate);
-      console.log('enddate in camp ' + select_endDate);
-      console.log('sprint inside camp ' + selected_sprint);
-
-      $("#content_response").fadeOut();
-      $('.loader').show();
-      $.ajax({
-        url: "get_Filter.php",
-        method: "POST",
-        data: {
-          sprint: selected_sprint,
-          startDate: select_startDate,
-          endDate: select_endDate,
-          selected_stacks: selected_stacks,
-          selected_squads: selected_squads,
-          selected_states: selected_states,
-          selected_channels: selected_channels,
-          selected_typologies: selected_typologies,
-          datatable: datatable_name,
-        },
-        dataType:"html",    
-        success: function(data) {
-          $("#content_response").fadeOut();
-          $("#content_response").fadeIn();
-          $("#content_response").html(data);
-          $('.loader').hide();
-        var table_pianificazione = $('#datatable-pianificazione').DataTable({
-            //"processing": true,
-            //"serverSide": true,
-            scrollY: "430px",
             deferRender: true,
+            // senza tfoot
+            // scrollY: "430px",
+            // con tfoot
+            scrollY: "400px",            
             //orderClasses: false,
             //scrollY: '50vh',
             
             scrollX: true,
             scrollCollapse: true,
             paging: false,
-            dom: 'Bfrtip',   
-                      
-           
+            dom: 'Bfrtip',                                    
             buttons: [
             {              
               extend: 'colvis',
@@ -632,56 +555,165 @@
                     
                   targets: 0,
                   searchable: false,
-                  orderable: false,              
-                  //width: 35,
+                  orderable: false,  
+                  data: null,
+                  //defaultContent: "<button class=\"btn btn-xs btn-primary\" type=\"submit\" onclick=\"manageCamp('1', 'modifica','1')\"  data-placement=\"bottom\" data-toggle=\"tooltip\" data-original-title=\"Modifica\" title=\"Modifica\"><i class=\"fa fa-edit\" ></i></button><button class=\"btn btn-xs btn-default\" type=\"submit\" onclick=\"manageCamp('id1','duplica','pemission')\"  data-placement=\"bottom\" data-toggle=\"tooltip\" data-original-title=\"Duplica\" title=\"Duplica\"><i class=\"fa fa-clone\" ></i></button><button class=\"btn btn-xs btn-danger\" type=\"submit\" onclick=\"manageCamp('id','elimina','perm','stato_elimina')\"  data-placement=\"bottom\" data-toggle=\"tooltip\" data-original-title=\"Elimina\" title=\"Elimina\"><i class=\"fa fa-trash-o\"></i></button>",
+                  defaultContent: "<button id=\"button-modifica\" class=\"btn btn-xs btn-primary\"  data-placement=\"bottom\" data-toggle=\"tooltip\" data-original-title=\"Modifica\" title=\"Modifica\"><i class=\"fa fa-edit\" ></i></button><button id=\"button-duplica\" class=\"btn btn-xs btn-default\"   data-placement=\"bottom\" data-toggle=\"tooltip\" data-original-title=\"Duplica\" title=\"Duplica\"><i class=\"fa fa-clone\" ></i></button><button id=\"button-elimina\" class=\"btn btn-xs btn-danger\" data-placement=\"bottom\" data-toggle=\"tooltip\" data-original-title=\"Elimina\" title=\"Elimina\"><i class=\"fa fa-trash-o\"></i></button>",
+                  
+                  
               },
               {      
                   targets: 1,                   
                   searchable: false,                  
-                  orderable: false,
+                  // orderable: false,
                   visible: false,
               },
- 
-                         
+     
+                           
             ],
           
             order: [1, 'asc'],            
-            ordering: <?php if($datatable=="pianificazione") {echo "false,";} elseif($datatable=="gestione"){echo "true,";}else{echo "true,";}?>
-            //ordering: true,
+            ordering: <?php if($datatable=="pianificazione") {echo "false";} elseif($datatable=="gestione"){echo "true";}else{echo "true";}?>,
+            // ordering: true,
 
-          });
-          /*
-          $('#table_pianificazione').dataTable( {
+           rowCallback:  function(row, data, index, column) {
+             if(datatable_name=='pianificazione'){
+                    stato = data[11];   
+                    $(row).children('td').each( (col, td) => {
+                        //console.log('quaaaa ' +table_pianificazione.column( col ).header().textContent);
+                        // Sun columns
+                        var substring = "Sun";
+                        if(table_pianificazione.column( col+1).header().textContent.indexOf(substring) !== -1){
+                            $(td).css('background-color', 'gray');
+                        }
+                        // Column Vol(K)
+                        if(col==11){
+                            $(td).css('font-weight',  'bold');
+                            $(td).css('color', 'black');
+                        }
+                        if(stato === 'ESEGUITA'){
+                          if(col>11 && $(td).text() !=''){
+                              //$('td', row).css('background-color', 'green');
+                              $(td).css('background-color', 'lime');
+                              $(td).css('font-weight',  'bold');
+                              $(td).css('color', 'black');
+                          }
+                        }
+                        else if(stato === 'RICHIESTA'){
+                          if(col>11 && $(td).text() !=''){
+                              //$('td', row).css('background-color', 'green');
+                              $(td).css('background-color', 'red');
+                              $(td).css('font-weight',  'bold');
+                              $(td).css('color', 'black');
+                              //$(row).find('td:eq('+col+')').css('background-color', 'green');
+                          }
+                        }
+                        else if(stato === 'LAVORABILE'){
+                          if(col>11 && $(td).text() !=''){
+                              //$('td', row).css('background-color', 'green');
+                              $(td).css('background-color', 'cyan');
+                              $(td).css('font-weight',  'bold');
+                              $(td).css('color', 'black');
+                              //$(row).find('td:eq('+col+')').css('background-color', 'green');
+                          }
+                        }
+                        else if(stato === 'CONFERMATA'){
+                          if(col>11 && $(td).text() !=''){
+                              //$('td', row).css('background-color', 'green');
+                              $(td).css('background-color', 'yellow');
+                              $(td).css('font-weight',  'bold');
+                              $(td).css('color', 'black');
+                              //$(row).find('td:eq('+col+')').css('background-color', 'green');
+                          }
+                        }
+                        // Last Row Totale
+                        else if(stato === 'Totale'){
+                            if(col==0){
+                                $('td:eq(0)', row).html( '' );
+                                //$('td', row).css('background-color', 'green');
+                                //$(td).css('background-color', 'yellow');
+
+                                //$(row).find('td:eq('+col+')').css('background-color', 'green');
+                            }
+                            else if(col>11){
+                                $(td).css('font-weight',  'bold');
+                                $(td).css('color', 'black');
+                            }
+
+                        }
+                        else{
+                            if(col>11 && $(td).text() !=''){
+                                //$('td', row).css('background-color', 'green');
+                                //$(td).css('background-color', 'yellow');
+                                //$(td).css('', 'black');                                
+                                $(td).css('font-weight',  'bold');
+                                $(td).css('color', 'black');
+                                //$(row).find('td:eq('+col+')').css('background-color', 'green');
+                            }
+                        }
+                        
+                        //console.log( '[' +index+ ',' +col+ '] => ' + $(td).text());                        
+                      });  
+
+                      
+                    }
+              },
+          //rendering row footer with total          
+          footerCallback: function(row, data, start, end, display) {
+              var api = this.api();
+            
+              api.columns('.sum', {
+                page: 'current'
+              }).every(function() {
+                var sum = this
+                  .data()
+                  .reduce(function(a, b) {
+                    var x = parseFloat(a.toString().replace('.','')) || 0;
+                    var y = parseFloat(b.toString().replace('.','')) || 0;
+                    return x + y;
+                  }, 0);
+                //console.log("somma "+sum); //alert(sum);
+                $(this.footer()).html(sum.toLocaleString('it-IT'));
+              });
               
-              'drawCallback': function () {
-                      //$( 'table_pianificazione tbody tr td' ).css( 'padding', '0px 0px 0px 0px' );
-                    $( 'table_pianificazione tbody tr td' ).css( 'height', '4px');  
-                  }
-                  
-          } );
-    */
-          // table_pianificazione.columns.adjust().responsive.recalc();
+              //console.log('ciclo row ' + row +' data '+ data +' start '+ start +' end '+ end)
+              document.getElementById('conteggio_righe').textContent = '   filtrate n°' + end + '';
+              
+            }           
+                                      
          
-         // console.log(' conteggio righe '+ table_pianificazione.rows().count());
-          var tot_rows = parseInt(table_pianificazione.rows().count());
-          if(datatable_name==='pianificazione' && tot_rows>0){
-            tot_rows = parseInt(table_pianificazione.rows().count()-1);
-          }
-          if(document.getElementById('conteggio_righe')){
-             document.getElementById('conteggio_righe').textContent = '   filtrate n°' + tot_rows + '';
-             document.getElementById('datatable-pianificazione_info').textContent = ' Campagne filtrate n°' + tot_rows + '';
-          }
-
-          
-        },
-        error: function(data) {
-          console.log('An error occurred.');
-          console.log(data);
-        }
       });
-    }
 
+
+       $('#datatable-pianificazione tbody').on( 'click', '#button-modifica', function () {
+            var data = table_pianificazione.row( $(this).parents('tr') ).data();
+            action = data[0].split("_");
+            //manageCamp(id, 'modifica',permesso,stato_elimina);
+            manageCamp(action[0], 'modifica',action[1]);
+            // alert( action[0] +"  modifica : "+ action[1] );
+        } );
+      $('#datatable-pianificazione tbody').on( 'click', '#button-duplica', function () {
+            var data = table_pianificazione.row( $(this).parents('tr') ).data();
+            action = data[0].split("_");
+            //manageCamp(id, 'modifica',permesso,stato_elimina);
+            manageCamp(action[0], 'duplica',action[1]);                        
+        } );
+      $('#datatable-pianificazione tbody').on( 'click', '#button-elimina', function () {
+            var data = table_pianificazione.row( $(this).parents('tr') ).data();
+            action = data[0].split("_");
+            //manageCamp(id, 'modifica',permesso,stato_elimina);
+            manageCamp(action[0], 'elimina', action[1], action[2]);                      
+        } );    
+     $('#datatable-pianificazione tbody').on( 'click', '#button-open', function () {
+            var data = table_pianificazione.row( $(this).parents('tr') ).data();            
+            action = data[0].split("_");
+            //manageCamp(id, 'modifica',permesso,stato_elimina);
+            manageCamp(action[0], 'open');
+        } ); 
     
+    
+}
+
     // bootstrap-daterangepicker     
     moment.locale('it');
     moment().format('LL');
@@ -1008,6 +1040,28 @@ function countChecked() {
         $('.bulk-actions').hide();
     }
 }
+
+
+$(document).ready(function() {
+           
+        var table_pianificazione = $('#datatable-pianificazione').DataTable();     
+                console.log(' conteggio righe '+ table_pianificazione.rows().count());
+
+                var tot_rows = parseInt(table_pianificazione.rows().count());
+                if(tot_rows>0){
+                    tot_rows = parseInt(table_pianificazione.rows().count()-1);
+                }
+                if(document.getElementById('conteggio_righe')){
+                    document.getElementById('conteggio_righe').textContent = '   filtrate n°' + tot_rows + '';
+                    document.getElementById('datatable-pianificazione_info').textContent = ' Campagne filtrate n°' + tot_rows + '';
+                }
+            
+            $('#datatable-pianificazione tbody').on( 'click', 'button', function () {
+            
+                var data = table.row( $(this).parents('tr') ).data();
+                alert( data[2] +"'s salary is: "+ data[ 5 ] );
+            } );
+    });
 
 
 </script>  
