@@ -32,11 +32,11 @@ else if($datatable=='gestioneStato'){
 
 
 if(count($list)>0  && $datatable=='pianificazione'){
-    $campaign->tablePianificazione($list);
-    //$campaign->tablePianificazioneHeader($list);
+    //$campaign->tablePianificazione($list);
+    $campaign->tablePianificazioneHeader($list);
 }
 else if(count($list)>0  && $datatable=='gestione'){ 
-    $campaign->tableGestione($list);
+    $campaign->tableGestioneHeader($list);
 }
 else if(count($list)>0  && $datatable=='gestioneStato'){ 
     $campaign->tableGestioneStato($list);

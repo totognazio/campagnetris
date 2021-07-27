@@ -36,6 +36,7 @@ table.dataTable.compact tr td, table.dataTable.compact tr td {
  </style>  
  
 
+
 <?php
 include_once './classes/form_class.php';
 include_once './classes/funzioni_admin.php';
@@ -53,7 +54,6 @@ $hello_name = ($page_protect->user_full_name != "") ? $page_protect->user_full_n
 if (isset($_GET['action']) && $_GET['action'] == "log_out") {
     $page_protect->log_out(); // the method to log off
 }
-
 //rename("file/5fd3a759daa6e","file/19572");
 //copy ("file/5fd3a405b8b32","file/19573");
 //unlink("file/5fd3a405b8b32");
@@ -63,16 +63,28 @@ $channels = $funzione->get_list_select('channels');
 $stacks = $funzione->get_list_select('campaign_stacks');
 //print_r($stacks);
 $typlogies = $funzione->get_list_select('campaign_types');
-//$squads = $funzione->get_squads_gestione();
 $squads = $funzione->get_list_select('squads');
-
 $states = $funzione->get_list_select('campaign_states'); 
 //$sprints = $funzione->get_sprints();
 $sprints = $funzione->get_list_select('sprints'); 
-//print_r($sprints);
-$form->head_page("Gestione Campagne", "Filtro");
+// print_r($sprints);
+$form->head_page_compat("Pianificazione Campagne", "Filtro");
 //print_r($_SESSION);  
 //print_r($_POST); 
+
+//solo al primo accesso imposto lo Squad 
+        if(!isset($_SESSION['filter'])){
+          $page_protect = new Access_user;
+          $sql_squad = '';
+          $job_role = $page_protect->get_job_role();
+          if ($job_role==2 OR $job_role==6) {
+              $squad_id = $page_protect->get_squad();
+              
+              $_SESSION['filter']['squads'][0] = $squad_id;
+          }
+        }
+////////////////////
+                
                 if (isset($result)) {
                     //echo "<div class=\"info\">";
                     //echo "<h2 style=\"color: #ff0000\">" . $result . "</h2>";
@@ -80,29 +92,27 @@ $form->head_page("Gestione Campagne", "Filtro");
                     echo '<div class="alert alert-info alert-dismissible fade in" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
                     </button>
-                    <strong>'. $result .'</strong></div>
-                  </div>
+                    <strong>'. $result .'</strong></div>                  
                     ';
                 }
               
-
 ?>
-                <form action="index.php?page=gestioneCampagne2" method="post" id="nofilter">
+                <form action="index.php?page=pianificazione2" method="post" id="nofilter">
                             <input type="hidden" name="nofiletr" value="nofiletr" />                            
                 </form>
-                    <br>
-                  <div class="well" style="overflow: auto">
-                                
-                      <div class="col-md-6 col-sm-6 col-xs-12"><h4>Date Range</h4>
+                 <!--<div class="well" style="overflow: auto">-->                                                
+    <div class="well" style="overflow: auto">
+                  <div class="col-md-6 col-sm-6 col-xs-12"><h4>Date Range</h4>
                         <div id="reportrange_right" class="pull-left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                           <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                           <span id="datarange">December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
                         </div>
                       </div>
-                     <div class="col-md-2 col-sm-2 col-xs-12">
+                     <div class="col-md-2 col-sm-6 col-xs-12">
                                 <h4>Sprints</h4>
                              <select id="sprints" name="sprints" class="select2_single form-control">        
                               <?php
+                              
                                    if(!empty($_SESSION['filter']['sprint'])){
                                        $sp = $funzione->get_sprint($_SESSION['filter']['sprint']);
                                        echo '<option value="' . $sp['id'] . '" selected>' . $sp['name'] . '</option>';
@@ -112,9 +122,10 @@ $form->head_page("Gestione Campagne", "Filtro");
                                        echo '<option value="' . $sp['id'] . '" selected>' . $sp['name'] . '</option>';
                                    }
                               ?>
+                              
                           </select>
-                    </div>       
-                     </div>          
+                    </div>
+        </div>                             
                 
                     <div class="col-md-12">
                             <div class="col-md-2 col-sm-2 col-xs-12">
@@ -165,14 +176,12 @@ $form->head_page("Gestione Campagne", "Filtro");
                                 </p>
                                 
                             </div> 
-                        </div>                    
-                       
+            </div>  
+                     
                     
 <?php 
 $form->close_row();
-$form->open_row("Lista Campagne", "Filtrate");
-
-
+$form->open_row("Pianificazione Campagne", "Filtrate");
 $livello_accesso = $page_protect->get_job_role();
 if ($livello_accesso > 1) {
     ?>
@@ -182,28 +191,65 @@ if ($livello_accesso > 1) {
                             <input type="hidden" name="id" value="0" />
                 </form>
                 
+                
                 <?php }
 if ($livello_accesso > 0) {
-    ?>
-
+    ?>  
+                <form action="export_file_excel.php" method="post" id="exportpianificazione">
+                        <input type="hidden" name="funzione" value="export_pianificazione">
+                </form>
                 <form action="export_file_excel.php" method="post" id="exportgestione">
                         <input type="hidden" name="funzione" value="export_gestione">
                 </form>
-                <div style="margin-left: 10px;">
+                <form action="export_file_excel.php" method="post" id="exportcapacity">
+                        <input type="hidden" name="funzione" value="export_capacity">
+                </form>
+               <!-- 
+                <form action="export_excel_pianificazione.php" method="post" id="exportpianificazione">
+                        <input type="hidden" name="funzione" value="export_pianificazione">
+                </form>-->
                 <!--button Excel -->
 <?php }
-if ($livello_accesso > 1) {
-    ?>
-<button class="btn btn btn-xs btn-warning" type="submit" onclick="manageCamp('','new');" data-placement="top" data-toggle="tooltip" data-original-title="Inserisci nuova Campagna"><i class="fa fa-plus-square"></i> Nuova Campagna</button>
-<?php } 
-if ($livello_accesso > 1) {
-    ?>
-<!--<button class="btn btn btn-xs btn-success" id="createXLSX"  data-placement="top" data-toggle="tooltip" data-original-title="Export Gestione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>-->
-<button class="btn btn btn-xs btn-success" onclick="manageCamp('','exportgestione');" data-placement="top" data-toggle="tooltip" data-original-title="Export Gestione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>
 
-<?php }?>
+if ($livello_accesso > 1) { 
+    ?>
+<div class="col-md-12 col-sm-12 col-xs-12">
+<div class="btn-group">    
+<button class="btn btn btn-xs btn-warning" type="submit" onclick="manageCamp('','new');" data-placement="top" data-toggle="tooltip" data-original-title="Inserisci nuova Campagna"><i class="fa fa-plus-square"></i> Nuova Campagna</button>
+
 </div>
-<div class="loader"></div>
+<?php } 
+if ($livello_accesso > 0) {
+    ?>
+<!--<button class="btn btn btn-xs btn-success" id="createXLSX"  data-placement="top" data-toggle="tooltip" data-original-title="Export Pianificazione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>
+<button class="btn btn btn-xs btn-success" onclick="manageCamp('','exportpianificazione');" data-placement="top" data-toggle="tooltip" data-original-title="Export Pianificazione"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export</button>-->
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-success btn-xs"><i class="fa fa-download"></i> Download </button>
+                                                <button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    <span class="caret"></span>
+                                                    <span class="sr-only">Toggle Dropdown</span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li> <a href="#" onclick="manageCamp('','exportpianificazione');" > Export Pianificazione</a> 
+                                                    </li>
+                                                    <?php 
+                                                    if ($livello_accesso > 1) {
+                                                    ?>
+                                                    <li class="divider"></li>
+                                                    <li><a href="#" onclick="manageCamp('','exportgestione');" > Export Gestione</a>
+                                                    </li>
+                                                    <?php } ?>
+                                                    <li class="divider"></li>
+                                                    <li><a href="#" onclick="manageCamp('','exportcapacity');" > Export Campaign Proposal </a>
+                                                    </li>
+                                                </ul>                                            
+                                                
+                                            </div>
+<?php }?>
+
+</div>
+<p style="padding-top: 16px;"></p>
+<!--<div class="loader"></div>-->
         <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaModifica">		     
             <input type="hidden" name="azione" value="modifica">
         </form>      
@@ -213,34 +259,19 @@ if ($livello_accesso > 1) {
                         <form action="index.php?page=pianificazione2"  method="post" id="campagnaElimina">                             
                             <input type="hidden" name="azione" value="elimina" />                                                                
                         </form>     
-                                                 <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaOpen"> 
+                        <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaOpen"> 
                         
                             <input type="hidden" name="azione" value="open" />                                                                
                         </form>  
 <div class="col-md-12 col-sm-12 col-xs-12" id="content_response">
 <!--<div  id="content_response" style="clear:both;min-height: 450px; max-height: 600px; width: 100%;overflow: auto;">-->
 
-
 </div>
 
-<?php 
 
-$form->close_page(); ?> 
+<?php $form->close_page(); ?> 
 
 <script>
-
-  
-/*
-var btn = document.getElementById("createXLSX");
-var fileName = "<?php //echo date("Ymd").'_export_gestione';?>";
-var fileType = "xlsx";
-btn.addEventListener("click", function () {
-  var table = document.getElementById("datatable-pianificazione");
-  var wb = XLSX.utils.table_to_book(table, { sheet: "Sheet JS", type:'binary', raw: false});
-
-  return XLSX.writeFile(wb, null || fileName + "." + (fileType || "xlsx"));
-});
-*/
 
     function conferma(stato, permesso_elimina) {
         if (permesso_elimina == 0) {
@@ -274,4 +305,7 @@ btn.addEventListener("click", function () {
         else
             document.location.href = './index.php?page=inserisciCampagna2';
     }
+
+
+    
   </script>

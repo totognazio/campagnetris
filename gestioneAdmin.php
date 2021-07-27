@@ -627,12 +627,23 @@ switch ($table_name) {
                 echo "<input type=\"hidden\"  name=\"tabella\" value=\"" . $table_name . "\" />";
                 echo "<input type=\"hidden\"  name=\"id\" value=\"" . $value['id'] . "\" />";
                 echo "</form></td>";
-                echo "<td align=\"center\"><form name=\"eliminaListaPreview0\" id=\"eliminaListaPreview0\" action=\"./index.php?page=gestioneAdmin\" onsubmit=\"return conferma()\" method=\"post\" style=\"margin:0px;\">";
-                echo "<input type=\"image\" alt=\"Elimina\" title=\"Elimina elemento\" src=\"images/Elimina.png\" value=\"Elimina\" />";
-                echo "<input type=\"hidden\"  name=\"azione\" value=\"elimina\" />";
-                echo "<input type=\"hidden\"  name=\"tabella\" value=\"" . $table_name . "\" />";
-                echo "<input type=\"hidden\"  name=\"id\" value=\"" . $value['id'] . "\" /></form>";
-                echo "</td></tr>";
+                if($table_name == 'channels' || $table_name == 'campaign_states' || $table_name == 'job_roles'){
+                    echo "<td align=\"center\">";
+                    echo "<input type=\"image\" alt=\"Elimina\" title=\"Elimina elemento\" src=\"images/Elimina.png\" value=\"Elimina\" />";
+                    echo "<input type=\"hidden\"  name=\"azione\" value=\"elimina\" />";
+                    echo "<input type=\"hidden\"  name=\"tabella\" value=\"" . $table_name . "\" />";        
+                    echo "</td></tr>";  
+                }
+                else{
+                    echo "<td align=\"center\"><form name=\"eliminaListaPreview0\" id=\"eliminaListaPreview0\" action=\"./index.php?page=gestioneAdmin\" onsubmit=\"return conferma()\" method=\"post\" style=\"margin:0px;\">";
+                    echo "<input type=\"image\" alt=\"Elimina\" title=\"Elimina elemento\" src=\"images/Elimina.png\" value=\"Elimina\" />";
+                    echo "<input type=\"hidden\"  name=\"azione\" value=\"elimina\" />";
+                    echo "<input type=\"hidden\"  name=\"tabella\" value=\"" . $table_name . "\" />";
+                    echo "<input type=\"hidden\"  name=\"id\" value=\"" . $value['id'] . "\" /></form>";
+                    echo "</td></tr>";
+
+                }
+
             }
         }
         ?>

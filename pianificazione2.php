@@ -29,6 +29,10 @@ table.dataTable.compact thead th, table.dataTable.compact thead td {
     padding-left: 2px;
     font-size: 11px;
 }
+table.dataTable.compact tfoot th, table.dataTable.compact tfoot td {
+    padding-left: 2px;
+    font-size: 11px;
+}
 
 table.dataTable.compact tr td, table.dataTable.compact tr td {
     font-size: 11px;
@@ -251,7 +255,7 @@ if ($livello_accesso > 0) {
 
 </div>
 <p style="padding-top: 16px;"></p>
-<div class="loader"></div>
+<!--<div class="loader"></div>-->
         <form action="index.php?page=inserisciCampagna2" method="post" id="campagnaModifica">		     
             <input type="hidden" name="azione" value="modifica">
         </form>      
@@ -307,6 +311,7 @@ if ($livello_accesso > 0) {
         else
             document.location.href = './index.php?page=inserisciCampagna2';
     }
+
 
     
   </script>

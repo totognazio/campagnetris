@@ -9,7 +9,7 @@ date_default_timezone_set('Europe/Rome');
 
 //session_start();
 // set timeout period in seconds (600 = 10 minutes in seconds)
-$inactive = 2400;
+$inactive = 4800;
 // check to see if $_SESSION['timeout'] is set
 
 if (isset($_SESSION['timeout'])) {

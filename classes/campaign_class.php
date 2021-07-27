@@ -1738,19 +1738,115 @@ LEFT JOIN users ON `user_id` = users.id
                             <th>Canale</th>
                             <th>Data_inizio</th>                                                  
                             <th>Stato</th>
-                            <th>Vol. (k)</th>
+                            <th class="sum">Vol. (k)</th>
                         <?php $this->datePeriod(); ?>
                             </tr>
                         </thead>
-                        <tbody>
-                            
-    
-    </tbody></table>
+                        <tbody>                        
+    </tbody>
+    <tfoot>
+                            <tr>                            
+                            <th></th> 
+                            <th></th>                            
+                            <th></th>  
+                            <th></th>                          
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>                            
+                            <th></th>
+                            <th></th>                                                  
+                            <th>Totale (K)</th>
+                            <th class="sum"></th>
+                        <?php $this->datePeriod(); ?>
+                            </tr>
+        </tfoot>
+    </table>
     <?php
          
     }
+function tableGestioneData($list) {    
+    // print_r($list);                                    
+    $page_protect = new Access_user;
+    $string = '';
+    $riga = 1;
+    $tot_volume = $this->tot_volume();
+    $tot_volume['totale'] = 0;
+    $daterange = $this->daterange();
+    $user_info['job_role'] = $page_protect->get_job_role();
+    $user_info['squad_id'] = $page_protect->get_squad();
+    
+    $data = array();
+    $data_row = array();
+    
+        //print_r($list);              
+     foreach ($list as $key => $row) {
+        $stato_elimina = $row['elimina'];        
+        $permission = $page_protect->check_permission_fast($row['squad_id'], $user_info); 
+        $criteri = $this->getCriteriAll($row);
 
-    function tablePianificazioneData($list) {   
+        $data['azione'] = $row['id'].'_'.$permission.'_'.$stato_elimina;
+        $data['riga'] =  $riga; 
+        $data['stacks_nome'] = $row['stacks_nome'];
+        $data['sprint_nome'] = $this->sprint_find($row['data_inizio']);
+        $data['squad_nome'] = $row['squads_nome'];                
+        $data['nome_campagna'] = '<a href="#" id="button-open" data-placement="bottom" data-toggle="tooltip" title="Open">'.stripslashes($row['pref_nome_campagna']).'</a>';
+        $data['tipo_nome'] = $row['tipo_nome'];
+        $data['cod_campagna'] = $row['cod_campagna'];
+        $data['cod_comunicazione'] = $row['cod_comunicazione'];
+
+        $data['modality_nome'] = $row['modality_nome'];
+        $data['priority'] = $row['priority'];
+        $data['descrizione_target'] = $row['descrizione_target'];
+
+
+
+        $data['canale'] = $this->tableChannelLabel($row);
+        $data['tipo_leva'] =  $criteri['tipo_leva'];
+        $data['data_inizio'] = $row['data_inizio'];
+        $data['data_fine_validita_offerta'] = $row['data_fine_validita_offerta'];
+        $data['volume'] = $this->round_volume($row['volume']);        
+        $data['campaign_stato_nome'] = $row['campaign_stato_nome'];
+        $data['username'] = $row['username'];        
+        $data['data_inserimento'] = $row['data_inserimento'];
+        $data['stato'] = $criteri['stato'];
+        $data['tipo_offerta'] = $criteri['tipo_offerta'];
+        $data['tipo_contratto'] = $criteri['tipo_contratto'];
+        $data['consenso'] = $criteri['consenso'];
+        $data['mercato'] = $criteri['mercato'];
+        $data['frodatori'] = $criteri['frodatori'];        
+        $data['indicatore_dinamico'] = $row['indicatore_dinamico'];        
+        $data['control_group'] = $criteri['control_group'];
+         
+        $data_row[] = json_encode(array_values($data));
+        $riga++; 
+     }
+
+    $stringa = '[';
+    $first = true;
+    foreach ($data_row as $key => $value) {
+        if(!empty($value)){
+            if($first){
+            $stringa .= $value;
+            $first = false;
+            }
+            else {
+                $stringa .= ','.$value;
+            }
+        }
+        
+        
+    }
+    $stringa .= ']';
+    $output = '{"draw": 1,"recordsTotal": '.count($data_row).',"recordsFiltered": '.count($data_row).',"data": '.$stringa.'}';
+
+     return $output;
+ 
+    }    
+
+
+function tablePianificazioneData($list) {   
     // print_r($list);
 
     $page_protect = new Access_user;
@@ -1766,15 +1862,15 @@ LEFT JOIN users ON `user_id` = users.id
     $data_row = array();
             
      foreach ($list as $key => $row) {
-        $stato_elimina = $row['elimina'];
-        
+        $stato_elimina = $row['elimina'];        
         $permission = $page_protect->check_permission_fast($row['squad_id'], $user_info); 
-        $data['azione'] = $row['id'].'_'.$permission;
+        $data['azione'] = $row['id'].'_'.$permission.'_'.$stato_elimina;
         $data['riga'] =  $riga; 
         $data['stacks_nome'] = $row['stacks_nome'];
         $data['sprint_nome'] = $this->sprint_find($row['data_inizio']);
         $data['squad_nome'] = $row['squads_nome'];
-        $data['nome_campagna'] = $row['id'].'_'.$row['pref_nome_campagna'];
+        
+        $data['nome_campagna'] = '<a href="#" id="button-open" data-placement="bottom" data-toggle="tooltip" title="Open">'.stripslashes($row['pref_nome_campagna']).'</a>';
         $data['tipo_nome'] = $row['tipo_nome'];
         $data['cod_campagna'] = $row['cod_campagna'];
         $data['cod_comunicazione'] = $row['cod_comunicazione'];
@@ -1792,13 +1888,13 @@ LEFT JOIN users ON `user_id` = users.id
         foreach($daterange as $key=>$daytimestamp){
                
                 if(isset($volume_giorno[$daytimestamp])){  
-                    $data[$daytimestamp] = strtolower($row['colore']).'_'.$this->round_volume($volume_giorno[$daytimestamp]);          
-                    
+                    //$data[$daytimestamp] = strtolower($row['colore']).'_'.$this->round_volume($volume_giorno[$daytimestamp]);          
+                    $data[$daytimestamp] = $this->round_volume($volume_giorno[$daytimestamp]); 
                     $tot_volume[$daytimestamp] =  $tot_volume[$daytimestamp] + $volume_giorno[$daytimestamp];
                 } 
                 else {
-                    //$data[$daytimestamp] = $this->bgcolor($daytimestamp); 
-                    $data[$daytimestamp] = $daytimestamp;         
+                    // $data[$daytimestamp] = $this->bgcolor($daytimestamp); 
+                    $data[$daytimestamp] = '';         
                 }
         }
 
@@ -1818,7 +1914,7 @@ LEFT JOIN users ON `user_id` = users.id
         $data['cod_comunicazione'] = '';
         $data['canale'] = '';
         $data['data_inizio'] = '';
-        $data['campaign_stato_nome'] = '';
+        $data['campaign_stato_nome'] = 'Totale';
         $data['volume'] = $this->round_volume($tot_volume['totale']);
 
      foreach($daterange as $key=>$daytimestamp){
@@ -1829,8 +1925,9 @@ LEFT JOIN users ON `user_id` = users.id
              $data[$daytimestamp] = 0;
          }
      }
-
+     
     $data_row[] = json_encode(array_values($data));
+    
     //$data_row[] = array_values($data);
     /*
     $output = array(
@@ -1856,12 +1953,13 @@ LEFT JOIN users ON `user_id` = users.id
         
     }
     $stringa .= ']';
-    $output = '{"draw": 1,"recordsTotal": '.$riga.',"recordsFiltered": '.$riga.',"data": '.$stringa.'}';
+    $output = '{"draw": 1,"recordsTotal": '.count($data_row).',"recordsFiltered": '.count($data_row).',"data": '.$stringa.'}';
 
      return $output;
      
     }
 
+    
 
     function tablePianificazione($list) {   
     // print_r($list);
@@ -1910,7 +2008,11 @@ LEFT JOIN users ON `user_id` = users.id
                     <td><?php echo $riga; ?></td><td><?php echo $row['stacks_nome'];?></td>
         <td><?php echo $this->sprint_find($row['data_inizio']);?></td>
         <td><?php echo $row['squads_nome'];?></td>
-        <td><a href="#" data-placement="bottom" data-toggle="tooltip" title="Open" onclick="manageCamp('<?php echo $row['id'];?>', 'open');"><?php echo stripslashes($row['pref_nome_campagna']);?></a></td>
+        <td>
+
+                        <a href="#" data-placement="bottom" data-toggle="tooltip" title="Open" onclick="manageCamp('<?php echo $row['id'];?>', 'open');"><?php echo stripslashes($row['pref_nome_campagna']);?></a>
+                
+                </td>
         <td><?php echo $row['tipo_nome'];?></td>
         <td><?php echo $row['cod_campagna'];?></td>
         <td><?php echo $row['cod_comunicazione'];?></td>
@@ -1935,7 +2037,7 @@ LEFT JOIN users ON `user_id` = users.id
                     $tot_volume[$daytimestamp] =  $tot_volume[$daytimestamp] + $volume_giorno[$daytimestamp];
                 } 
                 else {
-            ?>
+                        ?>
                         <td <?php echo $this->bgcolor($daytimestamp);?> ></td>
              <?php           
                 }
@@ -2218,7 +2320,7 @@ LEFT JOIN users ON `user_id` = users.id
     }
     
 
-
+    
  function tableGestione($list) {    
     // print_r($list);
             ?>                                                    
@@ -2324,7 +2426,54 @@ LEFT JOIN users ON `user_id` = users.id
         //return $string;
  
     }
-    
+ 
+    function tableGestioneHeader($list) {    
+    // print_r($list);
+            ?>                                                    
+                    <!--<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                    <table id="datatable-responsive" cellspacing="0" width="100%">
+                    <table id="datatable-scroll" class="table table-bordered nowrap">
+                    <table id="datatable-scroll" class="table table-bordered nowrap" style="width:100%">
+                    <table id="datatable-pianificazione" class="display compact table-bordered table-striped  table-hover no-margin" cellspacing="0" cellpadding="0">-->    
+                    <table id="datatable-pianificazione" class="display compact table-bordered text-nowrap table-hover no-margin nowrap" cellspacing="0" cellpadding="0" defer>
+                        <thead>
+                            <tr>
+                            <th class="not-export-col">Azione</th>
+                            <th>N°</th>
+                            <th>Stack</th> 
+                            <th>Sprint</th>                                                       
+                            <th>Squad</th>
+                            <th>Nome_Campagna</th>
+                            <th>Tipologia</th>                         
+                            <th>Cod. Camp.</th>                                                        
+                            <th>Cod. Com.</th>
+                            <th>Modalità</th>                            
+                            <th>Priorità</th>
+                            <th>Descrizione Attvità</th>
+                            <th>Canale</th>
+                            <th>Tipo</th>
+                            <th>Data Inizio Campagna</th>
+                            <th>Data Fine Campagna</th> 
+                            <th>Volume (k)</th>
+                            <th>Stato</th>
+                            <th>Username</th>
+                            <th>Data Inserimento</th>  
+                            <th>Stato</th>
+                            <th>Tipo Offerta</th>
+                            <th>Tipo Contratto</th>
+                            <th>Consenso</th>                            
+                            <th>Mercato</th>                            
+                            <th>Frodatori</th>                                                                                             
+                            <th>Indicatore Dinamico</th>                            
+                            <th>Control Group</th>                                                                                                                                  
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+      <?php
+    }
+ 
     
     function dropdown_button(){        
         //$permission = $page_protect->check_permission($row['squad_id']);
@@ -2606,7 +2755,7 @@ function datePeriod(){
    $begin = new DateTime($filter_view["startDate"]);
    $end = new DateTime($filter_view["endDate"]);
    
-////////////////// Defect table misaligned //////////////////
+////////////////////////////////////
    $differenza = $begin->diff($end);
    if($differenza->format('%a')<=$this->minimum_range){
         $day_add = 30 - $differenza->format('%a');
@@ -2620,7 +2769,7 @@ function datePeriod(){
    $daterange = new DatePeriod($begin, $interval ,$end);
 
    foreach($daterange as $date){
-       echo "<th>".$date->format("d D") . "</th>";
+       echo "<th class=\"sum\">".$date->format("d D") . "</th>";
    }
 }
 
@@ -2658,7 +2807,7 @@ function daterange(){
    $end = new DateTime($filter_view["endDate"]);
 
 
-////////////////// Defect table misaligned //////////////////
+////////////////////////////////////
    $differenza = $begin->diff($end);
    if($differenza->format('%a')<=$this->minimum_range){
         $day_add = 30 - $differenza->format('%a');
@@ -2669,7 +2818,7 @@ function daterange(){
    $differenza = $begin->diff($end);
 
    if($differenza->format('%a')<=$this->minimum_range){
-       $add_days = '+'.$this->minimum_range. ' day';
+        $add_days = '+'.$this->minimum_range. ' day';
         $end = $end->modify($add_days);
         //$end = $end->modify( '+7 day' );
    }
@@ -2700,7 +2849,7 @@ function tot_volume(){
    $begin = new DateTime($filter_view["startDate"]);
    $end = new DateTime($filter_view["endDate"]);
 
-////////////////// Defect table misaligned //////////////////
+////////////////////////////////////
    $differenza = $begin->diff($end);
    if($differenza->format('%a')<=$this->minimum_range){
         $day_add = 30 - $differenza->format('%a');
@@ -2732,7 +2881,7 @@ function tot_volume2(){
    $begin = new DateTime($filter_view["startDate"]);
    $end = new DateTime($filter_view["endDate"]);
 
-////////////////// Defect table misaligned //////////////////
+////////////////////////////////////
    $differenza = $begin->diff($end);
    if($differenza->format('%a')<=$this->minimum_range){
         $day_add = 30 - $differenza->format('%a');

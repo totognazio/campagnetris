@@ -1,4 +1,3 @@
-             
 <!-- footer content -->
 <footer>
   <div class="pull-right">
@@ -498,7 +497,7 @@
       console.log('enddate in camp ' + select_endDate);
       console.log('sprint inside camp ' + selected_sprint);
 
-      $("#datatable-pianificazione").fadeOut();
+      //$("#datatable-pianificazione").fadeOut();
       //$('.loader').show();
       
           $("#datatable-pianificazione").fadeOut();
@@ -531,7 +530,10 @@
             // senza tfoot
             // scrollY: "430px",
             // con tfoot
-            scrollY: "400px",            
+            scrollY: "400px",    
+
+            //orderClasses: false,
+            //scrollY: '50vh',          
             //orderClasses: false,
             //scrollY: '50vh',
             
@@ -639,6 +641,8 @@
                                 $(td).css('font-weight',  'bold');
                                 $(td).css('color', 'black');
                             }
+                            //elimino l'ultima riga del totale perchè aggiunta al tfoot
+                            $(td).remove();
 
                         }
                         else{
@@ -658,7 +662,31 @@
                       
                     }
               },
-          //rendering row footer with total          
+          //rendering row footer with total   
+          footerCallback: function(tfoot, data, start, end, display) {
+              var api = this.api();
+              var lastRow = api.rows().count();
+              for (i = 0; i < api.columns().count(); i++) {
+                if(i>11)
+                  $(tfoot).find('th').eq(i-1).html(api.cell(lastRow-1,i).data());
+              }
+              if(datatable_name=='pianificazione'){
+                conteggio = end-1;
+              }
+              else{
+                conteggio = end;
+              }
+                
+              //$(tbody).find('tr').eq(end).delete;
+                          
+          },
+          initComplete: function (data, start, end, display) {
+                  document.getElementById('conteggio_righe').textContent = '   filtrate n°' + conteggio + '';  
+                  document.querySelector('#datatable-pianificazione_info').textContent='   Campagne filtrate n° '+ conteggio + '';
+          }
+
+              
+          /* 
           footerCallback: function(row, data, start, end, display) {
               var api = this.api();
             
@@ -679,12 +707,14 @@
               //console.log('ciclo row ' + row +' data '+ data +' start '+ start +' end '+ end)
               document.getElementById('conteggio_righe').textContent = '   filtrate n°' + end + '';
               
-            }           
-                                      
+            }  
+            */                         
          
       });
 
 
+              //$("#datatable-pianificazione > tbody > tr:nth-last-child()").delete;    
+               
        $('#datatable-pianificazione tbody').on( 'click', '#button-modifica', function () {
             var data = table_pianificazione.row( $(this).parents('tr') ).data();
             action = data[0].split("_");
@@ -944,7 +974,8 @@
       
     });
 
-    $('#data_fine_validita_offerta').daterangepicker({
+
+  $('#data_fine_validita_offerta').daterangepicker({
       
       minDate: $('#data_inizio_campagna').data('daterangepicker').startDate,
       //startDate: min_data_offerta,
@@ -963,7 +994,7 @@
         firstDay: 1        
       }
     }, function(start, end, label) {
-          console.log('data_fine_validita_offerta '+ start.toISOString(), end.toISOString(), label);
+          // console.log('data_fine_validita_offerta '+ start.toISOString(), end.toISOString(), label);
           $('#data_fine_validita_offerta').data('daterangepicker').setStartDate(start.format('DD/MM/YYYY'));
     });
 

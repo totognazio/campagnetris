@@ -41,8 +41,8 @@ if (stripos($_SERVER['REQUEST_URI'],'campaign_cat_sott') !== false) { $cat_sottm
         <div class="menu_section">
     
     <ul class="nav side-menu">
-        <li><a href="#" ><i class="fa fa-dropbox"></i> Archivio Campagne  </a></li>
-        <li><a href="http://127.0.0.1/campagne_old/index.php?page=gestioneCampagne" target="_blank"><i class="fa fa-dropbox"></i> Archivio Campagne  </a></li>
+        <li><a href="http://ptcvw290.ced.h3g.it/campagneold/index.php" target="_blank"><i class="fa fa-dropbox"></i> Archivio Campagne  </a></li>
+        <!--<li><a href="http://device-tools.h3g.it/campagneold/index.php?page=gestioneCampagne" target="_blank"><i class="fa fa-dropbox"></i> Archivio Campagne  </a></li>-->
     </ul>
     <br><br>
             <ul class="nav side-menu">   
@@ -61,7 +61,6 @@ if (stripos($_SERVER['REQUEST_URI'],'campaign_cat_sott') !== false) { $cat_sottm
                  <li  <?php echo $adminmenu;?>><a><i class="fa fa-gears"></i> Amministrazione <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu" <?php echo $ul_admin; ?> >
                 <li <?php echo $kickOffmenu;?> ><a href="index.php?page=gestioneStato">Gestione Stato Campagne</a></li>        
-                <!--<li <?php #echo $kickOffmenu;?> ><a href="index.php?page=kickOff">Gestione Stato Campagne</a></li>-->
                         <?php if ($jobrole>7) { ?>   
                                                         
                             <li <?php echo $usersmenu;?>><a href="index.php?page=gestioneUtenti&table=users"> Users</a></li>
