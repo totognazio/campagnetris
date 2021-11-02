@@ -477,62 +477,7 @@ class Access_user {
         }
     }
 
-    function update_user2($id_user, $new_password, $new_confirm, $new_name, $new_info, $new_mail, $nome, $job_role_id, $ruolo, $department_id, $active, $inserisci, $modifica, $cancella, $access_level, $maillist) {
-        $update_sql = "UPDATE `users` SET $cognome $nome `job_role_id`='" . $_POST['selectRuolo'] . "',`department_id`='" . $_POST['selectDipartimento'] . "',`active`='" . $_POST['selectStato'] . "',`leggi`='Yes',`inserisci`='" . $inserisci . "',`modifica`='" . $modifica . "',`cancella`='" . $cancella . "' $update_pw ,`access_level`='" . $access_level . "' $maillist WHERE `id`='" . $_POST['idUtente'] . "'";
-        if ($new_password != "") {
-            if ($this->check_new_password($new_password, $new_confirm)) {
-                $ins_password = md5($new_password);
-                $update_pw = true;
-            } else {
-                return;
-            }
-        } else {
-            $ins_password = $this->user_pw;
-            $update_pw = false;
-        }
-        if (trim($new_mail) <> $this->user_email) {
-            if ($this->check_email($new_mail)) {
-                $this->user_email = $new_mail;
-                if (!$this->check_user("lost")) {
-                    $update_email = true;
-                } else {
-                    $this->the_msg = $this->messages(31);
-                    return;
-                }
-            } else {
-                $this->the_msg = $this->messages(16);
-                return;
-            }
-        } else {
-            $update_email = false;
-            $new_mail = "";
-        }
-        $update_sql = "UPDATE `users` SET $cognome $nome `job_role_id`='" . $_POST['selectRuolo'] . "',`department_id`='" . $_POST['selectDipartimento'] . "',`active`='" . $_POST['selectStato'] . "',`leggi`='Yes',`inserisci`='" . $inserisci . "',`modifica`='" . $modifica . "',`cancella`='" . $cancella . "' $update_pw ,`access_level`='" . $access_level . "' $maillist WHERE `id`='" . $_POST['idUtente'] . "'";
-        $sql = sprintf("UPDATE %s SET pw = %s, lastname = %s, firstname = %s, job_role_id=%d, department_id=%d, active=%s, leggi='Yes', inserisci=%s, modifica=%s, cancella=%s, access_level=%d, maillist=%d, tmp_mail = %s WHERE id = %d", $this->table_name, $this->ins_string($ins_password), $this->ins_string($new_name), $this->ins_string($new_info), $this->ins_string($new_mail), $this->id);
-#var_dump($upd_sql);
-        $result = mysqli_query($this->link_db, $sql) or die(mysqli_error($this->link_db));
-        if ($result->num_rows != 0) {
-            if ($update_pw) {
-                $_SESSION['pw'] = $this->user_pw = $ins_password;
-                if (isset($_COOKIE[$this->cookie_name])) {
-                    $this->save_login = "yes";
-                    $this->login_saver();
-                }
-            }
-            $this->the_msg = $this->messages(30);
-            if ($update_email) {
-                if ($this->send_mail($new_mail, 33)) {
-                    $this->the_msg = $this->messages(27);
-                } else {
-                    $result = mysqli_query($this->link_db, sprintf("UPDATE %s SET tmp_mail = ''", $this->table_name)) or die(mysqli_error($this->link_db));
 
-                    $this->the_msg = $this->messages(14);
-                }
-            }
-        } else {
-            $this->the_msg = $this->messages(15);
-        }
-    }
 
     function check_new_password($pass, $pw_conform) {
         if ($pass == $pw_conform) {
@@ -596,7 +541,7 @@ class Access_user {
 #var_dump($sql);
                         $result = mysqli_query($this->link_db, $sql) or die(mysqli_error($this->link_db));
                         if ($result->num_rows != 0) {
-                            $this->id = mysql_insert_id();
+                            $this->id = mysqli_insert_id($this->link_db);
                             $this->user_pw = md5($first_password);
                             if ($this->send_mail($this->user_email, 29, 28)) {
                                 $this->the_msg = $this->messages(13);
@@ -643,7 +588,7 @@ class Access_user {
 #var_dump($sql);
                     $result = mysqli_query($this->link_db, $sql) or die(mysqli_error($this->link_db));
                     if ($result->num_rows != 0) {
-                        $this->id = mysql_insert_id();
+                        $this->id = mysqli_insert_id($this->link_db);
                         $this->user_pw = md5($first_password);
                         if (strlen($this->user_email) > 0) {
                             if ($this->send_mail($this->user_email, 29, 28)) {
@@ -788,7 +733,7 @@ class Access_user {
     function send_confirmation($id) {
         $sql = sprintf("SELECT lastname, email FROM %s WHERE id = %d", $this->table_name, $id);
         $res = mysqli_query($this->link_db, $sql) or die(mysqli_error($this->link_db));
-        $row = $result->fetch_assoc();
+        $row = $res->fetch_assoc();
         $user_email = $row["email"];
         $this->user_full_name = $row["lastname"];
         if ($this->user_full_name == "")

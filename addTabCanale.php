@@ -436,7 +436,7 @@ $string .='<span id="span_app_inbound'.$id_canale.'"  '.$display_app_inbound.' >
                 <label  class="control-label">Cod. iniziativa 1<span class="required">*</span></label>
                 <input class="form-control col-md-7 col-xs-12" ';
                     if ($readonly){$string .= $disabled_value;}
-                    $string .=' type="number" id="Cod_iniziativa'.$id_canale.'" name="addcanale['.$id_canale.'][addCod_iniziativa1]"  min="1"  '.$required_dealer.'  max="999" placeholder="numerico da min 1 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3"  value="';
+                    $string .=' type="number" id="firstCod_iniziativa'.$id_canale.'" name="addcanale['.$id_canale.'][addCod_iniziativa1]"  min="1"  '.$required_dealer.'  max="999" placeholder="numerico da min 1 a max 999"  data-parsley-trigger="keyup" data-parsley-minlength="0" data-parsley-maxlength="3"  value="';
                     if(isset($addcanale_stored['addCod_iniziativa1'])){$string .= $addcanale_stored['addCod_iniziativa1']; }
                 $string .='"></div>'; 
                 

@@ -11,6 +11,7 @@
 //if (stripos($_SERVER['REQUEST_URI'],'gestioneCampagne') !== false) { $gestioneCampagne = 'class="active"';} else{$gestioneCampagne='';$admin='';}
 if (stripos($_SERVER['REQUEST_URI'],'gestioneCampagne2') !== false) { $gestioneCampagne2 = 'class="active"';} else{$gestioneCampagne2='';$adminmenu='';}
 if (stripos($_SERVER['REQUEST_URI'],'pianificazione2') !== false) { $pianificazione2 = 'class="active"';} else{$pianificazione2='';$adminmenu='';}
+if (stripos($_SERVER['REQUEST_URI'],'import') !== false) { $import = 'class="active"';} else{$import='';$adminmenu='';}
 //if (stripos($_SERVER['REQUEST_URI'],'pianificazione') !== false) { $pianificazione = 'class="active"';} else{$pianificazione='';$admin='';}
 if (stripos($_SERVER['REQUEST_URI'],'kickOff') !== false) { $kickOffmenu = ' class="current-page"';$adminmenu=' class="active"';$ul_admin=' style="display: block;"';} else{$kickOffmenu='';$adminmenu='';$ul_admin='';}
 if (stripos($_SERVER['REQUEST_URI'],'users') !== false) { $usersmenu = ' class="current-page"'; $adminmenu=' class="active"';$ul_admin=' style="display: block;"';} else{$usersmenu='';$adminmenu='';$ul_admin='';}
@@ -50,7 +51,8 @@ if (stripos($_SERVER['REQUEST_URI'],'campaign_cat_sott') !== false) { $cat_sottm
                   
               
                 <li <?php echo $gestioneCampagne2;?>><a href="index.php?page=gestioneCampagne2"><i class="fa fa-pencil-square-o"></i> Gestione </a></li>                                                       
-                <li <?php echo $pianificazione2;?>><a href="index.php?page=pianificazione2"><i class="fa fa-table"></i> Pianificazione </a></li>                                                 
+                <li <?php echo $pianificazione2;?>><a href="index.php?page=pianificazione2"><i class="fa fa-table"></i> Pianificazione </a></li>    
+                <li <?php echo $import;?>><a href="index.php?page=import"><i class="fa fa-upload"></i> Import Campagne </a></li>                                            
             
              <!--<h3> Administrator </h3>-->            
                

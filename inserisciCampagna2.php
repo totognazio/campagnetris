@@ -511,6 +511,12 @@ $('#mod_invio').on('select2:select', function () {
 //Controllo validazione ed output
 $(function () {
   $('#form-campagna-ins').parsley().on('field:validated', function() {
+
+
+    window.Parsley.on('field:error', function() {
+  // This global callback will be called for any field that fails validation.
+  console.log('Validation failed for: ', this.$element);
+});
     var ok = $('.parsley-error').length === 0;
     
     console.log('ok form  '+ JSON.stringify('.parsley-error'));

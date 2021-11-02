@@ -1387,7 +1387,7 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
   $('#notif_app_outbound' + add_canale).attr('required', false);
   //$('#callguide_app_outbound'+add_canale).attr('required', false);
   //#span_dealer
-  $('#Cod_iniziativa' + add_canale).attr('required', false);
+  $('#firstCod_iniziativa' + add_canale).attr('required', false);
   //#span_icm
   $('#day_val_icm' + add_canale).attr('required', false);
   $('#callguide_icm' + add_canale).attr('required', false);
@@ -1448,7 +1448,7 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       $('#notif_app_outbound' + add_canale).attr('required', false);
       //$('#callguide_app_outbound'+add_canale).attr('required', false);
       //#span_dealer
-      $('#Cod_iniziativa' + add_canale).attr('required', false);
+      $('#firstCod_iniziativa' + add_canale).attr('required', false);
       //#span_icm
       $('#day_val_icm' + add_canale).attr('required', false);
       $('#callguide_icm' + add_canale).attr('required', false);
@@ -1505,7 +1505,7 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       $('#notif_app_outbound' + add_canale).attr('required', false);
       //$('#callguide_app_outbound'+add_canale).attr('required', false);
       //#span_dealer
-      $('#Cod_iniziativa' + add_canale).attr('required', false);
+      $('#firstCod_iniziativa' + add_canale).attr('required', false);
       //#span_icm
       $('#day_val_icm' + add_canale).attr('required', false);
       $('#callguide_icm' + add_canale).attr('required', false);
@@ -1562,7 +1562,7 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       $('#notif_app_outbound' + add_canale).attr('required', false);
       //$('#callguide_app_outbound'+add_canale).attr('required', false);
       //#span_dealer
-      $('#Cod_iniziativa' + add_canale).attr('required', false);
+      $('#firstCod_iniziativa' + add_canale).attr('required', false);
       //#span_icm
       $('#day_val_icm' + add_canale).attr('required', false);
       $('#callguide_icm' + add_canale).attr('required', false);
@@ -1618,7 +1618,7 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       $('#notif_app_outbound' + add_canale).attr('required', false);
       //$('#callguide_app_outbound'+add_canale).attr('required', false);
       //#span_dealer
-      $('#Cod_iniziativa' + add_canale).attr('required', false);
+      $('#firstCod_iniziativa' + add_canale).attr('required', false);
       //#span_icm
       $('#day_val_icm' + add_canale).attr('required', true);
       $('#callguide_icm' + add_canale).attr('required', true);
@@ -1674,7 +1674,7 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       $('#notif_app_outbound' + add_canale).attr('required', false);
       ////$('#callguide_app_outbound'+add_canale).attr('required', false);
       //#span_dealer
-      $('#Cod_iniziativa' + add_canale).attr('required', false);
+      $('#firstCod_iniziativa' + add_canale).attr('required', false);
       //#span_icm
       $('#day_val_icm' + add_canale).attr('required', false);
       $('#callguide_icm' + add_canale).attr('required', false);
@@ -1730,7 +1730,7 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       $('#notif_app_outbound' + add_canale).attr('required', true);
       //$('#callguide_app_outbound'+add_canale).attr('required', true);
       //#span_dealer
-      $('#Cod_iniziativa' + add_canale).attr('required', false);
+      $('#firstCod_iniziativa' + add_canale).attr('required', false);
       //#span_icm
       $('#day_val_icm' + add_canale).attr('required', false);
       $('#callguide_icm' + add_canale).attr('required', false);
@@ -1786,7 +1786,7 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       $('#notif_app_outbound' + add_canale).attr('required', false);
       //$('#callguide_app_outbound'+add_canale).attr('required', false);
       //#span_dealer
-      $('#Cod_iniziativa' + add_canale).attr('required', false);
+      $('#firstCod_iniziativa' + add_canale).attr('required', false);
       //#span_icm
       $('#day_val_icm' + add_canale).attr('required', false);
       $('#callguide_icm' + add_canale).attr('required', false);
@@ -1842,7 +1842,7 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       $('#notif_app_outbound' + add_canale).attr('required', false);
       //$('#callguide_app_outbound'+add_canale).attr('required', false);
       //#span_dealer
-      $('#Cod_iniziativa' + add_canale).attr('required', false);
+      $('#firstCod_iniziativa' + add_canale).attr('required', false);
       //#span_icm
       $('#day_val_icm' + add_canale).attr('required', false);
       $('#callguide_icm' + add_canale).attr('required', false);
@@ -1898,7 +1898,7 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       $('#notif_app_outbound' + add_canale).attr('required', false);
       //$('#callguide_app_outbound'+add_canale).attr('required', false);
       //#span_dealer
-      $('#Cod_iniziativa' + add_canale).attr('required', false);
+      $('#firstCod_iniziativa' + add_canale).attr('required', false);
       //#span_icm
       $('#day_val_icm' + add_canale).attr('required', false);
       $('#callguide_icm' + add_canale).attr('required', false);
@@ -1954,7 +1954,7 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       $('#notif_app_outbound' + add_canale).attr('required', false);
       //$('#callguide_app_outbound'+add_canale).attr('required', false);
       //#span_dealer
-      $('#Cod_iniziativa' + add_canale).attr('required', false);
+      $('#firstCod_iniziativa' + add_canale).attr('required', false);
       //#span_icm
       $('#day_val_icm' + add_canale).attr('required', false);
       $('#callguide_icm' + add_canale).attr('required', false);
@@ -2010,7 +2010,8 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       $('#notif_app_outbound' + add_canale).attr('required', false);
       //$('#callguide_app_outbound'+add_canale).attr('required', false);
       //#span_dealer
-      $('#Cod_iniziativa' + add_canale).attr('required', true);
+      //Bug quando si passa allo stato eseguito del mail del 28/10/21
+      $('#firstCod_iniziativa' + add_canale).attr('required', true);
       //#span_icm
       $('#day_val_icm' + add_canale).attr('required', false);
       $('#callguide_icm' + add_canale).attr('required', false);
@@ -2066,7 +2067,7 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       $('#notif_app_outbound' + add_canale).attr('required', false);
       //$('#callguide_app_outbound'+add_canale).attr('required', false);
       //#span_dealer
-      $('#Cod_iniziativa' + add_canale).attr('required', false);
+      $('#firstCod_iniziativa' + add_canale).attr('required', false);
       //#span_icm
       $('#day_val_icm' + add_canale).attr('required', false);
       $('#callguide_icm' + add_canale).attr('required', false);
@@ -2123,7 +2124,7 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       $('#notif_app_outbound' + add_canale).attr('required', false);
       //$('#callguide_app_outbound'+add_canale).attr('required', false);
       //#span_dealer
-      $('#Cod_iniziativa' + add_canale).attr('required', false);
+      $('#firstCod_iniziativa' + add_canale).attr('required', false);
       //#span_icm
       $('#day_val_icm' + add_canale).attr('required', false);
       $('#callguide_icm' + add_canale).attr('required', false);
@@ -2179,7 +2180,7 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       $('#notif_app_outbound' + add_canale).attr('required', false);
       //$('#callguide_app_outbound'+add_canale).attr('required', false);
       //#span_dealer
-      $('#Cod_iniziativa' + add_canale).attr('required', false);
+      $('#firstCod_iniziativa' + add_canale).attr('required', false);
       //#span_icm
       $('#day_val_icm' + add_canale).attr('required', false);
       $('#callguide_icm' + add_canale).attr('required', false);
@@ -2236,7 +2237,7 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
       $('#notif_app_outbound' + add_canale).attr('required', false);
       //$('#callguide_app_outbound'+add_canale).attr('required', false);
       //#span_dealer
-      $('#Cod_iniziativa' + add_canale).attr('required', false);
+      $('#firstCod_iniziativa' + add_canale).attr('required', false);
       //#span_icm
       $('#day_val_icm' + add_canale).attr('required', false);
       $('#callguide_icm' + add_canale).attr('required', false);
@@ -2295,7 +2296,7 @@ function add_canale_validazione(selected_channel_id, all_required, add_canale) {
     $('#notif_app_outbound' + add_canale).attr('required', false);
     //$('#callguide_app_outbound'+add_canale).attr('required', false);
     //#span_dealer
-    $('#Cod_iniziativa' + add_canale).attr('required', false);
+    $('#firstCod_iniziativa' + add_canale).attr('required', false);
     //#span_icm
     $('#day_val_icm' + add_canale).attr('required', false);
     $('#callguide_icm' + add_canale).attr('required', false);

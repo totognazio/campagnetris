@@ -11,7 +11,7 @@ define("APPLICATION_PATH", $sec_path);
 //define("DB_SERVER", "127.0.0.1");
 define("DB_SERVER", "127.0.0.1");  //usare localhost
 //define("DB_SERVER", "10.194.25.2");
-define("DB_NAME", "newcampaigns2");
+define("DB_NAME", "newcampaigns");
 define("DB_USER", "root");
 define("DB_PASSWORD", "H3g2013");
 

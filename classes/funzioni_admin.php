@@ -534,7 +534,7 @@ class funzioni_admin {
         return $obj3;
     }
 
-    function get_all_stato_info() {
+    function get_all_stato_info($id) {
         $query3 = "SELECT * FROM campaign_states where id=$id";
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $obj3 = $result3->fetch_array(MYSQLI_ASSOC);

@@ -165,12 +165,9 @@ $('#channel_ins2').on('select2:select ', function () {
       stato = $('#campaign_state_id').val();
       count2 = $('#iniziative_dealer2').val();      
       // add_canale_view(selected_channel_id2, 2);   
+      add_canale_validazione(selected_channel_id2, stato, 2);
       validazione_add_canaleDealer(count2, stato, 2);
       
-      add_canale_validazione(selected_channel_id2, stato, 2);
-      
-          
-
     });
 
     

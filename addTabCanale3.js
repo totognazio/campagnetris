@@ -171,9 +171,10 @@ $( '#mod_invio3').on( 'select2:select ', function () {
             stato = $('#campaign_state_id').val();
             count3 = $('#iniziative_dealer3').val();       
            // add_canale_view(selected_channel_id3, 3);
-            validazione_add_canaleDealer(count3, stato,3);
-            
+        //alert('validazione_add_canaleDealer count stato add_canale '+count+' '+stato+' '+3)          
       add_canale_validazione(selected_channel_id3, stato, 3);
+            validazione_add_canaleDealer(count3, stato,3);
+
            
 
     });
