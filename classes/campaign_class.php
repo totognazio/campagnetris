@@ -20,7 +20,7 @@ class campaign_class  {
         $mysqli = $this->connect_dbli();
         $this->filter_view = array();
         $this->radici_list = array('channel' => 'channels', 'stack' => 'campaign_stacks', 'state' => 'campaign_states', 'squad' => 'squads', 'type' => 'campaign_types');
-        $this->lista_parametri_campagna = array("nome_campagna", "pref_nome_campagna", "cod_comunicazione", "cod_campagna", "stack_id", "type_id", "squad_id", "user_id", "segment_id", "optimization", "priority", "data_inizio_validita_offerta", "data_fine_validita_offerta", "leva", "descrizione_leva", "campaign_state_id", "lista_preview", "lista_civetta", "control_group", "perc_control_group", "channel_id", "channel_type", "mod_invio", "sender_id", "storic", "testo_sms", "link", "sms_duration", "tipoMonitoring", "data_inizio", "volumeGiornaliero1", "volumeGiornaliero2", "volumeGiornaliero3", "volumeGiornaliero4", "volumeGiornaliero5", "volumeGiornaliero6", "volumeGiornaliero7", "data_fine", "escludi_sab_dom", "durata_campagna", "trial_campagna", "data_trial", "volume_trial", "perc_scostamento", "volume", "attivi", "sospesi", "disattivi", "consumer", "business", "microbusiness", "prepagato", "postpagato", "contratto_microbusiness", "cons_profilazione", "cons_commerciale", "cons_terze_parti", "cons_geolocalizzazione", "cons_enrichment", "cons_trasferimentidati", "voce", "dati", "fisso", "no_frodi", "altri_filtri", "etf", "vip", "dipendenti", "trial", "parlanti_ultimo", "profilo_rischio_ga", "profilo_rischio_standard", "profilo_rischio_high_risk", "altri_criteri", "data_inserimento", "redemption", "storicizza", "offer_id", "modality_id", "category_id", "tit_sott_id", "descrizione_target", "leva_offerta", "descrizione_offerta", "indicatore_dinamico", "tipo_leva", "cod_ropz", "cod_opz", "id_news", "note_operative","cat_sott_id","addcanale","note_camp","alias_attiv","day_val","sms_incarico","sms_target","sms_adesione","sms_nondisponibile","control_guide","numeric_control_group","n_collateral");
+        $this->lista_parametri_campagna = array("nome_campagna", "pref_nome_campagna", "cod_comunicazione", "cod_campagna", "stack_id", "type_id", "squad_id", "user_id", "segment_id", "optimization", "priority", "data_inizio_validita_offerta", "data_fine_validita_offerta", "leva", "descrizione_leva", "campaign_state_id", "lista_preview", "lista_civetta", "control_group", "perc_control_group", "channel_id", "channel_type", "mod_invio", "sender_id", "storic", "testo_sms", "link", "sms_duration", "tipoMonitoring", "data_inizio", "volumeGiornaliero1", "volumeGiornaliero2", "volumeGiornaliero3", "volumeGiornaliero4", "volumeGiornaliero5", "volumeGiornaliero6", "volumeGiornaliero7", "data_fine", "escludi_sab_dom", "durata_campagna", "trial_campagna", "data_trial", "volume_trial", "perc_scostamento", "volume", "attivi", "sospesi", "disattivi", "consumer", "business", "microbusiness", "prepagato", "postpagato", "contratto_microbusiness", "cons_profilazione", "cons_commerciale", "cons_terze_parti", "cons_geolocalizzazione", "cons_enrichment", "cons_trasferimentidati", "voce", "dati", "fisso", "no_frodi", "altri_filtri", "etf", "vip", "dipendenti", "trial", "parlanti_ultimo", "profilo_rischio_ga", "profilo_rischio_standard", "profilo_rischio_high_risk", "altri_criteri", "data_inserimento", "redemption", "storicizza", "offer_id", "modality_id", "category_id", "tit_sott_id", "descrizione_target", "leva_offerta", "descrizione_offerta", "indicatore_dinamico", "tipo_leva", "cod_ropz", "cod_opz", "id_news", "note_operative","cat_sott_id","addcanale","note_camp","alias_attiv","day_val","sms_incarico","sms_target","sms_adesione","sms_nondisponibile","control_guide","numeric_control_group","n_collateral","tot_id_news","tipo_app_outbound","persado");
         $this->lista_rules = array(
             'attivi'
             , 'sospesi'
@@ -358,58 +358,7 @@ class campaign_class  {
             }
         }
         return $contatore;
-//
-//                $query_dati = "INSERT INTO $table (`Marca`,`Modello`,`TacId`,`mobile_radio_access`, `Tecnologia`,OS,`Tipo`) VALUES (";
-//                $controllo = true;
-//                foreach ($pieces as $key => $value) {
-//                    if ($key == 4) {
-//                        if ($value == "MODEM") {
-//                            $value = "MBB";
-//                        } elseif ($value == "ROUTER") {
-//                            $value = "MBB";
-//                        } elseif ($value == "NETBOOK") {
-//                            $value = "MBB";
-//                        }
-//                    }
-//
-//                    if ($key < 7) {
-//                        $value = str_replace("'", "", trim($value));
-//                        $valore_dato = addslashes(str_replace(';', ' ', str_replace('"', '', trim($value))));
-//                        if ($valore_dato == "")
-//                            $valore_dato = "n/a";
-//                        $query_dati = $query_dati . " '" . $valore_dato . "'";
-//                        if ($key < 6)
-//                            $query_dati = $query_dati . ",";
-//                    }
-//                }
-//
-//                $query_dati = $query_dati . ")";
-//                //echo $query_dati."<br>";
-//
-//                mysql_query($query_dati) or die($query_dati . " - " . mysql_error());
-//            }
-//        }
-//
-//        $query_a = "update dati_tacid set Tipo= 'Smartphone'  where Tipo = 'YES'";
-//        mysql_query($query_a) or die($query_dati . " - " . mysql_error());
-//        $query_a = "update dati_tacid set Tipo= 'Featurephone'  where Tipo = 'NO'";
-//        mysql_query($query_a) or die($query_dati . " - " . mysql_error());
-//        $query_a = "update dati_tacid set Tecnologia= 'Phablet',Tipo='Phablet'  where Tecnologia = 'PHABLET'";
-//        mysql_query($query_a) or die($query_dati . " - " . mysql_error());
-//        $query_a = "update dati_tacid set Tipo='MBB'  where Tecnologia = 'MBB'";
-//        mysql_query($query_a) or die($query_dati . " - " . mysql_error());
-//        $query_a = "update dati_tacid set Tecnologia= 'Handset'  where Tecnologia = 'HANDSET'";
-//        mysql_query($query_a) or die($query_dati . " - " . mysql_error());
-//        $query_a = "update dati_tacid set Tecnologia= 'Tablet',Tipo='Tablet'  where Tecnologia = 'TABLET'";
-//        mysql_query($query_a) or die($query_dati . " - " . mysql_error());
-//        $query_a = "update dati_tacid set Tecnologia= 'Datacard',Tipo='Datacard'  where Tecnologia = 'DATACARD'";
-//        mysql_query($query_a) or die($query_dati . " - " . mysql_error());
-//        $query_a = "update dati_tacid set mobile_radio_access= '3G'  where mobile_radio_access = 'SATELLITE'";
-//        mysql_query($query_a) or die($query_dati . " - " . mysql_error());
-//        $fine = time();
-//        $tempo_impiegato = $fine - $inizio;
-//        echo "<br><p>Tempo query:" . $tempo_impiegato . "</p>";
-//        return true;
+
     }
 
     // per i canali SMS e SMS Long
@@ -1071,12 +1020,16 @@ function insert($record) {
 // removes files and non-empty directories
 function rrmdir($dir) {
   if (is_dir($dir)) {
-    $files = scandir($dir);
-    foreach ($files as $file)
-    if ($file != "." && $file != "..") $this->rrmdir("$dir/$file");
-    rmdir($dir);
+    //$files = scandir($dir);
+    //foreach ($files as $file)
+    //if ($file != "." && $file != "..") $this->rrmdir("$dir/$file");
+    //rmdir($dir);
+    rename($dir,$dir.'_deleted');
+    return 1;
   }
-  else if (file_exists($dir)) unlink($dir);
+  else {
+    return 0;
+  }
 }
 
 // copies files and non-empty directories
@@ -1537,8 +1490,9 @@ LEFT JOIN users ON `user_id` = users.id
         $sql_squad = '';
         $job_role = $page_protect->get_job_role();
         if ($job_role == 2) {
-            $squad_id = $page_protect->get_squad();
-            $sql_squad = " (campaigns.`squad_id` = $squad_id)  and ";
+            $squad_id_set = $page_protect->get_squad_id_set();
+            //$sql_squad = " (campaigns.`squad_id` = $squad_id)  and ";
+            $sql_squad = " (campaigns.`squad_id` IN (".$squad_id_set."))  and ";
         }
 
       if(!empty($filter['sprint'])){
@@ -1608,12 +1562,10 @@ LEFT JOIN users ON `user_id` = users.id
                . " and campaign_states.id  IN ('" . implode("', '", $filter["states"]). "') "
                . " and campaign_types.id IN ('" . implode("', '", $filter["typologies"]). "')";
 
-       
-
        //$sql .= " order by data_inizio ASC ";
        $sql .= $sql_canali." order by data_inizio ASC ";
        
-      //echo $sql;
+       //echo $sql;
   
         $result3 = $this->mysqli->query($sql) or die($sql . " - " . $this->mysqli->error);
         $list = array();
@@ -1632,8 +1584,10 @@ LEFT JOIN users ON `user_id` = users.id
         $sql_squad = '';
         $job_role = $page_protect->get_job_role();
         if ($job_role == 2) {
-            $squad_id = $page_protect->get_squad();
-            $sql_squad = " (campaigns.`squad_id` = $squad_id)  and ";
+            $squad_id_set = $page_protect->get_squad_id_set();        
+            $sql_squad = " (campaigns.`squad_id` IN (".$squad_id_set."))  and ";            
+            //$squad_id = $page_protect->get_squad();
+            //$sql_squad = " (campaigns.`squad_id` = $squad_id)  and ";
         }
 
       if(!empty($filter['sprint'])){
@@ -1679,6 +1633,7 @@ LEFT JOIN users ON `user_id` = users.id
         ,campaign_modalities.NAME AS modality_nome
         ,campaign_categories.NAME AS category_nome
         ,campaign_cat_sott.NAME AS cat_sott_nome
+        ,tipo_app_outbound.name AS tipo_app_outbound_nome
 
 	    ,campaigns.*
         FROM campaigns
@@ -1691,7 +1646,10 @@ LEFT JOIN users ON `user_id` = users.id
         LEFT JOIN users ON `user_id` = users.id
         LEFT JOIN campaign_modalities ON `modality_id`=campaign_modalities.id
         LEFT JOIN campaign_categories ON `category_id`=campaign_categories.id
-        left JOIN campaign_cat_sott on `cat_sott_id`=campaign_cat_sott.id    
+        left JOIN campaign_cat_sott on `cat_sott_id`=campaign_cat_sott.id
+        left JOIN tipo_app_outbound on campaigns.`tipo_app_outbound`=tipo_app_outbound.id   
+
+         
         ";
 
        
@@ -1816,7 +1774,10 @@ function tableGestioneData($list) {
         $data['consenso'] = $criteri['consenso'];
         $data['mercato'] = $criteri['mercato'];
         $data['frodatori'] = $criteri['frodatori'];        
-        $data['indicatore_dinamico'] = $row['indicatore_dinamico'];        
+
+        if($row['indicatore_dinamico']==0) $data['indicatore_dinamico'] = 'No';    
+        elseif($row['indicatore_dinamico']==1) $data['indicatore_dinamico'] = 'Si';      
+
         $data['control_group'] = $criteri['control_group'];
          
         $data_row[] = json_encode(array_values($data));
@@ -2211,10 +2172,10 @@ function tablePianificazioneData($list) {
                // }
                 //Tab Comunicazione
                // if($criterio=='control_group'){            
-                    if($row['control_group']==0) $data['control_group'] = 'No';
-                    if($row['control_group']==1) $data['control_group'] = 'Si (Percentuale)';    
-                    if($row['control_group']==2) $data['control_group'] = 'Si (Volume)'; 
-                    else $data['control_group'] = ' ';        
+                    if($row['control_group']== 0) $data['control_group'] = 'No';
+                    elseif($row['control_group']== 1 ) $data['control_group'] = 'Si (Percentuale)';    
+                    elseif($row['control_group']== 2 ) $data['control_group'] = 'Si (Volume)'; 
+                    else $data['control_group'] = 'No';        
                 //}
                 //Tab Comunicazione
                 //if($criterio=='tipo_leva'){
@@ -3027,6 +2988,9 @@ function day_volume($row) {
         }
         */
         $obj3 = $result3->fetch_array(MYSQLI_ASSOC);
+        if(empty($obj3['name'])){
+            $obj3['name'] = '1900_00';
+        }
         return $obj3['name'];
     }
         
@@ -3097,6 +3061,42 @@ function day_volume($row) {
 
     }
 
+/*
+    function check_excel_import_campagne(){
+            $objPHPExcel = PHPExcel_IOFactory::load($filepath);
+            $worksheet = $objPHPExcel->getActiveSheet();
+
+            // echo "<label class='text-success'>Input data</label><br /><table class='table table-bordered'>";
+            //foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
+                
+                //$highestRow = $worksheet->getHighestRow();
+                $highestRow = $worksheet->getHighestRow(); 
+                echo $highestRow.' valore highestRow';
+                return;
+
+                //check file excel
+                for ($row = 3; $row < $highestRow; $row++) {
+                    if(empty($Stack_raw)){
+                        //echo 'Fine Riga -->'.$row;                      
+                        continue;
+                    }                
+                    elseif (in_array($Stack_raw, $campaign_stacks)) {
+                        //echo $Stack_raw . '<br/>';
+                        $Stack = array_search($Stack_raw, $campaign_stacks);
+                        $count ++;
+                        // print_r($Stack);
+                    } 
+                    else {
+                        echo'Valore del campo Stack non valido --> '.$Stack_raw.' !!!!';
+                        echo'Valori possibili del campo sono: ';
+                        print_r($campaign_stacks); 
+                    }
+
+                }
+
+
+    }
+*/
         function messages($num) {
         $host = "http://" . $_SERVER['HTTP_HOST'];
         switch ($this->language) {

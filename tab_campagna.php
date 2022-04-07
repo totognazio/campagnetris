@@ -53,8 +53,8 @@
                                     if($modifica && $id_campaign['squad_id']==$key){
                                         echo '<option selected value="'.$key.'">'.$value.'</option>'; 
                                     }
-                                    elseif($page_protect->get_job_role()==2 and $_POST['azione']=='new'){
-                                        echo '<option selected value="'.$key.'">'.$value.'</option>'; 
+                                    elseif($page_protect->get_job_role()==2 and $_POST['azione']=='new' && count($squads)==1){
+                                         echo '<option selected value="'.$key.'">'.$value.'</option>'; 
                                     }
                                     else {
                                         echo '<option value="'.$key.'">'.$value.'</option>';
@@ -75,8 +75,12 @@
                                 if($modifica && $id_campaign['type_id']==$key){
                                    echo '<option selected value="'.$key.'">'.$value.'</option>'; 
                                 }
+                                elseif(($azione !=='open') && ($key==23 OR $key==20)){ // Add ON and INACTIVITY disabled
+                                    
+                                   echo '<option disabled value="'.$key.'">'.$value.'</option>'; 
+                                }
                                 else {
-                                    echo '<option value="'.$key.'">'.$value.'</option>';
+                                    echo '<option  value="'.$key.'">'.$value.'</option>';
                                 }
                               
                             }                                                  
@@ -156,17 +160,67 @@
                         </div>
                       </div>   
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descriz_target">Descrizione Attività
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descrizione_target">Descrizione Attività
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" id="descriz_target" name="descrizione_target"  class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['descrizione_target'])){ echo $id_campaign['descrizione_target']; } ?>" <?php echo $disabled_value;?>>
+                            <input type="text" id="descrizione_target" name="descrizione_target"  class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['descrizione_target'])){ echo $id_campaign['descrizione_target']; } ?>" <?php echo $disabled_value;?>>
                         </div>
                       </div>
                         <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="n_collateral" style="color: black;">N° Collateral <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="number" min=1 id="n_collateral" name="n_collateral"  required="required" class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['n_collateral'])){ echo $id_campaign['n_collateral']; }else{echo "1";} ?>" <?php echo $disabled_value;?>>
+                            <input type="number" min="1" id="n_collateral" name="n_collateral"  required="required" class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['n_collateral'])){ echo $id_campaign['n_collateral']; }else{echo "1";} ?>" <?php echo $disabled_value;?>>
                         </div>
+                      </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tot_id_news" style="color: black;">Tot Id News <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="number" min="0"  max="99" id="tot_id_news" name="tot_id_news"  required="required" class="form-control col-md-7 col-xs-12" value="<?php if(isset($id_campaign['tot_id_news'])){ echo $id_campaign['tot_id_news']; }else{echo "0";} ?>" <?php echo $disabled_value;?>>
+                        </div>
+                      </div>
+                   <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" style="color: black;">Tipo App Outbound <span class="required">*</span></label>                     
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select id="tipo_app_outbound" name="tipo_app_outbound" class="select2_single form-control"  required="required" <?php echo $disabled_value;?>>
+                          <!--<option value="1">ND</option>-->
+                               <?php   
+                                foreach ($tipo_app_outbound as $key => $value) {
+                                if($modifica && $id_campaign['tipo_app_outbound']==$key){
+                                   echo '<option selected value="'.$key.'">'.$value.'</option>'; 
+                                }
+                                elseif($_POST['azione']=='new' && strtoupper($value)=='ND'){
+                                         echo '<option selected value="'.$key.'">'.$value.'</option>'; 
+                                }
+                                else {
+                                    echo '<option value="'.$key.'">'.$value.'</option>';
+                                }
+                              
+                            }                                                  
+                            ?>                                      
+                          </select>
+                        </div>
+                      </div>  
+
+                                           <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="persado" style="color: black;">Persado <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <?php
+                                        $persado_0_selected = "";
+                                        $persado_1_selected = "";
+                                        //$display = ' style="display:none;"';
+                                        if ($modifica) {
+                                            if($id_campaign['persado']==1 OR strtoupper($id_campaign['persado'])=='Y'){
+                                                $persado_1_selected = " selected";
+                                                //$display = '';
+                                            }
+                                            else {$tot_id_news_0_selected = " selected";}                                    
+                                        } 
+                                        ?> 
+                          <select id="persado" name="persado" class="select2_single form-control"  required="required" <?php echo $disabled_value;?>>
+                                <option value="0" <?php echo $persado_0_selected; ?>>N</option>
+                                <option value="1" <?php echo $persado_1_selected; ?>>Y</option> 
+                          </select>
+                      </div>
                       </div>
 
                     <div class="form-group"  id="span_cod_campagna" style="display:none;" >                    

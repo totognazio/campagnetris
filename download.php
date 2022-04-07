@@ -19,7 +19,8 @@
 
 $filename = "template_import_campagne.xlsx";
 $file_path = '';
-         $file_path = $dir.$filename;
+         //$file_path = $dir.$filename;
+		 $file_path = $filename;
          // verifico che il file esista
          if (!file_exists($file_path))
          {

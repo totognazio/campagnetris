@@ -457,11 +457,14 @@
                 <label  class="control-label">Giorni di Validità</label>
                 <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="day_val_app_inbound" name="addcanale[0][day_val_app_inbound]"  min="1" max="31" <?php //echo $required_app_inbound ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['day_val_app_inbound'])){echo $canale['day_val_app_inbound']; }?>">
                 <br><br>
-                <label  class="control-label">Priorità</label>                
-                      <select id="prior_app_inbound" name="addcanale[0][prior_app_inbound]" class="select2_single form-control" style="width:100%"  <?php echo $required_app_inbound; ?> <?php echo $disabled_value;?>>
-                            <option <?php if($modifica and isset($canale['prior_app_inbound']) && $canale['prior_app_inbound']=='1'){echo ' selected';} ?> value="1">HIGH</option>        
-                            <option <?php if($modifica and isset($canale['prior_app_inbound']) && $canale['prior_app_inbound']=='0'){echo ' selected';} ?> value="0">LOW </option>                                                            
+                <label  class="control-label">Priorità</label>     
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="prior_app_inbound" name="addcanale[0][prior_app_inbound]"  min="0" max="999"  <?php echo $required_app_inbound; ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['prior_app_inbound'])){echo $canale['prior_app_inbound'];}else{echo "0";}?>">           
+                <!--     
+                <select id="prior_app_inbound" name="addcanale[0][prior_app_inbound]" class="select2_single form-control" style="width:100%"  <?php //echo $required_app_inbound; ?> <?php //echo $disabled_value;?>>
+                            <option <?php //if($modifica and isset($canale['prior_app_inbound']) && $canale['prior_app_inbound']=='1'){echo ' selected';} ?> value="1">HIGH</option>        
+                            <option <?php //if($modifica and isset($canale['prior_app_inbound']) && $canale['prior_app_inbound']=='0'){echo ' selected';} ?> value="0">LOW </option>                                                            
                         </select>
+                -->
                 <br><br>
                                          
         </div>
@@ -489,11 +492,13 @@
                           </select>
                        
                 <label  class="control-label">Priorità<span class="required">*</span></label>
-                <!--<input <?php //if ($readonly){echo $disabled_value;}?>type="number" id="prior_app_outbound" name="addcanale[0][prior_app_outbound]"  min="0" max="9"  <?php //echo $required_app_outbound; ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php //if(isset($canale['prior_app_outbound'])){echo $canale['prior_app_outbound']; }?>">-->
-                        <select id="prior_app_outbound" name="addcanale[0][prior_app_outbound]" class="select2_single form-control" style="width:100%"  <?php echo $required_app_outbound; ?> <?php echo $disabled_value;?>>
-                            <option <?php if($modifica and isset($canale['prior_app_outbound']) && $canale['prior_app_outbound']=='1'){echo ' selected';} ?> value="1">HIGH</option>        
-                            <option <?php if($modifica and isset($canale['prior_app_outbound']) && $canale['prior_app_outbound']=='0'){echo ' selected';} ?> value="0">LOW </option>                                                            
+                <input <?php if ($readonly){echo $disabled_value;}?>type="number" id="prior_app_outbound" name="addcanale[0][prior_app_outbound]"  min="0" max="999"  <?php echo $required_app_outbound; ?> placeholder="numerico"  data-parsley-trigger="keyup" class="form-control col-md-7 col-xs-12" value="<?php if(isset($canale['prior_app_outbound'])){echo $canale['prior_app_outbound'];}else{echo "0";}?>">
+                <!--
+                <select id="prior_app_outbound" name="addcanale[0][prior_app_outbound]" class="select2_single form-control" style="width:100%"  <?php //echo $required_app_outbound; ?> <?php //echo $disabled_value;?>>
+                            <option <?php //if($modifica and isset($canale['prior_app_outbound']) && $canale['prior_app_outbound']=='1'){echo ' selected';} ?> value="1">HIGH</option>        
+                            <option <?php //if($modifica and isset($canale['prior_app_outbound']) && $canale['prior_app_outbound']=='0'){echo ' selected';} ?> value="0">LOW </option>                                                            
                         </select>
+                -->        
                                            
         </div>
                 <div  class="col-md-4 col-sm-6 col-xs-12" >

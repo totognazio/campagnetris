@@ -352,7 +352,7 @@ if (isset($_POST['creautente']) && $_POST['creautente'] == "1") {
                 <td align="center" width="15%">Surname</td>
                 <td align="center"  width="15%">Name</td>
                 <td align="center"  width="15%">Login</td>
-                <td align="center"  width="15%">email</td>
+                <td align="center"  width="15%">Email</td>
                 <td align="center" width="15%">Ruolo</td>
                 <td align="center"  width="20%">Squad</td>
                 <td align="center"  width="15%">Status</td>

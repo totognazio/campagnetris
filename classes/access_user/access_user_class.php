@@ -200,7 +200,32 @@ class Access_user {
         }
     }
 
+    function get_squad_id_set() {
+        $sql = "SELECT squad_id_set from users left join squads on squads.id=squad_id where login = " . $this->ins_string($this->user) . " AND active = 'y'";
+        //echo $sql;
+        if (!$result = mysqli_query($this->mysqli,$sql)) {
+            $this->the_msg = $this->messages(14);
+        } else {
+            $export = mysqli_fetch_assoc($result)["squad_id_set"];
+            //$squad_arr = explode(",", $export);
+            //return explode(",", $export);
+            return $export;
+        }
+    }
 
+    function get_squads_id_by_user() {
+        //$sql = "SELECT squad_id from users left join squads on squads.id=squad_id where login = " . $this->ins_string($this->user) . " AND active = 'y'";
+        $sql = "SELECT `squad_id_set` FROM `users` where login = " . $this->ins_string($this->user) . " AND active = 'y'";
+        //echo $sql;
+        if (!$result = mysqli_query($this->mysqli,$sql)) {
+            $this->the_msg = $this->messages(14);
+        } else {
+            $export = mysqli_fetch_assoc($result)["squad_id_set"];
+            return explode(',', $export);
+        }
+    }
+
+    
 
     function get_insert_permission() {
         $job_role = $this->get_job_role();
@@ -479,9 +504,9 @@ class Access_user {
         $sql_info = sprintf("SELECT lastname, firstname, email, id FROM %s WHERE login = %s AND pw = %s", $this->table_name, $this->ins_string($this->user), $this->ins_string($this->user_pw));
         $res_info = mysqli_query($this->mysqli,$sql_info);
         $this->id = mysqli_fetch_assoc($res_info)["id"];
-        $this->user_full_name = mysqli_fetch_assoc($res_info)["lastname"];
-        $this->user_firstname = mysqli_fetch_assoc($res_info)["firstname"];
-        $this->user_email = mysqli_fetch_assoc($res_info)["email"];
+        $this->user_full_name = isset(mysqli_fetch_assoc($res_info)["lastname"]) ? mysqli_fetch_assoc($res_info)["lastname"] : "";
+        $this->user_firstname = isset(mysqli_fetch_assoc($res_info)["firstname"]) ? mysqli_fetch_assoc($res_info)["firstname"] : "";
+        $this->user_email = isset(mysqli_fetch_assoc($res_info)["email"]) ? mysqli_fetch_assoc($res_info)["email"] : "";
 
 #$this->user_info = mysql_result($res_info, 0, "extra_info");
 #$this->user_email = mysql_result($res_info, 0, "email"); 
@@ -817,7 +842,7 @@ class Access_user {
         }
     }
 
-    function register_newuser($first_login, $first_password, $confirm_password, $cognome, $first_email, $nome, $ruolo, $stack, $stato, $inserisci, $modifica, $cancella, $levello_accesso, $maillist) {
+    function register_newuser($first_login, $first_password, $confirm_password, $cognome, $first_email, $nome, $ruolo, $squad, $stato, $inserisci, $modifica, $cancella, $levello_accesso, $maillist) {
 #register_newuser          ($_POST['login'], $_POST['password'], $_POST['confirm'], $cognome, $_POST['email'], $name, $_POST['selectRuolo'], $_POST['selectStack'], $_POST['selectStato'], 'Yes', $inserisci, $modifica, $cancella, $levello_accesso);            
 #register_user2($_POST['login'], $_POST['password'], $_POST['confirm'], $cognome, $_POST['info'], $_POST['email'], $nome, $_POST['selectRuolo'], $_POST['selectStack'], $_POST['selectStato'], 'Yes', $inserisci, $modifica, $cancella, $levello_accesso)
         if ($this->check_new_password($first_password, $confirm_password)) {
@@ -825,6 +850,8 @@ class Access_user {
                 //if ($this->check_email($first_email)) {
                 $this->user_email = $first_email;
                 $this->user = $first_login;
+                $squad_list = $squad;
+                $list = implode(",", array_values($squad_list));
                 if ($this->check_user("new")) {
                     $this->the_msg = $this->messages(12);
                     return;
@@ -835,9 +862,9 @@ class Access_user {
                         $maillist = 0;
 
                     $sql = "INSERT INTO `users` ("
-                            . "`id`, `lastname`, `firstname`, `login`, `job_role_id`, `squad_id`, "
+                            . "`id`, `lastname`, `firstname`, `login`, `job_role_id`, `squad_id_set`, "
                             . "`active`, `leggi`, `inserisci`, `modifica`, `cancella`, `email`, `tmp_mail`, `pw`, `access_level`,`maillist`)"
-                            . " VALUES (NULL, '" . $cognome . "', '" . $nome . "', " . $this->ins_string($first_login) . ", '" . $ruolo . "', '" . $stack . "', '" . $stato . "', 'Yes', '" . $inserisci . "', '" . $modifica . "', '" . $cancella . "', " . $this->ins_string($this->user_email) . ", '', " . $this->ins_string(md5($first_password)) . ", '" . $levello_accesso . "', '" . $maillist . "')";
+                            . " VALUES (NULL, '" . $cognome . "', '" . $nome . "', " . $this->ins_string($first_login) . ", '" . $ruolo . "', '" . $list . "', '" . $stato . "', 'Yes', '" . $inserisci . "', '" . $modifica . "', '" . $cancella . "', " . $this->ins_string($this->user_email) . ", '', " . $this->ins_string(md5($first_password)) . ", '" . $levello_accesso . "', '" . $maillist . "')";
 
 #$sql = sprintf("INSERT INTO %s (id, login, pw, lastname, extra_info, email, access_level, active) VALUES (NULL, %s, %s, %s, %s, %s, %d, 'n')", $this->table_name, $this->ins_string($first_login), $this->ins_string(md5($first_password)), $this->ins_string($cognome), $this->ins_string($first_info), $this->ins_string($this->user_email), DEFAULT_ACCESS_LEVEL);
 #var_dump($sql);
