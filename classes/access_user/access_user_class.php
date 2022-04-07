@@ -212,6 +212,20 @@ class Access_user {
             return $export;
         }
     }
+	
+	function get_squads_id_set() {
+        $sql = "SELECT squad_id_set from users left join squads on squads.id=squad_id where login = " . $this->ins_string($this->user) . " AND active = 'y'";
+        //echo $sql;
+        if (!$result = mysqli_query($this->mysqli,$sql)) {
+            $this->the_msg = $this->messages(14);
+            return [$this->the_msg];
+        } else {
+            $export = mysqli_fetch_assoc($result)['squad_id_set'];
+            //$squad_arr = explode(",", $export);
+            return explode(",", $export);
+            //return $export;
+        }
+    }
 
     function get_squads_id_by_user() {
         //$sql = "SELECT squad_id from users left join squads on squads.id=squad_id where login = " . $this->ins_string($this->user) . " AND active = 'y'";
@@ -273,6 +287,8 @@ class Access_user {
         echo $output;
     }
 
+
+/*
     function check_permission($squad_id) {
         $job_role = $this->get_job_role();
         //echo $squad_id ." - ". $this->get_department();
@@ -288,6 +304,26 @@ class Access_user {
         } else
             return 0;
     }
+*/
+
+    function check_permission($squad_id) {
+        $job_role = $this->get_job_role();
+        //echo $squad_id ." - ". $this->get_department();
+        if ($job_role > 1) {
+            if ($job_role < 4) {
+                $squad_list = $this->get_squads_id_set();
+                //print_r($squad_list);
+                //exit();
+                if (in_array($squad_id, $squad_list)){
+                //if ($squad_id == $this->get_squad()) {                    
+                    return 1;
+                } else
+                    return 0;
+            } else
+                return 1;
+        } else
+            return 0;
+    }	
 
     function check_permission_fast($squad_id, $user_info) {
         $job_role = $user_info['job_role'];
