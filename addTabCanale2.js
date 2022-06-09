@@ -17,12 +17,14 @@ var testo_sms2 = document.getElementById("testo_sms2");
                 // character to the textarea).
                 e.preventDefault();
             }
+             /*
             else if (e.which == 86) {
                 alert('  Attenzione il carattere \'’\' non è consentito!!');
                 // Prevent the default event action (adding the
                 // character to the textarea).
                 e.preventDefault();
             }
+            */
             else if (!validaTesto()) {
                  alert('Testo non valido!!! Introdotto carattere non consentito !!!');
             }
@@ -165,9 +167,12 @@ $('#channel_ins2').on('select2:select ', function () {
       stato = $('#campaign_state_id').val();
       count2 = $('#iniziative_dealer2').val();      
       // add_canale_view(selected_channel_id2, 2);   
-      add_canale_validazione(selected_channel_id2, stato, 2);
       validazione_add_canaleDealer(count2, stato, 2);
       
+      add_canale_validazione(selected_channel_id2, stato, 2);
+      
+          
+
     });
 
     

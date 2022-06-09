@@ -667,12 +667,14 @@ $(document).ready(function() {
                 // character to the textarea).
                 e.preventDefault();
             }
+            /*
             else if (e.which == 86) {
                 alert('  Attenzione il carattere \'’\' non è consentito!!');
                 // Prevent the default event action (adding the
                 // character to the textarea).
                 e.preventDefault();
             }
+            */
             else if (!validaTesto()) {
                  alert('Testo non valido!!! Introdotto carattere non consentito !!!');
             }

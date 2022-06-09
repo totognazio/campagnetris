@@ -159,6 +159,7 @@ class funzioni_admin {
         return $list;
     }
     
+    
     function get_offerId($name) {
         $query3 = "SELECT offers.id,offers.name,offers.label,offers.description FROM offers 
         where name like '$name'";
@@ -180,9 +181,7 @@ class funzioni_admin {
 
 	
     function get_type_label($id) {
-        $query3 = "SELECT campaign_types.id,campaign_types.NAME as tipo_nome,campaign_types.label as tipo_label FROM campaign_types 
-    
-    where campaign_types.id=$id";
+        $query3 = "SELECT campaign_types.id,campaign_types.NAME as tipo_nome,campaign_types.label as tipo_label FROM campaign_types where campaign_types.id=$id";
 //echo $query3;
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $list = array();
@@ -195,6 +194,8 @@ class funzioni_admin {
         }
         return $r['label'];
     }
+
+
     
     
  
@@ -226,9 +227,7 @@ class funzioni_admin {
     }
 
     function get_stack_label($id) {
-        $query3 = "SELECT campaign_stacks.id,campaign_stacks.NAME as tipo_nome,campaign_stacks.label as tipo_label FROM campaign_stacks 
-    
-    where campaign_stacks.id=$id";
+        $query3 = "SELECT campaign_stacks.id,campaign_stacks.NAME as tipo_nome,campaign_stacks.label as tipo_label FROM campaign_stacks where campaign_stacks.id=$id";
 //echo $query3;
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
         $list = array();
@@ -241,6 +240,22 @@ class funzioni_admin {
         }
         return $r['label'];
     }
+
+    function get_squad_label($id) {
+        $query3 = "SELECT squads.id,squads.name as tipo_nome,squads.label as tipo_label FROM squads where squads.id=$id";
+//echo $query3;
+        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+        $list = array();
+        $r = array();
+        while ($obj3 = $result3->fetch_array(MYSQLI_ASSOC)) {
+            $r['id'] = $obj3['id'];
+            $r['name'] = $obj3['tipo_nome'];
+            $r['label'] = $obj3['tipo_label'];
+            $list[] = $r;
+        }
+        return $r['label'];
+    }
+    
 
     function get_stack($id) {
         $query3 = "SELECT campaign_stacks.id,campaign_stacks.NAME as tipo_nome,campaign_stacks.label as tipo_label FROM campaign_stacks 
@@ -272,6 +287,54 @@ class funzioni_admin {
             $list[] = $r;
         }
         return $list;
+    }
+
+    function get_squad_list($squad_id_set) {
+        $squad_arr = explode(",", $squad_id_set);
+        $list = array();        
+        foreach ($squad_arr as $key => $value) {
+            $r = array();
+            if(empty($value)){
+                $value = 0;
+            }  
+            $query3 = "SELECT squads.id,squads.NAME as tipo_nome,squads.label as tipo_label FROM squads where squads.id=".$value;
+            $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+            while ($obj3 = $result3->fetch_array(MYSQLI_ASSOC)) {
+                $r['id'] = $obj3['id'];
+                $r['name'] = $obj3['tipo_nome'];
+                $r['label'] = $obj3['tipo_label'];
+                $list[] = $r;
+            }
+        }
+        
+//echo $query3;
+
+        return $list;
+    }
+
+    function get_squad_list_name($arr_squad_set) {
+        $squad_arr = explode(",", $arr_squad_set);
+        foreach ($squad_arr as $key => $value) {            
+            if(empty($value)){
+                $value = 0;
+            }            
+            $query3 = "SELECT squads.id,squads.NAME as tipo_nome,squads.label as tipo_label FROM squads where squads.id=".$value;
+            $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+            // $list = array();
+            // $r = array();
+            $string = '';
+            while ($obj3 = $result3->fetch_array(MYSQLI_ASSOC)) {
+                $r['id'][] = $obj3['id'];
+                $r['name'][] = $obj3['tipo_nome'];
+                $r['label'][] = $obj3['tipo_label'];
+                //$list[] = $r;
+                $string = implode(",", $r['name']);
+            }
+        }
+        
+//echo $query3;
+
+        return $string;
     }
     
 
@@ -492,9 +555,11 @@ class funzioni_admin {
             $job_role = $page_protect->get_job_role();
             //Utente PM
             if ($job_role == 2) {
-                $squad_id = $page_protect->get_squad();
-                $sql_squad = " and (`id` = '$squad_id') ";
-
+                //$squad_id = $page_protect->get_squad();
+                //$sql_squad = " and (`id` = '$squad_id') ";
+                $squad_id_set = $page_protect->get_squad_id_set();
+                $sql_squad = " and (`id` IN (".$squad_id_set."))  ";
+                
                 $query3 = "SELECT id,name FROM $nome_tabella WHERE 1 $sql_squad ORDER BY name ASC";
             }
             else {
@@ -592,6 +657,7 @@ class funzioni_admin {
 
     function update_name($nome_tabella, $id, $new_value, $color = NULL, $elimina = NULL, $label = NULL, $description = NULL, $days=Null,$data_inizio=Null,$data_fine=Null) {
         //$query3 = "UPDATE `$nome_tabella` SET `name` = '$new_value' WHERE `$nome_tabella`.`id` = $id";
+        $new_value = addslashes(trim($new_value));
         if ($nome_tabella == "campaign_states") {
             $query3 = "UPDATE `$nome_tabella` SET `name` = '$new_value',`colore` ='$color',`elimina` ='$elimina'  WHERE `$nome_tabella`.`id` = $id";
         } elseif ($nome_tabella == "offers") {
@@ -643,6 +709,13 @@ class funzioni_admin {
     */
     function insert_new_campaigntype($name, $label) {
         $query3 = "INSERT INTO `campaign_types`(`id`, `name`,`label`) VALUES ( NULL, '$name', '$label')";
+        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+
+        return $result3;
+    }
+    function insert_new($name, $label, $table_name) {
+        $name = addslashes(trim($name));
+        $query3 = "INSERT INTO `$table_name`(`id`, `name`,`label`) VALUES ( NULL, '$name', '$label')";
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
 
         return $result3;
@@ -792,6 +865,20 @@ class funzioni_admin {
     function users_get_list_where($where) {
 
         $query3 = "SELECT users.id, `lastname`, `firstname`, `login`, `job_role_id`, `email`, `squad_id`, `active`, `leggi`, `inserisci`, `modifica`, `cancella` ,maillist , job_roles.name as ruolo, squads.name as squad FROM `users` left join squads on `squad_id`=squads.id left join job_roles on `job_role_id`=job_roles.id $where ORDER BY `users`.`lastname` ASC"; 
+
+
+        $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
+
+        while ($row = mysqli_fetch_assoc($result3)) {
+            $list[] = $row;
+        }
+        #print_r($list);
+        return $list;
+    }
+
+    function users_get_list2_where($where) {
+
+        $query3 = "SELECT users.id, `lastname`, `firstname`, `login`, `job_role_id`, `email`, `squad_id`, `active`, `leggi`, `inserisci`, `modifica`, `cancella` ,maillist , job_roles.name as ruolo, squad_id_set FROM `users` left join job_roles on `job_role_id`=job_roles.id $where ORDER BY `users`.`lastname` ASC"; 
 
 
         $result3 = $this->mysqli->query($query3) or die($query3 . " - " . $this->mysqli->error);
